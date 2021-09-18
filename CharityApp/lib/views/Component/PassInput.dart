@@ -8,12 +8,14 @@ class PassInput extends StatefulWidget {
   final Color background;
   final Color boder;
   final String hint;
+  final bool ispass;
 
   PassInput(
       {required this.securitytext,
       required this.background,
       required this.boder,
-      required this.hint});
+      required this.hint,
+      required this.ispass});
 
   @override
   _PassInputState createState() => _PassInputState();
@@ -33,29 +35,34 @@ class _PassInputState extends State<PassInput> {
     return TextFormField(
       decoration: InputDecoration(
           prefixIcon: Icon(
-            Icons.lock,
+            widget.ispass ? Icons.lock : Icons.cake_rounded,
             color: maincolor,
             size: 23,
           ),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide:
-                  BorderSide(color: widget.boder.withOpacity(1), width: 1)),
+                  BorderSide(color: widget.boder.withOpacity(1), width: 2)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                  color: widget.background.withOpacity(0.1), width: 0)),
+              borderSide:
+                  BorderSide(color: widget.boder.withOpacity(1), width: 1)),
           hintText: widget.hint,
           hintStyle: TextStyle(
               color: hinttextcolor,
               fontSize: 15,
               fontFamily: 'Roboto-Thin.tff'),
-          fillColor: backgrountbutton.withOpacity(0.2),
+          fillColor: widget.background.withOpacity(0.2),
           filled: true,
           suffixIcon: IconButton(
-            icon: securi
-                ? FaIcon(FontAwesomeIcons.eyeSlash)
-                : Icon(Icons.remove_red_eye_outlined),
+            icon: widget.ispass
+                ? securi
+                    ? FaIcon(FontAwesomeIcons.eyeSlash)
+                    : Icon(Icons.remove_red_eye_outlined)
+                : FaIcon(
+                    FontAwesomeIcons.calendar,
+                    color: maincolor,
+                  ),
             color: icon,
             onPressed: () {
               setState(() {

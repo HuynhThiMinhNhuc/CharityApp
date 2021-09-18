@@ -58,7 +58,8 @@ class _State extends State<login> {
                   icon: Icons.people,
                   background: backgrountbutton.withOpacity(0.2),
                   boder: backgrountbutton.withOpacity(0.1),
-                  hint: 'Email/Phone number')),
+                  hint: 'Email/Phone number',
+                  labeltext: '',)),
           SizedBox(
             height: 20,
           ),
@@ -68,7 +69,9 @@ class _State extends State<login> {
                 hint: 'Password',
                 background: backgrountbutton,
                 boder: backgrountbutton,
-                securitytext: true),
+                securitytext: true,
+                ispass: true,
+              ),
           ),
           Padding(
             padding: EdgeInsets.all(10),
