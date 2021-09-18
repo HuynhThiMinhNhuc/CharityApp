@@ -21,13 +21,13 @@ class _registerState extends State<register> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 30, 0, 50),
+              padding: EdgeInsets.fromLTRB(20, 30, 0, 30),
               child: Row(children: [
                 IconButton(
                     onPressed: () => {},
                     icon: FaIcon(
                       FontAwesomeIcons.chevronCircleLeft,
-                      color: backicon,
+                      color: notetextcolor,
                       size: 40,
                     )),
               ]),
