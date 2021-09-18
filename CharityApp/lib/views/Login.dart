@@ -1,9 +1,12 @@
-import 'dart:io';
+
 
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'Component/PassInput.dart';
+import 'Component/TextInput.dart';
 
 class login extends StatefulWidget {
   @override
@@ -29,7 +32,7 @@ class _State extends State<login> {
             height: 20,
           ),
           Text(
-            'Welcome back',
+            'Welcome',
             style: TextStyle(
                 color: maincolor,
                 fontSize: 40,
@@ -50,63 +53,22 @@ class _State extends State<login> {
             height: 30,
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.people,
-                    color: maincolor,
-                    size: 23,
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.white, width: 3)),
-                  hintText: 'Email/Phone number',
-                  hintStyle: TextStyle(
-                      color: hinttextcolor,
-                      fontSize: 15,
-                      fontFamily: 'Roboto-Thin.tff'),
-                  fillColor: backgrountbutton.withOpacity(0.2),
-                  filled: true),
-            ),
-          ),
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: TextInput(
+                  icon: Icons.people,
+                  background: backgrountbutton.withOpacity(0.2),
+                  boder: backgrountbutton.withOpacity(0.1),
+                  hint: 'Email/Phone number')),
           SizedBox(
             height: 20,
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: maincolor,
-                  size: 23,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.white, width: 3)),
-                hintText: 'Password',
-                hintStyle: TextStyle(
-                    color: hinttextcolor,
-                    fontSize: 15,
-                    fontFamily: 'Roboto-Thin.tff'),
-                fillColor: backgrountbutton.withOpacity(0.2),
-                filled: true,
-                suffixIcon: IconButton(
-                    icon: !securtytext
-                        ? Icon(Icons.remove_red_eye_outlined)
-                        : FaIcon(FontAwesomeIcons.eyeSlash),
-                    color: icon,
-                    onPressed: () {
-                      setState(
-                        () {
-                          securtytext = !securtytext;
-                        },
-                      );
-                    }),
-              ),
-              obscureText: securtytext,
-            ),
+            child: PassInput(
+                hint: 'Password',
+                background: backgrountbutton,
+                boder: backgrountbutton,
+                securitytext: true),
           ),
           Padding(
             padding: EdgeInsets.all(10),
@@ -143,7 +105,7 @@ class _State extends State<login> {
                 'LOGIN',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
