@@ -1,4 +1,5 @@
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Pages/Home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,10 +34,10 @@ class _root_appState extends State<root_app> {
             title: Row(
               children: <Widget>[
                 Text(
-                  'MEER',
+                  'Meer',
                   style: TextStyle(
                       color: maincolor,
-                      fontFamily: 'Lobster',
+                      fontFamily: 'Redressed_Regular',
                       fontSize: 35,
                       fontWeight: FontWeight.normal,
                       decoration: TextDecoration.none),
@@ -125,53 +126,45 @@ class _root_appState extends State<root_app> {
       );
   }
 
-  List <Widget> Pages = [
-  Center(
+  List<Widget> Pages = [
+    home_page(),
+    Center(
       child: Text(
-      'Homepage',
-      style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold),
+        'Calendarpage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
       ),
-      ),
-      Center(
+    ),
+    Center(
       child: Text(
-      'Calendarpage',
-      style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold),
+        'Newpage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
       ),
-      ),
-      Center(
+    ),
+    Center(
       child: Text(
-      'Newpage',
-      style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold),
+        'Friendpage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
       ),
-      ),
-      Center(
+    ),
+    Center(
       child: Text(
-      'Friendpage',
-      style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold),
+        'Proinfopage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
       ),
-      ),
-      Center(
-      child: Text(
-      'Proinfopage',
-      style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold),
-      ),
-      )
-      ];
+    )
+  ];
   Widget getbody() {
     return IndexedStack(
       index: page_index,

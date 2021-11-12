@@ -91,6 +91,9 @@ flutter:
     - family: DancingScript_Regular
       fonts:
          - asset: fonts/DancingScript-Regular.ttf
+    - family: Redressed_Regular
+      fonts:
+         - asset: fonts/Redressed-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
