@@ -10,3 +10,8 @@ const red = const Color(0xFFF20101);
 const backicon = const Color(0xFFDDDDDD);
 const backgroundbottomtab = const Color(0xFFFAFAFA);
 const textcolor = const Color(0xFF262626);
+const activecolor = [
+  const Color(0xFF5AA469),
+  const Color(0xFFF8D49D),
+  const Color(0xFFFFFF)
+];
