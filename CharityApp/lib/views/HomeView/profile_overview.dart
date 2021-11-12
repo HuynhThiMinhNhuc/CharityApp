@@ -88,7 +88,6 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                     Color.fromRGBO(90, 164, 105, 1.0))),
           ),
         ),
-        Divider(thickness: 1.0, color: Color.fromRGBO(60, 60, 67, 1.0)),
       ],
     );
   }
