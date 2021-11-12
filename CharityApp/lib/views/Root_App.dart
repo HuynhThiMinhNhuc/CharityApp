@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:charityapp/views/HomeView/profile_page.dart';
-import 'package:charityapp/views/Pages/Home_page.dart';
 
 import 'HomeView/profile_overview.dart';
+import 'Pages/Homepage/Home_Page.dart';
 
 class root_app extends StatefulWidget {
   const root_app({Key? key}) : super(key: key);
