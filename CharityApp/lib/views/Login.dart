@@ -1,5 +1,4 @@
 
-
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

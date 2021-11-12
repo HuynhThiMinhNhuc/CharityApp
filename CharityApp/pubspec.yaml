@@ -26,6 +26,9 @@ dependencies:
   get: ^4.3.8
 
 
+
+
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -50,12 +53,21 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - asset/Login.png
-    - asset/splash1.PNG
-    - asset/splash2.PNG
+    - asset/splash2.png
     - asset/logo.png
     - asset/welcome.png
-  
-
+    - asset/Icon/CalendarFullIcon.png
+    - asset/Icon/CalendarIcon.png
+    - asset/Icon/FriendFullIcon.png
+    - asset/Icon/FriendIcon.png
+    - asset/Icon/CalendarFullIcon.png
+    - asset/Icon/HomeFullIcon.png
+    - asset/Icon/HomeIcon.png
+    - asset/Icon/NewFullIcon.png
+    - asset/Icon/NewIcon.png
+    - asset/Icon/ProfileFullIcon.png
+    - asset/Icon/ProfileIcon.png
+    - asset/Icon/Notice.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -77,6 +89,12 @@ flutter:
     - family: Roboto_Regular
       fonts:
          - asset: fonts/Roboto-Regular.ttf
+    - family: DancingScript_Regular
+      fonts:
+         - asset: fonts/DancingScript-Regular.ttf
+    - family: Redressed_Regular
+      fonts:
+         - asset: fonts/Redressed-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
