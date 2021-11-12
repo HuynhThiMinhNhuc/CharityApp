@@ -7,7 +7,7 @@ class splash2 extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('asset/splash2.PNG'),
+        image: AssetImage('asset/splash2.png'),
         fit: BoxFit.fill,
       )),
       child: Center(
@@ -24,7 +24,8 @@ class splash2 extends StatelessWidget {
                   'If love means anything at all it means extending your hand to the unlovable',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 28,
+                    fontSize: 35,
+                    fontFamily: 'DancingScript_Regular',
                     decoration: TextDecoration.none,
                     fontWeight: FontWeight.w100,
                   ),
@@ -42,7 +43,7 @@ class splash2 extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 20,
                     decoration: TextDecoration.none,
-                    fontFamily: 'Roboto_thin',
+                    fontFamily: 'DancingScript_Regular',
                   ),
                   textAlign: TextAlign.right,
                 ),
@@ -55,7 +56,7 @@ class splash2 extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => {},
                   child: Text(
-                    'GET STARTED',
+                    'Bắt đầu',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,

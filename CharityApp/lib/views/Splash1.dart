@@ -1,29 +1,30 @@
+import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 
 class splash1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('asset/splash1.PNG'),
-        fit: BoxFit.fill,
-      )),
-      child: Center(
+      decoration: new BoxDecoration(
+        color: Color(0xFFA8E0B4)
+      ),
+      child: 
+      Center(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
                 'asset/logo.png',
-                width: 250,
+                width: 220,
               ),
               Text(
-                'Charity app',
+                'MEER',
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Lobster',
                     fontSize: 65,
+                    fontWeight: FontWeight.normal,
                     decoration: TextDecoration.none),
               ),
               SizedBox(
