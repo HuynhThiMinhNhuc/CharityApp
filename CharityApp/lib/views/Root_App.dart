@@ -1,7 +1,9 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Pages/Home_page.dart';
+import 'package:charityapp/views/Pages/Calendarpage/Calendar_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'Pages/Homepage/Home_Page.dart';
 
 class root_app extends StatefulWidget {
   const root_app({Key? key}) : super(key: key);
@@ -128,15 +130,7 @@ class _root_appState extends State<root_app> {
 
   List<Widget> Pages = [
     home_page(),
-    Center(
-      child: Text(
-        'Calendarpage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    ),
+    calendar_page(),
     Center(
       child: Text(
         'Newpage',
