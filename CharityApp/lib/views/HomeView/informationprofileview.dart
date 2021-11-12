@@ -18,6 +18,6 @@ class InformationProfileView extends StatelessWidget {
   }
 
   TextStyle myTextStyle() {
-    return TextStyle(fontSize: 10);
+    return TextStyle(fontSize: 12);
   }
 }

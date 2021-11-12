@@ -12,8 +12,11 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Center(child: Text('CharityApp'))),
-        body: ProfileOverView("Vũ Ngọc Thạch", DateTime.now(),
-            "Hong có gì để nói", [25, 50, 100]),
+        body: ProfileOverView(
+            "Vũ Ngọc Thạch",
+            DateTime.now(),
+            "Bạn là giọt nước trong biển lớn, gột rửa tâm hồn của nhân loại. Bạn là ngọn lửa trong đồng vắng, bừng cháy lên hy vọng tốt đẹp. ...",
+            [25, 50, 100]),
       ),
     );
   }

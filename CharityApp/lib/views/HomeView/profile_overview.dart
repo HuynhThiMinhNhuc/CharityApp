@@ -29,39 +29,62 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           ),
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             //Avatar widget
-            InformationProfileView(widget.number[0], "Bài viết"),
-            InformationProfileView(widget.number[1], "Người theo dõi"),
-            InformationProfileView(widget.number[2], "Đang theo dõi"),
+            CircleAvatar(
+              backgroundImage: AssetImage(
+                  'asset/Login.png'), //Image.asset('asset/Login.png', height: 100, width: 100,),
+              radius: 40,
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InformationProfileView(widget.number[0], "Bài viết"),
+                  InformationProfileView(widget.number[1], "Người theo dõi"),
+                  InformationProfileView(widget.number[2], "Đang theo dõi"),
+                ],
+              ),
+            ),
           ],
         ),
-        RichText(
-          text: TextSpan(style: myStyle(), children: <TextSpan>[
-            TextSpan(
-                text: 'Họ và tên: ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            TextSpan(text: widget.name),
-          ]),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0,5,0,5),
+          child: RichText(
+            text: TextSpan(style: myStyle(), children: <TextSpan>[
+              TextSpan(
+                  text: 'Họ và tên: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: widget.name),
+            ]),
+          ),
         ),
-        RichText(
-          text: TextSpan(style: myStyle(), children: <TextSpan>[
-            TextSpan(
-                text: 'Ngày sinh: ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            TextSpan(text: DateFormat("dd/MM/yyyy").format(widget.birthday)),
-          ]),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0,5,0,5),
+          child: RichText(
+            text: TextSpan(style: myStyle(), children: <TextSpan>[
+              TextSpan(
+                  text: 'Ngày sinh: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: DateFormat("dd/MM/yyyy").format(widget.birthday)),
+            ]),
+          ),
         ),
-        Text(
-          widget.description,
-          style: myStyle(),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0,5,0,5),
+          child: Text(
+            widget.description,
+            style: myStyle(),
+          ),
         ),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () => {},
             child: Text('Chỉnh sửa hồ sơ'),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                    Color.fromRGBO(90, 164, 105, 1.0))),
           ),
         ),
         Divider(thickness: 1.0, color: Color.fromRGBO(60, 60, 67, 1.0)),
@@ -70,6 +93,6 @@ class _ProfileOverViewState extends State<ProfileOverView> {
   }
 
   TextStyle myStyle() {
-    return TextStyle(fontSize: 20, color: Colors.black);
+    return TextStyle(fontSize: 18, color: Colors.black);
   }
 }
