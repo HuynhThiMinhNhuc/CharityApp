@@ -68,6 +68,8 @@ flutter:
     - asset/Icon/ProfileFullIcon.png
     - asset/Icon/ProfileIcon.png
     - asset/Icon/Notice.png
+    - asset/imagesample/post1.jpg
+    - asset/imagesample/avatar1.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

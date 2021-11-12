@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:charityapp/views/HomeView/informationprofileview.dart';
+import 'package:charityapp/views/HomeView/information_profile_view.dart';
 import 'package:intl/intl.dart';
 
 class ProfileOverView extends StatefulWidget {
@@ -20,14 +20,15 @@ class _ProfileOverViewState extends State<ProfileOverView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-          child: Text(
-            "Hồ sơ của bạn",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ),
+        // Container(
+        //   alignment: Alignment.center,
+        //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+        //   child: Text(
+        //     "Hồ sơ của bạn",
+        //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        //   ),
+        // ),
+        SizedBox(height: 10,),
         Row(
           children: [
             //Avatar widget

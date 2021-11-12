@@ -1,7 +1,10 @@
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/HomeView/profile_page.dart';
 import 'package:charityapp/views/Pages/Home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'HomeView/profile_overview.dart';
 
 class root_app extends StatefulWidget {
   const root_app({Key? key}) : super(key: key);
@@ -155,15 +158,7 @@ class _root_appState extends State<root_app> {
             fontWeight: FontWeight.bold),
       ),
     ),
-    Center(
-      child: Text(
-        'Proinfopage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    )
+    ProfilePage(),
   ];
   Widget getbody() {
     return IndexedStack(
