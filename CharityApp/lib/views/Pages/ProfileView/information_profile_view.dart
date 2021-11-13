@@ -14,14 +14,14 @@ class InformationProfileView extends StatelessWidget {
         Text(this.number.toString(),
             style: TextStyle(
                 color: textcolor,
-                fontSize: 16,
+                fontSize: 14,
                 decoration: TextDecoration.none,
                 fontFamily: 'Roboto_Regular',
                 fontWeight: FontWeight.bold)),
         Text(text,
             style: TextStyle(
                 color: textcolor,
-                fontSize: 13,
+                fontSize: 11,
                 decoration: TextDecoration.none,
                 fontFamily: 'Roboto_Regular',
                 fontWeight: FontWeight.normal)),

@@ -1,11 +1,13 @@
+import 'package:charityapp/Constant/post_jason.dart';
+import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/Calendarpage/Calendar_page.dart';
+import 'package:charityapp/views/Pages/EventView/event_page.dart';
+import 'package:charityapp/views/Pages/ProfileView/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:charityapp/views/HomeView/profile_page.dart';
 
-import 'HomeView/profile_overview.dart';
 import 'Pages/Homepage/Home_Page.dart';
 
 class root_app extends StatefulWidget {
@@ -143,15 +145,17 @@ class _root_appState extends State<root_app> {
             fontWeight: FontWeight.bold),
       ),
     ),
-    Center(
-      child: Text(
-        'Friendpage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    ),
+    // Center(
+    //   child: Text(
+    //     'Friendpage',
+    //     style: TextStyle(
+    //         color: textcolor,
+    //         fontFamily: 'Roboto_Regular',
+    //         fontWeight: FontWeight.bold),
+    //   ),
+    // ),
+    //Test EventPage
+    EventPage(users[0]['img'], post[5]['postImage'], post[1]['title'], []),
     ProfilePage(),
   ];
   Widget getbody() {
