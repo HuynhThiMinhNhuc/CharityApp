@@ -1,4 +1,8 @@
+import 'package:charityapp/Constant/post_jason.dart';
+import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Pages/EventView/event_page.dart';
+import 'package:charityapp/views/Pages/ProfileView/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -44,12 +48,19 @@ class _PostOverviewState extends State<PostOverview> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-            child: Text(
-              widget.title,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  fontFamily: 'Roboto_Regular'),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title'], []);
+                }));
+              },
+              child: Text(
+                widget.title,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    fontFamily: 'Roboto_Regular'),
+              ),
             ),
           ),
           Padding(
