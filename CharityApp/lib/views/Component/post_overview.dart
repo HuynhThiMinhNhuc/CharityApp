@@ -1,4 +1,5 @@
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Pages/Homepage/Comment_View.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -116,7 +117,13 @@ class _PostOverviewState extends State<PostOverview> {
                 Row(
                   children: <Widget>[
                     IconButton(
-                        onPressed: null, icon: FaIcon(FontAwesomeIcons.comment)),
+                        onPressed:() {
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (context) => comment_view(total: widget.like, islove: true,)
+                            )
+    );}, icon: FaIcon(FontAwesomeIcons.comment)),
                     Text(
                       widget.cmt.toString(), 
                     style: TextStyle(
