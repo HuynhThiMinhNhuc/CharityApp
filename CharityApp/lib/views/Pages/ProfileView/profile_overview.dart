@@ -1,5 +1,6 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/ActiveItem.dart';
+import 'package:charityapp/views/Pages/EditProfile.dart';
 import 'package:charityapp/views/Pages/ProfileView/information_profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -113,7 +114,10 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) => editprofile() ))
+            },
             child: Text(
               'Chỉnh sửa hồ sơ',
               style: TextStyle(

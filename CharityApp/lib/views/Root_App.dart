@@ -183,7 +183,7 @@ class _root_appState extends State<root_app> {
     ];
 
     return Container(
-        height: 80,
+        height: 60,
         width: double.infinity,
         decoration: BoxDecoration(color: backgroundbottomtab),
         child: Padding(
