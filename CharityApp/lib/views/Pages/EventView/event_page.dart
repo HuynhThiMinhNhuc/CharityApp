@@ -17,10 +17,14 @@ class EventPage extends StatefulWidget {
 class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        EventOverview(widget.eventName, widget.scrAvatar),
-      ],
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            EventOverview(widget.eventName, widget.scrAvatar),
+          ],
+        ),
+      ),
     );
   }
 }
