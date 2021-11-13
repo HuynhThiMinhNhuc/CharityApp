@@ -1,3 +1,5 @@
+import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Component/ActiveItem.dart';
 import 'package:flutter/material.dart';
 import 'package:charityapp/views/HomeView/information_profile_view.dart';
 import 'package:intl/intl.dart';
@@ -7,8 +9,10 @@ class ProfileOverView extends StatefulWidget {
   final DateTime birthday;
   final String description;
   final List<int> number;
+  final String img;
 
-  ProfileOverView(this.name, this.birthday, this.description, this.number);
+  ProfileOverView(
+      this.name, this.birthday, this.description, this.number, this.img);
 
   @override
   _ProfileOverViewState createState() => _ProfileOverViewState();
@@ -28,14 +32,31 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         //   ),
         // ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             //Avatar widget
-            CircleAvatar(
-              backgroundImage: AssetImage(
-                  'asset/Login.png'), //Image.asset('asset/Login.png', height: 100, width: 100,),
-              radius: 40,
+            Container(
+              width: 96,
+              height: 96,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(colors: activecolor)),
+              child: Padding(
+                padding: const EdgeInsets.all(3),
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 5),
+                    image: DecorationImage(
+                        image: NetworkImage(widget.img), fit: BoxFit.cover),
+                  ),
+                ),
+              ),
             ),
             Expanded(
               child: Row(
@@ -49,42 +70,79 @@ class _ProfileOverViewState extends State<ProfileOverView> {
             ),
           ],
         ),
+        SizedBox( height: 5,),
         Container(
-          margin: const EdgeInsets.fromLTRB(0,5,0,5),
+          margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
           child: RichText(
             text: TextSpan(style: myStyle(), children: <TextSpan>[
               TextSpan(
                   text: 'Họ và tên: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: widget.name),
+                  style: TextStyle(
+                      color: textcolor,
+                      fontSize: 15,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'Roboto_Regular',
+                      fontWeight: FontWeight.bold)),
+              TextSpan(
+                  text: widget.name,
+                  style: TextStyle(
+                      color: textcolor,
+                      fontSize: 15,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'Roboto_Regular',
+                      fontWeight: FontWeight.normal)),
             ]),
           ),
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0,5,0,5),
+          margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
           child: RichText(
             text: TextSpan(style: myStyle(), children: <TextSpan>[
               TextSpan(
                   text: 'Ngày sinh: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: DateFormat("dd/MM/yyyy").format(widget.birthday)),
+                  style: TextStyle(
+                    color: textcolor,
+                      fontSize: 15,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'Roboto_Regular',
+                      fontWeight: FontWeight.bold)),
+              TextSpan(
+                text: DateFormat("dd/MM/yyyy").format(widget.birthday),
+                style: TextStyle(color: textcolor,
+                      fontSize: 15,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'Roboto_Regular',
+                      fontWeight: FontWeight.normal)
+                ),
             ]),
           ),
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0,5,0,5),
+          margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
           child: Text(
             widget.description,
-            style: myStyle(),
+            style:TextStyle(
+              fontSize: 13,
+              decoration: TextDecoration.none,
+              fontFamily: 'Roboto_Regular',
+            ),
           ),
         ),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () => {},
-            child: Text('Chỉnh sửa hồ sơ'),
+            child: Text(
+              'Chỉnh sửa hồ sơ',
+              style: TextStyle(
+                fontSize: 13,
+                decoration: TextDecoration.none,
+                fontFamily: 'Roboto_Regular',
+                fontWeight: FontWeight.bold
+               ),
+              ),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: MaterialStateProperty.all(
                     Color.fromRGBO(90, 164, 105, 1.0))),
           ),
         ),

@@ -44,6 +44,7 @@ class ActiveItem extends StatelessWidget {
             width: 70,
             child: Text(
               name,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 overflow: TextOverflow.ellipsis,
                 color: textcolor,
