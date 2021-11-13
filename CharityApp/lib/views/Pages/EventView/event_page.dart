@@ -50,65 +50,80 @@ class _EventPageState extends State<EventPage> {
     return DefaultTabController(
         length: 3,
         child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              iconTheme: IconThemeData(color: textcolor),
+              backgroundColor: backgroundbottomtab,
+              centerTitle: true,
+              title: Text(
+                "Sự kiện",
+                style: TextStyle(
+                    color: textcolor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
             body: SafeArea(
                 child: Column(children: [
-          EventOverview(widget.eventName, widget.scrAvatar),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Divider(
-              color: const Color(0xFFDDDDDD),
-            ),
-          ),
-          SizedBox(
-            height: 50,
-            child:
-                TabBar(labelColor: maincolor, indicatorColor: maincolor, tabs: [
-              Tab(text: 'Trang chủ'),
-              Tab(
-                text: 'Giới thiệu',
+              EventOverview(widget.eventName, widget.scrAvatar),
+              SizedBox(
+                height: 10,
               ),
-              Tab(
-                text: 'Hình ảnh',
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Divider(
+                  color: const Color(0xFFDDDDDD),
+                ),
               ),
-            ]),
-          ),
-          Expanded(
-              child: TabBarView(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Muốn biết thêm về sự kiện?",
-                    style: TextStyle(
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: textcolor),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Tham gia ngay",
-                    style: TextStyle(
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 16,
-                        color: textcolor),
-                  ),
-                ],
+              SizedBox(
+                height: 50,
+                child: TabBar(
+                    labelColor: maincolor,
+                    indicatorColor: maincolor,
+                    tabs: [
+                      Tab(text: 'Trang chủ'),
+                      Tab(
+                        text: 'Giới thiệu',
+                      ),
+                      Tab(
+                        text: 'Hình ảnh',
+                      ),
+                    ]),
               ),
-            ),
-            Center(child: Text("Giới thiệu")),
-            Center(child: Text("Hình ảnh")),
-          ]))
-        ]))));
+              Expanded(
+                  child: TabBarView(children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Muốn biết thêm về sự kiện?",
+                        style: TextStyle(
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: textcolor),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Tham gia ngay",
+                        style: TextStyle(
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 16,
+                            color: textcolor),
+                      ),
+                    ],
+                  ),
+                ),
+                Center(child: Text("Giới thiệu")),
+                Center(child: Text("Hình ảnh")),
+              ]))
+            ]))));
   }
 }

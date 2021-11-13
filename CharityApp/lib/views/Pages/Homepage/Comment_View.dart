@@ -19,52 +19,51 @@ class _comment_viewState extends State<comment_view> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: textcolor),
-          backgroundColor: backgroundbottomtab,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                widget.total.toString(),
-                style: TextStyle(
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 12,
-                    color: textcolor),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              IconButton(
-                  onPressed: () {},
-                  icon: widget.islove
-                      ? FaIcon(
-                          FontAwesomeIcons.heart,
-                          color: Colors.red[900],
-                        )
-                      : FaIcon(FontAwesomeIcons.heart))
-            ],
-          ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: textcolor),
+        backgroundColor: backgroundbottomtab,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              widget.total.toString(),
+              style: TextStyle(
+                  fontFamily: 'Roboto_Regular', fontSize: 12, color: textcolor),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            IconButton(
+                onPressed: () {},
+                icon: widget.islove
+                    ? FaIcon(
+                        FontAwesomeIcons.heart,
+                        color: Colors.red[900],
+                      )
+                    : FaIcon(FontAwesomeIcons.heart))
+          ],
         ),
-        body: getbody(), );
+      ),
+      body: getbody(),
+    );
   }
 
   Widget getbody() {
     return Column(
       children: [
-          Expanded(
-            child:SingleChildScrollView(
-              child: Column(
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
                 children: List.generate(cmts.length, (index) {
               return CommentItem(
                   avatar: cmts[index]['avatar'],
                   name: cmts[index]['name'],
                   time: cmts[index]['timeago'],
                   cmt: cmts[index]['comment']);
-                      })),
-            ),
+            })),
           ),
+        ),
         Container(
             padding: EdgeInsets.symmetric(horizontal: 8.0),
             height: 60,
@@ -87,15 +86,19 @@ class _comment_viewState extends State<comment_view> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   IconButton(
-                    iconSize: 25,
-                    onPressed: null, 
-                    icon: Icon(Icons.send, color: maincolor,))
+                      iconSize: 25,
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.send,
+                        color: maincolor,
+                      ))
                 ],
               ),
-            )
-                ),
+            )),
       ],
     );
   }

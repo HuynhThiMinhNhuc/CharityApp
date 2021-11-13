@@ -28,6 +28,8 @@ class PostOverview extends StatefulWidget {
 }
 
 class _PostOverviewState extends State<PostOverview> {
+  bool love = false;
+  FaIcon icon = FaIcon(FontAwesomeIcons.heart);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -35,7 +37,9 @@ class _PostOverviewState extends State<PostOverview> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           InformationCreatorPostView(
               widget.nameCreator, widget.location, widget.avatar),
           SizedBox(
@@ -51,8 +55,11 @@ class _PostOverviewState extends State<PostOverview> {
             padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)  => EventPage(users[0]['img'], post[5]['postImage'], post[1]['title'], [])
-                ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EventPage(users[0]['img'],
+                            post[5]['postImage'], post[1]['title'], [])));
               },
               child: Text(
                 widget.title,
@@ -82,11 +89,13 @@ class _PostOverviewState extends State<PostOverview> {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0))),
                     ),
-                    child: Text(widget.tags[index],
-                    style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 12,
-                    ),),
+                    child: Text(
+                      widget.tags[index],
+                      style: TextStyle(
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
                 );
               },
@@ -94,7 +103,9 @@ class _PostOverviewState extends State<PostOverview> {
               scrollDirection: Axis.horizontal,
             ),
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
             child: Row(
@@ -112,36 +123,49 @@ class _PostOverviewState extends State<PostOverview> {
                 Row(
                   children: <Widget>[
                     IconButton(
-                        onPressed: null, icon: FaIcon(FontAwesomeIcons.heart)),
+                        onPressed: () {
+                          setState(() {
+                            icon = love
+                                ? FaIcon(
+                                    FontAwesomeIcons.heart,
+                                    color: Colors.red,
+                                  )
+                                : FaIcon(FontAwesomeIcons.heart);
+                          });
+                        },
+                        icon: icon),
                     Text(
-                      widget.like.toString(), 
-                    style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 13,
-                      color: textcolor,
-                      fontWeight: FontWeight.bold
-                    ),)
+                      widget.like.toString(),
+                      style: TextStyle(
+                          fontFamily: 'Roboto_Regular',
+                          fontSize: 13,
+                          color: textcolor,
+                          fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
                 SizedBox(width: 10),
                 Row(
                   children: <Widget>[
                     IconButton(
-                        onPressed:() {
+                        onPressed: () {
                           Navigator.push(
-                            context, 
-                            MaterialPageRoute(
-                              builder: (context) => comment_view(total: widget.like, islove: true,)
-                            )
-    );}, icon: FaIcon(FontAwesomeIcons.comment)),
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => comment_view(
+                                        total: widget.like,
+                                        islove: true,
+                                      )));
+                        },
+                        icon: FaIcon(FontAwesomeIcons.comment)),
                     Text(
-                      widget.cmt.toString(), 
-                    style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 13,
-                      color: textcolor,
-                      fontWeight: FontWeight.bold
-                    ),)
+                      widget.cmt.toString(),
+                      style: TextStyle(
+                          fontFamily: 'Roboto_Regular',
+                          fontSize: 13,
+                          color: textcolor,
+                          fontWeight: FontWeight.bold),
+                    )
                   ],
                 )
               ],

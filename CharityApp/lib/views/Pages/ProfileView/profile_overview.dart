@@ -101,14 +101,14 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+          margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
           child: Text(
             widget.description,
             style: TextStyle(
-              fontSize: 13,
-              decoration: TextDecoration.none,
-              fontFamily: 'Roboto_Regular',
-            ),
+                fontSize: 13,
+                decoration: TextDecoration.none,
+                fontFamily: 'Roboto_Regular',
+                color: textcolor),
           ),
         ),
         SizedBox(
@@ -116,10 +116,10 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           child: ElevatedButton(
             onPressed: () => {
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => editprofile() ))
+                  MaterialPageRoute(builder: (context) => editprofile()))
             },
             child: Text(
-              'Chỉnh sửa hồ sơ',
+              'Theo dõi',
               style: TextStyle(
                   fontSize: 13,
                   decoration: TextDecoration.none,
