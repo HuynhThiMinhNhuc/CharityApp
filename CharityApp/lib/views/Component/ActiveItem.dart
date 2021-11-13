@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ActiveItem extends StatelessWidget {
-  final String img;
-  final String name;
+  final String imgUrl;
+  final String imgName;
   const ActiveItem({
-    Key? key, required this.img, required this.name
+    Key? key, required this.imgUrl, required this.imgName
 
   }) : super(key: key);
 
@@ -31,7 +31,7 @@ class ActiveItem extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 3),
                   image: DecorationImage(
-                      image: NetworkImage(img),
+                      image: NetworkImage(imgUrl),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -43,7 +43,7 @@ class ActiveItem extends StatelessWidget {
           SizedBox(
             width: 70,
             child: Text(
-              name,
+              imgName,
               textAlign: TextAlign.center,
               style: TextStyle(
                 overflow: TextOverflow.ellipsis,

@@ -42,8 +42,8 @@ class _home_pageState extends State<home_page> {
           child: Row(
               children: List.generate(actives.length, (index) {
             return ActiveItem( 
-              img: actives[index]['img'],
-              name: actives[index]['name']
+              imgUrl: actives[index]['img'],
+              imgName: actives[index]['name']
              );
           })),
         ),

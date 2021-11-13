@@ -1,7 +1,7 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/HomeView/profile_overview.dart';
+import 'package:charityapp/views/Pages/ProfileView/profile_overview.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     PostOverview(
                       post[0]['name'],
-                      post[0]['address'],
+                      post[index]['address'],
                       post[index]['title'],
                       post[index]['Content'],
                       post[index]['tag'],

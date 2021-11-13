@@ -1,7 +1,7 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/ActiveItem.dart';
+import 'package:charityapp/views/Pages/ProfileView/information_profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:charityapp/views/HomeView/information_profile_view.dart';
 import 'package:intl/intl.dart';
 
 class ProfileOverView extends StatefulWidget {
@@ -39,22 +39,20 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           children: [
             //Avatar widget
             Container(
-              width: 96,
-              height: 96,
+              width: 80,
+              height: 80,
+              padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: activecolor)),
-              child: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 5),
-                    image: DecorationImage(
-                        image: NetworkImage(widget.img), fit: BoxFit.cover),
-                  ),
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 5),
+                  image: DecorationImage(
+                      image: NetworkImage(widget.img), fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -70,27 +68,20 @@ class _ProfileOverViewState extends State<ProfileOverView> {
             ),
           ],
         ),
-        SizedBox( height: 5,),
+        SizedBox(
+          height: 5,
+        ),
         Container(
           margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
           child: RichText(
             text: TextSpan(style: myStyle(), children: <TextSpan>[
               TextSpan(
-                  text: 'Họ và tên: ',
-                  style: TextStyle(
-                      color: textcolor,
-                      fontSize: 15,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold)),
+                text: 'Họ và tên: ',
+                style: myStyle(isBold: true),
+              ),
               TextSpan(
-                  text: widget.name,
-                  style: TextStyle(
-                      color: textcolor,
-                      fontSize: 15,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.normal)),
+                text: widget.name,
+              ),
             ]),
           ),
         ),
@@ -99,21 +90,12 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           child: RichText(
             text: TextSpan(style: myStyle(), children: <TextSpan>[
               TextSpan(
-                  text: 'Ngày sinh: ',
-                  style: TextStyle(
-                    color: textcolor,
-                      fontSize: 15,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold)),
+                text: 'Ngày sinh: ',
+                style: myStyle(isBold: true),
+              ),
               TextSpan(
                 text: DateFormat("dd/MM/yyyy").format(widget.birthday),
-                style: TextStyle(color: textcolor,
-                      fontSize: 15,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.normal)
-                ),
+              )
             ]),
           ),
         ),
@@ -121,7 +103,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
           child: Text(
             widget.description,
-            style:TextStyle(
+            style: TextStyle(
               fontSize: 13,
               decoration: TextDecoration.none,
               fontFamily: 'Roboto_Regular',
@@ -135,14 +117,13 @@ class _ProfileOverViewState extends State<ProfileOverView> {
             child: Text(
               'Chỉnh sửa hồ sơ',
               style: TextStyle(
-                fontSize: 13,
-                decoration: TextDecoration.none,
-                fontFamily: 'Roboto_Regular',
-                fontWeight: FontWeight.bold
-               ),
-              ),
+                  fontSize: 13,
+                  decoration: TextDecoration.none,
+                  fontFamily: 'Roboto_Regular',
+                  fontWeight: FontWeight.bold),
+            ),
             style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
+                backgroundColor: MaterialStateProperty.all(
                     Color.fromRGBO(90, 164, 105, 1.0))),
           ),
         ),
@@ -150,7 +131,12 @@ class _ProfileOverViewState extends State<ProfileOverView> {
     );
   }
 
-  TextStyle myStyle() {
-    return TextStyle(fontSize: 18, color: Colors.black);
+  TextStyle myStyle({bool isBold = false}) {
+    return TextStyle(
+        color: textcolor,
+        fontSize: 15,
+        decoration: TextDecoration.none,
+        fontFamily: 'Roboto_Regular',
+        fontWeight: isBold ? FontWeight.bold : FontWeight.normal);
   }
 }
