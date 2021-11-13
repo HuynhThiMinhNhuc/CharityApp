@@ -50,9 +50,8 @@ class _PostOverviewState extends State<PostOverview> {
             padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title'], []);
-                }));
+                Navigator.push(context, MaterialPageRoute(builder: (context)  => EventPage(users[0]['img'], post[5]['postImage'], post[1]['title'], [])
+                ));
               },
               child: Text(
                 widget.title,

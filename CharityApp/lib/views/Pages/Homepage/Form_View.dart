@@ -17,8 +17,8 @@ class form_view extends StatefulWidget {
 
 class _form_viewState extends State<form_view> {
   List<String> Items = [
-    "Số điện thoại"
-        "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?",
+    "Email",
+    "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?",
     "Đối nét về bản thân( sở thích, tính cách, tài lẻ...)",
     "Link Facebook(nếu có)",
   ];
@@ -46,8 +46,9 @@ class _form_viewState extends State<form_view> {
             color: backgroundbottomtab,
             alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                child: CustomButton(onPressed: () => {}, textInput: 'SAVE'))));
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child:
+                    CustomButton(onPressed: () => {}, textInput: 'Đăng ký'))));
   }
 
   Widget getbody() {
@@ -70,7 +71,7 @@ class _form_viewState extends State<form_view> {
               height: 15,
             ),
             Text(
-              Items[0],
+              "Tên",
               style: TextStyle(
                   fontFamily: 'Roboto_Regular',
                   fontSize: 15,
@@ -92,7 +93,7 @@ class _form_viewState extends State<form_view> {
               height: 10,
             ),
             Text(
-              Items[1],
+              "Số điện thoại",
               style: TextStyle(
                   fontFamily: 'Roboto_Regular',
                   fontSize: 15,
