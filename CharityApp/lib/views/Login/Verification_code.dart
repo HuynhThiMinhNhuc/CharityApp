@@ -1,10 +1,11 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/ButtonCustom.dart';
+import 'package:charityapp/views/Component/Otp_textfeld.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'Component/Otp_textfeld.dart';
+
 
 class verification_otp extends StatefulWidget {
   @override

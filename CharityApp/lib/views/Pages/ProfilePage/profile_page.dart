@@ -1,8 +1,9 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/Pages/ProfileView/profile_overview.dart';
 import 'package:flutter/material.dart';
+
+import 'Widgets/profile_overview.dart';
 
 class ProfilePage extends StatefulWidget {
   final List<PostOverview> listPosts;
