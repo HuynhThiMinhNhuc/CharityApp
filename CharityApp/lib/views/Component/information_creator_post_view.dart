@@ -1,6 +1,5 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Pages/ProfileView/profile_page.dart';
-import 'package:charityapp/views/Profile.dart';
+import 'package:charityapp/views/Pages/ProfilePage/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class InformationCreatorPostView extends StatelessWidget {
@@ -15,6 +14,9 @@ class InformationCreatorPostView extends StatelessWidget {
     return Scrollbar(
       child: Row(
         children: [
+          SizedBox(
+            width: 10,
+          ),
           Container(
             width: 40,
             height: 40,

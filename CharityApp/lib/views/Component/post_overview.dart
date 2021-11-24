@@ -2,8 +2,8 @@ import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/Homepage/Comment_View.dart';
-import 'package:charityapp/views/Pages/EventView/event_page.dart';
-import 'package:charityapp/views/Pages/ProfileView/profile_page.dart';
+import 'package:charityapp/views/Pages/Homepage/event_page.dart';
+import 'package:charityapp/views/Pages/ProfilePage/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -88,13 +88,15 @@ class _PostOverviewState extends State<PostOverview> {
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0))),
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0x50979797)),
                     ),
                     child: Text(
                       widget.tags[index],
                       style: TextStyle(
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 12,
-                      ),
+                          fontFamily: 'Roboto_Regular',
+                          fontSize: 12,
+                          color: Color(0xFF455154)),
                     ),
                   ),
                 );
@@ -107,7 +109,7 @@ class _PostOverviewState extends State<PostOverview> {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+            padding: const EdgeInsets.fromLTRB(8, 0, 10, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -123,17 +125,21 @@ class _PostOverviewState extends State<PostOverview> {
                 Row(
                   children: <Widget>[
                     IconButton(
-                        onPressed: () {
-                          setState(() {
+                      onPressed: () {
+                        setState(
+                          () {
                             icon = love
                                 ? FaIcon(
                                     FontAwesomeIcons.heart,
                                     color: Colors.red,
                                   )
                                 : FaIcon(FontAwesomeIcons.heart);
-                          });
-                        },
-                        icon: icon),
+                          },
+                        );
+                      },
+                      icon: icon,
+                      splashRadius: 20,
+                    ),
                     Text(
                       widget.like.toString(),
                       style: TextStyle(
@@ -148,16 +154,18 @@ class _PostOverviewState extends State<PostOverview> {
                 Row(
                   children: <Widget>[
                     IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => comment_view(
-                                        total: widget.like,
-                                        islove: true,
-                                      )));
-                        },
-                        icon: FaIcon(FontAwesomeIcons.comment)),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => comment_view(
+                                      total: widget.like,
+                                      islove: true,
+                                    )));
+                      },
+                      icon: FaIcon(FontAwesomeIcons.comment),
+                      splashRadius: 20,
+                    ),
                     Text(
                       widget.cmt.toString(),
                       style: TextStyle(
