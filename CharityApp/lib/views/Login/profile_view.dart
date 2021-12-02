@@ -1,19 +1,19 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
-import 'package:charityapp/views/Component/PassInput.dart';
-import 'package:charityapp/views/Component/TextInput.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/password_input.dart';
+import 'package:charityapp/views/Component/text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class profile extends StatefulWidget {
+class Profile extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _State extends State<profile> {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +94,7 @@ class _State extends State<profile> {
           ]),
           Padding(
             padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: PassInput(
+            child: PassWordInput(
               hint: '',
               background: Colors.white,
               boder: maincolor,

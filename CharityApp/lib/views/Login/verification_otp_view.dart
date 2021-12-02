@@ -1,18 +1,18 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
-import 'package:charityapp/views/Component/Otp_textfeld.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/otp_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class verification_otp extends StatefulWidget {
+class VerificationOtpView extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _VerificationOtpViewState createState() => _VerificationOtpViewState();
 }
 
-class _State extends State<verification_otp> {
+class _VerificationOtpViewState extends State<VerificationOtpView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,10 +64,10 @@ class _State extends State<verification_otp> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    otpTextfeld(next: true),
-                    otpTextfeld(next: true),
-                    otpTextfeld(next: true),
-                    otpTextfeld(next: false)
+                    OtpTextField(next: true),
+                    OtpTextField(next: true),
+                    OtpTextField(next: true),
+                    OtpTextField(next: false)
                   ]),
             ),
             SizedBox(

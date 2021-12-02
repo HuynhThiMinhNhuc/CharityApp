@@ -1,16 +1,16 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
-import 'package:charityapp/views/Component/PassInput.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/password_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class changepassword extends StatefulWidget {
+class ChangePassword extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _ChangePasswordState createState() => _ChangePasswordState();
 }
 
-class _State extends State<changepassword> {
+class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +66,7 @@ class _State extends State<changepassword> {
           ]),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: PassInput(
+            child: PassWordInput(
                 securitytext: false,
                 background: Colors.white,
                 boder: maincolor,
@@ -88,7 +88,7 @@ class _State extends State<changepassword> {
           ]),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: PassInput(
+            child: PassWordInput(
                 securitytext: true,
                 background: Colors.white,
                 boder: maincolor,

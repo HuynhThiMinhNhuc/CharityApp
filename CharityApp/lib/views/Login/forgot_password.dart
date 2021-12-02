@@ -1,15 +1,15 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
-import 'package:charityapp/views/Component/TextInput.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-class forgotPassword extends StatefulWidget {
+class ForgotPassword extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class _State extends State<forgotPassword> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

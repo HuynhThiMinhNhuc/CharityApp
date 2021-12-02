@@ -1,23 +1,21 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Pages/Calendarpage/Calendar_page.dart';
-import 'package:charityapp/views/Pages/Homepage/event_page.dart';
-import 'package:charityapp/views/Pages/ProfilePage/profile_page.dart';
+import 'package:charityapp/views/Pages/home_page/event_page.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'Pages/calendar_page/calendar_page.dart';
+import 'Pages/home_page/home_page.dart';
 
-
-import 'Pages/Homepage/Home_Page.dart';
-
-class root_app extends StatefulWidget {
-  const root_app({Key? key}) : super(key: key);
+class RootApp extends StatefulWidget {
+  const RootApp({Key? key}) : super(key: key);
 
   @override
-  _root_appState createState() => _root_appState();
+  _RootAppState createState() => _RootAppState();
 }
 
-class _root_appState extends State<root_app> {
+class _RootAppState extends State<RootApp> {
   int page_index = 0;
   @override
   Widget build(BuildContext context) {
@@ -134,8 +132,8 @@ class _root_appState extends State<root_app> {
   }
 
   List<Widget> Pages = [
-    home_page(),
-    calendar_page(),
+    HomePage(),
+    CalendarPage(),
     Center(
       child: Text(
         'Newpage',

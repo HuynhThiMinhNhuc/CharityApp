@@ -2,15 +2,15 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class otpTextfeld extends StatefulWidget {
+class OtpTextField extends StatefulWidget {
   final bool next;
 
-  otpTextfeld({required this.next});
+  OtpTextField({required this.next});
   @override
-  _State createState() => _State();
+  _OtpTextFieldState createState() => _OtpTextFieldState();
 }
 
-class _State extends State<otpTextfeld> {
+class _OtpTextFieldState extends State<OtpTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(

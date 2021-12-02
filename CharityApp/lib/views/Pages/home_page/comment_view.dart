@@ -1,21 +1,20 @@
 import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class comment_view extends StatefulWidget {
+class CommentView extends StatefulWidget {
   final int total;
   final bool islove;
-  const comment_view({Key? key, required this.total, required this.islove})
+  const CommentView({Key? key, required this.total, required this.islove})
       : super(key: key);
 
   @override
-  _comment_viewState createState() => _comment_viewState();
+  _CommentViewState createState() => _CommentViewState();
 }
 
-class _comment_viewState extends State<comment_view> {
+class _CommentViewState extends State<CommentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

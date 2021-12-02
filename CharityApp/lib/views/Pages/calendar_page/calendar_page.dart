@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-class calendar_page extends StatefulWidget {
-  const calendar_page({ Key? key }) : super(key: key);
+class CalendarPage extends StatefulWidget {
+  const CalendarPage({ Key? key }) : super(key: key);
 
   @override
-  _calendar_pageState createState() => _calendar_pageState();
+  _CalendarPageState createState() => _CalendarPageState();
 }
 
-class _calendar_pageState extends State<calendar_page> {
+class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return getbody();

@@ -1,19 +1,19 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
-import 'package:charityapp/views/Component/PassInput.dart';
-import 'package:charityapp/views/Component/TextInput.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/password_input.dart';
+import 'package:charityapp/views/Component/text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class register extends StatefulWidget {
+class RegisterView extends StatefulWidget {
   @override
-  _registerState createState() => _registerState();
+  _RegisterViewState createState() => _RegisterViewState();
 }
 
-class _registerState extends State<register> {
+class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +67,7 @@ class _registerState extends State<register> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: PassInput(
+              child: PassWordInput(
                   hint: 'Password',
                   background: backgrountbutton,
                   boder: backgrountbutton,
@@ -79,7 +79,7 @@ class _registerState extends State<register> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: PassInput(
+              child: PassWordInput(
                   hint: 'Confirm password',
                   background: backgrountbutton,
                   boder: backgrountbutton,

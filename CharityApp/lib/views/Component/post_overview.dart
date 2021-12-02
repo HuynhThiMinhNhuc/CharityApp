@@ -1,9 +1,8 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Pages/Homepage/Comment_View.dart';
-import 'package:charityapp/views/Pages/Homepage/event_page.dart';
-import 'package:charityapp/views/Pages/ProfilePage/profile_page.dart';
+import 'package:charityapp/views/Pages/home_page/comment_view.dart';
+import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -158,7 +157,7 @@ class _PostOverviewState extends State<PostOverview> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => comment_view(
+                                builder: (context) => CommentView(
                                       total: widget.like,
                                       islove: true,
                                     )));

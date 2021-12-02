@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class PassInput extends StatefulWidget {
+class PassWordInput extends StatefulWidget {
   final bool securitytext;
   final Color background;
   final Color boder;
   final String hint;
   final bool ispass;
 
-  PassInput(
+  PassWordInput(
       {required this.securitytext,
       required this.background,
       required this.boder,
@@ -18,10 +18,10 @@ class PassInput extends StatefulWidget {
       required this.ispass});
 
   @override
-  _PassInputState createState() => _PassInputState();
+  _PassWordInputState createState() => _PassWordInputState();
 }
 
-class _PassInputState extends State<PassInput> {
+class _PassWordInputState extends State<PassWordInput> {
   bool securi = true;
 
   @override

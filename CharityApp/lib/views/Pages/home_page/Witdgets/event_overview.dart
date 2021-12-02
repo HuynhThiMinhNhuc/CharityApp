@@ -1,10 +1,8 @@
-import 'package:charityapp/Constant/active_json.dart';
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ActiveItem.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/Pages/Homepage/Form_View.dart';
+import 'package:charityapp/views/Pages/home_page/form_view.dart';
 import 'package:flutter/material.dart';
 
 class EventOverview extends StatefulWidget {
@@ -97,7 +95,7 @@ class _EventOverviewState extends State<EventOverview> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => form_view(
+                          builder: (context) => FormView(
                               username: users[0]['name'],
                               userphone: users[0]['phone'])));
                 },

@@ -3,14 +3,14 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class introduceeventview extends StatefulWidget {
-  const introduceeventview({ Key? key }) : super(key: key);
+class IntroductionEventView extends StatefulWidget {
+  const IntroductionEventView({ Key? key }) : super(key: key);
 
   @override
-  _introduceeventviewState createState() => _introduceeventviewState();
+  _IntroductionEventViewState createState() => _IntroductionEventViewState();
 }
 
-class _introduceeventviewState extends State<introduceeventview> {
+class _IntroductionEventViewState extends State<IntroductionEventView> {
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -3,14 +3,14 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class editprofile extends StatefulWidget {
-  const editprofile({Key? key}) : super(key: key);
+class EditProfile extends StatefulWidget {
+  const EditProfile({Key? key}) : super(key: key);
 
   @override
-  _editprofileState createState() => _editprofileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _editprofileState extends State<editprofile> {
+class _EditProfileState extends State<EditProfile> {
   String dropvalue = users[0]['gender'] ? "Nữ" : "Nam";
   @override
   Widget build(BuildContext context) {

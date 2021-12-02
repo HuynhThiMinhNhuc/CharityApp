@@ -1,19 +1,19 @@
 
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/PassInput.dart';
-import 'package:charityapp/views/Component/TextInput.dart';
+import 'package:charityapp/views/Component/password_input.dart';
+import 'package:charityapp/views/Component/text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class login extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _LoginState createState() => _LoginState();
 }
 
-class _State extends State<login> {
+class _LoginState extends State<Login> {
   bool securtytext = false;
   final IconData eye = Icons.remove_red_eye_outlined;
   @override
@@ -65,7 +65,7 @@ class _State extends State<login> {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: PassInput(
+            child: PassWordInput(
                 hint: 'Password',
                 background: backgrountbutton,
                 boder: backgrountbutton,

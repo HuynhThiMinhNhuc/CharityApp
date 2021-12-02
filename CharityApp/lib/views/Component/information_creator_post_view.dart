@@ -1,5 +1,5 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Pages/ProfilePage/profile_page.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class InformationCreatorPostView extends StatelessWidget {

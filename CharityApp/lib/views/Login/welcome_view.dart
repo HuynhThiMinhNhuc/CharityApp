@@ -1,15 +1,15 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class welcome extends StatefulWidget {
+class WelcomeView extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _WelcomeViewState createState() => _WelcomeViewState();
 }
 
-class _State extends State<welcome> {
+class _WelcomeViewState extends State<WelcomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

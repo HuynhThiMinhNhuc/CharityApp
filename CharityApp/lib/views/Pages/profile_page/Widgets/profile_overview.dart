@@ -1,6 +1,5 @@
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/ActiveItem.dart';
-import 'package:charityapp/views/Pages/ProfilePage/EditProfile.dart';
+import 'package:charityapp/views/Pages/profile_page/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -117,7 +116,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           child: ElevatedButton(
             onPressed: () => {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => editprofile()))
+                  MaterialPageRoute(builder: (context) => EditProfile()))
             },
             child: Text(
               'Theo dõi',

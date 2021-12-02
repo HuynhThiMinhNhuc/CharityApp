@@ -1,10 +1,8 @@
-import 'dart:html';
-
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/Pages/Homepage/Witdgets/event_overview.dart';
-import 'package:charityapp/views/Pages/Homepage/Witdgets/IntroduceEvent_View.dart';
+import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
+import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
 import 'package:flutter/material.dart';
 
 class EventPage extends StatefulWidget {
@@ -47,7 +45,7 @@ class _EventPageState extends State<EventPage> {
         ),
       ),
     ),
-    introduceeventview(),
+    IntroductionEventView(),
   ];
   @override
   Widget build(BuildContext context) {

@@ -1,21 +1,21 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/main.dart';
-import 'package:charityapp/views/Component/ButtonCustom.dart';
+import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class form_view extends StatefulWidget {
+class FormView extends StatefulWidget {
   final String username;
   final String userphone;
-  const form_view({Key? key, required this.username, required this.userphone})
+  const FormView({Key? key, required this.username, required this.userphone})
       : super(key: key);
 
   @override
-  _form_viewState createState() => _form_viewState();
+  _FormViewState createState() => _FormViewState();
 }
 
-class _form_viewState extends State<form_view> {
+class _FormViewState extends State<FormView> {
   List<String> Items = [
     "Email",
     "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?",
