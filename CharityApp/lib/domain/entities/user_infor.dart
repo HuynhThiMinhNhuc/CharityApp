@@ -1,4 +1,5 @@
-import 'package:charityapp/core/uint8list_converter.dart';
+import 'package:charityapp/core/helper/conver_string_to_datetime.dart';
+import 'package:charityapp/core/helper/uint8list_converter.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -17,7 +18,7 @@ class UserInfor extends UserOverview {
   String? birthDayString;
   Genders gender;
 
-  DateTime? get birthDay => birthDayString != null ? DateFormat('dd/MM/yyyy').parse(birthDayString!) : null;
+  DateTime? get birthDay => StringToDatetime.Convert(birthDayString);// birthDayString != null ? DateFormat('dd/MM/yyyy').parse(birthDayString!) : null;
 
   UserInfor({required name, 
       required avatar,

@@ -1,6 +1,5 @@
-import 'package:charityapp/core/uint8list_converter.dart';
+import 'package:charityapp/core/helper/uint8list_converter.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_profile.g.dart';
@@ -10,8 +9,6 @@ class UserProfile extends UserInfor{
   int numberPost;
   int numberFollower;
   int numberFollowing;
-
-  DateTime? get birthDay => birthDayString != null ? DateFormat('dd/MM/yyyy').parse(birthDayString!) : null;
 
   UserProfile({required name, 
       required avatar,

@@ -24,7 +24,7 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Future<UserOverview> loadFriend(String id, int number) {
+  Future<UserOverview> loadFriends(String id, int number) {
     // TODO: implement loadFriend
     throw UnimplementedError();
   }
