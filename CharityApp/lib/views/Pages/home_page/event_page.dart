@@ -4,6 +4,7 @@ import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class EventPage extends StatefulWidget {
   List<PostOverview> posts;
@@ -17,7 +18,7 @@ class EventPage extends StatefulWidget {
   _EventPageState createState() => _EventPageState();
 }
 
-class _EventPageState extends State<EventPage> {
+class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
   List<Widget> tabs = [
     Container(
       child: SingleChildScrollView(
@@ -49,93 +50,36 @@ class _EventPageState extends State<EventPage> {
   ];
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              Column(
-                children:<Widget>[ 
-                  new SliverAppBar(
-                  iconTheme: IconThemeData(color: textcolor),
-                  backgroundColor: backgroundbottomtab,
-                  centerTitle: true,
-                  title:Text(
-                    "Sự kiện",
-                    style: TextStyle(
-                        color: textcolor,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  floating: true,
-                  pinned: true,
-                  snap: true,
-                ),
-               EventOverview(widget.eventName, widget.scrAvatar),
-                SizedBox(
-                  height: 10,
-                ),]
-              )
-            ];
-            
-          },
-          body: Scaffold(
-              backgroundColor: Colors.white,
-               body: SafeArea(
-                  child: Column(children: [
-               
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Divider(
-                    color: const Color(0xFFDDDDDD),
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
-                  child: TabBar(
-                      labelColor: maincolor,
-                      indicatorColor: maincolor,
-                      unselectedLabelColor: Color(0xff757070),
-                      tabs: [
-                        Tab(text: 'Trang chủ'),
-                        Tab(
-                          text: 'Giới thiệu',
-                        ),
-                      ]),
-                ),
-                Expanded(
-                    child: TabBarView(
-                  children: tabs,
-                 
-                ))
-              ]))),
+    TabController _tabController =
+        new TabController(length: tabs.length, vsync: this);
+    return NestedScrollView(
+      headerSliverBuilder: (context, value) {
+        return [
+          SliverToBoxAdapter(
+              child:  EventOverview(widget.eventName, widget.scrAvatar),),
+                
+          SliverAppBar(
+            pinned: true,
+            backgroundColor: Colors.white,
+            title: TabBar(
+                indicatorColor: maincolor,
+                unselectedLabelColor: Color(0xFF757070),
+                controller: _tabController,
+                labelColor: maincolor,
+                tabs: [
+                  Tab(text: "Trang chủ"),
+                  Tab(text: "Giới thiệu"),
+                ]),
+          ),
+         
+        ];
+      },
+      body: Container(
+        child:Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: TabBarView( controller: _tabController, children: tabs),
         ),
       ),
-    );
-  }
-
-  Widget getTabbar() {
-    return Column(
-      children: [
-        SizedBox(
-          child: AppBar(
-            bottom: TabBar(
-              labelColor: maincolor,
-              indicatorColor: maincolor,
-              tabs: [
-                Tab(
-                  text: "Trang chủ",
-                ),
-                Tab(
-                  text: "Giới thiệu",
-                ),
-              ],
-            ),
-          ),
-        ),
-        Expanded(child: TabBarView(children: tabs))
-      ],
     );
   }
 }

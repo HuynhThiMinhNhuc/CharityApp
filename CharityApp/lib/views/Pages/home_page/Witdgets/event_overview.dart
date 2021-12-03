@@ -113,7 +113,13 @@ class _EventOverviewState extends State<EventOverview> {
                   primary: maincolor,
                 ))
           ],
-        )
+        ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Divider(
+                color: const Color(0xFFDDDDDD),
+              ),
+            ),
       ],
     );
   }
