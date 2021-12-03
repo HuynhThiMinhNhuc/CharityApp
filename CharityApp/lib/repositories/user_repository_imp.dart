@@ -18,7 +18,7 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Future<UserInfor> load(String id) {
+  Future<UserProfile> load(String id) {
     // TODO: implement load
     throw UnimplementedError();
   }
