@@ -1,5 +1,6 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/home_page/comment_view.dart';
 import 'package:charityapp/views/Pages/home_page/event_page.dart';
@@ -9,18 +10,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'information_creator_post_view.dart';
 
 class PostOverview extends StatefulWidget {
-  final String nameCreator;
-  final String location;
-  final String title;
-  final String description;
-  final List<String> tags;
-  final String imageAsset;
-  final String avatar;
-  final int like;
-  final int cmt;
+  final Post post;
 
-  PostOverview(this.nameCreator, this.location, this.title, this.description,
-      this.tags, this.imageAsset, this.avatar, this.like, this.cmt);
+  PostOverview({required this.post});
 
   @override
   _PostOverviewState createState() => _PostOverviewState();
@@ -40,7 +32,7 @@ class _PostOverviewState extends State<PostOverview> {
             height: 10,
           ),
           InformationCreatorPostView(
-              widget.nameCreator, widget.location, widget.avatar),
+              creator: widget.post.creator),
           SizedBox(
             height: 10,
           ),
@@ -48,7 +40,7 @@ class _PostOverviewState extends State<PostOverview> {
             height: 400,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(widget.imageAsset), fit: BoxFit.cover)),
+                    image: MemoryImage(widget.post.creator.avatar!), fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
@@ -58,10 +50,10 @@ class _PostOverviewState extends State<PostOverview> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => EventPage(users[0]['img'],
-                            post[5]['postImage'], post[1]['title'], [])));
+                            post[5]['postImage'], post[1]['title'])));
               },
               child: Text(
-                widget.title,
+                widget.post.title,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -72,7 +64,7 @@ class _PostOverviewState extends State<PostOverview> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 5, 10),
             child: Text(
-              widget.description,
+              widget.post.description,
               style: TextStyle(fontSize: 13, fontFamily: 'Roboto_Regular'),
             ),
           ),
@@ -91,7 +83,7 @@ class _PostOverviewState extends State<PostOverview> {
                           MaterialStateProperty.all(Color(0x50979797)),
                     ),
                     child: Text(
-                      widget.tags[index],
+                      widget.post.tags[index],
                       style: TextStyle(
                           fontFamily: 'Roboto_Regular',
                           fontSize: 12,
@@ -100,7 +92,7 @@ class _PostOverviewState extends State<PostOverview> {
                   ),
                 );
               },
-              itemCount: widget.tags.length,
+              itemCount: widget.post.tags.length,
               scrollDirection: Axis.horizontal,
             ),
           ),
@@ -140,7 +132,7 @@ class _PostOverviewState extends State<PostOverview> {
                       splashRadius: 20,
                     ),
                     Text(
-                      widget.like.toString(),
+                      widget.post.numberLike.toString(),
                       style: TextStyle(
                           fontFamily: 'Roboto_Regular',
                           fontSize: 13,
@@ -158,7 +150,7 @@ class _PostOverviewState extends State<PostOverview> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CommentView(
-                                      total: widget.like,
+                                      total: widget.post.numberLike,
                                       islove: true,
                                     )));
                       },
@@ -166,7 +158,7 @@ class _PostOverviewState extends State<PostOverview> {
                       splashRadius: 20,
                     ),
                     Text(
-                      widget.cmt.toString(),
+                      widget.post.numberComment.toString(),
                       style: TextStyle(
                           fontFamily: 'Roboto_Regular',
                           fontSize: 13,

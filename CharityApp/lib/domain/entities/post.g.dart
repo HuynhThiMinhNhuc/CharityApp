@@ -8,15 +8,21 @@ part of 'post.dart';
 
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
       title: json['title'] as String,
+      creator: UserOverview.fromJson(json['creator'] as Map<String, dynamic>),
       description: json['description'] as String,
       numberComment: json['numberComment'] as int? ?? 0,
       numberLike: json['numberLike'] as int? ?? 0,
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const <String>[],
     )..id = json['id'] as String?;
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'creator': instance.creator,
       'description': instance.description,
       'numberComment': instance.numberComment,
       'numberLike': instance.numberLike,
+      'tags': instance.tags,
     };

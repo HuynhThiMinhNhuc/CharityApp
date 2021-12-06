@@ -1,13 +1,13 @@
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class InformationCreatorPostView extends StatelessWidget {
-  final String avatarAsset;
-  final String name;
+  final UserOverview creator;
   final String location;
 
-  InformationCreatorPostView(this.name, this.location, this.avatarAsset);
+  InformationCreatorPostView({required this.creator, this.location = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class InformationCreatorPostView extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: NetworkImage(this.avatarAsset), fit: BoxFit.cover),
+                  image: MemoryImage(this.creator.avatar!), fit: BoxFit.cover),
             ),
           ),
           SizedBox(
@@ -37,7 +37,7 @@ class InformationCreatorPostView extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ProfilePage()));
                 },
-                child: Text(this.name,
+                child: Text(this.creator.name,
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,

@@ -144,8 +144,8 @@ class _RootAppState extends State<RootApp> {
       ),
     ),
     
-    EventPage(users[0]['img'], post[5]['postImage'], post[1]['title'], []),
-    ProfilePage(),
+    // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
+    // ProfilePage(),
   ];
   Widget getbody() {
     return IndexedStack(

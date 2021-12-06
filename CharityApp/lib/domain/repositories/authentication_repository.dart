@@ -1,6 +1,6 @@
 import 'package:charityapp/domain/entities/user_infor.dart';
 
-abstract class AuthenticationRepository {
+abstract class IAuthenticationRepository {
   Future<void> Login({required String username, required String password});
   Future<void> SignUp({required String username, required String password});
   Future<void> CreateInformation({required String name, required String birthday, required String email, required Genders gender});

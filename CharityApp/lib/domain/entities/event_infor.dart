@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:charityapp/core/helper/uint8list_converter.dart';
+import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,14 +16,15 @@ class EventInfor extends EventOverview{
   final List<String> tags;
 
   EventInfor({required String name, 
-      required Uint8List? avatar, 
-      required Uint8List? background, 
+      required BaseUser creator,
+      Uint8List? avatar, 
+      Uint8List? background, 
       this.description, 
       this.timeStart,
       this.numberMember = 0,
       this.numberPost = 0,
       this.tags = const [],
-  }) : super(name: name, avatar: avatar, background: background);
+  }) : super(name: name, creator: creator, avatar: avatar, background: background);
 
   factory EventInfor.fromJson(Map<String, dynamic> json) => _$EventInforFromJson(json);
   Map<String, dynamic> toJson() => _$EventInforToJson(this);
