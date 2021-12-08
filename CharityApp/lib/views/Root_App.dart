@@ -143,6 +143,24 @@ class _RootAppState extends State<RootApp> {
             fontWeight: FontWeight.bold),
       ),
     ),
+    Center(
+      child: Text(
+        'Newpage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
+      ),
+    ),
+    Center(
+      child: Text(
+        'Newpage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
+      ),
+    ),
     
     // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
     // ProfilePage(),

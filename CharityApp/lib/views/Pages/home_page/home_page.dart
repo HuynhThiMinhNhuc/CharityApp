@@ -65,37 +65,15 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold)),
           ),
         ),
-        SingleChildScrollView(
-          child: Expanded(
-            child: Container(
-              child: ListView.builder(
-                itemCount: widget.posts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return PostOverview(post: widget.posts[index]);
-                },
-              ),
-            ),
-          ),
-          // children: List.generate(post.length, (index) {
-          //   return
-          //     Column(
-          //       children: [
-          //         PostOverview(
-          //           post[index]['name'],
-          //           post[index]['address'],
-          //           post[index]['title'],
-          //           post[index]['Content'],
-          //           post[index]['tag'],
-          //           post[index]['postImage'],
-          //           post[index]['avatar'],
-          //           post[index]['love'],
-          //           post[index]['commentcount'],
-          //         ),
-          //         SizedBox(height: 10,)
-          //       ],
-          //     )
-          //   ;
-          // }),
+        (
+           ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: widget.posts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return PostOverview(post: widget.posts[index]);
+                  },
+          )
         ),
       ]),
     );

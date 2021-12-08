@@ -53,14 +53,26 @@ class _CommentViewState extends State<CommentView> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child: Column(
-                children: List.generate(cmts.length, (index) {
-              return CommentItem(
-                  avatar: cmts[index]['avatar'],
-                  name: cmts[index]['name'],
-                  time: cmts[index]['timeago'],
-                  cmt: cmts[index]['comment']);
-            })),
+            child:
+             ListView.builder(
+               shrinkWrap: true,
+               physics: NeverScrollableScrollPhysics(),
+               itemCount: cmts.length,
+               itemBuilder: (BuildContext context, int index) {
+                 return CommentItem(
+                           avatar: cmts[index]['avatar'],
+                           name: cmts[index]['name'],
+                           time: cmts[index]['timeago'],
+                           cmt: cmts[index]['comment']);
+               }
+             )// Column(
+            //     children: List.generate(cmts.length, (index) {
+            //   return CommentItem(
+            //       avatar: cmts[index]['avatar'],
+            //       name: cmts[index]['name'],
+            //       time: cmts[index]['timeago'],
+            //       cmt: cmts[index]['comment']);
+            // })),
           ),
         ),
         Container(
