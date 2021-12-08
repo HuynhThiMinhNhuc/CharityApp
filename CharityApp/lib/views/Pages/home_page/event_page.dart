@@ -24,6 +24,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
       Container(
         child: SingleChildScrollView(
           child: ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: widget.posts.length,
             itemBuilder: (BuildContext context, int index) {
               return PostOverview(post: widget.posts[index]);
@@ -31,11 +33,10 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
           ),
         ),
       ),
-      IntroductionEventView(),
+        IntroductionEventView(),
     ];
 
-    TabController _tabController =
-        new TabController(length: tabs.length, vsync: this);
+    TabController _tabController = new TabController(length: tabs.length, vsync: this);
     return NestedScrollView(
       headerSliverBuilder: (context, value) {
         return [

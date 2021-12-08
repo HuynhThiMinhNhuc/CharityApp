@@ -31,13 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
           Divider(thickness: 1.0),
           Center(
             child: ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemCount: widget.posts.length,
               itemBuilder: (BuildContext context, int index) {
                 return PostOverview(post: widget.posts[index]);
               },
             ),
             // children: List.generate(post.length, (index) {
-            //   return 
+            //   return
             //     Column(
             //       children: [
             //         PostOverview(

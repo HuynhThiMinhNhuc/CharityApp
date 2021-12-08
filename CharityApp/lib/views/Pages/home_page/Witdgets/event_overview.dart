@@ -65,15 +65,18 @@ class _EventOverviewState extends State<EventOverview> {
                   width: 10,
                 ),
                 Column(
-                  children: <Widget>[
+                    children: <Widget>[
                     SizedBox(
                       height: 10,
                     ),
                     Text(
                       widget.eventName,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: textcolor),              ),
                     SizedBox(
                       height: 10,
                     ),
@@ -86,10 +89,10 @@ class _EventOverviewState extends State<EventOverview> {
         SizedBox(height: 80),
         Row(
           children: [
-            SizedBox(width: 120),
+            SizedBox(width: 100),
             IconOverview(Icons.people, this.numberPaticipant),
             IconOverview(Icons.post_add, this.numberPost),
-            SizedBox(width: 50),
+            SizedBox(width: 0),
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(
