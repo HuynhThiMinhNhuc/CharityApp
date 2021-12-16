@@ -1,12 +1,14 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
+import 'package:get_it/get_it.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({Key? key}) : super(key: key);
@@ -152,18 +154,9 @@ class _RootAppState extends State<RootApp> {
             fontWeight: FontWeight.bold),
       ),
     ),
-    Center(
-      child: Text(
-        'Newpage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    ),
     
     // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
-    // ProfilePage(),
+   //  ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null),
   ];
   Widget getbody() {
     return IndexedStack(

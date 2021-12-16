@@ -15,6 +15,7 @@ class EventInfor extends EventOverview{
   final int numberPost;
   final List<String> tags;
 
+
   EventInfor({required String name, 
       required BaseUser creator,
       Uint8List? avatar, 

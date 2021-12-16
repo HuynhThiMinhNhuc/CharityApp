@@ -119,7 +119,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   MaterialPageRoute(builder: (context) => EditProfile()))
             },
             child: Text(
-              'Theo dõi',
+              'Chỉnh sửa hồ sơ',
               style: TextStyle(
                   fontSize: 13,
                   decoration: TextDecoration.none,
