@@ -1,5 +1,6 @@
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/domain/entities/post.dart';
+import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,9 @@ import 'Widgets/profile_overview.dart';
 
 class ProfilePage extends StatefulWidget {
   final List<Post> posts = const <Post>[];
+  final UserProfile userprofile  ;
+
+  ProfilePage ({ required posts, required this.userprofile, user, post});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();

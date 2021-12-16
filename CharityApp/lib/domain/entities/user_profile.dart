@@ -22,4 +22,5 @@ class UserProfile extends UserInfor{
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
   Map<String, dynamic> toJson() => _$UserProfileToJson(this);
+
 }

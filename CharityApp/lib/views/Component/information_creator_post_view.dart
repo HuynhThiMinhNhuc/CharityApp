@@ -1,7 +1,9 @@
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class InformationCreatorPostView extends StatelessWidget {
   final UserOverview creator;
@@ -34,8 +36,8 @@ class InformationCreatorPostView extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => ProfilePage(userprofile: , posts: null)));
                 },
                 child: Text(this.creator.name,
                     style: TextStyle(
