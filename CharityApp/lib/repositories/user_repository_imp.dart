@@ -21,7 +21,7 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Stream<UserProfile> load(String id) {
+  Stream<List<UserProfile>> load(String id, int startIndex, int number) {
     // TODO: implement load
     throw UnimplementedError();
   }

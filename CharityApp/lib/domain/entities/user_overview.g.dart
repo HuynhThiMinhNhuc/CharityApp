@@ -9,7 +9,7 @@ part of 'user_overview.dart';
 UserOverview _$UserOverviewFromJson(Map<String, dynamic> json) => UserOverview(
       name: json['name'],
       avatar: const Uint8ListConverter().fromJson(json['avatar'] as List<int>?),
-    )..id = json['id'] as String?;
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$UserOverviewToJson(UserOverview instance) =>
     <String, dynamic>{

@@ -13,7 +13,7 @@ EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
       avatar: const Uint8ListConverter().fromJson(json['avatar'] as List<int>?),
       background:
           const Uint8ListConverter().fromJson(json['background'] as List<int>?),
-    )..id = json['id'] as String?;
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
     <String, dynamic>{

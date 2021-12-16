@@ -3,8 +3,9 @@ import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PostRepositoryImp implements IPostRepository{
-  CollectionReference collection;
+class PostRepositoryImp implements IPostRepository {
+  CollectionReference collection =
+      FirebaseFirestore.instance.collection("posts");
 
   PostRepositoryImp(this.collection);
 
@@ -19,9 +20,14 @@ class PostRepositoryImp implements IPostRepository{
   }
 
   @override
-  Stream<Post> load(String id) {
-    return collection.doc(id).snapshots().map((snapshot) {
-      return Post.fromJson(snapshot.data() as Map<String, dynamic>);
+  Stream<List<Post>> load(String eventId, int startIndex, int number) {
+    return collection
+        .where('eventId', isEqualTo: eventId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => Post.fromJson(doc.data()! as Map<String, dynamic>))
+          .toList();
     });
   }
 
@@ -40,5 +46,4 @@ class PostRepositoryImp implements IPostRepository{
   Future<void> update(Post entity) {
     return collection.doc(entity.id).update(entity.toJson());
   }
-  
 }

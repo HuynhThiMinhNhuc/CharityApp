@@ -1,7 +1,21 @@
-abstract class PostState {
+import 'package:charityapp/domain/entities/base_post.dart';
+import 'package:equatable/equatable.dart';
+
+abstract class PostState extends Equatable {
   const PostState();
+
+  @override
+  List<Object> get props => [];
 }
 
-class LoadingPostState extends PostState{}
-class LoadedPostState extends PostState{}
-class LoadingFailState extends PostState{}
+class PostsLoadSuccess extends PostState {
+  final List<BasePost> posts;
+  PostsLoadSuccess({required this.posts});
+
+  @override
+  List<Object> get props => [posts];
+}
+
+class PostsLoadFailure extends PostState {}
+
+class PostsLoadInProgress extends PostState {}

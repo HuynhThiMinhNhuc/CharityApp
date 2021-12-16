@@ -22,16 +22,16 @@ class EventRepositoryImp implements IEventRepository {
   }
 
   @override
-  Stream<EventInfor> load(String id) {
-    return collection.doc(id).snapshots().map((snapshot) {
-      return EventInfor.fromJson(snapshot.data() as Map<String, dynamic>);
-    });
+  Stream<List<EventInfor>> load(String id, int startIndex, int number) {
+    throw UnimplementedError();
   }
 
   @override
   Stream<List<Post>> loadEvents(String id, int number) {
     return collection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Post.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs
+          .map((doc) => Post.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
     });
   }
 
@@ -46,5 +46,4 @@ class EventRepositoryImp implements IEventRepository {
     // TODO: implement update
     throw UnimplementedError();
   }
-
 }

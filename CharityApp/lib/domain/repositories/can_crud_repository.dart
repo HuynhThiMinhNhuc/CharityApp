@@ -1,6 +1,6 @@
 abstract class CRUDableRepository<T> {
-  Stream<T> load(String id);
+  Stream<List<T>> load(String id, int startIndex, int number);
   Future<void> add(T entity);
   Future<void> delete(String id);
-  Future<void> update(T id);
+  Future<void> update(T entity);
 }

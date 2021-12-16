@@ -15,7 +15,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const <String>[],
-    )..id = json['id'] as String?;
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'id': instance.id,

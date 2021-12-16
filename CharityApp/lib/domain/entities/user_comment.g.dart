@@ -11,7 +11,7 @@ UserComment _$UserCommentFromJson(Map<String, dynamic> json) => UserComment(
       avatar: const Uint8ListConverter().fromJson(json['avatar'] as List<int>?),
       content: json['content'] as String,
       timeComment: json['timeComment'] as String,
-    )..id = json['id'] as String?;
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$UserCommentToJson(UserComment instance) =>
     <String, dynamic>{
