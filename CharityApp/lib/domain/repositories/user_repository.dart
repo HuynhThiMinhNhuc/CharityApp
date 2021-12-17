@@ -8,5 +8,5 @@ abstract class IUserRepository implements CRUDableRepository<UserProfile>{
   Stream<UserOverview> loadFriends(String id, int number);
   Future<int> getIdUser(String username, String pass);
   Future<UserProfile> getUserProfile(int id);
-  Stream<List<Post>> getListPost(int id);
+  Future<List<Post>> getListPost(int id);
 }
