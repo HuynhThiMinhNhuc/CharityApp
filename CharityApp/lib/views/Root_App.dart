@@ -1,12 +1,14 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/tab_selector.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
 import 'bloc/tab_bloc/tab.dart';
+
 class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,136 +33,154 @@ class RootApp extends StatelessWidget {
   }
 
   Widget getappbar(AppTab activateTab) {
-    if (activateTab == AppTab.home)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          (AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: backgroundbottomtab,
-            title: Row(
-              children: <Widget>[
-                Text(
-                  'Meer',
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Redressed_Regular',
-                      fontSize: 35,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none),
-                ),
-                Spacer(),
-                IconButton(
-                  onPressed: null,
-                  icon: const Icon(Icons.search, color: textcolor),
-                  tooltip: "Tìm kiếm",
-                ),
-                IconButton(
-                  onPressed: null,
-                  icon: const Icon(
-                    Icons.notifications_active,
-                    color: textcolor,
-                  ),
-                  tooltip: "Tìm kiếm",
-                )
-              ],
-            ),
-          )),
-        ],
-      );
-    else if (activateTab == AppTab.calendar)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppBar(
-            centerTitle: true,
-            backgroundColor: backgroundbottomtab,
-            title: Text(
-              "Sự kiện",
-              style: TextStyle(
-                  color: textcolor,
-                  fontFamily: 'Roboto_Regular',
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      );
-    else if (activateTab == AppTab.addpost)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppBar(
-            centerTitle: true,
-            backgroundColor: backgroundbottomtab,
-            title: Text("Tạo bài viết",
-                style: TextStyle(
-                    color: textcolor,
-                    fontFamily: 'Roboto_Regular',
-                    fontWeight: FontWeight.bold)),
-          ),
-        ],
-      );
-    else if (activateTab == AppTab.friend)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppBar(
-            centerTitle: true,
-            backgroundColor: backgroundbottomtab,
-            title: Text("Người theo dõi",
-                style: TextStyle(
-                    color: textcolor,
-                    fontFamily: 'Roboto_Regular',
-                    fontWeight: FontWeight.bold)),
-          ),
-        ],
-      );
-    else if (activateTab == AppTab.profile)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppBar(
-            centerTitle: true,
-            backgroundColor: backgroundbottomtab,
-            title: Text("Hồ sơ của bạn",
-                style: TextStyle(
-                    color: textcolor,
-                    fontFamily: 'Roboto_Regular',
-                    fontWeight: FontWeight.bold)),
-          ),
-        ],
-      );
-    else {
-      return Text("Fail tab");
-    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        if (activateTab == AppTab.home)
+          homeAppBar()
+        else if (activateTab == AppTab.calendar)
+          calendarAppbar()
+        else if (activateTab == AppTab.addpost)
+          createPostAppbar()
+        else if (activateTab == AppTab.friend)
+          friendAppbar()
+        else if (activateTab == AppTab.profile)
+          profileAppbar()
+        else
+          Text("Fail tab"),
+      ],
+    );
   }
 
-  List<Widget> Pages = [
-    HomePage(),
-    CalendarPage(),
-    Center(
-      child: Text(
-        'Newpage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    ),
-    Center(
-      child: Text(
-        'Newpage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    ),
+  AppBar profileAppbar() {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: backgroundbottomtab,
+      title: Text("Hồ sơ của bạn",
+          style: TextStyle(
+              color: textcolor,
+              fontFamily: 'Roboto_Regular',
+              fontWeight: FontWeight.bold)),
+    );
+  }
 
-    // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
-    //  ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null),
-  ];
+  AppBar friendAppbar() {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: backgroundbottomtab,
+      title: Text("Người theo dõi",
+          style: TextStyle(
+              color: textcolor,
+              fontFamily: 'Roboto_Regular',
+              fontWeight: FontWeight.bold)),
+    );
+  }
+
+  AppBar createPostAppbar() {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: backgroundbottomtab,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: Colors.black,
+        ),
+        onPressed: () {},
+      ),
+      title: Text(
+        "Tạo sự kiện",
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
+      ),
+      actions: [
+        GestureDetector(
+          child: Text(
+            "Đăng",
+            style: TextStyle(
+                color: textcolor,
+                fontFamily: 'Roboto_Regular',
+                fontWeight: FontWeight.bold),
+          ),
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  AppBar calendarAppbar() {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: backgroundbottomtab,
+      title: Text(
+        "Sự kiện",
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  AppBar homeAppBar({Function? onClickSearch, Function? onClickNotification}) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      leadingWidth: 80,
+      backgroundColor: backgroundbottomtab,
+      titleSpacing: 0,
+      leading: Text(
+        'Meer',
+        style: TextStyle(
+            color: maincolor,
+            fontFamily: 'Redressed_Regular',
+            fontSize: 35,
+            fontWeight: FontWeight.normal,
+            decoration: TextDecoration.none),
+      ),
+      actions: [
+        IconButton(
+          onPressed: onClickSearch?.call(),
+          icon: const Icon(Icons.search, color: textcolor),
+          tooltip: "Tìm kiếm",
+        ),
+        IconButton(
+          onPressed: onClickNotification?.call(),
+          icon: const Icon(
+            Icons.notifications_active,
+            color: textcolor,
+          ),
+          tooltip: "Xem thông báo",
+        )
+      ],
+    );
+  }
+
+  // List<Widget> Pages = [
+  //   HomePage(),
+  //   CalendarPage(),
+  //   Center(
+  //     child: Text(
+  //       'Newpage',
+  //       style: TextStyle(
+  //           color: textcolor,
+  //           fontFamily: 'Roboto_Regular',
+  //           fontWeight: FontWeight.bold),
+  //     ),
+  //   ),
+  //   Center(
+  //     child: Text(
+  //       'Newpage',
+  //       style: TextStyle(
+  //           color: textcolor,
+  //           fontFamily: 'Roboto_Regular',
+  //           fontWeight: FontWeight.bold),
+  //     ),
+  //   ),
+
+  //   // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
+  //   //  ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null),
+  // ];
 
   // Widget getbody() {
   //   return IndexedStack(
@@ -175,15 +195,7 @@ class RootApp extends StatelessWidget {
     else if (activateTab == AppTab.calendar)
       return CalendarPage();
     else if (activateTab == AppTab.addpost)
-      return     Center(
-      child: Text(
-        'Newpage',
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
-      ),
-    );
+      return AddEventPage();
     // else if (activateTab == AppTab.friend)
     // return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']);
     // else if (activateTab == AppTab.profile)
