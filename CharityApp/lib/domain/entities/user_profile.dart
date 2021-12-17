@@ -11,14 +11,14 @@ class UserProfile extends UserInfor{
   int numberFollowing;
 
   UserProfile({required name, 
-      required avatar,
+      required avatarUri,
       description,
       birthDayString,
       gender = Genders.Undefined,
       this.numberFollower = 0,
       this.numberFollowing = 0,
       this.numberPost = 0,
-  }) : super(name: name, avatar: avatar, description: description, birthDayString: birthDayString, gender: gender,);
+  }) : super(name: name, avatarUri: avatarUri, description: description, birthDayString: birthDayString, gender: gender,);
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
   Map<String, dynamic> toJson() => _$UserProfileToJson(this);

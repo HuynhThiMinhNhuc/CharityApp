@@ -8,7 +8,7 @@ part of 'user_profile.dart';
 
 UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       name: json['name'],
-      avatar: json['avatar'],
+      avatarUri: json['avatarUri'],
       description: json['description'],
       birthDayString: json['birthDayString'],
       gender: json['gender'] ?? Genders.Undefined,
@@ -21,7 +21,7 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'avatar': const Uint8ListConverter().toJson(instance.avatar),
+      'avatarUri': instance.avatarUri?.toString(),
       'description': instance.description,
       'birthDayString': instance.birthDayString,
       'gender': _$GendersEnumMap[instance.gender],

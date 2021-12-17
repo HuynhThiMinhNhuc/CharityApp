@@ -7,10 +7,9 @@ part 'user_overview.g.dart';
 
 @JsonSerializable()
 class UserOverview extends BaseUser{
-  @Uint8ListConverter()
-  Uint8List? avatar;
+  Uri? avatarUri;
 
-  UserOverview({required name, required this.avatar}) : super(name: name);
+  UserOverview({required name, required this.avatarUri}) : super(name: name);
 
   factory UserOverview.fromJson(Map<String, dynamic> json) => _$UserOverviewFromJson(json);
   Map<String, dynamic> toJson() => _$UserOverviewToJson(this);

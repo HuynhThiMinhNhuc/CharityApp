@@ -18,14 +18,14 @@ class EventInfor extends EventOverview{
 
   EventInfor({required String name, 
       required BaseUser creator,
-      Uint8List? avatar, 
-      Uint8List? background, 
+      Uri? avatarUri, 
+      Uri? backgroundUri, 
       this.description, 
       this.timeStart,
       this.numberMember = 0,
       this.numberPost = 0,
       this.tags = const [],
-  }) : super(name: name, creator: creator, avatar: avatar, background: background);
+  }) : super(name: name, creator: creator, avatarUri: avatarUri, backgroundUri: backgroundUri);
 
   factory EventInfor.fromJson(Map<String, dynamic> json) => _$EventInforFromJson(json);
   Map<String, dynamic> toJson() => _$EventInforToJson(this);
