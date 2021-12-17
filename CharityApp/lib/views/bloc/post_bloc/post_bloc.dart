@@ -18,9 +18,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   void _onLoadPosts(LoadPosts event, Emitter<PostState> emit) {
     _postsSubscription?.cancel();
-      _postsSubscription = this.postRepository.load(event.eventId, event.startIndex, event.number).listen((posts) {
-        add(PostsUpdated(eventId: event.eventId, posts: posts));
-      });
+    _postsSubscription =
+        this.postRepository.load(event.eventId, event.startIndex, event.number)
+            .listen((posts) {
+          add(PostsUpdated(eventId: event.eventId, posts: posts));
+        });
   }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) {
@@ -33,5 +35,24 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   void _onPostsUpdated(PostsUpdated event, Emitter<PostState> emit) {
     emit(PostsLoadSuccess(posts: event.posts));
+    // List<Post> listPost = [];
+    // final _postReposibility = new UserRepositoryImp();
+    //
+    // @override
+    // Stream<PostState> mapEventToState(PostEvent event) async* {
+    //  if ( event is LoadPostEvent)
+    //  {
+    //    yield* _mapToPostState();
+    //  }
+    // }
+    // Stream<PostState> _mapToPostState() async*{
+    //   try{
+    //     yield LoadingPostState();
+    //     if (listPost.isEmpty) listPost = await _postReposibility.getListPost(GetIt.I.get<Authenticator>().idCurrentUser);
+    //     LoadedPostState(listPost);
+    //   } catch(e){
+    //     yield LoadingFailState();
+    //   }
+    // }
   }
 }

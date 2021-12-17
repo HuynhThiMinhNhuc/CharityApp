@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/edit_profile.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +9,9 @@ import 'package:intl/intl.dart';
 import 'information_profile_view.dart';
 
 class ProfileOverView extends StatefulWidget {
-  final String name;
-  final DateTime birthday;
-  final String description;
-  final List<int> number;
-  final String img;
+  UserProfile userProfile;
 
-  ProfileOverView(
-      this.name, this.birthday, this.description, this.number, this.img);
+  ProfileOverView( this.userProfile);
 
   @override
   _ProfileOverViewState createState() => _ProfileOverViewState();
@@ -53,7 +51,8 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 5),
                   image: DecorationImage(
-                      image: NetworkImage(widget.img), fit: BoxFit.cover),
+                      fit: BoxFit.cover,
+                      image: Image.memory(widget.userProfile.avatar as Uint8List) as ImageProvider),
                 ),
               ),
             ),
@@ -61,9 +60,9 @@ class _ProfileOverViewState extends State<ProfileOverView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InformationProfileView(widget.number[0], "Bài viết"),
-                  InformationProfileView(widget.number[1], "Người theo dõi"),
-                  InformationProfileView(widget.number[2], "Đang theo dõi"),
+                  InformationProfileView(widget.userProfile.numberPost, "Bài viết"),
+                  InformationProfileView(widget.userProfile.numberFollower, "Người theo dõi"),
+                  InformationProfileView(widget.userProfile.numberFollowing, "Đang theo dõi"),
                 ],
               ),
             ),
@@ -81,7 +80,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                 style: myStyle(isBold: true),
               ),
               TextSpan(
-                text: widget.name,
+                text: widget.userProfile.name,
               ),
             ]),
           ),
@@ -95,7 +94,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                 style: myStyle(isBold: true),
               ),
               TextSpan(
-                text: DateFormat("dd/MM/yyyy").format(widget.birthday),
+                text: DateFormat("dd/MM/yyyy").format(widget.userProfile.birthDay as DateTime),
               )
             ]),
           ),
@@ -103,7 +102,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         Container(
           margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
           child: Text(
-            widget.description,
+            widget.userProfile.description as String,
             style: TextStyle(
                 fontSize: 13,
                 decoration: TextDecoration.none,

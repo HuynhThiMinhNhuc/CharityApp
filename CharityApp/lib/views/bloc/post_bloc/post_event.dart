@@ -1,6 +1,7 @@
 import 'package:charityapp/domain/entities/base_post.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class PostEvent extends Equatable {
   final String eventId;
@@ -46,3 +47,4 @@ class PostsUpdated extends PostEvent {
   @override
   List<Object> get props => [posts];
 }
+

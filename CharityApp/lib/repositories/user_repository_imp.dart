@@ -56,7 +56,7 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Stream<List<Post>> getListPost(int id) {
+  Future<List<Post>> getListPost(int id) {
     // TODO: implement getListPost
     throw UnimplementedError();
   }
