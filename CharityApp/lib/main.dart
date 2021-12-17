@@ -1,29 +1,30 @@
-import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Pages/home_page/comment_view.dart';
-import 'package:charityapp/views/Pages/home_page/event_page.dart';
-import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:get_it/get_it.dart';
 import 'injector.dart';
+import 'views/bloc/tab_bloc/tab_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await initializeDependencies();
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: true,
-    home: RootApp()
+  runApp(MeerApp());
+}
 
-    // Container(
-    //     child: Scaffold
-    //       (
-    //         appBar: AppBar(
-    //           title : Text("Hồ sơ")
-    //         ),
-    //         body: ProfilePage(userprofile: GetIt.instance.get<Authenticator>().idCurrentUser, posts: null,))
-    // ),
-    ));
+class MeerApp extends StatelessWidget {
+  const MeerApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: true,
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider<TabBloc>(create: (context) => TabBloc()),
+          ],
+          child: RootApp(),
+        ));
+  }
 }

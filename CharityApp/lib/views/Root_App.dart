@@ -1,37 +1,37 @@
-import 'package:charityapp/Constant/post_jason.dart';
-import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Pages/home_page/event_page.dart';
-import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
+import 'package:charityapp/views/Component/tab_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
-import 'package:get_it/get_it.dart';
-
-class RootApp extends StatefulWidget {
-  const RootApp({Key? key}) : super(key: key);
-
-  @override
-  _RootAppState createState() => _RootAppState();
-}
-
-class _RootAppState extends State<RootApp> {
-  int page_index = 0;
+import 'bloc/tab_bloc/tab.dart';
+class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80), child: getappbar()),
-      body: getbody(),
-      bottomNavigationBar: getBottom(),
+    return BlocBuilder<TabBloc, AppTab>(
+      builder: (context, activateTab) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(80),
+              child: getappbar(activateTab)),
+          body: getbody(activateTab),
+          bottomNavigationBar: TabSelector(
+            activeTab: activateTab,
+            onTabSelected: (tab) {
+              return BlocProvider.of<TabBloc>(context)
+                  .add(UpdateTab(newActiveTab: tab));
+            },
+          ),
+        );
+      },
     );
   }
 
-  Widget getappbar() {
-    if (page_index == 0)
+  Widget getappbar(AppTab activateTab) {
+    if (activateTab == AppTab.home)
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -68,7 +68,7 @@ class _RootAppState extends State<RootApp> {
           )),
         ],
       );
-    else if (page_index == 1)
+    else if (activateTab == AppTab.calendar)
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -85,7 +85,7 @@ class _RootAppState extends State<RootApp> {
           ),
         ],
       );
-    else if (page_index == 2)
+    else if (activateTab == AppTab.addpost)
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,7 +101,7 @@ class _RootAppState extends State<RootApp> {
           ),
         ],
       );
-    else if (page_index == 3)
+    else if (activateTab == AppTab.friend)
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -116,7 +116,7 @@ class _RootAppState extends State<RootApp> {
           ),
         ],
       );
-    else
+    else if (activateTab == AppTab.profile)
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -131,6 +131,9 @@ class _RootAppState extends State<RootApp> {
           ),
         ],
       );
+    else {
+      return Text("Fail tab");
+    }
   }
 
   List<Widget> Pages = [
@@ -154,57 +157,82 @@ class _RootAppState extends State<RootApp> {
             fontWeight: FontWeight.bold),
       ),
     ),
-    
+
     // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
-   //  ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null),
+    //  ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null),
   ];
-  Widget getbody() {
-    return IndexedStack(
-      index: page_index,
-      children: Pages,
+
+  // Widget getbody() {
+  //   return IndexedStack(
+  //     index: page_index,
+  //     children: Pages,
+  //   );
+  // }
+
+  Widget getbody(AppTab activateTab) {
+    if (activateTab == AppTab.home)
+      return HomePage();
+    else if (activateTab == AppTab.calendar)
+      return CalendarPage();
+    else if (activateTab == AppTab.addpost)
+      return     Center(
+      child: Text(
+        'Newpage',
+        style: TextStyle(
+            color: textcolor,
+            fontFamily: 'Roboto_Regular',
+            fontWeight: FontWeight.bold),
+      ),
     );
+    // else if (activateTab == AppTab.friend)
+    // return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']);
+    // else if (activateTab == AppTab.profile)
+    // return ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null);
+    else {
+      return Text("Fail tab");
+    }
   }
 
-  Widget getBottom() {
-    List BottomItem = [
-      page_index == 0
-          ? "asset/Icon/HomeFullIcon.png"
-          : "asset/Icon/HomeIcon.png",
-      page_index == 1
-          ? "asset/Icon/CalendarFullIcon.png"
-          : "asset/Icon/CalendarIcon.png",
-      page_index == 2 ? "asset/Icon/NewFullIcon.png" : "asset/Icon/NewIcon.png",
-      page_index == 3
-          ? "asset/Icon/FriendFullIcon.png"
-          : "asset/Icon/FriendIcon.png",
-      page_index == 4
-          ? "asset/Icon/ProfileFullIcon.png"
-          : "asset/Icon/ProfileIcon.png"
-    ];
+  // Widget getBottom() {
+  //   List BottomItem = [
+  //     page_index == 0
+  //         ? "asset/Icon/HomeFullIcon.png"
+  //         : "asset/Icon/HomeIcon.png",
+  //     page_index == 1
+  //         ? "asset/Icon/CalendarFullIcon.png"
+  //         : "asset/Icon/CalendarIcon.png",
+  //     page_index == 2 ? "asset/Icon/NewFullIcon.png" : "asset/Icon/NewIcon.png",
+  //     page_index == 3
+  //         ? "asset/Icon/FriendFullIcon.png"
+  //         : "asset/Icon/FriendIcon.png",
+  //     page_index == 4
+  //         ? "asset/Icon/ProfileFullIcon.png"
+  //         : "asset/Icon/ProfileIcon.png"
+  //   ];
 
-    return Container(
-        height: 60,
-        width: double.infinity,
-        decoration: BoxDecoration(color: backgroundbottomtab),
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(BottomItem.length, (index) {
-              return InkWell(
-                  onTap: () {
-                    TabSelected(index);
-                  },
-                  child: (Image.asset(BottomItem[index])));
-            }),
-          ),
-        ));
-  }
+  //   return Container(
+  //       height: 60,
+  //       width: double.infinity,
+  //       decoration: BoxDecoration(color: backgroundbottomtab),
+  //       child: Padding(
+  //         padding:
+  //             const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 20),
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: List.generate(BottomItem.length, (index) {
+  //             return InkWell(
+  //                 onTap: () {
+  //                   TabSelected(index);
+  //                 },
+  //                 child: (Image.asset(BottomItem[index])));
+  //           }),
+  //         ),
+  //       ));
+  // }
 
-  TabSelected(index) {
-    setState(() {
-      page_index = index;
-    });
-  }
+  // TabSelected(index) {
+  //   setState(() {
+  //     page_index = index;
+  //   });
+  // }
 }

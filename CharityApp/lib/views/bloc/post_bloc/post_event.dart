@@ -39,7 +39,7 @@ class AddPost extends PostEvent {
 }
 
 class PostsUpdated extends PostEvent {
-  final List<BasePost> posts;
+  final List<Post> posts;
   PostsUpdated({required String eventId, required this.posts})
       : super(eventId: eventId);
 

@@ -1,4 +1,5 @@
 import 'package:charityapp/domain/entities/base_post.dart';
+import 'package:charityapp/domain/entities/post.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class PostState extends Equatable {
@@ -9,7 +10,7 @@ abstract class PostState extends Equatable {
 }
 
 class PostsLoadSuccess extends PostState {
-  final List<BasePost> posts;
+  final List<Post> posts;
   PostsLoadSuccess({required this.posts});
 
   @override
