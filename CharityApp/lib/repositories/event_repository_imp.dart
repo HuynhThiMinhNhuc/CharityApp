@@ -12,8 +12,10 @@ class EventRepositoryImp implements IEventRepository {
   EventRepositoryImp(this.collection);
 
   @override
-  Future<void> add(EventInfor entity) {
-    return collection.add(entity.toJson());
+  Future<void> add(EventInfor entity) async {
+    final docref = await collection.add(entity.toJson());
+    print(docref.id);
+    // return collection.add(entity.toJson());
   }
 
   @override

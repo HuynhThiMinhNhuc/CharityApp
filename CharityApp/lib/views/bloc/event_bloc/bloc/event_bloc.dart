@@ -29,6 +29,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
   FutureOr<void> _onUpdateEvent(UpdateEvent event, Emitter<EventState> emit) {}
 
   FutureOr<void> _onAddEvent(AddEvent event, Emitter<EventState> emit) {
+    print("AddEvent Reporistory");
     repository.add(event.event);
   }
 
