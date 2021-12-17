@@ -1,5 +1,4 @@
 import 'package:charityapp/core/model/app_tab.dart';
-import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 
 class TabSelector extends StatelessWidget {
