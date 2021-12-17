@@ -1,9 +1,7 @@
+import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 class InformationCreatorPostView extends StatelessWidget {
   final UserOverview creator;
@@ -25,7 +23,7 @@ class InformationCreatorPostView extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: MemoryImage(this.creator.avatar!), fit: BoxFit.cover),
+                  image: NetworkImage(users[0]['img']), fit: BoxFit.cover),
             ),
           ),
           SizedBox(

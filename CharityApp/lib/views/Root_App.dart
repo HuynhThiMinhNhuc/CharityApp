@@ -95,7 +95,8 @@ class RootApp extends StatelessWidget {
             fontWeight: FontWeight.bold),
       ),
       actions: [
-        GestureDetector(
+        TextButton(
+          onPressed: () {},
           child: Text(
             "Đăng",
             style: TextStyle(
@@ -103,7 +104,13 @@ class RootApp extends StatelessWidget {
                 fontFamily: 'Roboto_Regular',
                 fontWeight: FontWeight.bold),
           ),
-          onTap: () {},
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+          ),
         ),
       ],
     );

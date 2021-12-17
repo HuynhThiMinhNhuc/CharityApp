@@ -49,8 +49,10 @@ class UserRepositoryImp implements IUserRepository{
 
   @override
   Future<UserProfile> getUserProfile(int id) async {
-    var value = await user.where("Id", isEqualTo: id).get().then((value) => value);
-    return new UserProfile(name: value.docs[0].get("name"), avatar: value.docs[0].get("Avatar"), description: value.docs[0].get("Description"), gender: value.docs[0].get("Gender"), birthDayString: value.docs[0].get("Birthday") );
+    throw UnimplementedError();
+
+    // var value = await user.where("Id", isEqualTo: id).get().then((value) => value);
+    // return new UserProfile(name: value.docs[0].get("name"), avatarUri: value.docs[0].get("Avatar"), description: value.docs[0].get("Description"), gender: value.docs[0].get("Gender"), birthDayString: value.docs[0].get("Birthday") );
   }
 
   @override
