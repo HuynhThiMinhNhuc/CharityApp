@@ -40,7 +40,7 @@ class _PostOverviewState extends State<PostOverview> {
             height: 400,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(users[0]['img']), fit: BoxFit.cover)),
+                    image: NetworkImage(widget.post.imagesUri[0]), fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),

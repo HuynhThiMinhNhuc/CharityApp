@@ -17,11 +17,16 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const <String>[],
+      imagesUri: (json['imagesUri'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'title': instance.title,
       'creator': instance.creator,
+      'imagesUri': instance.imagesUri,
       'description': instance.description,
       'numberComment': instance.numberComment,
       'numberLike': instance.numberLike,

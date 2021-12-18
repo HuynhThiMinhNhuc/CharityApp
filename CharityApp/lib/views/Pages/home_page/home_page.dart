@@ -1,29 +1,72 @@
 import 'package:charityapp/Constant/active_json.dart';
 import 'package:charityapp/domain/entities/post.dart';
-import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
+import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// class HomePage extends StatefulWidget {
+//   // final List<Post> posts = const <Post>[];
+//   // final List<UserOverview> friends = const <UserOverview>[];
+//   final bool isReload;
+
+//   const HomePage({Key? key, this.isReload = false}) : super(key: key);
+
+//   @override
+//   _HomePageState createState() => _HomePageState();
+// }
 
 class HomePage extends StatefulWidget {
-  final List<Post> posts = const <Post>[];
-  final List<UserOverview> friends = const <UserOverview>[];
-
-  const HomePage({Key? key}) : super(key: key);
+  final bool needReload;
+  const HomePage({Key? key, this.needReload = false}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late bool isReload;
+
+  @override
+  void initState() {
+    super.initState();
+    this.isReload = !widget.needReload;
+  }
+
   @override
   Widget build(BuildContext context) {
     return getbody();
   }
 
   getbody() {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        // if (needLoad) {
+        //   BlocProvider.of<PostBloc>(context).add(LoadPosts(
+        //       eventId: "CnNqZwmqSBf9RYMXAnpp", startIndex: 0, number: 10));
+        // }
+        if (!isReload) {
+          isReload = true;
+          BlocProvider.of<PostBloc>(context).add(LoadPosts(
+              eventId: "CnNqZwmqSBf9RYMXAnpp", startIndex: 0, number: 10));
+          return Text("Loading view...");
+          ;
+        }
+        if (state is PostsLoadSuccess) {
+          return LoadSuccessHomeView(state.posts);
+        }
+        if (state is PostsLoadInProgress) {
+          return Text("Loading view...");
+        } else
+          return Text("Load fail");
+      },
+    );
+  }
+
+  Widget LoadSuccessHomeView(List<Post> posts) {
     return SingleChildScrollView(
       child: Column(children: <Widget>[
         Padding(
@@ -65,15 +108,13 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold)),
           ),
         ),
-        (
-           ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: widget.posts.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return PostOverview(post: widget.posts[index]);
-                  },
-          )
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: posts.length,
+          itemBuilder: (BuildContext context, int index) {
+            return PostOverview(post: posts[index]);
+          },
         ),
       ]),
     );
