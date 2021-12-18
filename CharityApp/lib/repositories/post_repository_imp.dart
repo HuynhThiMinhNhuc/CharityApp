@@ -11,6 +11,7 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Future<void> add(Post entity) {
+    
     return collection.add(entity.toJson());
   }
 

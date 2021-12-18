@@ -3,12 +3,44 @@
 part of 'event_infor.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+extension EventInforCopyWith on EventInfor {
+  EventInfor copyWith({
+    Uri? avatarUri,
+    Uri? backgroundUri,
+    BaseUser? creator,
+    String? description,
+    String? name,
+    int? numberMember,
+    int? numberPost,
+    List<String>? tags,
+    String? timeStart,
+  }) {
+    return EventInfor(
+      avatarUri: avatarUri ?? this.avatarUri,
+      backgroundUri: backgroundUri ?? this.backgroundUri,
+      creator: creator ?? this.creator,
+      description: description ?? this.description,
+      name: name ?? this.name,
+      numberMember: numberMember ?? this.numberMember,
+      numberPost: numberPost ?? this.numberPost,
+      tags: tags ?? this.tags,
+      timeStart: timeStart ?? this.timeStart,
+    );
+  }
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
 EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
       name: json['name'] as String,
-      creator: BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
+      creator: json['creator'] == null
+          ? null
+          : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
       avatarUri: json['avatarUri'] == null
           ? null
           : Uri.parse(json['avatarUri'] as String),

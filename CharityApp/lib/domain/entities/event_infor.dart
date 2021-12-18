@@ -1,12 +1,11 @@
-import 'dart:typed_data';
-
-import 'package:charityapp/core/helper/uint8list_converter.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event_infor.g.dart';
 
+@CopyWith()
 @JsonSerializable()
 class EventInfor extends EventOverview{
   String? description;

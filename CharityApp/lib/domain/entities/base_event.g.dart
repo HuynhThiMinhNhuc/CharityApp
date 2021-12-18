@@ -8,7 +8,9 @@ part of 'base_event.dart';
 
 BaseEvent _$BaseEventFromJson(Map<String, dynamic> json) => BaseEvent(
       name: json['name'] as String,
-      creator: BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
+      creator: json['creator'] == null
+          ? null
+          : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BaseEventToJson(BaseEvent instance) => <String, dynamic>{

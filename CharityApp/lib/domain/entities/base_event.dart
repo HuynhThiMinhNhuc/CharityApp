@@ -1,7 +1,6 @@
 import 'package:charityapp/core/interface/creatable_object.dart';
 import 'package:charityapp/domain/entities/base_object.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'base_event.g.dart';

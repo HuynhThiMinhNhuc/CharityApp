@@ -33,6 +33,11 @@ dependencies:
   get_it: ^7.2.0
   equatable: ^2.0.3
   build_runner: ^2.1.7
+  image_picker: ^0.8.4+4
+  path_provider: ^2.0.8
+  path: ^1.8.0
+  firebase_storage: ^10.2.4
+  copy_with_extension: ^2.0.2
 
 
 dev_dependencies:
@@ -40,6 +45,7 @@ dev_dependencies:
     sdk: flutter
   font_awesome_flutter: ^9.1.0
   json_serializable: ^6.1.0
+  copy_with_extension_gen: ^2.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

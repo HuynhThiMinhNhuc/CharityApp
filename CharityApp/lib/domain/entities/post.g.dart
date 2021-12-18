@@ -8,7 +8,9 @@ part of 'post.dart';
 
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
       title: json['title'] as String,
-      creator: UserOverview.fromJson(json['creator'] as Map<String, dynamic>),
+      creator: json['creator'] == null
+          ? null
+          : UserOverview.fromJson(json['creator'] as Map<String, dynamic>),
       description: json['description'] as String,
       numberComment: json['numberComment'] as int? ?? 0,
       numberLike: json['numberLike'] as int? ?? 0,

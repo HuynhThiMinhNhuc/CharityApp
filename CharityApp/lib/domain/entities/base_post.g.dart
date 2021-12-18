@@ -8,7 +8,9 @@ part of 'base_post.dart';
 
 BasePost _$BasePostFromJson(Map<String, dynamic> json) => BasePost(
       title: json['title'] as String,
-      creator: UserOverview.fromJson(json['creator'] as Map<String, dynamic>),
+      creator: json['creator'] == null
+          ? null
+          : UserOverview.fromJson(json['creator'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BasePostToJson(BasePost instance) => <String, dynamic>{

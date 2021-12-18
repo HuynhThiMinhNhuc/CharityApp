@@ -9,9 +9,6 @@ part of 'user_profile.dart';
 UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       name: json['name'],
       avatarUri: json['avatarUri'],
-// =======
-//       //avatar: json['avatar'],
-// >>>>>>> Stashed changes
       description: json['description'],
       birthDayString: json['birthDayString'],
       gender: json['gender'] ?? Genders.Undefined,
@@ -23,11 +20,7 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
     <String, dynamic>{
       'name': instance.name,
-//<<<<<<< Updated upstream
       'avatarUri': instance.avatarUri?.toString(),
-// =======
-//      // 'avatar': const Uint8ListConverter().toJson(instance.avatar),
-// >>>>>>> Stashed changes
       'description': instance.description,
       'birthDayString': instance.birthDayString,
       'gender': _$GendersEnumMap[instance.gender],

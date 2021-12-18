@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:equatable/equatable.dart';
@@ -29,7 +31,9 @@ class LoadDescriptionView extends LoadView {
 
 class AddEvent extends EventEvent {
   final EventInfor event;
-  const AddEvent({required this.event});
+  final File? avartarFile;
+  final File? backgroundFile;
+  const AddEvent({required this.event, required this.avartarFile, required this.backgroundFile});
 
   @override
   List<Object> get props => [event];

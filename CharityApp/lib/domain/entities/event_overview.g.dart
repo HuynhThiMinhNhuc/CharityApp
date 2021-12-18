@@ -9,7 +9,9 @@ part of 'event_overview.dart';
 EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
     EventOverview(
       name: json['name'] as String,
-      creator: BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
+      creator: json['creator'] == null
+          ? null
+          : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
       avatarUri: json['avatarUri'] == null
           ? null
           : Uri.parse(json['avatarUri'] as String),

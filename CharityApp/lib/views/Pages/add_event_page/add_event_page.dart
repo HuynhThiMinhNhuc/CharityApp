@@ -1,14 +1,21 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Component/image_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddEventPage extends StatefulWidget {
-  final Function(EventInfor event) onClickSubmit;
+  final Function(
+    EventInfor event, {
+    File? avatarImage,
+    File? backgroundImage,
+  }) onClickSubmit;
 
   const AddEventPage({Key? key, required this.onClickSubmit})
       : super(key: key ?? AppKeys.addEventScreen);
@@ -19,21 +26,27 @@ class AddEventPage extends StatefulWidget {
 
 class _AddEventPageState extends State<AddEventPage> {
   late TextEditingController _nameTextController;
+  late TextEditingController _dateTextController;
   late TextEditingController _locationTextController;
-  late Image myImage;
-  late Image backgroundImage;
+  late TextEditingController _descriptionTextController;
+  File? avatarImage;
+  File? backgroundImage;
 
   @override
   void initState() {
     super.initState();
     _nameTextController = TextEditingController();
+    _dateTextController = TextEditingController();
     _locationTextController = TextEditingController();
+    _descriptionTextController = TextEditingController();
   }
 
   @override
   void dispose() {
     _nameTextController.dispose();
+    _dateTextController.dispose();
     _locationTextController.dispose();
+    _descriptionTextController.dispose();
     super.dispose();
   }
 
@@ -61,9 +74,16 @@ class _AddEventPageState extends State<AddEventPage> {
           TextButton(
             onPressed: () {
               final event = EventInfor(
-                  name: _nameTextController.text,
-                  creator: BaseUser(name: 'Thạch'));
-              widget.onClickSubmit(event);
+                name: _nameTextController.text,
+                creator: BaseUser(name: 'Thạch'),
+                description: _descriptionTextController.text == "" ? null : _descriptionTextController.text,
+                timeStart: _dateTextController.text == "" ? null : _dateTextController.text,
+              );
+              widget.onClickSubmit(
+                event,
+                avatarImage: avatarImage,
+                backgroundImage: backgroundImage,
+              );
             },
             child: Text(
               "Đăng",
@@ -99,16 +119,43 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
             ),
             Text("Thời gian"),
-            TextFormField(
-              keyboardType: TextInputType.datetime,
-              controller: _nameTextController,
-              decoration: InputDecoration(
-                hintText: "Nhập thời gian",
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: _dateTextController,
+                    decoration: InputDecoration(
+                      hintText: "Nhập thời gian",
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.calendar_today_rounded),
+                  onPressed: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2025))
+                        .then((value) {
+                      if (value != null) {
+                        final formattedDate =
+                            DateFormat('dd/MM/yyyy').format(value);
+                        if (formattedDate != _dateTextController.text)
+                          setState(() {
+                            _dateTextController.text = formattedDate;
+                            print("Date selected: $formattedDate");
+                          });
+                      }
+                    });
+                  },
+                ),
+              ],
             ),
             Text("Địa điểm"),
             TextFormField(
@@ -125,13 +172,21 @@ class _AddEventPageState extends State<AddEventPage> {
             Text("Hình ảnh"),
             Row(
               children: [
-                CardImage(titleName: "+ Ảnh bìa"),
-                CardImage(titleName: "+ Ảnh đại diện"),
+                // CardImage(titleName: "+ Ảnh bìa"),
+                // CardImage(titleName: "+ Ảnh đại diện"),
+                ImageCard(
+                  hintTitle: "+ Ảnh bìa",
+                  onImageChanged: (file) {avatarImage = file;},
+                ),
+                ImageCard(
+                  hintTitle: "+ Ảnh đại diện",
+                  onImageChanged: (file) {backgroundImage = file;},
+                ),
               ],
             ),
             TextFormField(
               keyboardType: TextInputType.name,
-              controller: _nameTextController,
+              controller: _descriptionTextController,
               minLines: 3,
               maxLines: 5,
               decoration: InputDecoration(
@@ -145,30 +200,6 @@ class _AddEventPageState extends State<AddEventPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget CardImage({required String titleName, Image? image = null}) {
-    // image = Image.asset("asset/Icon/HomeIcon.png");
-    return Container(
-      child: image != null
-          ? image
-          : InkWell(
-              child: Center(
-                child: Text(
-                  titleName,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              onTap: () => {},
-            ),
-      height: 150,
-      width: 120,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 1, color: Colors.black),
-      ),
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
     );
   }
 }
