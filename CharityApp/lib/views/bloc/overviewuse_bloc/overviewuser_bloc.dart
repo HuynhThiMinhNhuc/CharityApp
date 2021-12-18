@@ -20,14 +20,15 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState>{
   }
   Future<void> _onLoadPostEvent(LoadOverViewUserEvent event, Emitter<OverViewUserState> emit)async {
     print("onLoadPostEvent");
-    final ByteData data =  await NetworkAssetBundle(Uri.parse( "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")).load("");
 
     try{
       emit( LoadingOverViewUserState());
-     // userProfile = new UserProfile(name: "Nhuc", avatar: data.buffer.asUint8List(),description: "Hihihihhihihi");
-     // emit(LoadedOverViewUserState(userProfile));
+      //userProfile = new UserProfile(name: "Nhuc",description: "Type some thing here...", birthDayString :"17/02/2001");
+      userProfile =  await _userReposibility.getUserProfile(GetIt.instance.get<Authenticator>().idCurrentUser);
+      emit(LoadedOverViewUserState(userProfile));
     }
     catch (e){
+      print("Looix loading OverViewUserEvent" +e.toString());
       emit( LoadFailOverViewUserState());
     }
   }

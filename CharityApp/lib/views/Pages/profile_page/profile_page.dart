@@ -14,14 +14,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Widgets/profile_overview.dart';
 
 class ProfilePage extends StatefulWidget {
-
-  ProfilePage ();
+  int id;
+  ProfilePage (this.id);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
   var postBloc;
   var overViewUserBloc;
   @override
@@ -29,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
-    context.read<OverViewUserBloc>().add(LoadOverViewUserEvent());
+    overViewUserBloc.add(LoadOverViewUserEvent());
     //poverViewUserBlocostBloc.add(LoadPostEvent());
   }
   @override
@@ -49,7 +50,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 if(state is LoadedOverViewUserState){
                   return ProfileOverView(state.userProfile as UserProfile);
                 }
-                else return Text("Loading");
+                else if( state is LoadingPostState) return Text("Loading");
+                      else return Text("Loading failer.....");
               },
             )
 

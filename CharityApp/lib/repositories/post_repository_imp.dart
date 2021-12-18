@@ -4,10 +4,10 @@ import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostRepositoryImp implements IPostRepository {
-  CollectionReference collection =
+  final CollectionReference collection =
       FirebaseFirestore.instance.collection("posts");
 
-  PostRepositoryImp(this.collection);
+  PostRepositoryImp();
 
   @override
   Future<void> add(Post entity) {

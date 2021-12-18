@@ -9,7 +9,11 @@ part 'user_overview.g.dart';
 class UserOverview extends BaseUser {
   Uri? avatarUri;
 
+//<<<<<<< Updated upstream
   UserOverview({required name, required this.avatarUri}) : super(name: name);
+// =======
+//   UserOverview({required name, this.avatar}) : super(name: name);
+// >>>>>>> Stashed changes
 
   // factory UserOverview.fromJson(Map<String, dynamic> json) => _$UserOverviewFromJson(json);
   // Map<String, dynamic> toJson() => _$UserOverviewToJson(this);

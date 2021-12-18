@@ -9,3 +9,10 @@ class LoadOverViewUserEvent extends OverviewUserEvent{
   @override
   List<Object> get props =>[];
 }
+
+class ClickButtonEvent extends OverviewUserEvent{
+  ClickButtonEvent();
+
+  @override
+  List<Object?> get props => [];
+}

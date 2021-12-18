@@ -3,10 +3,12 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 class UserRepositoryImp implements IUserRepository{
-  final user = FirebaseFirestore.instance.collection("USER");
+  final user = FirebaseFirestore.instance.collection("users");
 
   @override
   Future<void> add(UserInfor userInfor) {
@@ -40,19 +42,22 @@ class UserRepositoryImp implements IUserRepository{
 
   @override
   Future<int> getIdUser(String username, String pass) async {
-     var value =  await user
+    int id = 0;
+     await for ( var snapshot in user
          .where("Name", isEqualTo: username)
-         .where("Password", isEqualTo: pass)
-         .get().then((value) => value);
-     return value.docs[0].get("Id");
+         .where("Password", isEqualTo: pass).snapshots()){
+       id  = snapshot.docs[0].data()['Id'];
+     }
+     return id;
   }
 
   @override
   Future<UserProfile> getUserProfile(int id) async {
-    throw UnimplementedError();
-
-    // var value = await user.where("Id", isEqualTo: id).get().then((value) => value);
-    // return new UserProfile(name: value.docs[0].get("name"), avatarUri: value.docs[0].get("Avatar"), description: value.docs[0].get("Description"), gender: value.docs[0].get("Gender"), birthDayString: value.docs[0].get("Birthday") );
+    var userinfo;
+    await user.doc(id.toString()).get().then((value){
+      userinfo = value.data();
+    });
+    return new UserProfile(name: userinfo!['Name'], description: userinfo!["Description"], gender: userinfo!['Gender'] == 0? Genders.Female :userinfo!['Gender'] == 1? Genders.Male : Genders.Undefined ,birthDayString: "17/02/2001", avatarUri: null );
   }
 
   @override
@@ -60,5 +65,4 @@ class UserRepositoryImp implements IUserRepository{
     // TODO: implement getListPost
     throw UnimplementedError();
   }
-
 }
