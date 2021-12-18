@@ -9,6 +9,13 @@ class BaseUser extends BaseObject {
 
   BaseUser({required this.name});
 
-  factory BaseUser.fromJson(Map<String, dynamic> json) => _$BaseUserFromJson(json);
-  Map<String, dynamic> toJson() => _$BaseUserToJson(this);
+  // factory BaseUser.fromJson(Map<String, dynamic> json) => _$BaseUserFromJson(json);
+  // Map<String, dynamic> toJson() => _$BaseUserToJson(this);
+
+  factory BaseUser.fromJson(Map<String, dynamic> json) => BaseUser(
+        name: json['name'] as String,
+      );
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'name': this.name,
+      };
 }

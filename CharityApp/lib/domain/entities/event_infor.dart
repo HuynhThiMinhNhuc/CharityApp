@@ -17,7 +17,7 @@ class EventInfor extends EventOverview{
 
 
   EventInfor({required String name, 
-      required BaseUser creator,
+      BaseUser? creator,
       Uri? avatarUri, 
       Uri? backgroundUri, 
       this.description, 
@@ -27,6 +27,35 @@ class EventInfor extends EventOverview{
       this.tags = const [],
   }) : super(name: name, creator: creator, avatarUri: avatarUri, backgroundUri: backgroundUri);
 
-  factory EventInfor.fromJson(Map<String, dynamic> json) => _$EventInforFromJson(json);
-  Map<String, dynamic> toJson() => _$EventInforToJson(this);
+  // factory EventInfor.fromJson(Map<String, dynamic> json) => _$EventInforFromJson(json);
+  // Map<String, dynamic> toJson() => _$EventInforToJson(this);
+
+    factory EventInfor.fromJson(Map<String, dynamic> json) => EventInfor(
+      name: json['name'] as String,
+      avatarUri: json['avatarUri'] == null
+          ? null
+          : Uri.parse(json['avatarUri'] as String),
+      backgroundUri: json['backgroundUri'] == null
+          ? null
+          : Uri.parse(json['backgroundUri'] as String),
+      description: json['description'] as String?,
+      timeStart: json['timeStart'] as String?,
+      numberMember: json['numberMember'] as int? ?? 0,
+      numberPost: json['numberPost'] as int? ?? 0,
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
+    );
+  Map<String, dynamic> toJson() =>
+    <String, dynamic>{
+      'name': this.name,
+      'creatorId': this.creator.id,
+      'avatarUri': this.avatarUri?.toString(),
+      'backgroundUri': this.backgroundUri?.toString(),
+      'description': this.description,
+      'timeStart': this.timeStart,
+      'numberMember': this.numberMember,
+      'numberPost': this.numberPost,
+      'tags': this.tags,
+    };
 }
