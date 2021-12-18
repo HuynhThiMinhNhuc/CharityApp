@@ -11,11 +11,10 @@ UserOverview _$UserOverviewFromJson(Map<String, dynamic> json) => UserOverview(
       avatarUri: json['avatarUri'] == null
           ? null
           : Uri.parse(json['avatarUri'] as String),
-    )..id = json['id'] as String;
+    );
 
 Map<String, dynamic> _$UserOverviewToJson(UserOverview instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'avatarUri': instance.avatarUri?.toString(),
     };

@@ -1,8 +1,9 @@
 abstract class BaseObject {
-  late String _id = "1";
+  String? _id;
 
-  String get id => _id;
-  set id(String value) {
-    _id = value;
+  String? get id => _id;
+
+  setId(String id) {
+    _id = id;
   }
 }

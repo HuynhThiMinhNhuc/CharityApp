@@ -22,11 +22,10 @@ EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const [],
-    )..id = json['id'] as String;
+    );
 
 Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
       'avatarUri': instance.avatarUri?.toString(),
