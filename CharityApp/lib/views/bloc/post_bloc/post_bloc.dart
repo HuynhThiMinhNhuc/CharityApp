@@ -30,7 +30,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   void _onDeletePost(DeletePost event, Emitter<PostState> emit) {
-    this.postRepository.delete(event.post.id);
+    this.postRepository.delete(event.post.id!);
   }
 
   void _onPostsUpdated(PostsUpdated event, Emitter<PostState> emit) {
