@@ -8,3 +8,16 @@ class LoadedOverViewUserState extends OverViewUserState{
 }
 class LoadFailOverViewUserState extends OverViewUserState{}
 
+class MyProfileState extends OverViewUserState{
+  var id;
+      MyProfileState(this.id);
+}
+class FriendProfileState extends OverViewUserState{
+  var id;
+  FriendProfileState(this.id);
+}
+class StrangerProfileState extends OverViewUserState{
+  var id;
+  StrangerProfileState(this.id);
+}
+

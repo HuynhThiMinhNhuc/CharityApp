@@ -6,10 +6,10 @@ import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final PostRepositoryImp postRepository;
+  final postRepository = new PostRepositoryImp();
   StreamSubscription? _postsSubscription;
 
-  PostBloc({required this.postRepository}) : super(PostsLoadInProgress()) {
+  PostBloc() : super(PostsLoadInProgress()) {
     on<LoadPosts>(_onLoadPosts);
     on<AddPost>(_onAddPost);
     on<DeletePost>(_onDeletePost);

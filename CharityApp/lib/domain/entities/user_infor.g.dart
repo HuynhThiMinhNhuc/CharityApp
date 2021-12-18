@@ -8,7 +8,11 @@ part of 'user_infor.dart';
 
 UserInfor _$UserInforFromJson(Map<String, dynamic> json) => UserInfor(
       name: json['name'],
+// <<<<<<< Updated upstream
       avatarUri: json['avatarUri'],
+// =======
+//      // avatar: json['avatar'],
+// >>>>>>> Stashed changes
       description: json['description'] as String?,
       birthDayString: json['birthDayString'] as String?,
       gender: $enumDecode(_$GendersEnumMap, json['gender']),
@@ -17,7 +21,11 @@ UserInfor _$UserInforFromJson(Map<String, dynamic> json) => UserInfor(
 Map<String, dynamic> _$UserInforToJson(UserInfor instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+//<<<<<<< Updated upstream
       'avatarUri': instance.avatarUri?.toString(),
+// =======
+//      // 'avatar': const Uint8ListConverter().toJson(instance.avatar),
+// >>>>>>> Stashed changes
       'description': instance.description,
       'birthDayString': instance.birthDayString,
       'gender': _$GendersEnumMap[instance.gender],

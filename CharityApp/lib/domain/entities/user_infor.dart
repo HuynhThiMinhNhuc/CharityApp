@@ -21,11 +21,19 @@ class UserInfor extends UserOverview {
   DateTime? get birthDay => StringToDatetime.Convert(birthDayString);// birthDayString != null ? DateFormat('dd/MM/yyyy').parse(birthDayString!) : null;
 
   UserInfor({required name, 
+//<<<<<<< Updated upstream
       required avatarUri,
       required this.description,
       required this.birthDayString,
       required this.gender,
   }) : super(name: name, avatarUri: avatarUri);
+// =======
+//       //required avatar,
+//       required this.description,
+//       required this.birthDayString,
+//       required this.gender,
+//   }) : super(name: name);
+// >>>>>>> Stashed changes
 
   factory UserInfor.fromJson(Map<String, dynamic> json) => _$UserInforFromJson(json);
   Map<String, dynamic> toJson() => _$UserInforToJson(this);
