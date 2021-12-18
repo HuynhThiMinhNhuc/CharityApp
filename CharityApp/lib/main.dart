@@ -1,5 +1,5 @@
 import 'package:charityapp/core/model/routes.dart';
-import 'package:charityapp/views/bloc/event_bloc/bloc/event.dart';
+import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
