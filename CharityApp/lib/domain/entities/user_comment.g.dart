@@ -13,11 +13,10 @@ UserComment _$UserCommentFromJson(Map<String, dynamic> json) => UserComment(
           : Uri.parse(json['avatarUri'] as String),
       content: json['content'] as String,
       timeComment: json['timeComment'] as String,
-    )..id = json['id'] as String;
+    );
 
 Map<String, dynamic> _$UserCommentToJson(UserComment instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'avatarUri': instance.avatarUri?.toString(),
       'content': instance.content,

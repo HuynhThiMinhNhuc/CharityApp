@@ -4,16 +4,15 @@ import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'can_crud_repository_imp.dart';
-
 class EventRepositoryImp implements IEventRepository {
   CollectionReference collection;
 
   EventRepositoryImp(this.collection);
 
   @override
-  Future<void> add(EventInfor entity) {
-    return collection.add(entity.toJson());
+  Future<void> add(EventInfor entity) async {
+    final docref = await collection.add(entity.toJson());
+    entity.setId(docref.id);
   }
 
   @override

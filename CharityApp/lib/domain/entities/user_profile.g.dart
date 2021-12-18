@@ -18,11 +18,10 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       numberFollower: json['numberFollower'] as int? ?? 0,
       numberFollowing: json['numberFollowing'] as int? ?? 0,
       numberPost: json['numberPost'] as int? ?? 0,
-    )..id = json['id'] as String;
+    );
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
 //<<<<<<< Updated upstream
       'avatarUri': instance.avatarUri?.toString(),

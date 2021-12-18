@@ -1,13 +1,16 @@
 import 'package:charityapp/core/model/app_tab.dart';
+import 'package:charityapp/core/model/routes.dart';
+import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/tab_selector.dart';
-import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
 import 'bloc/tab_bloc/tab.dart';
+
+typedef onAddPostCallback = Function(Post post);
 
 class RootApp extends StatelessWidget {
   @override
@@ -23,8 +26,15 @@ class RootApp extends StatelessWidget {
           bottomNavigationBar: TabSelector(
             activeTab: activateTab,
             onTabSelected: (tab) {
-              return BlocProvider.of<TabBloc>(context)
-                  .add(UpdateTab(newActiveTab: tab));
+              if (tab == AppTab.addpost) {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.addPost,
+                );
+              } else {
+                BlocProvider.of<TabBloc>(context)
+                    .add(UpdateTab(newActiveTab: tab));
+              }
             },
           ),
         );
@@ -40,8 +50,8 @@ class RootApp extends StatelessWidget {
           homeAppBar()
         else if (activateTab == AppTab.calendar)
           calendarAppbar()
-        else if (activateTab == AppTab.addpost)
-          createPostAppbar()
+        // else if (activateTab == AppTab.addpost)
+        //   createPostAppbar()
         else if (activateTab == AppTab.friend)
           friendAppbar()
         else if (activateTab == AppTab.profile)
@@ -76,7 +86,7 @@ class RootApp extends StatelessWidget {
     );
   }
 
-  AppBar createPostAppbar() {
+  AppBar createPostAppbar({Function? onClickSubmit, Function? onClickBack}) {
     return AppBar(
       centerTitle: true,
       backgroundColor: backgroundbottomtab,
@@ -85,7 +95,7 @@ class RootApp extends StatelessWidget {
           Icons.arrow_back,
           color: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: onClickBack?.call(),
       ),
       title: Text(
         "Tạo sự kiện",
@@ -96,7 +106,7 @@ class RootApp extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: onClickSubmit?.call(),
           child: Text(
             "Đăng",
             style: TextStyle(
@@ -201,8 +211,8 @@ class RootApp extends StatelessWidget {
       return HomePage();
     else if (activateTab == AppTab.calendar)
       return CalendarPage();
-    else if (activateTab == AppTab.addpost)
-      return AddEventPage();
+    // else if (activateTab == AppTab.addpost)
+    //   return AddEventPage();
     // else if (activateTab == AppTab.friend)
     // return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']);
     // else if (activateTab == AppTab.profile)
