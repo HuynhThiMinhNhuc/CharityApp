@@ -1,5 +1,6 @@
 import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/domain/entities/post.dart';
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,7 +12,6 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Future<void> add(Post entity) {
-    
     return collection.add(entity.toJson());
   }
 
@@ -22,13 +22,23 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Stream<List<Post>> load(String eventId, int startIndex, int number) {
+    final CollectionReference userscollection =
+        FirebaseFirestore.instance.collection("users");
+
     return collection
         .where('eventId', isEqualTo: eventId)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => Post.fromJson(doc.data()! as Map<String, dynamic>))
-          .toList();
+      return snapshot.docs.map((doc) {
+        final json = doc.data()! as Map<String, dynamic>;
+        final post = Post.fromJson(json);
+        UserOverview newuser = UserOverview(name: 'Jane Nguyễn', avatarUri: null);
+        post.creator = newuser;
+        // await userscollection.doc('${json['creatorId']}').get().then((value) =>
+        //     post.creator =
+        //         UserOverview.fromJson(value.data() as Map<String, dynamic>));
+        return post;
+      }).toList();
     });
   }
 

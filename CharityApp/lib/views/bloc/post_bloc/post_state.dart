@@ -1,8 +1,6 @@
 
-import 'package:charityapp/domain/entities/base_post.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:equatable/equatable.dart';
-import 'package:charityapp/domain/entities/post.dart';
 
 abstract class PostState extends Equatable {
 

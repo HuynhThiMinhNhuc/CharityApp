@@ -6,6 +6,7 @@ part 'post.g.dart';
 
 @JsonSerializable()
 class Post extends BasePost {
+  List<String> imagesUri;
   String description;
   final int numberComment;
   final int numberLike;
@@ -18,6 +19,7 @@ class Post extends BasePost {
     this.numberComment = 0,
     this.numberLike = 0,
     this.tags = const <String>[],
+    this.imagesUri = const <String>[],
   }) : super(title: title, creator: creator);
 
   // factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
@@ -32,6 +34,10 @@ class Post extends BasePost {
                 ?.map((e) => e as String)
                 .toList() ??
             const <String>[],
+        imagesUri: (json['imagesUri'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            const <String>[],
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'title': this.title,
@@ -40,5 +46,6 @@ class Post extends BasePost {
         'numberComment': this.numberComment,
         'numberLike': this.numberLike,
         'tags': this.tags,
+        'imagesUri': this.imagesUri,
       };
 }

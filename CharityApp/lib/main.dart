@@ -1,4 +1,5 @@
 import 'package:charityapp/core/model/routes.dart';
+import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'injector.dart';
 import 'repositories/event_repository_imp.dart';
 import 'views/Pages/add_event_page/add_event_page.dart';
+import 'views/bloc/post_bloc/post.dart';
 import 'views/bloc/tab_bloc/tab_bloc.dart';
 
 void main() async {
@@ -40,8 +42,15 @@ class MeerApp extends StatelessWidget {
       // ),
       routes: {
         AppRoutes.home: (context) {
-          return BlocProvider<TabBloc>(
-            create: (context) => TabBloc(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<TabBloc>(
+                create: (context) => TabBloc(),
+              ),
+              BlocProvider<PostBloc>(
+                create: (context) => PostBloc(),
+              ),
+            ],
             child: RootApp(),
           );
         },
