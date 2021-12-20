@@ -1,24 +1,11 @@
 import 'package:charityapp/core/model/app_tab.dart';
+import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
 class TabSelector extends StatelessWidget {
   final AppTab activeTab;
   final Function(AppTab) onTabSelected;
-
-  static List<String> assetItem = [
-    "asset/Icon/HomeIcon.png",
-    "asset/Icon/CalendarIcon.png",
-    "asset/Icon/NewIcon.png",
-    "asset/Icon/FriendIcon.png",
-    "asset/Icon/ProfileIcon.png"
-  ];
-  static List<String> assetSelectedItem = [
-    "asset/Icon/HomeFullIcon.png",
-    "asset/Icon/CalendarFullIcon.png",
-    "asset/Icon/NewFullIcon.png",
-    "asset/Icon/FriendFullIcon.png",
-    "asset/Icon/ProfileFullIcon.png",
-  ];
 
   const TabSelector({
     Key? key,
@@ -29,22 +16,58 @@ class TabSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      selectedItemColor: maincolor,
+      unselectedItemColor: Colors.black,
+      selectedFontSize: 14,
+      unselectedFontSize: 14,
+      iconSize: 27,
       currentIndex: AppTab.values.indexOf(activeTab),
       onTap: (index) => onTabSelected(AppTab.values[index]),
-      items: AppTab.values.map((tab) {
-        return BottomNavigationBarItem(
-          icon: Image.asset(
-            tab == activeTab
-                ? assetSelectedItem[tab.index]
-                : assetItem[tab.index],
-            width: 20,
-            height: 20,
+      items: [
+        BottomNavigationBarItem(
+          label: 'Home',
+          icon: Icon(Icons.home),
+        ),
+        BottomNavigationBarItem(
+          label: 'Calendar',
+          icon: Icon(FlatIcons.calendar),
+        ),
+        BottomNavigationBarItem(
+          label: 'New',
+          icon: Icon(Icons.add_box),
+        ),
+        BottomNavigationBarItem(
+          label: 'Friend',
+          icon: Icon(Icons.people),
+        ),
+        BottomNavigationBarItem(
+          label: 'Profile',
+          icon: Container(
+            width: 31,
+            height: 31,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(colors: activecolor)),
+            child: Padding(
+              padding: const EdgeInsets.all(1),
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 1),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"),
+                      fit: BoxFit.cover),
+                ),
+              ),
+            ),
           ),
-          label: tab.toString(),
-        );
-      }).toList(),
+        ),
+      ],
     );
   }
 }

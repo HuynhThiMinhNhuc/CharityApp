@@ -173,39 +173,6 @@ class RootApp extends StatelessWidget {
     );
   }
 
-  // List<Widget> Pages = [
-  //   HomePage(),
-  //   CalendarPage(),
-  //   Center(
-  //     child: Text(
-  //       'Newpage',
-  //       style: TextStyle(
-  //           color: textcolor,
-  //           fontFamily: 'Roboto_Regular',
-  //           fontWeight: FontWeight.bold),
-  //     ),
-  //   ),
-  //   Center(
-  //     child: Text(
-  //       'Newpage',
-  //       style: TextStyle(
-  //           color: textcolor,
-  //           fontFamily: 'Roboto_Regular',
-  //           fontWeight: FontWeight.bold),
-  //     ),
-  //   ),
-
-  //   // EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']),
-  //   //  ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null),
-  // ];
-
-  // Widget getbody() {
-  //   return IndexedStack(
-  //     index: page_index,
-  //     children: Pages,
-  //   );
-  // }
-
   Widget getbody(AppTab activateTab) {
     if (activateTab == AppTab.home)
       return HomePage(
@@ -223,47 +190,4 @@ class RootApp extends StatelessWidget {
       return Text("Fail tab");
     }
   }
-
-  // Widget getBottom() {
-  //   List BottomItem = [
-  //     page_index == 0
-  //         ? "asset/Icon/HomeFullIcon.png"
-  //         : "asset/Icon/HomeIcon.png",
-  //     page_index == 1
-  //         ? "asset/Icon/CalendarFullIcon.png"
-  //         : "asset/Icon/CalendarIcon.png",
-  //     page_index == 2 ? "asset/Icon/NewFullIcon.png" : "asset/Icon/NewIcon.png",
-  //     page_index == 3
-  //         ? "asset/Icon/FriendFullIcon.png"
-  //         : "asset/Icon/FriendIcon.png",
-  //     page_index == 4
-  //         ? "asset/Icon/ProfileFullIcon.png"
-  //         : "asset/Icon/ProfileIcon.png"
-  //   ];
-
-  //   return Container(
-  //       height: 60,
-  //       width: double.infinity,
-  //       decoration: BoxDecoration(color: backgroundbottomtab),
-  //       child: Padding(
-  //         padding:
-  //             const EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 20),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: List.generate(BottomItem.length, (index) {
-  //             return InkWell(
-  //                 onTap: () {
-  //                   TabSelected(index);
-  //                 },
-  //                 child: (Image.asset(BottomItem[index])));
-  //           }),
-  //         ),
-  //       ));
-  // }
-
-  // TabSelected(index) {
-  //   setState(() {
-  //     page_index = index;
-  //   });
-  // }
 }

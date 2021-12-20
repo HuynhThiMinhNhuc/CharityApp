@@ -38,6 +38,7 @@ dependencies:
   path: ^1.8.0
   firebase_storage: ^10.2.4
   copy_with_extension: ^2.0.2
+  flat_icons_flutter: ^1.0.2
 
 
 dev_dependencies:
