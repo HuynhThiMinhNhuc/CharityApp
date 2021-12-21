@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';

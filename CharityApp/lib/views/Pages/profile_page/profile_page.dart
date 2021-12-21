@@ -1,12 +1,9 @@
-import 'package:charityapp/Constant/user_json.dart';
-import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_state.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
-import 'package:charityapp/views/bloc/post_bloc/post_event.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -4,6 +4,8 @@ import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+//ignore: import_of_legacy_library_into_null_safe
+// import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
 class TabSelector extends StatelessWidget {
   final AppTab activeTab;
@@ -34,6 +36,7 @@ class TabSelector extends StatelessWidget {
         ),
         BottomNavigationBarItem(
             label: 'Calendar', icon: Icon(Icons.calendar_today_rounded)),
+
         BottomNavigationBarItem(
           label: '',
           icon: SpeedDial(

@@ -1,8 +1,6 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/main.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FormView extends StatefulWidget {

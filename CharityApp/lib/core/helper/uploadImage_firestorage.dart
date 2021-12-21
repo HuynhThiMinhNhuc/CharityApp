@@ -11,10 +11,10 @@ class UploadImageToFirestorage {
     String fileName = basename(imageFile.path);
     try {
       final uploadTask = await FirebaseStorage.instance
-          .ref('${rootPath}/${fileName}')
+          .ref('$rootPath/$fileName')
           .putFile(imageFile);
       return await uploadTask.ref.getDownloadURL();
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       print("Error upload file + ${basename(imageFile.path)}");
       return null;
     }
