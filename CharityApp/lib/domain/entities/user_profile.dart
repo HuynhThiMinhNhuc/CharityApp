@@ -1,4 +1,3 @@
-import 'package:charityapp/core/helper/uint8list_converter.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:json_annotation/json_annotation.dart';
 

@@ -1,4 +1,3 @@
-import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 
 class splash1 extends StatelessWidget {

@@ -1,7 +1,8 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
-import 'package:flat_icons_flutter/flat_icons_flutter.dart';
+//ignore: import_of_legacy_library_into_null_safe
+// import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
 class TabSelector extends StatelessWidget {
   final AppTab activeTab;
@@ -32,7 +33,7 @@ class TabSelector extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           label: 'Calendar',
-          icon: Icon(FlatIcons.calendar),
+          icon: Icon(Icons.home /*FlatIcons.calendar*/),
         ),
         BottomNavigationBarItem(
           label: 'New',

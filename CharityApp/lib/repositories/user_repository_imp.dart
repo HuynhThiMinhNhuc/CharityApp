@@ -3,10 +3,7 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 class UserRepositoryImp implements IUserRepository{
   final user = FirebaseFirestore.instance.collection("users");
 
