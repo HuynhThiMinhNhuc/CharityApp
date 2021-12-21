@@ -1,6 +1,8 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 //ignore: import_of_legacy_library_into_null_safe
 // import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
@@ -32,12 +34,41 @@ class TabSelector extends StatelessWidget {
           icon: Icon(Icons.home),
         ),
         BottomNavigationBarItem(
-          label: 'Calendar',
-          icon: Icon(Icons.home /*FlatIcons.calendar*/),
-        ),
+            label: 'Calendar', icon: Icon(Icons.calendar_today_rounded)),
+
         BottomNavigationBarItem(
-          label: 'New',
-          icon: Icon(Icons.add_box),
+          label: '',
+          icon: SpeedDial(
+            backgroundColor: Colors.black,
+            animatedIcon: AnimatedIcons.add_event,
+            animatedIconTheme: IconThemeData(size: 30),
+            closeManually: false,
+            shape: CircleBorder(),
+            children: [
+              SpeedDialChild(
+                  child: Icon(Icons.post_add_rounded, color: Colors.white),
+                  backgroundColor: maincolor,
+                  label: "New post",
+                  onTap: () => {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => AddPostPage()),
+                        // )
+                      }),
+              SpeedDialChild(
+                  child:
+                      Icon(Icons.event_available_outlined, color: Colors.white),
+                  backgroundColor: Colors.red[400],
+                  label: "New event",
+                  onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddEventPage())),
+                      }),
+            ],
+          ),
         ),
         BottomNavigationBarItem(
           label: 'Friend',

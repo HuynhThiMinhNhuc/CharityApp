@@ -39,6 +39,7 @@ dependencies:
   firebase_storage: ^10.2.4
   copy_with_extension: ^2.0.2
   flat_icons_flutter: ^1.0.2
+  flutter_speed_dial: ^5.0.0+1
 
 
 dev_dependencies:
