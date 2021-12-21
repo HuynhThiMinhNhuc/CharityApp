@@ -4,7 +4,6 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

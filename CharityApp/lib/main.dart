@@ -1,5 +1,4 @@
 import 'package:charityapp/core/model/routes.dart';
-import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -51,10 +50,10 @@ class MeerApp extends StatelessWidget {
               listener: (context, state) async {
                 if (state is EventUpdated) {
                   print("add success");
-                  ShowMyDialog(context, "Thêm sự kiện thành công");
+                  showMyDialog(context, "Thêm sự kiện thành công");
                 } else if (state is EventLoadFailure) {
                   print("add fail");
-                  ShowMyDialog(context, "Thêm sự kiện thất bại");
+                  showMyDialog(context, "Thêm sự kiện thất bại");
                 }
               },
               builder: (context, state) {
@@ -75,7 +74,7 @@ class MeerApp extends StatelessWidget {
     );
   }
 
-  void ShowMyDialog(BuildContext context, String text) async {
+  void showMyDialog(BuildContext context, String text) async {
     await showDialog(
       context: context,
       builder: (_) {

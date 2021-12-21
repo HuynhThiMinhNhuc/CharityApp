@@ -1,6 +1,4 @@
-import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
-import 'package:flutter/cupertino.dart';
 
 class Authenticator{
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
