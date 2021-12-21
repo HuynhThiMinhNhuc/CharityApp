@@ -20,13 +20,13 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Stream<List<UserProfile>> load(String id, int startIndex, int number) {
+  Future<List<UserProfile>> load(String id, int startIndex, int number) {
     // TODO: implement load
     throw UnimplementedError();
   }
 
   @override
-  Stream<UserOverview> loadFriends(String id, int number) {
+  Future<UserOverview> loadFriends(String id, int number) {
     // TODO: implement loadFriend
     throw UnimplementedError();
   }

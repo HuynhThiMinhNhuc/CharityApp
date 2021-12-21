@@ -11,50 +11,86 @@ class PostRepositoryImp implements IPostRepository {
   PostRepositoryImp();
 
   @override
-  Future<void> add(Post entity) {
-    return collection.add(entity.toJson());
+  Future<void> add(Post entity) async {
+    final docRef = await collection.add(entity.toJson());
+    entity.id = docRef.id;
+    print('Add ${entity.toString()} success');
   }
 
   @override
   Future<void> delete(String id) {
-    return collection.doc(id).delete();
+    return collection
+        .doc(id)
+        .delete()
+        .then((value) => print('Update $id success'));
   }
 
   @override
-  Stream<List<Post>> load(String eventId, int startIndex, int number) {
-    final CollectionReference userscollection =
-        FirebaseFirestore.instance.collection("users");
+  Future<List<Post>> load(String eventId, int startIndex, int number) async {
+    // return collection
+    //     .where('eventId', isEqualTo: eventId)
+    //     .orderBy('timeCreate', descending: true)
+    //     .limit(1)
+    //     .snapshots()
+    //     .map((snapshot) {
+    //   return snapshot.docs.map((doc) {
+    //     final json = doc.data()! as Map<String, dynamic>;
+    //     final post = Post.fromJson(json);
+    //     UserOverview newuser = UserOverview(name: 'Jane Nguyễn', avatarUri: null);
+    //     post.creator = newuser;
+    //     // await userscollection.doc('${json['creatorId']}').get().then((value) =>
+    //     //     post.creator =
+    //     //         UserOverview.fromJson(value.data() as Map<String, dynamic>));
+    //     return post;
+    //   }).toList();
+    // });
+    final userCollection = FirebaseFirestore.instance.collection('users');
+    List<Future> tasks = <Future>[];
 
-    return collection
+    final posts = await collection
         .where('eventId', isEqualTo: eventId)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) {
-        final json = doc.data()! as Map<String, dynamic>;
-        final post = Post.fromJson(json);
-        UserOverview newuser = UserOverview(name: 'Jane Nguyễn', avatarUri: null);
-        post.creator = newuser;
-        // await userscollection.doc('${json['creatorId']}').get().then((value) =>
-        //     post.creator =
-        //         UserOverview.fromJson(value.data() as Map<String, dynamic>));
+        // .orderBy('timeCreate', descending: true)
+        .get()
+        .then((snapshot) {
+      return snapshot.docs.map((docPost) {
+        final postJson = docPost.data() as Map<String, dynamic>;
+        final post = Post.fromJson(postJson);
+        post.id = docPost.id; //Set doc id
+        // post.creator = UserOverview(name: 'test', avatarUri: Uri(path: "avatarUri"));
+        //Load UserOverview
+        tasks.add(userCollection.doc(postJson['creatorId']).get().then(
+          (docUser) {
+            post.creator =
+                UserOverview.fromJson(docUser.data() as Map<String, dynamic>);
+            post.id = docUser.id; //Set doc id
+          },
+        ));
+
         return post;
       }).toList();
     });
+
+    await Future.wait(tasks);
+    return posts;
   }
 
   @override
-  Stream<List<UserComment>> loadComments(String id, int number) {
+  Future<List<UserComment>> loadComments(
+      String postId, int startIndex, int number) {
     // return collection.doc(id).
     // collection('comments').startAt(values).limit(number).
     // snapshots().map((snapshot) {
     //   return snapshot.
     // })
 
-    throw UnimplementedError();
+    throw Exception();
   }
 
   @override
   Future<void> update(Post entity) {
-    return collection.doc(entity.id).update(entity.toJson());
+    return collection
+        .doc(entity.id)
+        .update(entity.toJson())
+        .then((value) => print('Update ${entity.toString()} success'));
   }
 }

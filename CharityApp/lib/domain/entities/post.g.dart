@@ -3,6 +3,36 @@
 part of 'post.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+extension PostCopyWith on Post {
+  Post copyWith({
+    UserOverview? creator,
+    String? description,
+    String? eventId,
+    String? id,
+    List<String>? imagesUri,
+    int? numberComment,
+    int? numberLike,
+    List<String>? tags,
+    String? title,
+  }) {
+    return Post(
+      creator: creator ?? this.creator,
+      description: description ?? this.description,
+      eventId: eventId ?? this.eventId,
+      id: id ?? this.id,
+      imagesUri: imagesUri ?? this.imagesUri,
+      numberComment: numberComment ?? this.numberComment,
+      numberLike: numberLike ?? this.numberLike,
+      tags: tags ?? this.tags,
+      title: title ?? this.title,
+    );
+  }
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
@@ -21,10 +51,14 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
               ?.map((e) => e as String)
               .toList() ??
           const <String>[],
+      eventId: json['eventId'] as String?,
+      id: json['id'] as String?,
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
+      'eventId': instance.eventId,
       'creator': instance.creator,
       'imagesUri': instance.imagesUri,
       'description': instance.description,

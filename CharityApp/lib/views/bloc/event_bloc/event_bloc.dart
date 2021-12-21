@@ -31,53 +31,60 @@ class EventBloc extends Bloc<EventEvent, EventState> {
 
   FutureOr<void> _onAddEvent(AddEvent event, Emitter<EventState> emit) async {
     try {
-      print("AddEvent Reporistory");
+      print("Add event to reporistory");
       final rootPath = "images/events";
+      EventInfor eventAdded = event.event;
+
+      //Upload image to firestore
       Future<String?>? avatarT;
       Future<String?>? backgroundT;
       if (event.avartarFile != null) {
         avatarT = UploadImageToFirestorage.call(
-            imageFile: event.avartarFile!, rootPath: rootPath);
+                imageFile: event.avartarFile!, rootPath: rootPath)
+            .then((value) {
+          print('Upload avatar of event success');
+        });
       }
       if (event.backgroundFile != null) {
         backgroundT = UploadImageToFirestorage.call(
-            imageFile: event.backgroundFile!, rootPath: rootPath);
+                imageFile: event.backgroundFile!, rootPath: rootPath)
+            .then((value) {
+          print('Upload background of event success');
+        });
       }
+
+      //Get uri path in firestore
       String? avatarUriPath;
       String? backgroundUriPath;
       await Future.wait([
-        (() async {
-          if (avatarT != null) {
-            final path = await avatarT;
-            if (path == null) {
-              emit(EventLoadFailure());
-              return;
-            }
-            avatarUriPath = path;
-          }
-        })(),
-        (() async {
-          if (backgroundT != null) {
-            final path = await backgroundT;
-            if (path == null) {
-              emit(EventLoadFailure());
-              return;
-            }
-            backgroundUriPath = path;
-          }
-        })(),
+        _createPathUriFor(avatarUriPath, avatarT),
+        _createPathUriFor(backgroundUriPath, backgroundT),
       ]);
-      final newEvent = event.event.copyWith(
+
+      //Create uri for current event
+      final newEvent = eventAdded.copyWith(
         avatarUri: avatarUriPath == null ? null : Uri(path: avatarUriPath),
         backgroundUri:
             backgroundUriPath == null ? null : Uri(path: backgroundUriPath),
       );
       await repository.add(newEvent);
-      emit(EventUpdated(event: event.event));
+      print('Add new event complete');
+
+      emit(EventUpdated(event: eventAdded));
     } catch (e) {
       emit(EventLoadFailure());
     }
   }
 
   FutureOr<void> _onDeleteEvent(DeleteEvent event, Emitter<EventState> emit) {}
+
+  Future<void> _createPathUriFor(String? path, Future<String?>? task) async {
+    if (task != null) {
+      path = await task;
+      if (path == null) {
+        emit(EventLoadFailure());
+        return;
+      }
+    }
+  }
 }

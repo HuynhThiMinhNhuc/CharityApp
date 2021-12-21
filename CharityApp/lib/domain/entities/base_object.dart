@@ -1,9 +1,11 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
+
+@CopyWith()
 abstract class BaseObject {
-  String? _id;
+  String? id;
 
-  String? get id => _id;
-
-  setId(String id) {
-    _id = id;
-  }
+  BaseObject({this.id});
+  // setId(String id) {
+  //   _id = id;
+  // }
 }

@@ -31,11 +31,15 @@ class _ImageCardState extends State<ImageCard> {
     var picture = await _picker.pickImage(source: ImageSource.gallery);
     if (picture != null) {
       final directory = await getApplicationDocumentsDirectory();
-      final image = File('${directory.path}/${basename(picture.path)}');
-      final file = await File(picture.path); //.copy(image.path);
 
+      //Get image path in storage app
+      final image = File('${directory.path}/${basename(picture.path)}');
+
+      //Create new image from source image, add temporary to storage app
+      final file = await File(picture.path);//.copy(image.path);
+      
       this.setState(() {
-        //TODO: Add image to storage app
+        //Update UI with image
         imageFile = file;
         widget.onImageChanged?.call(imageFile);
       });

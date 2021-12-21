@@ -44,12 +44,10 @@ class MeerApp extends StatelessWidget {
           print("create new addpost route");
           return BlocProvider<EventBloc>(
             create: (context) => EventBloc(
-                repository: EventRepositoryImp(
-                    FirebaseFirestore.instance.collection("events"))),
+                repository: EventRepositoryImp()),
             child: BlocConsumer<EventBloc, EventState>(
               listener: (context, state) async {
                 if (state is EventUpdated) {
-                  print("add success");
                   showMyDialog(context, "Thêm sự kiện thành công");
                 } else if (state is EventLoadFailure) {
                   print("add fail");

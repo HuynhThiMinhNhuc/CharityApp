@@ -12,6 +12,7 @@ extension EventInforCopyWith on EventInfor {
     Uri? backgroundUri,
     BaseUser? creator,
     String? description,
+    String? id,
     String? name,
     int? numberMember,
     int? numberPost,
@@ -23,6 +24,7 @@ extension EventInforCopyWith on EventInfor {
       backgroundUri: backgroundUri ?? this.backgroundUri,
       creator: creator ?? this.creator,
       description: description ?? this.description,
+      id: id ?? this.id,
       name: name ?? this.name,
       numberMember: numberMember ?? this.numberMember,
       numberPost: numberPost ?? this.numberPost,
@@ -54,10 +56,12 @@ EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const [],
+      id: json['id'] as String?,
     );
 
 Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
       'avatarUri': instance.avatarUri?.toString(),

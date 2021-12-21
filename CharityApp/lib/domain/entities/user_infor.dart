@@ -1,5 +1,6 @@
 import 'package:charityapp/core/helper/conver_string_to_datetime.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_infor.g.dart';
@@ -10,6 +11,7 @@ enum Genders {
   Undefined,
 }
 
+@CopyWith()
 @JsonSerializable()
 class UserInfor extends UserOverview {
   String? description;
@@ -19,16 +21,14 @@ class UserInfor extends UserOverview {
   DateTime? get birthDay => StringToDatetime.convert(
       birthDayString); // birthDayString != null ? DateFormat('dd/MM/yyyy').parse(birthDayString!) : null;
 
-
-  UserInfor({required name, 
-
-      required avatarUri,
-      required this.description,
-      required this.birthDayString,
-      required this.gender,
-
-  }) : super(name: name, avatarUri: avatarUri);
-
+  UserInfor({
+    required name,
+    required avatarUri,
+    required this.description,
+    required this.birthDayString,
+    required this.gender,
+    String? id,
+  }) : super(name: name, avatarUri: avatarUri, id: id);
 
   factory UserInfor.fromJson(Map<String, dynamic> json) => UserInfor(
         name: json['name'],

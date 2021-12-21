@@ -20,7 +20,7 @@ class CRUDableRepositoryImp implements CRUDableRepository<JsonSerializable> {
   }
 
   @override
-  Stream<List<JsonSerializable>> load(String id, int startIndex, int number) {
+  Future<List<JsonSerializable>> load(String rootId, int startIndex, int number) {
     // TODO: implement load
     // var user = await collection.doc(id).get();
     // var json = user.data() as Map<String,dynamic>;

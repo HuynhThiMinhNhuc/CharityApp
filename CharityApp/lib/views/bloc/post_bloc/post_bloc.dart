@@ -1,15 +1,13 @@
-import 'dart:async';
-
-import 'package:charityapp/domain/entities/user_overview.dart';
+import 'package:async/async.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
-import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_event.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final postRepository = new PostRepositoryImp();
-  StreamSubscription? _postsSubscription;
+  // StreamSubscription? _postsSubscription;
+  CancelableOperation? loadPostOperation;
 
   PostBloc() : super(PostsLoadInProgress()) {
     on<LoadPosts>(_onLoadPosts);
@@ -18,21 +16,34 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<PostsUpdated>(_onPostsUpdated);
   }
 
-  void _onLoadPosts(LoadPosts event, Emitter<PostState> emit) {
-    _postsSubscription?.cancel();
-    _postsSubscription = this
-        .postRepository
-        .load(event.eventId, event.startIndex, event.number)
-        .listen((posts) async {
-      //TODO: load some creator
-      final userRepo = UserRepositoryImp();
-      UserOverview newuser = UserOverview(name: 'thạch', avatarUri: null);
-      posts.map((post) {
-        post.creator = newuser;
-      });
+  void _onLoadPosts(LoadPosts event, Emitter<PostState> emit) async {
+    emit(PostsLoadInProgress());
 
-      add(PostsUpdated(eventId: event.eventId, posts: posts));
-    });
+    if (loadPostOperation != null && !loadPostOperation!.isCompleted)
+      loadPostOperation!.cancel();
+
+    final task = postRepository.load(
+      event.eventId,
+      event.startIndex,
+      event.number,
+    );
+    loadPostOperation = CancelableOperation.fromFuture(task);
+
+    final posts = await task;
+    add(PostsUpdated(eventId: event.eventId, posts: posts));
+
+    // _postsSubscription?.cancel();
+    // _postsSubscription = this
+    //     .postRepository
+    //     .load(event.eventId, event.startIndex, event.number)
+    //     .listen((posts) async {
+    //   final userRepo = UserRepositoryImp();
+    //   UserOverview newuser = UserOverview(name: 'thạch', avatarUri: null);
+    //   posts.map((post) {
+    //     post.creator = newuser;
+    //   });
+
+    // });
   }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) {

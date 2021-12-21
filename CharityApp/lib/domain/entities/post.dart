@@ -1,9 +1,11 @@
 import 'package:charityapp/domain/entities/base_post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post.g.dart';
 
+@CopyWith()
 @JsonSerializable()
 class Post extends BasePost {
   List<String> imagesUri;
@@ -20,7 +22,9 @@ class Post extends BasePost {
     this.numberLike = 0,
     this.tags = const <String>[],
     this.imagesUri = const <String>[],
-  }) : super(title: title, creator: creator);
+    String? eventId,
+    String? id,
+  }) : super(title: title, creator: creator, eventId: eventId, id: id);
 
   // factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   // Map<String, dynamic> toJson() => _$PostToJson(this);
@@ -38,10 +42,13 @@ class Post extends BasePost {
                 ?.map((e) => e as String)
                 .toList() ??
             const <String>[],
+        eventId: json['eventId'] as String?,
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'title': this.title,
         'creatorId': this.creator.id,
+        'eventId': this.eventId,
+        'timeCreate': DateTime.now(),
         'description': this.description,
         'numberComment': this.numberComment,
         'numberLike': this.numberLike,

@@ -1,17 +1,18 @@
 import 'package:charityapp/domain/entities/base_user.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_overview.g.dart';
 
+@CopyWith()
 @JsonSerializable()
 class UserOverview extends BaseUser {
   Uri? avatarUri;
-
-//<<<<<<< Updated upstream
-  UserOverview({required name, required this.avatarUri}) : super(name: name);
-// =======
-//   UserOverview({required name, this.avatar}) : super(name: name);
-// >>>>>>> Stashed changes
+  UserOverview({
+    required name,
+    required this.avatarUri,
+    String? id,
+  }) : super(name: name, id: id);
 
   // factory UserOverview.fromJson(Map<String, dynamic> json) => _$UserOverviewFromJson(json);
   // Map<String, dynamic> toJson() => _$UserOverviewToJson(this);
