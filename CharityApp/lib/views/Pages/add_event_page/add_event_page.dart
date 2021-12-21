@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'dart:ui';
-
-import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
@@ -9,7 +7,7 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddEventPage extends StatefulWidget {
   // final Function(
@@ -55,6 +53,9 @@ class _AddEventPageState extends State<AddEventPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: textcolor, //change your color here
+        ),
         centerTitle: true,
         backgroundColor: backgroundbottomtab,
         title: Text(
@@ -62,7 +63,7 @@ class _AddEventPageState extends State<AddEventPage> {
           style: TextStyle(
               color: textcolor,
               fontFamily: 'Roboto_Regular',
-              fontSize: 25,
+              fontSize: 21,
               fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -140,7 +141,7 @@ class _AddEventPageState extends State<AddEventPage> {
                       style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
                           fontWeight: FontWeight.bold,
-                          fontSize: 13,
+                          fontSize: 15,
                           color: Colors.grey[600]),
                     ),
                     Row(
@@ -160,14 +161,13 @@ class _AddEventPageState extends State<AddEventPage> {
                       ],
                     ),
                     TextFormField(
+                        cursorColor: maincolor,
                         keyboardType: TextInputType.name,
                         controller: _descriptionTextController,
                         minLines: 3,
                         maxLines: 5,
                         style: TextStyle(
-                            fontFamily: 'Roboto-Regular.ttf',
-                            fontSize: 15,
-                            color: Colors.grey[600]),
+                            fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
                         decoration: InputDecoration(
                             hintText: "Viết nội dung ở đây...",
                             errorBorder: InputBorder.none,
@@ -179,7 +179,7 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
             ),
             Container(
-              height: 70,
+              height: 65,
               alignment: Alignment.center,
               child: Column(
                 children: [
@@ -188,13 +188,15 @@ class _AddEventPageState extends State<AddEventPage> {
                     children: [
                       IconButton(
                           onPressed: () => {},
-                          icon: Icon(
-                            Icons.attach_file_sharp,
+                          icon: FaIcon(
+                            FontAwesomeIcons.tag,
                             color: maincolor,
-                            size: 25,
-                          )),
+                            size: 20,
+                          ),
+                          splashRadius: 20),
                       Chip(
-                        deleteIcon: Icon(Icons.close),
+                        deleteIcon:
+                            Icon(Icons.close, color: Colors.black, size: 10),
                         label: Text(
                           "Mồ côi",
                           style: TextStyle(
@@ -257,15 +259,13 @@ class textFormFieldWithTitle extends StatelessWidget {
           style: TextStyle(
               fontFamily: 'Roboto-Regular.ttf',
               fontWeight: FontWeight.bold,
-              fontSize: 13,
+              fontSize: 15,
               color: Colors.grey[600]),
         ),
         TextFormField(
           cursorColor: maincolor,
           style: TextStyle(
-              fontFamily: 'Roboto-Regular.ttf',
-              fontSize: 15,
-              color: Colors.black),
+              fontFamily: 'Roboto-Regular.ttf', fontSize: 15, color: textcolor),
           keyboardType: type,
           decoration: new InputDecoration(
               focusedBorder: UnderlineInputBorder(

@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -40,24 +41,25 @@ class TabSelector extends StatelessWidget {
             animatedIcon: AnimatedIcons.add_event,
             animatedIconTheme: IconThemeData(size: 30),
             closeManually: false,
+            overlayOpacity: 0,
             shape: CircleBorder(),
             children: [
               SpeedDialChild(
                   child: Icon(Icons.post_add_rounded, color: Colors.white),
                   backgroundColor: maincolor,
-                  label: "New post",
+                  label: "Post",
                   onTap: () => {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => AddPostPage()),
-                        // )
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddPostPage()),
+                        )
                       }),
               SpeedDialChild(
                   child:
                       Icon(Icons.event_available_outlined, color: Colors.white),
                   backgroundColor: Colors.red[400],
-                  label: "New event",
+                  label: "Event",
                   onTap: () => {
                         Navigator.push(
                             context,

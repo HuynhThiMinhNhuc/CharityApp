@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ImageCard extends StatefulWidget {
   final double width;
@@ -49,11 +50,15 @@ class _ImageCardState extends State<ImageCard> {
 
     return Container(
       child: imageFile != null
-          ? Image.file(
-              imageFile!,
-              width: width,
-              height: height,
-            )
+          ? Stack(children: [
+              Positioned(
+                  top: 5,
+                  right: 5,
+                  child: IconButton(
+                      onPressed: () => {},
+                      icon: FaIcon(FontAwesomeIcons.timesCircle))),
+              Image.file(imageFile!, fit: BoxFit.cover)
+            ])
           : InkWell(
               child: Center(
                 child: Text(
@@ -62,7 +67,7 @@ class _ImageCardState extends State<ImageCard> {
                   style: TextStyle(
                       fontFamily: 'Roboto-Regular.ttf',
                       fontSize: 13,
-                      color: Colors.grey[600]),
+                      color: Colors.black),
                 ),
               ),
               onTap: _galleryImage,
