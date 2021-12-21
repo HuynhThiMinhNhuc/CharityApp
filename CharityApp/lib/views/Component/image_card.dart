@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -31,8 +32,8 @@ class _ImageCardState extends State<ImageCard> {
     if (picture != null) {
       final directory = await getApplicationDocumentsDirectory();
       final image = File('${directory.path}/${basename(picture.path)}');
-      final file = await File(picture.path);//.copy(image.path);
-      
+      final file = await File(picture.path); //.copy(image.path);
+
       this.setState(() {
         //TODO: Add image to storage app
         imageFile = file;
@@ -58,6 +59,10 @@ class _ImageCardState extends State<ImageCard> {
                 child: Text(
                   widget.hintTitle,
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Roboto-Regular.ttf',
+                      fontSize: 13,
+                      color: Colors.grey[600]),
                 ),
               ),
               onTap: _galleryImage,
@@ -65,10 +70,8 @@ class _ImageCardState extends State<ImageCard> {
       height: 150,
       width: 120,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 1, color: Colors.black),
-      ),
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+          color: backgroundbottomtab, borderRadius: BorderRadius.circular(10)),
+      margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
     );
   }
 }

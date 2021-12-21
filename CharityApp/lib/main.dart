@@ -27,19 +27,6 @@ class MeerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
-      // home: MultiBlocProvider(
-      //   providers: [
-      //     BlocProvider<TabBloc>(
-      //       create: (context) => TabBloc(),
-      //     ),
-      //     BlocProvider<EventBloc>(
-      //       create: (context) => EventBloc(
-      //           repository: EventRepositoryImp(
-      //               FirebaseFirestore.instance.collection("events"))),
-      //     ),
-      //   ],
-      //   child: RootApp(),
-      // ),
       routes: {
         AppRoutes.home: (context) {
           return MultiBlocProvider(
@@ -72,12 +59,14 @@ class MeerApp extends StatelessWidget {
               },
               builder: (context, state) {
                 return AddEventPage(
-                  onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
-                    print("add new Event");
-                    BlocProvider.of<EventBloc>(context)
-                        .add(AddEvent(event: newEvent, avartarFile: avatarImage, backgroundFile: backgroundImage));
-                  },
-                );
+                    // onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
+                    //   print("add new Event");
+                    //   BlocProvider.of<EventBloc>(context).add(AddEvent(
+                    //       event: newEvent,
+                    //       avartarFile: avatarImage,
+                    //       backgroundFile: backgroundImage));
+                    // },
+                    );
               },
             ),
           );
@@ -106,8 +95,7 @@ class MeerApp extends StatelessWidget {
                     left: 30,
                     right: 30,
                   ),
-                  child: Text(text,
-                      textAlign: TextAlign.center),
+                  child: Text(text, textAlign: TextAlign.center),
                 ),
                 SizedBox(
                   height: 30,
@@ -126,7 +114,8 @@ class MeerApp extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  onTap: () => Navigator.of(context).popUntil(ModalRoute.withName(AppRoutes.home)),
+                  onTap: () => Navigator.of(context)
+                      .popUntil(ModalRoute.withName(AppRoutes.home)),
                 )
               ],
             ),

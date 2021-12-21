@@ -31,8 +31,7 @@ class _PostOverviewState extends State<PostOverview> {
           SizedBox(
             height: 10,
           ),
-          InformationCreatorPostView(
-              creator: widget.post.creator),
+          InformationCreatorPostView(creator: widget.post.creator),
           SizedBox(
             height: 10,
           ),
@@ -40,7 +39,8 @@ class _PostOverviewState extends State<PostOverview> {
             height: 400,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(widget.post.imagesUri[0]), fit: BoxFit.cover)),
+                    image: NetworkImage(widget.post.imagesUri[0]),
+                    fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
@@ -169,7 +169,7 @@ class _PostOverviewState extends State<PostOverview> {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
