@@ -53,6 +53,9 @@ class _AddEventPageState extends State<AddEventPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: textcolor, //change your color here
+        ),
         centerTitle: true,
         backgroundColor: backgroundbottomtab,
         title: Text(
