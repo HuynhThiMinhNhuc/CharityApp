@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 //ignore: import_of_legacy_library_into_null_safe
@@ -35,7 +36,6 @@ class TabSelector extends StatelessWidget {
         ),
         BottomNavigationBarItem(
             label: 'Calendar', icon: Icon(Icons.calendar_today_rounded)),
-
         BottomNavigationBarItem(
           label: '',
           icon: SpeedDial(
@@ -50,11 +50,11 @@ class TabSelector extends StatelessWidget {
                   backgroundColor: maincolor,
                   label: "New post",
                   onTap: () => {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => AddPostPage()),
-                        // )
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddPostPage()),
+                        )
                       }),
               SpeedDialChild(
                   child:

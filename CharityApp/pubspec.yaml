@@ -40,9 +40,8 @@ dependencies:
   copy_with_extension: ^2.0.2
   flat_icons_flutter: ^1.0.2
   flutter_speed_dial: ^5.0.0+1
-  async: ^2.8.2
-
-
+ 
+  auto_size_text: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
