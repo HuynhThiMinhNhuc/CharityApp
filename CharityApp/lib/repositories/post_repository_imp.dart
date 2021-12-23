@@ -27,23 +27,6 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Future<List<Post>> load(String eventId, int startIndex, int number) async {
-    // return collection
-    //     .where('eventId', isEqualTo: eventId)
-    //     .orderBy('timeCreate', descending: true)
-    //     .limit(1)
-    //     .snapshots()
-    //     .map((snapshot) {
-    //   return snapshot.docs.map((doc) {
-    //     final json = doc.data()! as Map<String, dynamic>;
-    //     final post = Post.fromJson(json);
-    //     UserOverview newuser = UserOverview(name: 'Jane Nguyễn', avatarUri: null);
-    //     post.creator = newuser;
-    //     // await userscollection.doc('${json['creatorId']}').get().then((value) =>
-    //     //     post.creator =
-    //     //         UserOverview.fromJson(value.data() as Map<String, dynamic>));
-    //     return post;
-    //   }).toList();
-    // });
     final userCollection = FirebaseFirestore.instance.collection('users');
     List<Future> tasks = <Future>[];
 

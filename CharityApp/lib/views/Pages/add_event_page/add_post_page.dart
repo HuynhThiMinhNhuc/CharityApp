@@ -1,3 +1,7 @@
+import 'package:charityapp/core/model/routes.dart';
+import 'package:charityapp/domain/entities/base_event.dart';
+import 'package:charityapp/domain/entities/event_overview.dart';
+import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
@@ -5,13 +9,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddPostPage extends StatefulWidget {
-  const AddPostPage({Key? key}) : super(key: key);
+  final Function(String eventId, Post post)? onClickSubmit;
+  AddPostPage({Key? key, this.onClickSubmit}) : super(key: key);
 
   @override
   _AddPostPageState createState() => _AddPostPageState();
 }
 
 class _AddPostPageState extends State<AddPostPage> {
+  late TextEditingController _titleTextController;
+  late TextEditingController _descriptionTextControlelr;
+  BaseEvent? chooseEvent;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleTextController = TextEditingController();
+    _descriptionTextControlelr = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _titleTextController.dispose();
+    _descriptionTextControlelr.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,33 +46,35 @@ class _AddPostPageState extends State<AddPostPage> {
             child: Column(
               children: [
                 TextButton(
-                    onPressed: () => {
-                          Navigator.push(
+                    onPressed: () async => {
+                          chooseEvent = await Navigator.pushNamed<BaseEvent>(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => ChossesEventView()),
+                            AppRoutes.chooseEvent,
                           )
                         },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Chọn sự kiện",
-                            style: TextStyle(
-                                color: Colors.grey[600],
-                                fontFamily: 'Roboto_Regular',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold)),
+                        Text(
+                          "Chọn sự kiện",
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         IconButton(
                           icon: Icon(Icons.navigate_next,
                               size: 20, color: textcolor),
                           splashRadius: 20,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChossesEventView()),
-                            );
-                          },
+                          // onPressed: () {
+                          //   Navigator.pushNamed(
+                          //     context,
+                          //     AppRoutes.chooseEvent,
+                          //   );
+                          // },
+                          onPressed: null,
                         )
                       ],
                     )),
@@ -62,19 +87,21 @@ class _AddPostPageState extends State<AddPostPage> {
                   text: "",
                   iconData: null,
                   type: TextInputType.text,
+                  controller: _titleTextController,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                SizedBox(height: 10),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Thêm ảnh",
-                          style: TextStyle(
-                              color: Colors.grey[600],
-                              fontFamily: 'Roboto_Regular',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        "Thêm ảnh",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontFamily: 'Roboto_Regular',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Text(
                         "Tối đa 10 ảnh",
                         style: TextStyle(
@@ -112,18 +139,20 @@ class _AddPostPageState extends State<AddPostPage> {
                   ],
                 ),
                 TextFormField(
-                    cursorColor: maincolor,
-                    keyboardType: TextInputType.name,
-                    minLines: 3,
-                    maxLines: 5,
-                    style: TextStyle(
-                        fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
-                    decoration: InputDecoration(
-                        hintText: "Viết nội dung ở đây...",
-                        errorBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none)),
+                  cursorColor: maincolor,
+                  keyboardType: TextInputType.name,
+                  minLines: 3,
+                  maxLines: 5,
+                  style:
+                      TextStyle(fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
+                  decoration: InputDecoration(
+                      hintText: "Viết nội dung ở đây...",
+                      errorBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none),
+                  controller: _descriptionTextControlelr,
+                ),
               ],
             ),
           ),
@@ -145,7 +174,15 @@ class _AddPostPageState extends State<AddPostPage> {
               fontWeight: FontWeight.w600)),
       actions: [
         TextButton(
-            onPressed: () => {},
+            onPressed: () {
+              final post = Post(
+                title: _titleTextController.text,
+                description: _descriptionTextControlelr.text,
+              );
+              String eventId = "1";
+
+              widget.onClickSubmit?.call(eventId, post);
+            },
             child: Text("Đăng",
                 style: TextStyle(
                     color: maincolor,

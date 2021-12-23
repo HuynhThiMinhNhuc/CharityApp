@@ -10,13 +10,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   CancelableOperation? loadPostOperation;
 
   PostBloc() : super(PostsLoadInProgress()) {
-    on<LoadPosts>(_onLoadPosts);
+    on<LoadEventPosts>(_onLoadPosts);
     on<AddPost>(_onAddPost);
     on<DeletePost>(_onDeletePost);
-    on<PostsUpdated>(_onPostsUpdated);
   }
 
-  void _onLoadPosts(LoadPosts event, Emitter<PostState> emit) async {
+  void _onLoadPosts(LoadEventPosts event, Emitter<PostState> emit) async {
     emit(PostsLoadInProgress());
 
     if (loadPostOperation != null && !loadPostOperation!.isCompleted)
@@ -30,20 +29,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     loadPostOperation = CancelableOperation.fromFuture(task);
 
     final posts = await task;
-    add(PostsUpdated(eventId: event.eventId, posts: posts));
-
-    // _postsSubscription?.cancel();
-    // _postsSubscription = this
-    //     .postRepository
-    //     .load(event.eventId, event.startIndex, event.number)
-    //     .listen((posts) async {
-    //   final userRepo = UserRepositoryImp();
-    //   UserOverview newuser = UserOverview(name: 'thạch', avatarUri: null);
-    //   posts.map((post) {
-    //     post.creator = newuser;
-    //   });
-
-    // });
+    emit(PostsLoadSuccess(posts: posts));
   }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) {
@@ -52,28 +38,5 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   void _onDeletePost(DeletePost event, Emitter<PostState> emit) {
     this.postRepository.delete(event.post.id!);
-  }
-
-  void _onPostsUpdated(PostsUpdated event, Emitter<PostState> emit) {
-    emit(PostsLoadSuccess(posts: event.posts));
-    // List<Post> listPost = [];
-    // final _postReposibility = new UserRepositoryImp();
-    //
-    // @override
-    // Stream<PostState> mapEventToState(PostEvent event) async* {
-    //  if ( event is LoadPostEvent)
-    //  {
-    //    yield* _mapToPostState();
-    //  }
-    // }
-    // Stream<PostState> _mapToPostState() async*{
-    //   try{
-    //     yield LoadingPostState();
-    //     if (listPost.isEmpty) listPost = await _postReposibility.getListPost(GetIt.I.get<Authenticator>().idCurrentUser);
-    //     LoadedPostState(listPost);
-    //   } catch(e){
-    //     yield LoadingFailState();
-    //   }
-    // }
   }
 }

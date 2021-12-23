@@ -1,5 +1,6 @@
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,7 +13,6 @@ class EventInfor extends EventOverview {
   final String? timeStart;
   final int numberMember;
   final int numberPost;
-  final List<String> tags;
 
   EventInfor({
     required String name,
@@ -23,14 +23,16 @@ class EventInfor extends EventOverview {
     this.timeStart,
     this.numberMember = 0,
     this.numberPost = 0,
-    this.tags = const [],
+    List<TagEvent>? tags,
     String? id,
   }) : super(
-            name: name,
-            creator: creator,
-            avatarUri: avatarUri,
-            backgroundUri: backgroundUri,
-            id: id);
+          name: name,
+          creator: creator,
+          avatarUri: avatarUri,
+          backgroundUri: backgroundUri,
+          id: id,
+          tags: tags,
+        );
 
   // factory EventInfor.fromJson(Map<String, dynamic> json) => _$EventInforFromJson(json);
   // Map<String, dynamic> toJson() => _$EventInforToJson(this);
@@ -47,10 +49,10 @@ class EventInfor extends EventOverview {
         timeStart: json['timeStart'] as String?,
         numberMember: json['numberMember'] as int? ?? 0,
         numberPost: json['numberPost'] as int? ?? 0,
-        tags: (json['tags'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList() ??
-            const [],
+        // tags: (json['tags'] as List<dynamic>?)
+        //         ?.map((e) => e as String)
+        //         .toList() ??
+        //     const [],
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
@@ -61,6 +63,6 @@ class EventInfor extends EventOverview {
         'timeStart': this.timeStart,
         'numberMember': this.numberMember,
         'numberPost': this.numberPost,
-        'tags': this.tags,
+        'tags': this.tags.map((tag) => tag.id),
       };
 }

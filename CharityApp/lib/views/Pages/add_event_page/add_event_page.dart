@@ -1,22 +1,21 @@
 import 'dart:io';
 
-import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AddEventPage extends StatefulWidget {
-  // final Function(
-  //   EventInfor event, {
-  //   File? avatarImage,
-  //   File? backgroundImage,
-  // }) onClickSubmit;
+  final Function(
+    EventInfor event, {
+    File? avatarImage,
+    File? backgroundImage,
+  })? onClickSubmit;
 
-  const AddEventPage({Key? key}) : super(key: key ?? AppKeys.addEventScreen);
+  const AddEventPage({Key? key, this.onClickSubmit})
+      : super(key: key ?? AppKeys.addEventScreen);
 
   @override
   State<AddEventPage> createState() => _AddEventPageState();
@@ -69,7 +68,7 @@ class _AddEventPageState extends State<AddEventPage> {
         actions: [
           TextButton(
             onPressed: () {
-              final event = EventInfor(
+              final _event = EventInfor(
                 name: _nameTextController.text,
                 creator: BaseUser(name: 'Thạch'),
                 description: _descriptionTextController.text == ""
@@ -79,11 +78,11 @@ class _AddEventPageState extends State<AddEventPage> {
                     ? null
                     : _dateTextController.text,
               );
-              // widget.onClickSubmit(
-              //   event,
-              //   avatarImage: avatarImage,
-              //   backgroundImage: backgroundImage,
-              // );
+              widget.onClickSubmit?.call(
+                _event,
+                avatarImage: avatarImage,
+                backgroundImage: backgroundImage,
+              );
             },
             child: Text(
               "Đăng",
@@ -117,25 +116,30 @@ class _AddEventPageState extends State<AddEventPage> {
                       text: '',
                       title: 'Tên sự kiện',
                       type: TextInputType.text,
+                      controller: _nameTextController,
                     ),
                     textFormFieldWithTitle(
-                        iconData: Icon(
-                          Icons.calendar_today_outlined,
-                          color: maincolor,
-                          size: 25,
-                        ),
-                        text: '',
-                        title: 'Thời gian',
-                        type: TextInputType.datetime),
+                      iconData: Icon(
+                        Icons.calendar_today_outlined,
+                        color: maincolor,
+                        size: 25,
+                      ),
+                      text: '',
+                      title: 'Thời gian',
+                      type: TextInputType.datetime,
+                      controller: _dateTextController,
+                    ),
                     textFormFieldWithTitle(
-                        iconData: Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.red[400],
-                          size: 25,
-                        ),
-                        text: '',
-                        title: 'Địa điểm',
-                        type: TextInputType.text),
+                      iconData: Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.red[400],
+                        size: 25,
+                      ),
+                      text: '',
+                      title: 'Địa điểm',
+                      type: TextInputType.text,
+                      controller: _locationTextController,
+                    ),
                     Text(
                       "Thêm ảnh",
                       style: TextStyle(
@@ -239,12 +243,14 @@ class textFormFieldWithTitle extends StatelessWidget {
   final String text;
   final Icon? iconData;
   final TextInputType type;
+  final TextEditingController controller;
   const textFormFieldWithTitle({
     Key? key,
     required this.title,
     required this.text,
     required this.iconData,
     required this.type,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -262,6 +268,7 @@ class textFormFieldWithTitle extends StatelessWidget {
               color: Colors.grey[600]),
         ),
         TextFormField(
+          controller: controller,
           cursorColor: maincolor,
           style: TextStyle(
               fontFamily: 'Roboto-Regular.ttf',

@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         // }
         if (!isReload) {
           isReload = true;
-          BlocProvider.of<PostBloc>(context).add(LoadPosts(
+          BlocProvider.of<PostBloc>(context).add(LoadEventPosts(
               eventId: "CnNqZwmqSBf9RYMXAnpp", startIndex: 0, number: 10));
           return Text("Loading view...");
           ;
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           physics: NeverScrollableScrollPhysics(),
           itemCount: posts.length,
           itemBuilder: (BuildContext context, int index) {
-            return PostOverview(post: posts[index]);
+            return PostOverviewCard(post: posts[index]);
           },
         ),
       ]),

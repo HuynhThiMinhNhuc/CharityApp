@@ -50,8 +50,8 @@ class Post extends BasePost {
         'eventId': this.eventId,
         'timeCreate': DateTime.now(),
         'description': this.description,
-        'numberComment': this.numberComment,
-        'numberLike': this.numberLike,
+        // 'numberComment': this.numberComment,
+        // 'numberLike': this.numberLike,
         'tags': this.tags,
         'imagesUri': this.imagesUri,
       };

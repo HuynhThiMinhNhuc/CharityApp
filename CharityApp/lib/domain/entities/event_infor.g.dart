@@ -16,7 +16,7 @@ extension EventInforCopyWith on EventInfor {
     String? name,
     int? numberMember,
     int? numberPost,
-    List<String>? tags,
+    List<TagEvent>? tags,
     String? timeStart,
   }) {
     return EventInfor(
@@ -53,9 +53,9 @@ EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
       timeStart: json['timeStart'] as String?,
       numberMember: json['numberMember'] as int? ?? 0,
       numberPost: json['numberPost'] as int? ?? 0,
-      tags:
-          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
       id: json['id'] as String?,
     );
 
@@ -66,9 +66,9 @@ Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
       'creator': instance.creator,
       'avatarUri': instance.avatarUri?.toString(),
       'backgroundUri': instance.backgroundUri?.toString(),
+      'tags': instance.tags,
       'description': instance.description,
       'timeStart': instance.timeStart,
       'numberMember': instance.numberMember,
       'numberPost': instance.numberPost,
-      'tags': instance.tags,
     };

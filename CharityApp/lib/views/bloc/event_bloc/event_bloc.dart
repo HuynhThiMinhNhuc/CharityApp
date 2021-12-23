@@ -4,12 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
+import 'package:charityapp/repositories/event_repository_imp.dart';
 import './event.dart';
 
 class EventBloc extends Bloc<EventEvent, EventState> {
-  final IEventRepository repository;
+  final IEventRepository repository = EventRepositoryImp();
 
-  EventBloc({required this.repository}) : super(EventViewLoadInProgress()) {
+  EventBloc() : super(EventViewLoadInProgress()) {
     on<LoadPostsView>(_onLoadPostView);
     on<LoadDescriptionView>(_onLoadDescriptionView);
     // on<LoadImagesView>(_onLoadImagesView);

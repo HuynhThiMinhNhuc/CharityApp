@@ -13,6 +13,7 @@ extension EventOverviewCopyWith on EventOverview {
     BaseUser? creator,
     String? id,
     String? name,
+    List<TagEvent>? tags,
   }) {
     return EventOverview(
       avatarUri: avatarUri ?? this.avatarUri,
@@ -20,6 +21,7 @@ extension EventOverviewCopyWith on EventOverview {
       creator: creator ?? this.creator,
       id: id ?? this.id,
       name: name ?? this.name,
+      tags: tags ?? this.tags,
     );
   }
 }
@@ -41,6 +43,9 @@ EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
           ? null
           : Uri.parse(json['backgroundUri'] as String),
       id: json['id'] as String?,
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
@@ -50,4 +55,5 @@ Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
       'creator': instance.creator,
       'avatarUri': instance.avatarUri?.toString(),
       'backgroundUri': instance.backgroundUri?.toString(),
+      'tags': instance.tags,
     };

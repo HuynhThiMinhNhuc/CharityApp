@@ -5,18 +5,18 @@ import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/home_page/form_view.dart';
 import 'package:flutter/material.dart';
 
-class EventOverview extends StatefulWidget {
-  String eventName;
-  String scrAvatar;
-  List<PostOverview> posts;
+class EventOverviewCard extends StatefulWidget {
+  final String eventName;
+  final String? scrAvatar;
+  List<PostOverviewCard> posts;
 
-  EventOverview(this.eventName, this.scrAvatar, {this.posts = const []});
+  EventOverviewCard(this.eventName, this.scrAvatar, {this.posts = const []});
 
   @override
-  _EventOverviewState createState() => _EventOverviewState();
+  _EventOverviewCardState createState() => _EventOverviewCardState();
 }
 
-class _EventOverviewState extends State<EventOverview> {
+class _EventOverviewCardState extends State<EventOverviewCard> {
   int _numberPaticaipant = 10;
   int _numberPost = 8;
 
@@ -56,7 +56,7 @@ class _EventOverviewState extends State<EventOverview> {
                       border: Border.all(color: Colors.white, width: 3),
                       image: DecorationImage(
                           alignment: Alignment(0, -0.8),
-                          image: NetworkImage(widget.scrAvatar),
+                          image: NetworkImage(widget.scrAvatar!),
                           fit: BoxFit.cover),
                     ),
                   ),

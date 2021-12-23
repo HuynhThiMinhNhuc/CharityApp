@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
+import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class EventState extends Equatable {
@@ -14,7 +15,7 @@ class EventViewLoadInProgress extends EventState {}
 
 class EventLoadViewSuccess extends EventState {
   final EventTab activeTab;
-  final BaseEvent event;
+  final EventOverview event;
   const EventLoadViewSuccess({required this.activeTab, required this.event});
 
   @override
@@ -28,5 +29,6 @@ class EventUpdated extends EventState {
   @override
   List<Object> get props => [event];
 }
+
 
 class EventLoadFailure extends EventState {}

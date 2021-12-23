@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                        physics: NeverScrollableScrollPhysics(),
                        itemCount: state.listPost.length,
                        itemBuilder: (BuildContext context, int index) {
-                         return PostOverview(post: state.listPost[index]);
+                         return PostOverviewCard(post: state.listPost[index]);
                        },
                      );
                    }
