@@ -1,16 +1,29 @@
 import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/domain/entities/user_infor.dart';
+import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  final UserProfile currentUser;
+  const EditProfile({Key? key, required this.currentUser}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  String dropvalue = users[0]['gender'] ? "Nữ" : "Nam";
+  var editprofileBloc;
+  var dropvalue = "Nữ";
+  @override
+  void initState() {
+    super.initState();
+    dropvalue = widget.currentUser.gender == Genders.Female ? "Nữ" : "Nam";
+    editprofileBloc = BlocProvider.of<EditprofileBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,17 +65,27 @@ class _EditProfileState extends State<EditProfile> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              TextButton(
-                onPressed: null,
-                child: Text(
-                  "Hoàn thành",
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal),
+              // BlocListener<EditprofileBloc, EditprofileState>(
+              //   listenWhen: (context, state) {
+              //     return state is EditprofileEditEvent;
+              //   },
+              //   listener: (context, state) {
+              //     editprofileBloc.add(EditprofileEditEvent);
+              //   },
+              //  child:
+                 TextButton(
+                  // onPressed: () => {editprofileBloc.add(EditprofileEditEvent(widget.currentUser))},
+                   onPressed:()=>{},
+                  child: Text(
+                    "Hoàn thành",
+                    style: TextStyle(
+                        color: maincolor,
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal),
+                  ),
                 ),
-              )
+              
             ],
           ),
         ),
@@ -140,7 +163,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['name'],
+                        initialValue: widget.currentUser.name,
                       ),
                     ),
                   ],
@@ -163,7 +186,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['birth'].toString(),
+                        initialValue: widget.currentUser.birthDay.toString(),
                       ),
                     ),
                   ],
@@ -188,13 +211,11 @@ class _EditProfileState extends State<EditProfile> {
                         width: MediaQuery.of(context).size.width - 140,
                         child: Flexible(
                           child: TextFormField(
-                            initialValue: users[0]['decs'],
-                          ),
+                              initialValue: widget.currentUser.description),
                         )),
                   ],
                 ),
               ),
-              
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 20, 0, 15),
                 child: Container(
@@ -227,7 +248,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['email'],
+                        initialValue: widget.currentUser.email,
                       ),
                     )
                   ],
@@ -250,7 +271,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['phone'],
+                        initialValue: widget.currentUser.phone,
                       ),
                     ),
                   ],
@@ -281,9 +302,9 @@ class _EditProfileState extends State<EditProfile> {
                           });
                         },
                         underline: Container(
-                        height: 1,
-                        color: Colors.black,
-                      ),
+                          height: 1,
+                          color: Colors.black,
+                        ),
                         items: <String>['Nam', 'Nữ']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
@@ -293,33 +314,33 @@ class _EditProfileState extends State<EditProfile> {
                         }).toList(),
                       ),
                     ),
-    
                   ],
                 ),
               ),
-              Divider(color: const Color(0xff3C3C43),),
+              Divider(
+                color: const Color(0xff3C3C43),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Row(
-                  children:<Widget> [
+                  children: <Widget>[
                     Expanded(
                       child: Text(
-                            "Đổi mật khẩu",
-                            style: TextStyle(
-                                color: textcolor,
-                                fontFamily: 'Roboto_Regular',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
+                        "Đổi mật khẩu",
+                        style: TextStyle(
+                            color: textcolor,
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    IconButton(
-                    onPressed: null, 
-                    icon: Icon (Icons.navigate_next))
+                    IconButton(onPressed: null, icon: Icon(Icons.navigate_next))
                   ],
-                  ),
+                ),
               ),
-              Divider(color: const Color(0xff3C3C43),)
-              
+              Divider(
+                color: const Color(0xff3C3C43),
+              )
             ],
           ),
         ),

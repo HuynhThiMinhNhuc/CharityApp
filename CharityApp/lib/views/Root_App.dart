@@ -2,11 +2,14 @@ import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/tab_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
+import 'Pages/profile_page/profile_page.dart';
 import 'bloc/tab_bloc/tab.dart';
 
 typedef onAddPostCallback = Function(Post post);
@@ -183,8 +186,9 @@ class RootApp extends StatelessWidget {
     //   return AddEventPage();
     // else if (activateTab == AppTab.friend)
     // return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']);
-    // else if (activateTab == AppTab.profile)
-    // return ProfilePage(userprofile: GetIt.instance.get<Authenticator>().currentUser, posts: null);
+
+    else if (activateTab == AppTab.profile)
+      return ProfilePage();
     else {
       return Text("Fail tab");
     }

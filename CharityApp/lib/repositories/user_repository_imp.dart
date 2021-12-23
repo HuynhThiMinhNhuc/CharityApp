@@ -32,9 +32,19 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Future<void> update(UserInfor id) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> update(UserProfile userProfile) async {
+    Map<String,dynamic> data = {
+        'id' : userProfile.id,
+        'avatarUri' : userProfile.avatarUri,
+        "birthday" : userProfile.birthDayString,
+        'description': userProfile.description,
+        'gender' : userProfile.gender,
+        'name': userProfile.name,
+        'phone':userProfile.phone,
+        'email':userProfile.email,
+        'password':userProfile.password,
+        };
+    user.doc(userProfile.id).get().then((value) => value.reference.update(data));
   }
 
   @override
@@ -49,16 +59,31 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Future<UserProfile> getUserProfile(int id) async {
+  Future<UserProfile> getUserProfile(String id) async {
     var userinfo;
-    await user.doc(id.toString()).get().then((value){
-      userinfo = value.data();
+
+    await user.doc(id).get().then((value) {
+      userinfo = value.data()!;
     });
-    return new UserProfile(name: userinfo!['Name'], description: userinfo!["Description"], gender: userinfo!['Gender'] == 0? Genders.Female :userinfo!['Gender'] == 1? Genders.Male : Genders.Undefined ,birthDayString: "17/02/2001", avatarUri: null );
+    UserProfile userProfile = new UserProfile(
+        name: userinfo['name'],
+        description: userinfo["description"],
+        gender: userinfo['gender'] == 0
+            ? Genders.Female
+            : userinfo['gender'] == 1
+                ? Genders.Male
+                : Genders.Undefined,
+        birthDayString: "17/02/2001",
+        avatarUri: null,
+        id: id, 
+        email: userinfo['email'], 
+        password: userinfo['password'], 
+        phone: userinfo['phone']);
+    return userProfile;
   }
 
   @override
-  Future<List<Post>> getListPost(int id) {
+  Future<List<Post>> getListPost(String id) {
     // TODO: implement getListPost
     throw UnimplementedError();
   }

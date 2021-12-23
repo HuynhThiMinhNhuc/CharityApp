@@ -20,10 +20,13 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState>{
       //userProfile = new UserProfile(name: "Nhuc",description: "Type some thing here...", birthDayString :"17/02/2001");
       userProfile =  await _userReposibility.getUserProfile(GetIt.instance.get<Authenticator>().idCurrentUser);
       emit(LoadedOverViewUserState(userProfile));
+
     }
-    catch (e){
-      print("Looix loading OverViewUserEvent" +e.toString());
-      emit( LoadFailOverViewUserState());
+
+     catch (e) {
+      print("Loi loading OverViewUserEvent  " + e.toString());
+      emit(LoadFailOverViewUserState());
+
     }
   }
 
