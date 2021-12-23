@@ -6,6 +6,6 @@ import 'package:charityapp/domain/repositories/can_crud_repository.dart';
 abstract class IUserRepository implements CRUDableRepository<UserProfile>{
   Future<UserOverview> loadFriends(String ofUserId, int number);
   Future<int> getIdUser(String username, String pass);
-  Future<UserProfile> getUserProfile(int id);
-  Future<List<Post>> getListPost(int id);
+  Future<UserProfile> getUserProfile(String id);
+  Future<List<Post>> getListPost(String id);
 }

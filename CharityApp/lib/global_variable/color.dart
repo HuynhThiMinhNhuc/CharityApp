@@ -12,6 +12,7 @@ const backgroundbottomtab = const Color(0xFFFAFAFA);
 const textcolor = const Color(0xFF262626);
 const devicecolor = const Color(0xFF3C3C43);
 const warningcolor = const Color(0xFF3C3C43);
+const redcolor = const Color(0xFFD35D6E);
 const activecolor = [
   const Color(0xFF5AA469),
   const Color(0xFFF8D49D),

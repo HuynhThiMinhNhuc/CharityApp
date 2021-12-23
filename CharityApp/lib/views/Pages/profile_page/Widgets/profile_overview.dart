@@ -1,16 +1,20 @@
-
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/edit_profile.dart';
+import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:charityapp/global_variable/color.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../profile_page.dart';
 import 'information_profile_view.dart';
 
 class ProfileOverView extends StatefulWidget {
   UserProfile userProfile;
+  mode modeProfile;
 
-  ProfileOverView( this.userProfile);
+  ProfileOverView(this.userProfile, this.modeProfile);
 
   @override
   _ProfileOverViewState createState() => _ProfileOverViewState();
@@ -22,14 +26,6 @@ class _ProfileOverViewState extends State<ProfileOverView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Container(
-        //   alignment: Alignment.center,
-        //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-        //   child: Text(
-        //     "Hồ sơ của bạn",
-        //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        //   ),
-        // ),
         SizedBox(
           height: 10,
         ),
@@ -51,7 +47,8 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   border: Border.all(color: Colors.white, width: 5),
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage("https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")),
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")),
                 ),
               ),
             ),
@@ -59,9 +56,12 @@ class _ProfileOverViewState extends State<ProfileOverView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InformationProfileView(widget.userProfile.numberPost, "Bài viết"),
-                  InformationProfileView(widget.userProfile.numberFollower, "Người theo dõi"),
-                  InformationProfileView(widget.userProfile.numberFollowing, "Đang theo dõi"),
+                  InformationProfileView(
+                      widget.userProfile.numberPost, "Bài viết"),
+                  InformationProfileView(
+                      widget.userProfile.numberFollower, "Người theo dõi"),
+                  InformationProfileView(
+                      widget.userProfile.numberFollowing, "Đang theo dõi"),
                 ],
               ),
             ),
@@ -93,7 +93,8 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                 style: myStyle(isBold: true),
               ),
               TextSpan(
-                text: DateFormat("dd/MM/yyyy").format(widget.userProfile.birthDay as DateTime),
+                text: DateFormat("dd/MM/yyyy")
+                    .format(widget.userProfile.birthDay as DateTime),
               )
             ]),
           ),
@@ -111,23 +112,66 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         ),
         SizedBox(
           width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EditProfile()))
-            },
-            child: Text(
-              'Chỉnh sửa hồ sơ',
-              style: TextStyle(
-                  fontSize: 13,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'Roboto_Regular',
-                  fontWeight: FontWeight.bold),
-            ),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                    Color.fromRGBO(90, 164, 105, 1.0))),
-          ),
+          child: widget.modeProfile == mode.My
+              ? ElevatedButton(
+                  onPressed: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                                  create: (context) => EditprofileBloc(),
+                                  child: EditProfile(
+                                      currentUser: widget.userProfile),
+                                )))
+                  },
+                  child: Text(
+                    'Chỉnh sửa hồ sơ',
+                    style: TextStyle(
+                        fontSize: 13,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Roboto_Regular',
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromRGBO(90, 164, 105, 1.0))),
+                )
+              : widget.modeProfile == mode.Friend
+                  ? ElevatedButton(
+                      onPressed: () => {
+                        setState(() {
+                          widget.modeProfile = mode.Stranger;
+                        })
+                      },
+                      child: Text(
+                        'Bỏ theo dõi',
+                        style: TextStyle(
+                            fontSize: 13,
+                            decoration: TextDecoration.none,
+                            fontFamily: 'Roboto_Regular',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(redcolor)),
+                    )
+                  : ElevatedButton(
+                      onPressed: () => {
+                        setState(() {
+                          widget.modeProfile = mode.Friend;
+                        })
+                      },
+                      child: Text(
+                        'Theo dõi',
+                        style: TextStyle(
+                            fontSize: 13,
+                            decoration: TextDecoration.none,
+                            fontFamily: 'Roboto_Regular',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Color.fromRGBO(90, 164, 105, 1.0))),
+                    ),
         ),
       ],
     );
