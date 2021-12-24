@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:async/async.dart';
+import 'package:charityapp/repositories/event_repository_imp.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_event.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final postRepository = new PostRepositoryImp();
+  final postRepository = PostRepositoryImp();
+  final eventRepository = EventRepositoryImp();
   // StreamSubscription? _postsSubscription;
   CancelableOperation? loadPostOperation;
 
@@ -13,9 +17,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<LoadEventPosts>(_onLoadPosts);
     on<AddPost>(_onAddPost);
     on<DeletePost>(_onDeletePost);
+    on<LoadOverViewEventsPaticipant>(_onLoadOverviewPosts);
   }
 
-  void _onLoadPosts(LoadEventPosts event, Emitter<PostState> emit) async {
+  FutureOr<void> _onLoadPosts(
+      LoadEventPosts event, Emitter<PostState> emit) async {
     emit(PostsLoadInProgress());
 
     if (loadPostOperation != null && !loadPostOperation!.isCompleted)
@@ -38,5 +44,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   void _onDeletePost(DeletePost event, Emitter<PostState> emit) {
     this.postRepository.delete(event.post.id!);
+  }
+
+  FutureOr<void> _onLoadOverviewPosts(
+      LoadOverViewEventsPaticipant event, Emitter<PostState> emit) async {
+    emit(PostsLoadInProgress());
+    final events =
+        await this.eventRepository.loadEventsPaticipant(event.creatorId);
+    emit(PostsLoadOverviewSuccess(eventsOverview: events));
   }
 }

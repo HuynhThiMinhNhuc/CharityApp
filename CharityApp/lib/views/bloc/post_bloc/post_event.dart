@@ -19,9 +19,9 @@ class LoadEventPosts extends PostEvent {
   List<Object> get props => [startIndex, number, eventId];
 }
 
-class LoadOverViewPosts extends PostEvent {
+class LoadOverViewEventsPaticipant extends PostEvent {
   final String creatorId;
-  const LoadOverViewPosts({required this.creatorId});
+  const LoadOverViewEventsPaticipant({required this.creatorId});
 
     @override
   List<Object> get props => [creatorId];

@@ -9,9 +9,9 @@ part 'event_overview.g.dart';
 @CopyWith()
 @JsonSerializable()
 class EventOverview extends BaseEvent {
-  Uri? avatarUri;
-  Uri? backgroundUri;
-  late List<TagEvent> tags;
+  final String? avatarUri;
+  final String? backgroundUri;
+  final List<TagEvent> tags;
 
   EventOverview({
     required String name,
@@ -19,14 +19,12 @@ class EventOverview extends BaseEvent {
     this.avatarUri,
     this.backgroundUri,
     String? id,
-    List<TagEvent>? tags,
+    this.tags = const[],
   }) : super(
           name: name,
           creator: creator,
           id: id,
-        ) {
-    if (tags != null) this.tags = tags;
-  }
+        );
 
   // factory EventOverview.fromJson(Map<String, dynamic> json) => _$EventOverviewFromJson(json);
   // Map<String, dynamic> toJson() => _$EventOverviewToJson(this);
@@ -34,18 +32,14 @@ class EventOverview extends BaseEvent {
   factory EventOverview.fromJson(Map<String, dynamic> json) => EventOverview(
         name: json['name'] as String,
         creator: BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
-        avatarUri: json['avatarUri'] == null
-            ? null
-            : Uri.parse(json['avatarUri'] as String),
-        backgroundUri: json['backgroundUri'] == null
-            ? null
-            : Uri.parse(json['backgroundUri'] as String),
+        avatarUri: json['avatarUri'] as String?,
+        backgroundUri: json['backgroundUri'] as String?,
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
         'creatorId': this.creator.id,
-        'avatarUri': this.avatarUri?.toString(),
-        'backgroundUri': this.backgroundUri?.toString(),
-        'tags': this.tags.map((tag) => tag.id),
+        'avatarUri': this.avatarUri,
+        'backgroundUri': this.backgroundUri,
+        'tags': this.tags.map((tag) => tag.id).toList(),
       };
 }

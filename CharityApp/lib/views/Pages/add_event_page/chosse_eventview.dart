@@ -1,6 +1,6 @@
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
-import 'package:charityapp/domain/entities/post_overview.dart';
+import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/Witgets/event_card_view.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
@@ -23,7 +23,7 @@ class _ChossesEventViewState extends State<ChossesEventView> {
         body: BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
             if (state is PostsLoadOverviewSuccess) {
-              final posts = state.postsOverview;
+              final events = state.eventsOverview;
 
               return Padding(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -33,23 +33,14 @@ class _ChossesEventViewState extends State<ChossesEventView> {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: 5,
+                        itemCount: events.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final demoPost = PostOverview(
-                            paticipantsUri: [],
-                            title: 'tile',
-                            number: 3,
-                            timeStart: DateTime.now(),
-                          );
-
                           return GestureDetector(
                             child: EventCardView(
-                              postOverview: demoPost,
+                              eventOverviewPaticipants: events[index],
                             ),
                             onTap: () {
-                              Navigator.of(context).pop(
-                                BaseEvent(name: 'test', id: "123456"),
-                              );
+                              Navigator.of(context).pop(events[index]);
                             },
                           );
                         },
@@ -58,8 +49,10 @@ class _ChossesEventViewState extends State<ChossesEventView> {
                   ),
                 ),
               );
-            } else
-              return Text('Load fail');
+            } else if (state is PostsLoadInProgress) {
+              return Text('Loading...');
+            }
+            return Text('Load fail');
           },
         ));
   }

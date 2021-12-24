@@ -1,12 +1,12 @@
-import 'package:charityapp/domain/entities/post_overview.dart';
+import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 
 class EventCardView extends StatelessWidget {
-  final PostOverview postOverview;
+  final EventOverviewPaticipants eventOverviewPaticipants;
   const EventCardView({
     Key? key,
-    required this.postOverview,
+    required this.eventOverviewPaticipants,
   }) : super(key: key);
 
   final String image =
@@ -23,7 +23,10 @@ class EventCardView extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(image), fit: BoxFit.fill),
+                  image:
+                      NetworkImage(eventOverviewPaticipants.backgroundUri ?? image),
+                  fit: BoxFit.fill,
+                ),
                 borderRadius: BorderRadius.circular(5),
               ),
               margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
@@ -36,7 +39,7 @@ class EventCardView extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 10),
                   child: SizedBox(
                     width: 250,
-                    child: Text(postOverview.title,
+                    child: Text(eventOverviewPaticipants.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -50,9 +53,9 @@ class EventCardView extends StatelessWidget {
                 RichText(
                     text: TextSpan(children: <TextSpan>[
                   TextSpan(
-                      text: postOverview.timeStart.hour.toString() +
+                      text: eventOverviewPaticipants.timeStart.hour.toString() +
                           ":" +
-                          postOverview.timeStart.minute.toString(),
+                          eventOverviewPaticipants.timeStart.minute.toString(),
                       style: TextStyle(
                         fontFamily: 'Roboto-Regular.ttf',
                         fontSize: 13,
@@ -60,11 +63,11 @@ class EventCardView extends StatelessWidget {
                       )),
                   TextSpan(
                     text: ", " +
-                        postOverview.timeStart.day.toString() +
+                        eventOverviewPaticipants.timeStart.day.toString() +
                         "/" +
-                        postOverview.timeStart.month.toString() +
+                        eventOverviewPaticipants.timeStart.month.toString() +
                         "/" +
-                        postOverview.timeStart.year.toString(),
+                        eventOverviewPaticipants.timeStart.year.toString(),
                     style: TextStyle(
                       fontFamily: 'Roboto-Regular.ttf',
                       fontSize: 13,
@@ -107,7 +110,8 @@ class EventCardView extends StatelessWidget {
                       left: 30,
                       child: CircleAvatar(
                           backgroundColor: maincolor,
-                          child: Text("+" + postOverview.number.toString()))),
+                          child: Text("+" +
+                              eventOverviewPaticipants.number.toString()))),
                 ]),
               )
             ],

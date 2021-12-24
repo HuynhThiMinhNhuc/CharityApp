@@ -10,20 +10,20 @@ part 'event_infor.g.dart';
 @JsonSerializable()
 class EventInfor extends EventOverview {
   String? description;
-  final String? timeStart;
+  final DateTime? timeStart;
   final int numberMember;
   final int numberPost;
 
   EventInfor({
     required String name,
     BaseUser? creator,
-    Uri? avatarUri,
-    Uri? backgroundUri,
+    String? avatarUri,
+    String? backgroundUri,
     this.description,
     this.timeStart,
     this.numberMember = 0,
     this.numberPost = 0,
-    List<TagEvent>? tags,
+    List<TagEvent> tags = const[],
     String? id,
   }) : super(
           name: name,
@@ -39,14 +39,10 @@ class EventInfor extends EventOverview {
 
   factory EventInfor.fromJson(Map<String, dynamic> json) => EventInfor(
         name: json['name'] as String,
-        avatarUri: json['avatarUri'] == null
-            ? null
-            : Uri.parse(json['avatarUri'] as String),
-        backgroundUri: json['backgroundUri'] == null
-            ? null
-            : Uri.parse(json['backgroundUri'] as String),
+        avatarUri: json['avatarUri'] as String?,
+        backgroundUri: json['backgroundUri'] as String?,
         description: json['description'] as String?,
-        timeStart: json['timeStart'] as String?,
+        timeStart: json['timeStart'] as DateTime?,
         numberMember: json['numberMember'] as int? ?? 0,
         numberPost: json['numberPost'] as int? ?? 0,
         // tags: (json['tags'] as List<dynamic>?)
@@ -57,12 +53,12 @@ class EventInfor extends EventOverview {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
         'creatorId': this.creator.id,
-        'avatarUri': this.avatarUri?.toString(),
-        'backgroundUri': this.backgroundUri?.toString(),
+        'avatarUri': this.avatarUri,
+        'backgroundUri': this.backgroundUri,
         'description': this.description,
         'timeStart': this.timeStart,
-        'numberMember': this.numberMember,
-        'numberPost': this.numberPost,
-        'tags': this.tags.map((tag) => tag.id),
+        // 'numberMember': this.numberMember,
+        // 'numberPost': this.numberPost,
+        'tags': this.tags.map((tag) => tag.id).toList(),
       };
 }

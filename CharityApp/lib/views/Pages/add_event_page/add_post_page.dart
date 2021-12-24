@@ -5,8 +5,10 @@ import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
+import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPostPage extends StatefulWidget {
   final Function(String eventId, Post post)? onClickSubmit;
@@ -46,12 +48,15 @@ class _AddPostPageState extends State<AddPostPage> {
             child: Column(
               children: [
                 TextButton(
-                    onPressed: () async => {
-                          chooseEvent = await Navigator.pushNamed<BaseEvent>(
-                            context,
-                            AppRoutes.chooseEvent,
-                          )
-                        },
+                    onPressed: () async {
+                      BlocProvider.of<PostBloc>(context).add(
+                        LoadOverViewEventsPaticipant(
+                            creatorId: '1G0aTSj46pSsvP8eBYb5'),
+                      );
+                      chooseEvent = await Navigator.of(context).pushNamed(
+                        AppRoutes.chooseEvent,
+                      ) as BaseEvent?;
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

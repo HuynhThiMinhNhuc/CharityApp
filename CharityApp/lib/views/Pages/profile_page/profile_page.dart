@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
             buildWhen: (context, state){
                    return state is LoadingPostState ||
                           state is LoadedPostState ||
-                          state is LoadingFailState;
+                          state is PostsLoadFailure;
             },
             builder: (context, state){
                    if ( state is LoadedPostState) {

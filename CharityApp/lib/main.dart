@@ -58,7 +58,8 @@ class MeerApp extends StatelessWidget {
                 showMyDialog(context, "Thêm sự kiện thành công");
               } else if (state is EventLoadFailure) {
                 print("add event fail");
-                showMyDialog(context, "Thêm sự kiện thất bại");
+                showMyDialog(context, "Thêm sự kiện thất bại",
+                    closeWhenClick: false);
               }
             },
             builder: (context, state) {
@@ -93,7 +94,8 @@ class MeerApp extends StatelessWidget {
     );
   }
 
-  void showMyDialog(BuildContext context, String text) async {
+  void showMyDialog(BuildContext context, String text,
+      {bool closeWhenClick = true}) async {
     await showDialog(
       context: context,
       builder: (_) {
@@ -114,14 +116,19 @@ class MeerApp extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 InkWell(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 15, bottom: 15),
-                    decoration: BoxDecoration(color: Colors.grey),
-                    child: Text("Đồng ý", textAlign: TextAlign.center),
-                  ),
-                  onTap: () => Navigator.of(context)
-                      .popUntil(ModalRoute.withName(AppRoutes.home)),
-                )
+                    child: Container(
+                      padding: EdgeInsets.only(top: 15, bottom: 15),
+                      decoration: BoxDecoration(color: Colors.grey),
+                      child: Text("Đồng ý", textAlign: TextAlign.center),
+                    ),
+                    onTap: () {
+                      if (closeWhenClick) {
+                        Navigator.of(context)
+                            .popUntil(ModalRoute.withName(AppRoutes.home));
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    })
               ],
             ),
           ),

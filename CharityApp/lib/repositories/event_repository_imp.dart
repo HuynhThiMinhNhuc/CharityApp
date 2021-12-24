@@ -1,13 +1,12 @@
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
+import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventRepositoryImp implements IEventRepository {
-  CollectionReference collection =
+  final CollectionReference collection =
       FirebaseFirestore.instance.collection("events");
-
-  EventRepositoryImp();
 
   @override
   Future<void> add(EventInfor entity) async {
@@ -63,5 +62,43 @@ class EventRepositoryImp implements IEventRepository {
         .doc(entity.id)
         .update(entity.toJson())
         .then((value) => print('Update ${entity.toString()} success'));
+  }
+
+  @override
+  Future<List<EventOverviewPaticipants>> loadEventsPaticipant(
+      String creatorId) async {
+    final paticipantCollection =
+        FirebaseFirestore.instance.collection('event_paticipants');
+    List<Future<void>> paticipantsTask = [];
+
+    final task = await collection
+        .where('creatorId', isEqualTo: creatorId)
+        // .orderBy('timeStart')
+        .get()
+        .then((snapshot) {
+      return snapshot.docs.map((eventDoc) {
+        final json = eventDoc.data() as Map<String, dynamic>;
+        final event = EventOverviewPaticipants.fromJson(json);
+
+        //Load paticipants
+        paticipantsTask.add(paticipantCollection
+            .where('eventId', isEqualTo: eventDoc.id)
+            .get()
+            .then((snapshot) {
+          final paticipants = snapshot.docs.map((paticipantsDoc) {
+            return paticipantsDoc.data()['avatarUri'] as String?;
+          }).toList();
+          event.paticipantsUri = paticipants;
+        }));
+
+        event.id = eventDoc.id;
+
+        return event;
+      }).toList();
+    });
+
+    await Future.wait(paticipantsTask);
+
+    return task;
   }
 }

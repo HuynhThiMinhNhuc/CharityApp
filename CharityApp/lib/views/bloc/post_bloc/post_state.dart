@@ -1,5 +1,5 @@
 import 'package:charityapp/domain/entities/post.dart';
-import 'package:charityapp/domain/entities/post_overview.dart';
+import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class PostState extends Equatable {
@@ -18,11 +18,11 @@ class PostsLoadSuccess extends PostState {
 }
 
 class PostsLoadOverviewSuccess extends PostState {
-  final List<PostOverview> postsOverview;
-  PostsLoadOverviewSuccess({required this.postsOverview});
+  final List<EventOverviewPaticipants> eventsOverview;
+  PostsLoadOverviewSuccess({required this.eventsOverview});
 
   @override
-  List<Object> get props => [postsOverview];
+  List<Object> get props => [eventsOverview];
 }
 
 class PostsLoadFailure extends PostState {}
@@ -37,7 +37,6 @@ class LoadedPostState extends PostState {
   LoadedPostState(this.listPost);
 }
 
-class LoadingFailState extends PostState {}
 
 class LoadingDetailPostState extends PostState {}
 

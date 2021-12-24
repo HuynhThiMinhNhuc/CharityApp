@@ -1,29 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_overview.dart';
+part of 'event_overview_paticipant.dart';
 
 // **************************************************************************
 // CopyWithGenerator
 // **************************************************************************
 
-extension PostOverviewCopyWith on PostOverview {
-  PostOverview copyWith({
-    UserOverview? creator,
-    String? eventId,
+extension EventOverviewPaticipantsCopyWith on EventOverviewPaticipants {
+  EventOverviewPaticipants copyWith({
+    String? avatarUri,
     String? id,
+    String? name,
     int? number,
-    List<String>? paticipantsUri,
+    List<String?>? paticipantsUri,
     DateTime? timeStart,
-    String? title,
   }) {
-    return PostOverview(
-      creator: creator ?? this.creator,
-      eventId: eventId ?? this.eventId,
+    return EventOverviewPaticipants(
+      backgroundUri: avatarUri ?? this.backgroundUri,
       id: id ?? this.id,
+      name: name ?? this.name,
       number: number ?? this.number,
       paticipantsUri: paticipantsUri ?? this.paticipantsUri,
       timeStart: timeStart ?? this.timeStart,
-      title: title ?? this.title,
     );
   }
 }

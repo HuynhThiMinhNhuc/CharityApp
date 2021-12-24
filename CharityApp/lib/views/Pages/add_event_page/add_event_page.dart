@@ -6,6 +6,7 @@ import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddEventPage extends StatefulWidget {
   final Function(
@@ -68,15 +69,17 @@ class _AddEventPageState extends State<AddEventPage> {
         actions: [
           TextButton(
             onPressed: () {
+              final DateTime? date = _dateTextController.text != ""
+                  ? DateFormat('dd/MM/yyyy').parse(_dateTextController.text)
+                  : null;
+
               final _event = EventInfor(
                 name: _nameTextController.text,
                 creator: BaseUser(name: 'Thạch'),
                 description: _descriptionTextController.text == ""
                     ? null
                     : _descriptionTextController.text,
-                timeStart: _dateTextController.text == ""
-                    ? null
-                    : _dateTextController.text,
+                timeStart: date,
               );
               widget.onClickSubmit?.call(
                 _event,
@@ -153,13 +156,13 @@ class _AddEventPageState extends State<AddEventPage> {
                         ImageCard(
                           hintTitle: "+ Ảnh bìa",
                           onImageChanged: (file) {
-                            avatarImage = file;
+                            backgroundImage = file;
                           },
                         ),
                         ImageCard(
                           hintTitle: "+ Ảnh đại diện",
                           onImageChanged: (file) {
-                            backgroundImage = file;
+                            avatarImage = file;
                           },
                         ),
                       ],
@@ -244,6 +247,7 @@ class textFormFieldWithTitle extends StatelessWidget {
   final Icon? iconData;
   final TextInputType type;
   final TextEditingController controller;
+  final Function(Object? object)? onClickIcon;
   const textFormFieldWithTitle({
     Key? key,
     required this.title,
@@ -251,6 +255,7 @@ class textFormFieldWithTitle extends StatelessWidget {
     required this.iconData,
     required this.type,
     required this.controller,
+    this.onClickIcon,
   }) : super(key: key);
 
   @override
