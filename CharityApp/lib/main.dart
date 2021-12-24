@@ -35,11 +35,14 @@ class MeerApp extends StatelessWidget {
               BlocProvider<TabBloc>(
                 create: (context) => TabBloc(),
               ),
+              BlocProvider<EditprofileBloc>(
+                create: (context) => EditprofileBloc(),
+              ),
               BlocProvider<PostBloc>(
                 create: (context) => PostBloc(),
               ),
               BlocProvider<OverViewUserBloc>(
-                create: (context) => OverViewUserBloc(),
+                create: (context) => OverViewUserBloc( ),
               ),
               
 
