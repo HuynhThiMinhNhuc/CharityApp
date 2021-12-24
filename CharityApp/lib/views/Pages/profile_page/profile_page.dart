@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (context, state) {
                   if (state is LoadedOverViewUserState) {
                     return ProfileOverView(
-                        state.userProfile as UserProfile, mode.My);
+                        state.userProfile as UserProfile, mode.My, overViewUserBloc);
                   } else if (state is LoadingPostState)
                     return Text("Loading");
                   else

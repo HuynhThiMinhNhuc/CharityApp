@@ -38,7 +38,7 @@ class UserRepositoryImp implements IUserRepository{
         'avatarUri' : userProfile.avatarUri,
         "birthday" : userProfile.birthDayString,
         'description': userProfile.description,
-        'gender' : userProfile.gender,
+        'gender' : userProfile.gender ==  Genders.Female? 1: userProfile.gender == Genders.Male? 0: 2,
         'name': userProfile.name,
         'phone':userProfile.phone,
         'email':userProfile.email,

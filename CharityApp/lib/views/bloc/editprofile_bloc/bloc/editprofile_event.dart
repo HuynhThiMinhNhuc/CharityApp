@@ -10,6 +10,6 @@ abstract class EditprofileEvent extends Equatable {
 class EditprofileLoadEvent extends EditprofileEvent {}
 
 class EditprofileEditEvent extends EditprofileEvent {
-  final UserProfile userProfile;
+   UserProfile userProfile;
   EditprofileEditEvent(this.userProfile);
 }

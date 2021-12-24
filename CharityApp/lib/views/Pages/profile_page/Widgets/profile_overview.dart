@@ -2,6 +2,8 @@ import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/edit_profile.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:flutter/material.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +15,8 @@ import 'information_profile_view.dart';
 class ProfileOverView extends StatefulWidget {
   UserProfile userProfile;
   mode modeProfile;
-
-  ProfileOverView(this.userProfile, this.modeProfile);
+  final overViewUserBloc;
+  ProfileOverView(this.userProfile, this.modeProfile, this.overViewUserBloc);
 
   @override
   _ProfileOverViewState createState() => _ProfileOverViewState();
@@ -118,10 +120,12 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                                  create: (context) => EditprofileBloc(),
-                                  child: EditProfile(
-                                      currentUser: widget.userProfile),
+                            builder: (context) => 
+                                    BlocProvider(
+                                      create: (context) => EditprofileBloc(),
+                                      child: EditProfile(
+                                      currentUser: widget.userProfile,
+                                      on_EditPro: () =>  widget.overViewUserBloc.add(LoadOverViewUserEvent()),),
                                 )))
                   },
                   child: Text(
