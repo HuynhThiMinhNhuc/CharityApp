@@ -44,6 +44,7 @@ dependencies:
   flutter_speed_dial: ^5.0.0+1
   fancy_dialog: ^1.0.4
   table_calendar: ^3.0.3
+  material_floating_search_bar: ^0.3.6
 
  
   auto_size_text: ^3.0.0

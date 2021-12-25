@@ -4,6 +4,7 @@ import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/tab_selector.dart';
+import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -184,9 +185,8 @@ class RootApp extends StatelessWidget {
       return CalendarPage();
     // else if (activateTab == AppTab.addpost)
     //   return AddEventPage();
-    // else if (activateTab == AppTab.friend)
-    // return EventPage(users[0]['img'], post[5]['postImage'], post[1]['title']);
-
+    else if (activateTab == AppTab.friend)
+      return FriendPage();
     else if (activateTab == AppTab.profile)
       return ProfilePage();
     else {
