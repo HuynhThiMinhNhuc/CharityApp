@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations: 
+    sdk: flutter 
   get: ^4.3.8
   flutter_bloc: ^8.0.0
   firebase_core: ^1.10.0
@@ -41,6 +43,8 @@ dependencies:
   flat_icons_flutter: ^1.0.2
   flutter_speed_dial: ^5.0.0+1
   fancy_dialog: ^1.0.4
+  table_calendar: ^3.0.3
+
  
   auto_size_text: ^3.0.0
 dev_dependencies:

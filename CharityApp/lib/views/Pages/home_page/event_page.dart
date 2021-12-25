@@ -33,35 +33,41 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
           ),
         ),
       ),
-        IntroductionEventView(),
+      IntroductionEventView(),
+      Text('Hình ảnh')
     ];
 
-    TabController _tabController = new TabController(length: tabs.length, vsync: this);
-    return NestedScrollView(
-      headerSliverBuilder: (context, value) {
-        return [
-          SliverToBoxAdapter(
-            child: EventOverview(widget.eventName, widget.scrAvatar),
-          ),
-          SliverAppBar(
-            pinned: true,
-            backgroundColor: Colors.white,
-            title: TabBar(
-                indicatorColor: maincolor,
-                unselectedLabelColor: Color(0xFF757070),
-                controller: _tabController,
-                labelColor: maincolor,
-                tabs: [
-                  Tab(text: "Trang chủ"),
-                  Tab(text: "Giới thiệu"),
-                ]),
-          ),
-        ];
-      },
+    TabController _tabController =
+        new TabController(length: tabs.length, vsync: this);
+    return Scaffold(
       body: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 5),
-          child: TabBarView(controller: _tabController, children: tabs),
+        color: Colors.white,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, value) {
+            return [
+              SliverToBoxAdapter(
+                child: EventOverview(widget.eventName, widget.scrAvatar),
+              ),
+              SliverAppBar(
+                pinned: true,
+                stretch: true,
+                backgroundColor: Colors.white,
+                title: TabBar(
+                    indicatorColor: maincolor,
+                    unselectedLabelColor: Color(0xFF757070),
+                    controller: _tabController,
+                    labelColor: maincolor,
+                    tabs: [
+                      Tab(text: "Trang chủ"),
+                      Tab(text: "Giới thiệu"),
+                      Tab(text: "Hình ảnh"),
+                    ]),
+              ),
+            ];
+          },
+          body: Container(
+            child: TabBarView(controller: _tabController, children: tabs),
+          ),
         ),
       ),
     );
