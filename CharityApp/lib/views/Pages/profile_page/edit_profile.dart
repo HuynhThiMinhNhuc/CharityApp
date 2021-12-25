@@ -13,9 +13,9 @@ import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   final UserProfile currentUser;
-  final Function on_EditPro;
+  final Function onEditPro;
   const EditProfile(
-      {Key? key, required this.currentUser, required this.on_EditPro})
+      {Key? key, required this.currentUser, required this.onEditPro})
       : super(key: key);
 
   @override
@@ -24,7 +24,6 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   var editprofileBloc;
-  var overviewuserBloc;
   var dropvalue = "Nữ";
 
   File? image;
@@ -39,7 +38,7 @@ class _EditProfileState extends State<EditProfile> {
 
   void close() {
     editprofileBloc.add(EditprofileEditEvent(widget.currentUser));
-    widget.on_EditPro.call();
+    widget.onEditPro.call();
     Navigator.pop(context);
   }
 

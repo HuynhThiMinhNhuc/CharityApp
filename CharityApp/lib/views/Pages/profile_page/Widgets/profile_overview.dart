@@ -120,12 +120,15 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => 
-                                    BlocProvider(
-                                      create: (context) => EditprofileBloc(),
-                                      child: EditProfile(
-                                      currentUser: widget.userProfile,
-                                      on_EditPro: () =>  widget.overViewUserBloc.add(LoadOverViewUserEvent()),),
+                            builder: (context) => BlocProvider(
+                                  create: (context) => EditprofileBloc(),
+                                  child: EditProfile(
+                                    currentUser: widget.userProfile,
+                                    onEditPro: () => 
+                                    widget.overViewUserBloc
+                                        .add(LoadOverViewUserEvent(
+                                            widget.userProfile.id)),
+                                  ),
                                 )))
                   },
                   child: Text(

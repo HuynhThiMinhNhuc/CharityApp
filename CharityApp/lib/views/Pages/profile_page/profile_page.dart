@@ -1,4 +1,5 @@
 import 'package:charityapp/domain/entities/user_profile.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'Widgets/profile_overview.dart';
 
@@ -28,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
-    overViewUserBloc.add(LoadOverViewUserEvent());
+    overViewUserBloc.add(LoadOverViewUserEvent(GetIt.instance.get<Authenticator>().idCurrentUser));
     //poverViewUserBlocostBloc.add(LoadPostEvent());
   }
 

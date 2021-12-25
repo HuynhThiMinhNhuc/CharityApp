@@ -42,10 +42,8 @@ class MeerApp extends StatelessWidget {
                 create: (context) => PostBloc(),
               ),
               BlocProvider<OverViewUserBloc>(
-                create: (context) => OverViewUserBloc( ),
+                create: (context) => OverViewUserBloc(),
               ),
-              
-
             ],
             child: RootApp(),
           );
