@@ -39,14 +39,15 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<void> close() async {
     await editprofileBloc.add(EditprofileEditEvent(widget.currentUser));
-    widget.onEditPro.call();
     await showDialog(
         context: context,
-        builder: (BuildContext context) => AlerDialog (
-          description: 'Nhấn Đồng ý để quay lại màn hình Hồ sơ của bạn',
-          title: 'Cập nhật thông tin thành công',
-          imagepath: 'asset/avatar.png',
-        ));
+        builder: (BuildContext context) => AlerDialog(
+              description: 'Nhấn Đồng ý để quay lại màn hình Hồ sơ của bạn',
+              title: 'Cập nhật thông tin thành công',
+              imagepath: 'asset/avatar.png',
+            ));
+    await widget.onEditPro.call();
+
     Navigator.pop(context);
   }
 

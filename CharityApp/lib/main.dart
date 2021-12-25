@@ -13,6 +13,7 @@ import 'repositories/event_repository_imp.dart';
 import 'views/Pages/add_event_page/add_event_page.dart';
 import 'views/bloc/post_bloc/post.dart';
 import 'views/bloc/tab_bloc/tab_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,15 @@ class MeerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: [
+      Locale('en', ''), // English, no country code
+      Locale('vi', ''), // Spanish, no country code
+    ],
       debugShowCheckedModeBanner: true,
       routes: {
         AppRoutes.home: (context) {
