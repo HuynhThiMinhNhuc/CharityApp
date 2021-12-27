@@ -5,6 +5,7 @@ import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Component/image_card.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _AddPostPageState extends State<AddPostPage> {
   late TextEditingController _titleTextController;
   late TextEditingController _descriptionTextControlelr;
   BaseEvent? chooseEvent;
-  List<File> images = <File>[];
+  final List<File> images = [];
 
   @override
   void initState() {
@@ -47,22 +48,64 @@ class _AddPostPageState extends State<AddPostPage> {
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: SingleChildScrollView(
             child: Column(
-              children: [
-                TextButton(
-                    onPressed: () async {
-                      BlocProvider.of<PostBloc>(context).add(
-                        LoadOverViewEventsPaticipant(
-                            creatorId: '1G0aTSj46pSsvP8eBYb5'),
-                      );
-                      chooseEvent = await Navigator.of(context).pushNamed(
-                        AppRoutes.chooseEvent,
-                      ) as BaseEvent?;
-                    },
-                    child: Row(
+              // mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                      onPressed: () async {
+                        BlocProvider.of<PostBloc>(context).add(
+                          LoadOverViewEventsPaticipant(
+                              creatorId: '1G0aTSj46pSsvP8eBYb5'),
+                        );
+                        chooseEvent = await Navigator.of(context).pushNamed(
+                          AppRoutes.chooseEvent,
+                        ) as BaseEvent?;
+                        setState(() => {});
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            chooseEvent == null
+                                ? "Chọn sự kiện"
+                                : chooseEvent!.name,
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontFamily: 'Roboto_Regular',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.navigate_next,
+                                size: 20, color: textcolor),
+                            splashRadius: 20,
+                            // onPressed: () {
+                            //   Navigator.pushNamed(
+                            //     context,
+                            //     AppRoutes.chooseEvent,
+                            //   );
+                            // },
+                            onPressed: null,
+                          )
+                        ],
+                      )),
+                  Divider(color: Colors.grey[600], height: 1),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormFieldWithTitle(
+                    title: "Tiêu đề",
+                    text: "",
+                    iconData: null,
+                    type: TextInputType.text,
+                    controller: _titleTextController,
+                  ),
+                  SizedBox(height: 10),
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Chọn sự kiện",
+                          "Thêm ảnh",
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontFamily: 'Roboto_Regular',
@@ -70,99 +113,79 @@ class _AddPostPageState extends State<AddPostPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.navigate_next,
-                              size: 20, color: textcolor),
-                          splashRadius: 20,
-                          // onPressed: () {
-                          //   Navigator.pushNamed(
-                          //     context,
-                          //     AppRoutes.chooseEvent,
-                          //   );
-                          // },
-                          onPressed: null,
+                        Text(
+                          "Tối đa 10 ảnh",
+                          style: TextStyle(
+                            color: Colors.grey[400],
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 13,
+                          ),
                         )
-                      ],
-                    )),
-                Divider(color: Colors.grey[600], height: 1),
-                SizedBox(
-                  height: 10,
-                ),
-                textFormFieldWithTitle(
-                  title: "Tiêu đề",
-                  text: "",
-                  iconData: null,
-                  type: TextInputType.text,
-                  controller: _titleTextController,
-                ),
-                SizedBox(height: 10),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Thêm ảnh",
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontFamily: 'Roboto_Regular',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      ]),
+                  SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                        shrinkWrap: false,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: images.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            children: [
+                              // Container(
+                              //   height: 150,
+                              //   width: 120,
+                              //   child: IconButton(
+                              //       onPressed: () => {
+                  
+                              //       },
+                              //       icon: Icon(Icons.add_photo_alternate_outlined,
+                              //           color: maincolor, size: 25)),
+                              //   decoration: BoxDecoration(
+                              //       color: backgroundbottomtab,
+                              //       borderRadius: BorderRadius.circular(10)),
+                              //   margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
+                              // ),
+                              ImageCard(
+                                icon: Icons.add_photo_alternate_outlined,
+                                onImageChanged: (imageFile) {
+                                  setState(() {
+                                    images.length == index
+                                        ? images.add(imageFile)
+                                        : images[index] = imageFile;
+                                  });
+                                },
+                                onImageDeleted: () {
+                                  setState(() {
+                                    images.removeAt(index);
+                                  });
+                                },
+                              ),
+                              SizedBox(width: 5),
+                            ],
+                          );
+                        },
                       ),
-                      Text(
-                        "Tối đa 10 ảnh",
-                        style: TextStyle(
-                          color: Colors.grey[400],
-                          fontFamily: 'Roboto_Regular',
-                          fontSize: 13,
-                        ),
-                      )
-                    ]),
-                Row(
-                  children: [
-                    Container(
-                      height: 150,
-                      width: 120,
-                      child: IconButton(
-                          onPressed: () => {},
-                          icon: Icon(Icons.add_photo_alternate_outlined,
-                              color: maincolor, size: 25)),
-                      decoration: BoxDecoration(
-                          color: backgroundbottomtab,
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
+                  ),
+                  TextFormField(
+                      cursorColor: maincolor,
+                      keyboardType: TextInputType.name,
+                      minLines: 3,
+                      maxLines: 5,
+                      style:
+                          TextStyle(fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
+                      decoration: InputDecoration(
+                          hintText: "Viết nội dung ở đây...",
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none),
+                      controller: _descriptionTextControlelr,
                     ),
-                    SizedBox(width: 5),
-                    // ListView.builder(
-                    //   itemCount: 0,
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     return ImageCard(
-                    //       onImageChanged: (file) {},
-                    //     );
-                    //   },
-                    // )
-                  ],
-                ),
-                TextFormField(
-                  cursorColor: maincolor,
-                  keyboardType: TextInputType.name,
-                  minLines: 3,
-                  maxLines: 5,
-                  style:
-                      TextStyle(fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
-                  decoration: InputDecoration(
-                      hintText: "Viết nội dung ở đây...",
-                      errorBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none),
-                  controller: _descriptionTextControlelr,
-                ),
-              ],
-            ),
+                ],
+              ),
           ),
-        ));
+          ),
+        );
   }
 
   AppBar getAppBar() {

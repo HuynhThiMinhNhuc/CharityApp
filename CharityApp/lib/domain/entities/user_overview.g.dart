@@ -7,16 +7,13 @@ part of 'user_overview.dart';
 // **************************************************************************
 
 extension UserOverviewCopyWith on UserOverview {
-  UserOverview copyWith({
-    Uri? avatarUri,
-    String? id,
-    dynamic? name,
-  }) {
+  UserOverview copyWith(
+      {Uri? avatarUri, String? id, dynamic? name, String? address}) {
     return UserOverview(
-      avatarUri: avatarUri ?? this.avatarUri,
-      id: id ?? this.id,
-      name: name ?? this.name,
-    );
+        avatarUri: avatarUri ?? this.avatarUri,
+        id: id ?? this.id,
+        name: name ?? this.name,
+        address: address ?? this.address);
   }
 }
 
@@ -25,16 +22,17 @@ extension UserOverviewCopyWith on UserOverview {
 // **************************************************************************
 
 UserOverview _$UserOverviewFromJson(Map<String, dynamic> json) => UserOverview(
-      name: json['name'],
-      avatarUri: json['avatarUri'] == null
-          ? null
-          : Uri.parse(json['avatarUri'] as String),
-      id: json['id'] as String?,
-    );
+    name: json['name'],
+    avatarUri: json['avatarUri'] == null
+        ? null
+        : Uri.parse(json['avatarUri'] as String),
+    id: json['id'] as String?,
+    address: json['address'] as String?);
 
 Map<String, dynamic> _$UserOverviewToJson(UserOverview instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'avatarUri': instance.avatarUri?.toString(),
+      'address': instance.address
     };

@@ -9,6 +9,7 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+    final TextEditingController phonecontroller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +74,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 boder: maincolor,
                 hint: '',
                 labeltext: '',
+                textEditingController: phonecontroller,
               )),
           Padding(
               padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
