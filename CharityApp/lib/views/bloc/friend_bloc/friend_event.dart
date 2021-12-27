@@ -12,7 +12,7 @@ class FriendLoadEvent extends FriendEvent {
   FriendLoadEvent(this.id);
 }
 
-class FriendFindEvent extends FriendEvent {
+class FriendSearchEvent extends FriendEvent {
   final String name;
-  FriendFindEvent(this.name);
+  FriendSearchEvent(this.name);
 }

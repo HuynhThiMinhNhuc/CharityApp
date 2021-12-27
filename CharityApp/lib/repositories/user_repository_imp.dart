@@ -4,6 +4,7 @@ import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 class UserRepositoryImp implements IUserRepository {
   final user = FirebaseFirestore.instance.collection("users");
@@ -27,14 +28,14 @@ class UserRepositoryImp implements IUserRepository {
   }
 
   @override
-  Future<List<UserOverview>> loadFriends(String id, int number)async  {
+  Future<List<UserOverview>> loadFriends(String id, int number) async {
     List<UserOverview> friends = [];
     UserOverview useroverview;
 
     try {
-       await user.doc(id).get().then((value) {
+      await user.doc(id).get().then((value) {
         List.from(value.data()!['friends']).forEach((element) async {
-          useroverview =  await getUserOverView(element);
+          useroverview = await getUserOverView(element);
           friends.add(useroverview);
         });
       });
@@ -49,8 +50,10 @@ class UserRepositoryImp implements IUserRepository {
   Future<int> loadNumberFriends(String id) async {
     int number = 0;
     try {
-      await user.doc(id).get().then((value) =>
-          number = List.from(value.data()!['friends']).length);
+      await user
+          .doc(id)
+          .get()
+          .then((value) => number = List.from(value.data()!['friends']).length);
       return number;
     } catch (e) {
       print("Load số lượng bạn bè thất bại");
@@ -85,8 +88,8 @@ class UserRepositoryImp implements IUserRepository {
   Future<int> getIdUser(String email, String pass) async {
     int id = 0;
     await user
-        .where("Name", isEqualTo: email)
-        .where("Password", isEqualTo: pass)
+        .where("name", isEqualTo: email)
+        .where("password", isEqualTo: pass)
         .limit(1)
         .get()
         .then((value) {
@@ -134,5 +137,44 @@ class UserRepositoryImp implements IUserRepository {
     UserOverview userProfile = new UserOverview(
         name: userinfo['name'], avatarUri: null, address: userinfo['address']);
     return userProfile;
+  }
+
+  @override
+  Future<List<UserOverview>> searchUser(String search) async {
+    List<UserOverview> suggesstion = [];
+    UserOverview userOverview;
+    try {
+      final value = await user
+          .where("name", isGreaterThanOrEqualTo: search)
+          .where('name', isLessThan: search + "z")
+          .get()
+          .then((value) => value.docs.forEach((user) {
+                userOverview = new UserOverview(
+                    name: user['name'], avatarUri: null, id: user.id);
+                suggesstion.add(userOverview);
+              }));
+      return suggesstion;
+    } catch (e) {
+      print("Lỗi tìm kiếm: " + e.toString());
+      return suggesstion;
+    }
+  }
+
+  @override
+  Future<bool> isFriend(String id) async {
+    bool isFriend = false;
+    try {
+      await user.doc(id).get().then((value) => () {
+            var list = List.from( value.data()!['friends']) ;  
+            if (list.contains(id))
+              isFriend = true;
+            else
+              isFriend = false;
+          });
+    } catch (e) {
+      print("Kiểm tra bạn bè lỗi" + e.toString());
+      isFriend = isFriend;
+    }
+    return isFriend; 
   }
 }

@@ -15,4 +15,9 @@ class FriendLoadedState extends FriendState {
   FriendLoadedState(this.friends, this.totalfriend);
 }
 
+class FriendSearchState extends FriendState {
+  final List<UserOverview> suggestion;
+  FriendSearchState(this.suggestion);
+}
+
 class FriendLoadFailState extends FriendState {}

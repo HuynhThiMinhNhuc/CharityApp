@@ -1,13 +1,21 @@
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/friend_page/widgets/short_infor_card.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 
 class FriendPage extends StatefulWidget {
   const FriendPage({Key? key}) : super(key: key);
@@ -17,10 +25,13 @@ class FriendPage extends StatefulWidget {
 }
 
 class _FriendPageState extends State<FriendPage> {
+  List<String> history = ["Anna", "William", "Janne", "JoneCena", "Alam"];
+  var friendBloc;
+
   @override
   void initState() {
     super.initState();
-    final friendBloc = BlocProvider.of<FriendBloc>(context);
+    friendBloc = BlocProvider.of<FriendBloc>(context);
     friendBloc.add(
         FriendLoadEvent(GetIt.instance.get<Authenticator>().idCurrentUser));
   }
@@ -39,12 +50,25 @@ class _FriendPageState extends State<FriendPage> {
   Widget getSearchbar() {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
+    final actions = [
+      FloatingSearchBarAction(
+        showIfOpened: false,
+        child: CircularButton(
+          icon: const Icon(Icons.place),
+          onPressed: () {},
+        ),
+      ),
+      FloatingSearchBarAction.searchToClear(
+        showIfClosed: false,
+      ),
+    ];
 
     return FloatingSearchBar(
       backdropColor: Colors.white,
       borderRadius: BorderRadius.circular(10),
       border: BorderSide(width: 1, color: Color(0xFFA6A6AA)),
       hint: 'Tìm kiếm',
+      clearQueryOnClose: true,
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
       transitionDuration: const Duration(milliseconds: 800),
       transitionCurve: Curves.easeInOut,
@@ -54,7 +78,7 @@ class _FriendPageState extends State<FriendPage> {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
-        // Call your model, bloc, controller here.
+        friendBloc.add(FriendSearchEvent(query));
       },
       // Specify a custom transition to be used for
       // animating between opened and closed stated.
@@ -73,19 +97,97 @@ class _FriendPageState extends State<FriendPage> {
       ],
       builder: (context, transition) {
         return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: Colors.accents.map((color) {
-                return Container(height: 112, color: Colors.white);
-                //Apply list friend suggest
-              }).toList(),
-            ),
-          ),
-        );
+            borderRadius: BorderRadius.circular(8),
+            child: Material(
+              color: Colors.white,
+              elevation: 4.0,
+              child: BlocBuilder<FriendBloc, FriendState>(
+                buildWhen: (context, state) {
+                  return state is FriendSearchState ||
+                      state is FriendLoadingState ||
+                      state is FriendLoadFailState;
+                },
+                builder: (context, state) {
+                  return state is FriendSearchState
+                      ? Column(
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: state.suggestion.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                      radius: 18,
+                                      backgroundImage:
+                                          state.suggestion[index].avatarUri ==
+                                                  null
+                                              ? AssetImage('asset/avatar.png')
+                                              : AssetImage('asset/avatar.png')),
+                                  title: Text(state.suggestion[index].name),
+                                  selectedColor: Color(0x10F4F4F4),
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider<
+                                                      OverViewUserBloc>(
+                                                    create: (context) =>
+                                                        OverViewUserBloc(),
+                                                  ),
+                                                  BlocProvider<PostBloc>(
+                                                    create: (context) =>
+                                                        PostBloc(),
+                                                  ),
+                                                ],
+                                                child: Scaffold(
+                                                  appBar: AppBar(
+                                                    iconTheme: IconThemeData(
+                                                      color:
+                                                          textcolor, //change your color here
+                                                    ),
+                                                    backgroundColor:
+                                                        backgroundbottomtab,
+                                                    centerTitle: true,
+                                                    title: Text(
+                                                      "Hồ sơ người dùng",
+                                                      style: TextStyle(
+                                                          color: textcolor,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                  body: ProfileOtherPage(state
+                                                      .suggestion[index].id),
+                                                ),
+                                              )),
+                                    )
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: history.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: Icon(Icons.history),
+                              title: Text(history[index]),
+                              selectedColor: Color(0x10F4F4F4),
+                              onTap: () => {},
+                            );
+                          },
+                        );
+                },
+              ),
+            ));
       },
     );
   }
@@ -102,7 +204,7 @@ class _FriendPageState extends State<FriendPage> {
           },
           builder: (context, state) {
             if (state is FriendLoadingState)
-              return Text("Loading....");
+              return Skeletonloaderfriend();
             else if (state is FriendLoadedState)
               return friends(
                 listFriend: state.friends,
@@ -113,6 +215,65 @@ class _FriendPageState extends State<FriendPage> {
           },
         ),
       ),
+    );
+  }
+}
+
+class Skeletonloaderfriend extends StatelessWidget {
+  const Skeletonloaderfriend({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SkeletonLoader(
+      builder: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Flexible(
+                child: Container(
+                  width: 200,
+                  height: 20,
+                  color: Colors.white,
+                ),
+              )),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 30,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        height: 10,
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        height: 12,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      items: 10,
+      period: Duration(seconds: 2),
+      highlightColor: Color(0x505AA469),
+      direction: SkeletonDirection.ltr,
     );
   }
 }

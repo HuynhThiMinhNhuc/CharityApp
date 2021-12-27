@@ -50,6 +50,9 @@ dependencies:
   auto_size_text: ^3.0.0
   infinite_listview: ^1.1.0
   firebase_auth: ^3.3.4
+  skeleton_loader: ^2.0.0+4
+  implicitly_animated_reorderable_list: ^0.4.2
+  animations: ^2.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
