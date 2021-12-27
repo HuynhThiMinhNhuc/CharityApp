@@ -1,11 +1,12 @@
-
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
+import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
+import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
 
 class Login extends StatefulWidget {
   @override
@@ -15,6 +16,18 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool securtytext = false;
   final IconData eye = Icons.remove_red_eye_outlined;
+  final TextEditingController passwordcontroller = new TextEditingController();
+  final TextEditingController emailcontroller = new TextEditingController();
+
+  var signinBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    signinBloc = BlocProvider.of<SigninBloc>(context);
+    //poverViewUserBlocostBloc.add(LoadPostEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,23 +67,26 @@ class _LoginState extends State<Login> {
           Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: TextInput(
-                  icon: Icons.people,
-                  background: backgrountbutton.withOpacity(0.2),
-                  boder: backgrountbutton.withOpacity(0.1),
-                  hint: 'Email/Phone number',
-                  labeltext: '',)),
+                icon: Icons.people,
+                background: backgrountbutton.withOpacity(0.2),
+                boder: backgrountbutton.withOpacity(0.1),
+                hint: 'Email',
+                labeltext: '',
+                textEditingController: emailcontroller,
+              )),
           SizedBox(
             height: 20,
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
             child: PassWordInput(
-                hint: 'Password',
-                background: backgrountbutton,
-                boder: backgrountbutton,
-                securitytext: true,
-                ispass: true,
-              ),
+              hint: 'Mật khẩu',
+              background: backgrountbutton,
+              boder: backgrountbutton,
+              securitytext: true,
+              ispass: true,
+              textcontroller: passwordcontroller,
+            ),
           ),
           Padding(
             padding: EdgeInsets.all(10),
@@ -85,11 +101,11 @@ class _LoginState extends State<Login> {
                       size: 20,
                     ),
                     label: Text(
-                      'Remember me',
+                      'Nhớ tài khoản',
                       style: TextStyle(color: icon),
                     )),
                 Text(
-                  'Forgot password?',
+                  'Quên mật khẩu?',
                   style: TextStyle(
                       color: maincolor,
                       fontFamily: 'Roboto-Regular.ttf',
@@ -101,21 +117,26 @@ class _LoginState extends State<Login> {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-            child: ElevatedButton(
-              onPressed: () => {},
-              child: Text(
-                'LOGIN',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              style: ElevatedButton.styleFrom(
-                  alignment: Alignment.center,
-                  primary: maincolor,
-                  fixedSize: Size(MediaQuery.of(context).size.width, 60),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30))),
+            child: BlocBuilder<SigninBloc, SigninState>(
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: () =>
+                      {signinBloc.add(SigninWithEmailAndPassEvent(emailcontroller.text, passwordcontroller.text))},
+                  child: Text(
+                    'Đăng nhập',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      alignment: Alignment.center,
+                      primary: maincolor,
+                      fixedSize: Size(MediaQuery.of(context).size.width, 60),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30))),
+                );
+              },
             ),
           ),
           SizedBox(
@@ -157,9 +178,21 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 20,
               ),
-              Text(' Sign up!',
-                  style: TextStyle(
-                      color: red, fontSize: 17, fontWeight: FontWeight.bold))
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                              create: (context) => SignupBloc(),
+                              child: RegisterView(),
+                            )),
+                  );
+                },
+                child: Text('Đăng ký!',
+                    style: TextStyle(
+                        color: red, fontSize: 17, fontWeight: FontWeight.bold)),
+              )
             ],
           )
         ],

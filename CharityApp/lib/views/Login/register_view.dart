@@ -2,10 +2,10 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
+import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
 
 class RegisterView extends StatefulWidget {
   @override
@@ -13,6 +13,19 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  final TextEditingController passwordcontroller = new TextEditingController();
+  final TextEditingController confirmpasswordcontroller =
+      new TextEditingController();
+  final TextEditingController emailcontroller = new TextEditingController();
+
+  var signupbloc;
+
+  @override
+  void initState() {
+    super.initState();
+    signupbloc = BlocProvider.of<SignupBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,22 +69,26 @@ class _RegisterViewState extends State<RegisterView> {
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: TextInput(
-                    icon: Icons.people,
-                    background: backgrountbutton.withOpacity(0.2),
-                    boder: backgrountbutton.withOpacity(0.1),
-                    hint: 'Email/Phone number',
-                    labeltext: '',)),
+                  icon: Icons.people,
+                  background: backgrountbutton.withOpacity(0.2),
+                  boder: backgrountbutton.withOpacity(0.1),
+                  hint: 'Email',
+                  labeltext: '',
+                  textEditingController: emailcontroller,
+                )),
             SizedBox(
               height: 20,
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: PassWordInput(
-                  hint: 'Password',
-                  background: backgrountbutton,
-                  boder: backgrountbutton,
-                  securitytext: false,
-                  ispass: true,),
+                hint: 'Mật khẩu',
+                background: backgrountbutton,
+                boder: backgrountbutton,
+                securitytext: false,
+                ispass: true,
+                textcontroller: passwordcontroller,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -79,11 +96,13 @@ class _RegisterViewState extends State<RegisterView> {
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: PassWordInput(
-                  hint: 'Confirm password',
-                  background: backgrountbutton,
-                  boder: backgrountbutton,
-                  securitytext: true,
-                  ispass: true,),
+                hint: 'Xác nhận mật khẩu',
+                background: backgrountbutton,
+                boder: backgrountbutton,
+                securitytext: true,
+                ispass: true,
+                textcontroller: confirmpasswordcontroller,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -93,20 +112,20 @@ class _RegisterViewState extends State<RegisterView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'By signing you agree to our',
+                    'Bằng cách đăng ký, bạn đã đồng ý với',
                     style: TextStyle(color: icon),
                   ),
                   Text(
-                    ' Team of use',
+                    ' điều khoản sử dụng',
                     style: TextStyle(color: maincolor),
                   ),
                   Text(
-                    ' and',
+                    ' và',
                     style: TextStyle(color: icon),
                   ),
                 ]),
             Text(
-              'privacy notice',
+              ' chế độ riêng tư',
               style: TextStyle(color: maincolor),
             ),
             SizedBox(
@@ -115,8 +134,11 @@ class _RegisterViewState extends State<RegisterView> {
             Padding(
               padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
               child: CustomButton(
-                onPressed: () => {},
-                textInput: 'REGISTER',
+                onPressed: () => {
+                  signupbloc.add(SignupWithEmailAndPassEvent(
+                      emailcontroller.text, passwordcontroller.text))
+                },
+                textInput: 'ĐĂNG KÝ',
               ),
             ),
             SizedBox(

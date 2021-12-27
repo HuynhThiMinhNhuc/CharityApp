@@ -10,6 +10,9 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  final TextEditingController passwordcontroller = new TextEditingController();
+  final TextEditingController confirmpasswordcontroller =
+      new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +69,13 @@ class _ChangePasswordState extends State<ChangePassword> {
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
             child: PassWordInput(
-                securitytext: false,
-                background: Colors.white,
-                boder: maincolor,
-                hint: '',
-                ispass: true),
+              securitytext: false,
+              background: Colors.white,
+              boder: maincolor,
+              hint: '',
+              ispass: true,
+              textcontroller: passwordcontroller,
+            ),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
             Padding(
@@ -88,11 +93,13 @@ class _ChangePasswordState extends State<ChangePassword> {
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: PassWordInput(
-                securitytext: true,
-                background: Colors.white,
-                boder: maincolor,
-                hint: '',
-                ispass: true),
+              securitytext: true,
+              background: Colors.white,
+              boder: maincolor,
+              hint: '',
+              ispass: true,
+              textcontroller: confirmpasswordcontroller,
+            ),
           ),
           Padding(
               padding: EdgeInsets.fromLTRB(20, 40, 20, 0),

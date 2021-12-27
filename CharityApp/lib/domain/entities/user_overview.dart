@@ -8,10 +8,13 @@ part 'user_overview.g.dart';
 @JsonSerializable()
 class UserOverview extends BaseUser {
   Uri? avatarUri;
+  String? address;
+  
   UserOverview({
     required name,
     required this.avatarUri,
     String? id,
+    String? address
   }) : super(name: name, id: id);
 
   // factory UserOverview.fromJson(Map<String, dynamic> json) => _$UserOverviewFromJson(json);
@@ -22,9 +25,11 @@ class UserOverview extends BaseUser {
         avatarUri: json['avatarUri'] == null
             ? null
             : Uri.parse(json['avatarUri'] as String),
+        address: json['address']
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
         'avatarUri': this.avatarUri?.toString(),
+        'address':this.address
       };
 }
