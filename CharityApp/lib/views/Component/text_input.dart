@@ -7,18 +7,22 @@ class TextInput extends StatelessWidget {
   final Color boder;
   final String hint;
   final String labeltext;
+  final Function? onTextChange = () => {};
+  final TextEditingController textEditingController;
 
   TextInput(
       {required this.icon,
       required this.background,
       required this.boder,
       required this.hint,
-      required this.labeltext});
+      required this.labeltext,
+      required this.textEditingController});
 
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       TextFormField(
+        controller: textEditingController,
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,

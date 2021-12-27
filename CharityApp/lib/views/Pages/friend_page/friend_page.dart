@@ -1,8 +1,12 @@
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Pages/friend_page/widgets/short_infor_card.dart';
+import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class FriendPage extends StatefulWidget {
@@ -13,6 +17,14 @@ class FriendPage extends StatefulWidget {
 }
 
 class _FriendPageState extends State<FriendPage> {
+  @override
+  void initState() {
+    super.initState();
+    final friendBloc = BlocProvider.of<FriendBloc>(context);
+    friendBloc.add(
+        FriendLoadEvent(GetIt.instance.get<Authenticator>().idCurrentUser));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -82,30 +94,65 @@ class _FriendPageState extends State<FriendPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 60, 10, 0),
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "19,998 người theo dõi bạn",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return ShortInforCard(
-                    userOverview:
-                        new UserOverview(name: "Janne", avatarUri: null),
-                    isFollow: true);
-              },
-            ),
-          ],
+        child: BlocBuilder<FriendBloc, FriendState>(
+          buildWhen: (context, state) {
+            return state is FriendLoadingState ||
+                state is FriendLoadedState ||
+                state is FriendLoadFailState;
+          },
+          builder: (context, state) {
+            if (state is FriendLoadingState)
+              return Text("Loading....");
+            else if (state is FriendLoadedState)
+              return friends(
+                listFriend: state.friends,
+                totalfriend: state.totalfriend,
+              );
+            else
+              return Text("Loading failer....");
+          },
         ),
       ),
+    );
+  }
+}
+
+class friends extends StatelessWidget {
+  final List<UserOverview>? listFriend;
+  final totalfriend;
+  const friends({
+    Key? key,
+    this.listFriend,
+    this.totalfriend,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            this.totalfriend.toString() + " người theo dõi bạn",
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+          ),
+        ),
+        this.listFriend != null
+            ? ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: listFriend!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ShortInforCard(
+                      userOverview: new UserOverview(
+                          name: listFriend![index].name,
+                          avatarUri: listFriend![index].avatarUri),
+                      isFollow: true);
+                },
+              )
+            : Text("Bạn chưa có bạn bè nào cả")
+      ],
     );
   }
 }

@@ -1,9 +1,13 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
+import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
+import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +49,7 @@ class MeerApp extends StatelessWidget {
     ],
     supportedLocales: [
       Locale('en', ''), // English, no country code
-      Locale('vi', ''), // Spanish, no country code
+      Locale('vi', ''), // VietNam, no country code
     ],
       debugShowCheckedModeBanner: true,
       routes: {
@@ -55,11 +59,17 @@ class MeerApp extends StatelessWidget {
               BlocProvider<TabBloc>(
                 create: (context) => TabBloc(),
               ),
+              BlocProvider<FriendBloc>(
+                create: (context) => FriendBloc(),
+              ),
               BlocProvider<EditprofileBloc>(
                 create: (context) => EditprofileBloc(),
               ),
               BlocProvider<OverViewUserBloc>(
                 create: (context) => OverViewUserBloc(),
+              ),
+               BlocProvider<SigninBloc>(
+                create: (context) => SigninBloc(),
               ),
             ],
             child: RootApp(),

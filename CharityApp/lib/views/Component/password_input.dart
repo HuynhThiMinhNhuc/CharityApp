@@ -8,13 +8,15 @@ class PassWordInput extends StatefulWidget {
   final Color boder;
   final String hint;
   final bool ispass;
+  final TextEditingController textcontroller;
 
   PassWordInput(
       {required this.securitytext,
       required this.background,
       required this.boder,
       required this.hint,
-      required this.ispass});
+      required this.ispass, 
+      required this.textcontroller});
 
   @override
   _PassWordInputState createState() => _PassWordInputState();
@@ -32,6 +34,7 @@ class _PassWordInputState extends State<PassWordInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.textcontroller,
       decoration: InputDecoration(
           prefixIcon: Icon(
             widget.ispass ? Icons.lock : Icons.cake_rounded,

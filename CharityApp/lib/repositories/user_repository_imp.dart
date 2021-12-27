@@ -4,7 +4,8 @@ import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-class UserRepositoryImp implements IUserRepository{
+
+class UserRepositoryImp implements IUserRepository {
   final user = FirebaseFirestore.instance.collection("users");
 
   @override
@@ -26,36 +27,72 @@ class UserRepositoryImp implements IUserRepository{
   }
 
   @override
-  Future<UserOverview> loadFriends(String id, int number) {
-    // TODO: implement loadFriend
-    throw UnimplementedError();
+  Future<List<UserOverview>> loadFriends(String id, int number)async  {
+    List<UserOverview> friends = [];
+    UserOverview useroverview;
+
+    try {
+       await user.doc(id).get().then((value) {
+        List.from(value.data()!['friends']).forEach((element) async {
+          useroverview =  await getUserOverView(element);
+          friends.add(useroverview);
+        });
+      });
+      return friends;
+    } catch (e) {
+      print("Lỗi load danh sách bạn bè" + e.toString());
+      return friends;
+    }
+  }
+
+  @override
+  Future<int> loadNumberFriends(String id) async {
+    int number = 0;
+    try {
+      await user.doc(id).get().then((value) =>
+          number = List.from(value.data()!['friends']).length);
+      return number;
+    } catch (e) {
+      print("Load số lượng bạn bè thất bại");
+      return number;
+    }
   }
 
   @override
   Future<void> update(UserProfile userProfile) async {
-    Map<String,dynamic> data = {
-        'id' : userProfile.id,
-        'avatarUri' : userProfile.avatarUri,
-        "birthday" : userProfile.birthDayString,
-        'description': userProfile.description,
-        'gender' : userProfile.gender ==  Genders.Female? 1: userProfile.gender == Genders.Male? 0: 2,
-        'name': userProfile.name,
-        'phone':userProfile.phone,
-        'email':userProfile.email,
-        'password':userProfile.password,
-        };
-    user.doc(userProfile.id).get().then((value) => value.reference.update(data));
+    Map<String, dynamic> data = {
+      'id': userProfile.id,
+      'avatarUri': userProfile.avatarUri,
+      "birthday": userProfile.birthDayString,
+      'description': userProfile.description,
+      'gender': userProfile.gender == Genders.Female
+          ? 1
+          : userProfile.gender == Genders.Male
+              ? 0
+              : 2,
+      'name': userProfile.name,
+      'phone': userProfile.phone,
+      'email': userProfile.email,
+      'password': userProfile.password,
+    };
+    user
+        .doc(userProfile.id)
+        .get()
+        .then((value) => value.reference.update(data));
   }
 
   @override
-  Future<int> getIdUser(String username, String pass) async {
+  Future<int> getIdUser(String email, String pass) async {
     int id = 0;
-     await for ( var snapshot in user
-         .where("Name", isEqualTo: username)
-         .where("Password", isEqualTo: pass).snapshots()){
-       id  = snapshot.docs[0].data()['Id'];
-     }
-     return id;
+    await user
+        .where("Name", isEqualTo: email)
+        .where("Password", isEqualTo: pass)
+        .limit(1)
+        .get()
+        .then((value) {
+      id = value.docs[0].data()['id'];
+    });
+    return id;
   }
 
   @override
@@ -75,9 +112,9 @@ class UserRepositoryImp implements IUserRepository{
                 : Genders.Undefined,
         birthDayString: "17/02/2001",
         avatarUri: null,
-        id: id, 
-        email: userinfo['email'], 
-        password: userinfo['password'], 
+        id: id,
+        email: userinfo['email'],
+        password: userinfo['password'],
         phone: userinfo['phone']);
     return userProfile;
   }
@@ -86,5 +123,16 @@ class UserRepositoryImp implements IUserRepository{
   Future<List<Post>> getListPost(String id) {
     // TODO: implement getListPost
     throw UnimplementedError();
+  }
+
+  Future<UserOverview> getUserOverView(String id) async {
+    var userinfo;
+
+    await user.doc(id).get().then((value) {
+      userinfo = value.data()!;
+    });
+    UserOverview userProfile = new UserOverview(
+        name: userinfo['name'], avatarUri: null, address: userinfo['address']);
+    return userProfile;
   }
 }

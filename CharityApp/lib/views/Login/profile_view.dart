@@ -14,6 +14,9 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final TextEditingController namecontroller = new TextEditingController();
+  final TextEditingController birthcontroller = new TextEditingController();
+  final TextEditingController phonecontroller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +78,7 @@ class _ProfileState extends State<Profile> {
                 boder: maincolor,
                 hint: '',
                 labeltext: '',
+                textEditingController: namecontroller,
               )),
           SizedBox(
             height: 20,
@@ -100,6 +104,7 @@ class _ProfileState extends State<Profile> {
               boder: maincolor,
               securitytext: true,
               ispass: false,
+              textcontroller: birthcontroller,
             ),
           ),
           SizedBox(
@@ -126,6 +131,7 @@ class _ProfileState extends State<Profile> {
                 boder: maincolor,
                 hint: '',
                 labeltext: '',
+                textEditingController: phonecontroller,
               )),
           SizedBox(
             height: 20,

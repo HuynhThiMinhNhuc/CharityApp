@@ -68,7 +68,7 @@ class _State extends State<ShortInforCard> {
                           ))
                       : TextSpan(),
                   TextSpan(
-                      text: "Địa chỉ tại đây",
+                      text: widget.userOverview.address,
                       style: TextStyle(color: Color(0x40000000), fontSize: 13))
                 ]))
               ],
