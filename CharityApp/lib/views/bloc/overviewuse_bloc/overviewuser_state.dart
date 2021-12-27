@@ -1,12 +1,15 @@
-abstract class OverViewUserState{
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
+
+abstract class OverViewUserState {
   const OverViewUserState();
 }
+
 class LoadingOverViewUserState extends OverViewUserState {}
-class LoadedOverViewUserState extends OverViewUserState{
+
+class LoadedOverViewUserState extends OverViewUserState {
   var userProfile;
-  LoadedOverViewUserState(this.userProfile);
+  mode isfriend;
+  LoadedOverViewUserState(this.userProfile, this.isfriend);
 }
-class LoadFailOverViewUserState extends OverViewUserState{}
 
-
-
+class LoadFailOverViewUserState extends OverViewUserState {}
