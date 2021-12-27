@@ -1,16 +1,67 @@
+import 'dart:io';
+
 import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/domain/entities/user_infor.dart';
+import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Component/aler_dialog.dart';
+import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  final UserProfile currentUser;
+  final Function onEditPro;
+  const EditProfile(
+      {Key? key, required this.currentUser, required this.onEditPro})
+      : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  String dropvalue = users[0]['gender'] ? "Nữ" : "Nam";
+  var editprofileBloc;
+  var dropvalue = "Nữ";
+
+  File? image;
+
+  Future pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+
+    final imagetemporary = File(image.path);
+    setState(() => {this.image = imagetemporary});
+  }
+
+  Future<void> close() async {
+    await editprofileBloc.add(EditprofileEditEvent(widget.currentUser));
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) => AlerDialog(
+              description: 'Nhấn Đồng ý để quay lại màn hình Hồ sơ của bạn',
+              title: 'Cập nhật thông tin thành công',
+              imagepath: 'asset/avatar.png',
+            ));
+    await widget.onEditPro.call();
+
+    Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dropvalue = widget.currentUser.gender == Genders.Female
+        ? "Nữ"
+        : widget.currentUser.gender == Genders.Male
+            ? "Nam"
+            : "Khác";
+    editprofileBloc = BlocProvider.of<EditprofileBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +104,8 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               TextButton(
-                onPressed: null,
+                onPressed: close,
+                //onPressed:()=>{},
                 child: Text(
                   "Hoàn thành",
                   style: TextStyle(
@@ -62,7 +114,7 @@ class _EditProfileState extends State<EditProfile> {
                       fontSize: 15,
                       fontWeight: FontWeight.normal),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -90,7 +142,7 @@ class _EditProfileState extends State<EditProfile> {
                   padding: const EdgeInsets.all(3),
                   child: Column(
                     children: <Widget>[
-                      Stack(children: <Widget>[
+                      Stack(alignment: Alignment.center, children: <Widget>[
                         Container(
                           width: 100,
                           height: 100,
@@ -98,7 +150,9 @@ class _EditProfileState extends State<EditProfile> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
-                                image: NetworkImage(users[0]['img']),
+                                image: image != null
+                                    ? FileImage(image!) as ImageProvider
+                                    : AssetImage('asset/avatar.png'),
                                 fit: BoxFit.cover),
                           ),
                         ),
@@ -106,14 +160,18 @@ class _EditProfileState extends State<EditProfile> {
                             bottom: 5,
                             right: 5,
                             child: Container(
+                              alignment: Alignment.center,
                               width: 30,
                               height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                               ),
-                              child: Icon(Icons.camera_enhance_outlined,
-                                  color: maincolor),
+                              child: IconButton(
+                                color: maincolor,
+                                icon: Icon(Icons.camera_enhance_outlined),
+                                onPressed: pickImage,
+                              ),
                             ))
                       ])
                     ],
@@ -140,7 +198,8 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['name'],
+                        initialValue: widget.currentUser.name,
+                        onChanged: (value) => {widget.currentUser.name = value},
                       ),
                     ),
                   ],
@@ -163,7 +222,9 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['birth'].toString(),
+                        initialValue: widget.currentUser.birthDay.toString(),
+                        onChanged: (value) =>
+                            {widget.currentUser.birthDayString = value},
                       ),
                     ),
                   ],
@@ -188,13 +249,14 @@ class _EditProfileState extends State<EditProfile> {
                         width: MediaQuery.of(context).size.width - 140,
                         child: Flexible(
                           child: TextFormField(
-                            initialValue: users[0]['decs'],
+                            initialValue: widget.currentUser.description,
+                            onChanged: (value) =>
+                                {widget.currentUser.description = value},
                           ),
                         )),
                   ],
                 ),
               ),
-              
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 20, 0, 15),
                 child: Container(
@@ -227,7 +289,9 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['email'],
+                        initialValue: widget.currentUser.email,
+                        onChanged: (value) =>
+                            {widget.currentUser.email = value},
                       ),
                     )
                   ],
@@ -250,7 +314,9 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: users[0]['phone'],
+                        initialValue: widget.currentUser.phone,
+                        onChanged: (value) =>
+                            {widget.currentUser.phone = value},
                       ),
                     ),
                   ],
@@ -278,13 +344,18 @@ class _EditProfileState extends State<EditProfile> {
                         onChanged: (String? newValue) {
                           setState(() {
                             dropvalue = newValue!;
+                            widget.currentUser.gender = newValue == 'Nữ'
+                                ? Genders.Female
+                                : newValue == "Nam"
+                                    ? Genders.Male
+                                    : Genders.Undefined;
                           });
                         },
                         underline: Container(
-                        height: 1,
-                        color: Colors.black,
-                      ),
-                        items: <String>['Nam', 'Nữ']
+                          height: 1,
+                          color: Colors.black,
+                        ),
+                        items: <String>['Nam', 'Nữ', 'Khác']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -293,33 +364,33 @@ class _EditProfileState extends State<EditProfile> {
                         }).toList(),
                       ),
                     ),
-    
                   ],
                 ),
               ),
-              Divider(color: const Color(0xff3C3C43),),
+              Divider(
+                color: const Color(0xff3C3C43),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Row(
-                  children:<Widget> [
+                  children: <Widget>[
                     Expanded(
                       child: Text(
-                            "Đổi mật khẩu",
-                            style: TextStyle(
-                                color: textcolor,
-                                fontFamily: 'Roboto_Regular',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
+                        "Đổi mật khẩu",
+                        style: TextStyle(
+                            color: textcolor,
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    IconButton(
-                    onPressed: null, 
-                    icon: Icon (Icons.navigate_next))
+                    IconButton(onPressed: null, icon: Icon(Icons.navigate_next))
                   ],
-                  ),
+                ),
               ),
-              Divider(color: const Color(0xff3C3C43),)
-              
+              Divider(
+                color: const Color(0xff3C3C43),
+              )
             ],
           ),
         ),

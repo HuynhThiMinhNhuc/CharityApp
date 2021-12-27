@@ -42,7 +42,7 @@ class TabSelector extends StatelessWidget {
           icon: SpeedDial(
             backgroundColor: Colors.black,
             animatedIcon: AnimatedIcons.add_event,
-            animatedIconTheme: IconThemeData(size: 30),
+            animatedIconTheme: IconThemeData(size: 25),
             closeManually: false,
             shape: CircleBorder(),
             children: [

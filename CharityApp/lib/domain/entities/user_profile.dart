@@ -10,6 +10,9 @@ class UserProfile extends UserInfor {
   int numberPost;
   int numberFollower;
   int numberFollowing;
+  String phone;
+  String email;
+  String password;
 
   UserProfile({
     required name,
@@ -20,6 +23,9 @@ class UserProfile extends UserInfor {
     this.numberFollower = 0,
     this.numberFollowing = 0,
     this.numberPost = 0,
+    required this.password,
+    required this.phone,
+    required this.email,
     String? id,
   }) : super(
             name: name,

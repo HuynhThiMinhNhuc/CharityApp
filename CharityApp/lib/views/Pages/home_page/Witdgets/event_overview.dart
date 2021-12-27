@@ -25,105 +25,111 @@ class _EventOverviewCardState extends State<EventOverviewCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(clipBehavior: Clip.none, children: [
-          Container(
-            height: 210,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(post[0]['postImage']), fit: BoxFit.cover),
-            ),
-          ),
-          Positioned(
-            bottom: -80,
-            left: 5,
-            child: Row(
-              children: [
-                Container(
-                  width: 90,
-                  height: 90,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(colors: activecolor),
-                  ),
-                  child: Container(
-                    width: 86,
-                    height: 86,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 3),
-                      image: DecorationImage(
-                          alignment: Alignment(0, -0.8),
-                          image: NetworkImage(widget.scrAvatar!),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
-                    children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      widget.eventName,
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: textcolor),              ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          )
-        ]),
-        SizedBox(height: 80),
-        Row(
-          children: [
-            SizedBox(width: 100),
-            IconOverview(Icons.people, this.numberPaticipant),
-            IconOverview(Icons.post_add, this.numberPost),
-            SizedBox(width: 0),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FormView(
-                              username: users[0]['name'],
-                              userphone: users[0]['phone'])));
-                },
-                child: Text(
-                  "Tham gia",
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  alignment: Alignment.center,
-                  fixedSize: Size(150, 30),
-                  primary: maincolor,
-                ))
-          ],
-        ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              child: Divider(
-                color: const Color(0xFFDDDDDD),
+    double c_width = MediaQuery.of(context).size.width;
+    return Container(
+      child: Column(
+        children: [
+          Stack(clipBehavior: Clip.none, children: [
+            Container(
+              height: 210,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(post[0]['postImage']),
+                    fit: BoxFit.cover),
               ),
             ),
-      ],
+            Positioned(
+              bottom: -80,
+              left: 5,
+              child: Row(
+                children: [
+                  Container(
+                    width: 90,
+                    height: 90,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(colors: activecolor),
+                    ),
+                    child: Container(
+                      width: 86,
+                      height: 86,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 3),
+                        image: DecorationImage(
+                            alignment: Alignment(0, -0.8),
+                            image: NetworkImage(widget.scrAvatar ?? post[0]['avatar']),
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: c_width - 110,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          widget.eventName,
+                          maxLines: 2,
+                          style: TextStyle(
+                              fontFamily: 'Roboto_Regular',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: textcolor),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ]),
+          SizedBox(height: 80),
+          Row(
+            children: [
+              SizedBox(width: 100),
+              IconOverview(Icons.people, this.numberPaticipant),
+              IconOverview(Icons.post_add, this.numberPost),
+              SizedBox(width: 0),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FormView(
+                                username: users[0]['name'],
+                                userphone: users[0]['phone'])));
+                  },
+                  child: Text(
+                    "Tham gia",
+                    style: TextStyle(
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    alignment: Alignment.center,
+                    fixedSize: Size(150, 30),
+                    primary: maincolor,
+                  ))
+            ],
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+            child: Divider(
+              color: const Color(0xFFDDDDDD),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

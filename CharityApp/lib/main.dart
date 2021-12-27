@@ -1,7 +1,9 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
+import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'injector.dart';
 import 'views/Pages/add_event_page/add_event_page.dart';
 import 'views/bloc/post_bloc/post.dart';
 import 'views/bloc/tab_bloc/tab_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +38,15 @@ class MeerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: [
+      Locale('en', ''), // English, no country code
+      Locale('vi', ''), // Spanish, no country code
+    ],
       debugShowCheckedModeBanner: true,
       routes: {
         AppRoutes.home: (context) {
@@ -43,9 +55,12 @@ class MeerApp extends StatelessWidget {
               BlocProvider<TabBloc>(
                 create: (context) => TabBloc(),
               ),
-              // BlocProvider<PostBloc>(
-              //   create: (context) => PostBloc(),
-              // ),
+              BlocProvider<EditprofileBloc>(
+                create: (context) => EditprofileBloc(),
+              ),
+              BlocProvider<OverViewUserBloc>(
+                create: (context) => OverViewUserBloc(),
+              ),
             ],
             child: RootApp(),
           );

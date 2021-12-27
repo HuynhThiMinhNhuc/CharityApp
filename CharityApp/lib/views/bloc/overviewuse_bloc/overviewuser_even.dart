@@ -1,16 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-abstract class OverviewUserEvent extends Equatable{
+abstract class OverviewUserEvent extends Equatable {
   const OverviewUserEvent();
 }
-class LoadOverViewUserEvent extends OverviewUserEvent{
-  LoadOverViewUserEvent();
+
+class LoadOverViewUserEvent extends OverviewUserEvent {
+  final id;
+  LoadOverViewUserEvent(this.id);
 
   @override
-  List<Object> get props =>[];
+  List<Object> get props => [];
 }
 
-class ClickButtonEvent extends OverviewUserEvent{
+class ClickButtonEvent extends OverviewUserEvent {
   ClickButtonEvent();
 
   @override

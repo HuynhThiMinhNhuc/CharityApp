@@ -17,6 +17,9 @@ extension UserProfileCopyWith on UserProfile {
     int? numberFollower,
     int? numberFollowing,
     int? numberPost,
+    dynamic? phone,
+    dynamic? email,
+    dynamic? password,
   }) {
     return UserProfile(
       avatarUri: avatarUri ?? this.avatarUri,
@@ -27,7 +30,10 @@ extension UserProfileCopyWith on UserProfile {
       name: name ?? this.name,
       numberFollower: numberFollower ?? this.numberFollower,
       numberFollowing: numberFollowing ?? this.numberFollowing,
-      numberPost: numberPost ?? this.numberPost,
+      numberPost: numberPost ?? this.numberPost, 
+      email: phone ?? this.phone, 
+      password: email ?? this.email, 
+      phone: password ?? this.password, 
     );
   }
 }
@@ -45,7 +51,10 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       numberFollower: json['numberFollower'] as int? ?? 0,
       numberFollowing: json['numberFollowing'] as int? ?? 0,
       numberPost: json['numberPost'] as int? ?? 0,
-      id: json['id'] as String?,
+      id: json['id'] as String?, 
+      email: json['email'] as String, 
+      password: json['password'] as String, 
+      phone: json['phone'] as String,
     );
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
@@ -59,6 +68,9 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
       'numberPost': instance.numberPost,
       'numberFollower': instance.numberFollower,
       'numberFollowing': instance.numberFollowing,
+      'phone': instance.phone,
+      'email':instance.email,
+      'password': instance.password
     };
 
 const _$GendersEnumMap = {
