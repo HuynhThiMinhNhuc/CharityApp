@@ -3,28 +3,34 @@ import 'package:charityapp/domain/entities/post.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class PostEvent extends Equatable {
-  final String eventId;
-  const PostEvent({required this.eventId});
+  const PostEvent();
 
   @override
-  List<Object> get props => [eventId];
+  List<Object> get props => [];
 }
-
-class LoadPosts extends PostEvent {
+class LoadEventPosts extends PostEvent {
+  final String eventId;
   final int number;
   final int startIndex;
-  LoadPosts(
-      {required String eventId, required this.startIndex, required this.number})
-      : super(eventId: eventId);
+  const LoadEventPosts(
+      {required this.eventId, required this.startIndex, required this.number});
 
   @override
-  List<Object> get props => [startIndex, number];
+  List<Object> get props => [startIndex, number, eventId];
 }
+
+class LoadOverViewEventsPaticipant extends PostEvent {
+  final String creatorId;
+  const LoadOverViewEventsPaticipant({required this.creatorId});
+
+    @override
+  List<Object> get props => [creatorId];
+}
+
 
 class DeletePost extends PostEvent {
   final BasePost post;
-  DeletePost({required String eventId, required this.post})
-      : super(eventId: eventId);
+  const DeletePost({required String eventId, required this.post});
 
   @override
   List<Object> get props => [post];
@@ -32,18 +38,9 @@ class DeletePost extends PostEvent {
 
 class AddPost extends PostEvent {
   final Post post;
-  AddPost({required String eventId, required this.post}) : super(eventId: eventId);
+  const AddPost({required this.post});
 
   @override
   List<Object> get props => [post];
-}
-
-class PostsUpdated extends PostEvent {
-  final List<Post> posts;
-  PostsUpdated({required String eventId, required this.posts})
-      : super(eventId: eventId);
-
-  @override
-  List<Object> get props => [posts];
 }
 

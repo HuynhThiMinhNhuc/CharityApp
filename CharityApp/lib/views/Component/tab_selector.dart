@@ -1,4 +1,5 @@
 import 'package:charityapp/core/model/app_tab.dart';
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
@@ -50,10 +51,9 @@ class TabSelector extends StatelessWidget {
                   backgroundColor: maincolor,
                   label: "New post",
                   onTap: () => {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AddPostPage()),
+                          AppRoutes.addPost,
                         )
                       }),
               SpeedDialChild(
@@ -62,10 +62,10 @@ class TabSelector extends StatelessWidget {
                   backgroundColor: Colors.red[400],
                   label: "New event",
                   onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddEventPage())),
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.addEvent,
+                        )
                       }),
             ],
           ),

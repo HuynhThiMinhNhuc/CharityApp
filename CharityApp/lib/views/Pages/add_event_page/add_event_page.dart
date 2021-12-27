@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
@@ -10,13 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AddEventPage extends StatefulWidget {
-  // final Function(
-  //   EventInfor event, {
-  //   File? avatarImage,
-  //   File? backgroundImage,
-  // }) onClickSubmit;
+  final Function(
+    EventInfor event, {
+    File? avatarImage,
+    File? backgroundImage,
+  })? onClickSubmit;
 
-  const AddEventPage({Key? key}) : super(key: key ?? AppKeys.addEventScreen);
+  const AddEventPage({Key? key, this.onClickSubmit})
+      : super(key: key ?? AppKeys.addEventScreen);
 
   @override
   State<AddEventPage> createState() => _AddEventPageState();
@@ -69,21 +69,23 @@ class _AddEventPageState extends State<AddEventPage> {
         actions: [
           TextButton(
             onPressed: () {
-              final event = EventInfor(
+              final DateTime? date = _dateTextController.text != ""
+                  ? DateFormat('dd/MM/yyyy').parse(_dateTextController.text)
+                  : null;
+
+              final _event = EventInfor(
                 name: _nameTextController.text,
                 creator: BaseUser(name: 'Thạch'),
                 description: _descriptionTextController.text == ""
                     ? null
                     : _descriptionTextController.text,
-                timeStart: _dateTextController.text == ""
-                    ? null
-                    : _dateTextController.text,
+                timeStart: date,
               );
-              // widget.onClickSubmit(
-              //   event,
-              //   avatarImage: avatarImage,
-              //   backgroundImage: backgroundImage,
-              // );
+              widget.onClickSubmit?.call(
+                _event,
+                avatarImage: avatarImage,
+                backgroundImage: backgroundImage,
+              );
             },
             child: Text(
               "Đăng",
@@ -117,25 +119,30 @@ class _AddEventPageState extends State<AddEventPage> {
                       text: '',
                       title: 'Tên sự kiện',
                       type: TextInputType.text,
+                      controller: _nameTextController,
                     ),
                     textFormFieldWithTitle(
-                        iconData: Icon(
-                          Icons.calendar_today_outlined,
-                          color: maincolor,
-                          size: 25,
-                        ),
-                        text: '',
-                        title: 'Thời gian',
-                        type: TextInputType.datetime),
+                      iconData: Icon(
+                        Icons.calendar_today_outlined,
+                        color: maincolor,
+                        size: 25,
+                      ),
+                      text: '',
+                      title: 'Thời gian',
+                      type: TextInputType.datetime,
+                      controller: _dateTextController,
+                    ),
                     textFormFieldWithTitle(
-                        iconData: Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.red[400],
-                          size: 25,
-                        ),
-                        text: '',
-                        title: 'Địa điểm',
-                        type: TextInputType.text),
+                      iconData: Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.red[400],
+                        size: 25,
+                      ),
+                      text: '',
+                      title: 'Địa điểm',
+                      type: TextInputType.text,
+                      controller: _locationTextController,
+                    ),
                     Text(
                       "Thêm ảnh",
                       style: TextStyle(
@@ -149,13 +156,13 @@ class _AddEventPageState extends State<AddEventPage> {
                         ImageCard(
                           hintTitle: "+ Ảnh bìa",
                           onImageChanged: (file) {
-                            avatarImage = file;
+                            backgroundImage = file;
                           },
                         ),
                         ImageCard(
                           hintTitle: "+ Ảnh đại diện",
                           onImageChanged: (file) {
-                            backgroundImage = file;
+                            avatarImage = file;
                           },
                         ),
                       ],
@@ -239,12 +246,16 @@ class textFormFieldWithTitle extends StatelessWidget {
   final String text;
   final Icon? iconData;
   final TextInputType type;
+  final TextEditingController controller;
+  final Function(Object? object)? onClickIcon;
   const textFormFieldWithTitle({
     Key? key,
     required this.title,
     required this.text,
     required this.iconData,
     required this.type,
+    required this.controller,
+    this.onClickIcon,
   }) : super(key: key);
 
   @override
@@ -262,6 +273,7 @@ class textFormFieldWithTitle extends StatelessWidget {
               color: Colors.grey[600]),
         ),
         TextFormField(
+          controller: controller,
           cursorColor: maincolor,
           style: TextStyle(
               fontFamily: 'Roboto-Regular.ttf',

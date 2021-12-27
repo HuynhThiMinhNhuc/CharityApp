@@ -1,23 +1,43 @@
+import 'package:charityapp/domain/entities/event_infor.dart';
+import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
+import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventPage extends StatefulWidget {
-  List<Post> posts = const <Post>[];
-  String scrAvatar;
-  String srcBackground;
-  String eventName;
+  final String? scrAvatar;
+  final String? srcBackground;
+  final String name;
+  final List<Post> posts;
 
-  EventPage(this.scrAvatar, this.srcBackground, this.eventName);
+  EventPage({this.scrAvatar, this.srcBackground, required this.name, scrBackground, this.posts = const[]});
 
   @override
   _EventPageState createState() => _EventPageState();
 }
 
 class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(
+        length: 2, vsync: this); //Post tab and information event tab
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> tabs = [
@@ -28,7 +48,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
             physics: NeverScrollableScrollPhysics(),
             itemCount: widget.posts.length,
             itemBuilder: (BuildContext context, int index) {
-              return PostOverview(post: widget.posts[index]);
+              return PostOverviewCard(post: widget.posts[index]);
             },
           ),
         ),
@@ -42,11 +62,11 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: NestedScrollView(
+        child: NestedScrollView( 
           headerSliverBuilder: (context, value) {
             return [
               SliverToBoxAdapter(
-                child: EventOverview(widget.eventName, widget.scrAvatar),
+                child: EventOverviewCard(widget.name, widget.scrAvatar),
               ),
               SliverAppBar(
                 pinned: true,

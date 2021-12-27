@@ -8,16 +8,16 @@ part of 'event_infor.dart';
 
 extension EventInforCopyWith on EventInfor {
   EventInfor copyWith({
-    Uri? avatarUri,
-    Uri? backgroundUri,
+    String? avatarUri,
+    String? backgroundUri,
     BaseUser? creator,
     String? description,
     String? id,
     String? name,
     int? numberMember,
     int? numberPost,
-    List<String>? tags,
-    String? timeStart,
+    List<TagEvent>? tags,
+    DateTime? timeStart,
   }) {
     return EventInfor(
       avatarUri: avatarUri ?? this.avatarUri,
@@ -43,19 +43,18 @@ EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
       creator: json['creator'] == null
           ? null
           : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
-      avatarUri: json['avatarUri'] == null
-          ? null
-          : Uri.parse(json['avatarUri'] as String),
-      backgroundUri: json['backgroundUri'] == null
-          ? null
-          : Uri.parse(json['backgroundUri'] as String),
+      avatarUri: json['avatarUri'] as String?,
+      backgroundUri: json['backgroundUri'] as String?,
       description: json['description'] as String?,
-      timeStart: json['timeStart'] as String?,
+      timeStart: json['timeStart'] == null
+          ? null
+          : DateTime.parse(json['timeStart'] as String),
       numberMember: json['numberMember'] as int? ?? 0,
       numberPost: json['numberPost'] as int? ?? 0,
-      tags:
-          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
+      tags: (json['tags'] as List<dynamic>?)
+              ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       id: json['id'] as String?,
     );
 
@@ -64,11 +63,11 @@ Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
       'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
-      'avatarUri': instance.avatarUri?.toString(),
-      'backgroundUri': instance.backgroundUri?.toString(),
+      'avatarUri': instance.avatarUri,
+      'backgroundUri': instance.backgroundUri,
+      'tags': instance.tags,
       'description': instance.description,
-      'timeStart': instance.timeStart,
+      'timeStart': instance.timeStart?.toIso8601String(),
       'numberMember': instance.numberMember,
       'numberPost': instance.numberPost,
-      'tags': instance.tags,
     };

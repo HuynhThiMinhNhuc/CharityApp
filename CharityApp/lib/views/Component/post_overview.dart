@@ -9,16 +9,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'information_creator_post_view.dart';
 
-class PostOverview extends StatefulWidget {
+class PostOverviewCard extends StatefulWidget {
   final Post post;
 
-  PostOverview({required this.post});
+  PostOverviewCard({required this.post});
 
   @override
-  _PostOverviewState createState() => _PostOverviewState();
+  _PostOverviewCardState createState() => _PostOverviewCardState();
 }
 
-class _PostOverviewState extends State<PostOverview> {
+class _PostOverviewCardState extends State<PostOverviewCard> {
   bool love = false;
   FaIcon icon = FaIcon(FontAwesomeIcons.heart);
   @override
@@ -52,8 +52,11 @@ class _PostOverviewState extends State<PostOverview> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EventPage(users[0]['img'],
-                              post[5]['postImage'], post[1]['title'])));
+                          builder: (context) => EventPage(
+                                name: "text",
+                                scrAvatar: users[0]['img'],
+                                scrBackground: post[5]['postImage'],
+                              )));
                 },
                 child: Text(
                   widget.post.title,

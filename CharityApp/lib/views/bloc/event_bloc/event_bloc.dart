@@ -4,12 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
+import 'package:charityapp/repositories/event_repository_imp.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import './event.dart';
 
 class EventBloc extends Bloc<EventEvent, EventState> {
-  final IEventRepository repository;
+  final IEventRepository repository = EventRepositoryImp();
 
-  EventBloc({required this.repository}) : super(EventViewLoadInProgress()) {
+  EventBloc() : super(EventViewLoadInProgress()) {
     on<LoadPostsView>(_onLoadPostView);
     on<LoadDescriptionView>(_onLoadDescriptionView);
     // on<LoadImagesView>(_onLoadImagesView);
@@ -38,11 +40,16 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       //Upload image to firestore
       Future<String?>? avatarT;
       Future<String?>? backgroundT;
+
+      String? avatarUriPath;
+      String? backgroundUriPath;
+
       if (event.avartarFile != null) {
         avatarT = UploadImageToFirestorage.call(
                 imageFile: event.avartarFile!, rootPath: rootPath)
             .then((value) {
           print('Upload avatar of event success');
+          avatarUriPath = value;
         });
       }
       if (event.backgroundFile != null) {
@@ -50,22 +57,20 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                 imageFile: event.backgroundFile!, rootPath: rootPath)
             .then((value) {
           print('Upload background of event success');
+          backgroundUriPath = value;
         });
       }
 
       //Get uri path in firestore
-      String? avatarUriPath;
-      String? backgroundUriPath;
-      await Future.wait([
-        _createPathUriFor(avatarUriPath, avatarT),
-        _createPathUriFor(backgroundUriPath, backgroundT),
+      await Future.wait<String?>([
+        Future.value(avatarT),
+        Future.value(backgroundT),
       ]);
 
       //Create uri for current event
       final newEvent = eventAdded.copyWith(
-        avatarUri: avatarUriPath == null ? null : Uri(path: avatarUriPath),
-        backgroundUri:
-            backgroundUriPath == null ? null : Uri(path: backgroundUriPath),
+        avatarUri: avatarUriPath,
+        backgroundUri: backgroundUriPath,
       );
       await repository.add(newEvent);
       print('Add new event complete');
@@ -77,14 +82,4 @@ class EventBloc extends Bloc<EventEvent, EventState> {
   }
 
   FutureOr<void> _onDeleteEvent(DeleteEvent event, Emitter<EventState> emit) {}
-
-  Future<void> _createPathUriFor(String? path, Future<String?>? task) async {
-    if (task != null) {
-      path = await task;
-      if (path == null) {
-        emit(EventLoadFailure());
-        return;
-      }
-    }
-  }
 }

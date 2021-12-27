@@ -27,11 +27,12 @@ class _CalendarPageState extends State<CalendarPage>
         physics: NeverScrollableScrollPhysics(),
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {
-          return EventCardView(
-            number: 3,
-            time: DateTime.now(),
-            title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
-          );
+          // return EventCardView(
+          //   number: 3,
+          //   time: DateTime.now(),
+          //   title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
+          // );
+          return Text('fail');
         },
       ),
       ListView.builder(
@@ -39,11 +40,12 @@ class _CalendarPageState extends State<CalendarPage>
         physics: NeverScrollableScrollPhysics(),
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {
-          return EventCardView(
-            number: 3,
-            time: DateTime.now(),
-            title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
-          );
+          // return EventCardView(
+          //   number: 3,
+          //   time: DateTime.now(),
+          //   title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
+          // );
+          return Text('fail');
         },
       ),
       ListView.builder(
@@ -51,11 +53,12 @@ class _CalendarPageState extends State<CalendarPage>
         physics: NeverScrollableScrollPhysics(),
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {
-          return EventCardView(
-            number: 3,
-            time: DateTime.now(),
-            title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
-          );
+          // return EventCardView(
+          //   number: 3,
+          //   time: DateTime.now(),
+          //   title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
+          // );
+          return Text('fail');
         },
       )
     ];

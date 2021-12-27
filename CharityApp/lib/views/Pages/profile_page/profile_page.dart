@@ -68,23 +68,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 //push DetailPost with post ID
               }
             },
-            buildWhen: (context, state) {
-              return state is LoadingPostState ||
-                  state is LoadedPostState ||
-                  state is LoadingFailState;
+            buildWhen: (context, state){
+                   return state is LoadingPostState ||
+                          state is LoadedPostState ||
+                          state is PostsLoadFailure;
             },
-            builder: (context, state) {
-              if (state is LoadedPostState) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: state.listPost.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return PostOverview(post: state.listPost[index]);
-                  },
-                );
-              } else
-                return Text("Loading");
+            builder: (context, state){
+                   if ( state is LoadedPostState) {
+                     return ListView.builder(
+                       shrinkWrap: true,
+                       physics: NeverScrollableScrollPhysics(),
+                       itemCount: state.listPost.length,
+                       itemBuilder: (BuildContext context, int index) {
+                         return PostOverviewCard(post: state.listPost[index]);
+                       },
+                     );
+                   }
+                   else return Text("Loading");
             },
           )),
         ],

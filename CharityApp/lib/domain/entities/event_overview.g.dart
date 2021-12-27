@@ -8,11 +8,12 @@ part of 'event_overview.dart';
 
 extension EventOverviewCopyWith on EventOverview {
   EventOverview copyWith({
-    Uri? avatarUri,
-    Uri? backgroundUri,
+    String? avatarUri,
+    String? backgroundUri,
     BaseUser? creator,
     String? id,
     String? name,
+    List<TagEvent>? tags,
   }) {
     return EventOverview(
       avatarUri: avatarUri ?? this.avatarUri,
@@ -20,6 +21,7 @@ extension EventOverviewCopyWith on EventOverview {
       creator: creator ?? this.creator,
       id: id ?? this.id,
       name: name ?? this.name,
+      tags: tags ?? this.tags,
     );
   }
 }
@@ -34,13 +36,13 @@ EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
       creator: json['creator'] == null
           ? null
           : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
-      avatarUri: json['avatarUri'] == null
-          ? null
-          : Uri.parse(json['avatarUri'] as String),
-      backgroundUri: json['backgroundUri'] == null
-          ? null
-          : Uri.parse(json['backgroundUri'] as String),
+      avatarUri: json['avatarUri'] as String?,
+      backgroundUri: json['backgroundUri'] as String?,
       id: json['id'] as String?,
+      tags: (json['tags'] as List<dynamic>?)
+              ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
@@ -48,6 +50,7 @@ Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
       'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
-      'avatarUri': instance.avatarUri?.toString(),
-      'backgroundUri': instance.backgroundUri?.toString(),
+      'avatarUri': instance.avatarUri,
+      'backgroundUri': instance.backgroundUri,
+      'tags': instance.tags,
     };
