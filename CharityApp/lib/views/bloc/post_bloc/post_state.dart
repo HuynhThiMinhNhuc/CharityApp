@@ -25,11 +25,16 @@ class PostsLoadOverviewSuccess extends PostState {
   List<Object> get props => [eventsOverview];
 }
 
-class PostsLoadFailure extends PostState {}
+class PostLoadFailure extends PostState {}
 
-class PostsLoadInProgress extends PostState {}
+class PostLoadInProgress extends PostState {}
 
-class LoadingPostState extends PostState {}
+class PostUpdated extends PostState {
+  
+}
+class PostUpdateFail extends PostState {
+  
+}
 
 class LoadedPostState extends PostState {
   List<Post> listPost = [];

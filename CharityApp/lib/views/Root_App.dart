@@ -18,6 +18,7 @@ typedef onAddPostCallback = Function(Post post);
 class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('rebuild root app');
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activateTab) {
         return Scaffold(
@@ -29,11 +30,11 @@ class RootApp extends StatelessWidget {
           bottomNavigationBar: TabSelector(
             activeTab: activateTab,
             onTabSelected: (tab) {
-              if (tab == AppTab.addpost) {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.addPost,
-                );
+              if (tab == AppTab.addObject) {
+                // Navigator.pushNamed(
+                //   context,
+                //   AppRoutes.addPost,
+                // );
               } else {
                 BlocProvider.of<TabBloc>(context)
                     .add(UpdateTab(newActiveTab: tab));

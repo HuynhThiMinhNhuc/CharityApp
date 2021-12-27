@@ -29,6 +29,7 @@ class _AddEventPageState extends State<AddEventPage> {
   late TextEditingController _descriptionTextController;
   File? avatarImage;
   File? backgroundImage;
+  DateTime? startDate;
 
   @override
   void initState() {
@@ -69,9 +70,6 @@ class _AddEventPageState extends State<AddEventPage> {
         actions: [
           TextButton(
             onPressed: () {
-              final DateTime? date = _dateTextController.text != ""
-                  ? DateFormat('dd/MM/yyyy').parse(_dateTextController.text)
-                  : null;
 
               final _event = EventInfor(
                 name: _nameTextController.text,
@@ -79,7 +77,7 @@ class _AddEventPageState extends State<AddEventPage> {
                 description: _descriptionTextController.text == ""
                     ? null
                     : _descriptionTextController.text,
-                timeStart: date,
+                timeStart: startDate,
               );
               widget.onClickSubmit?.call(
                 _event,
@@ -128,9 +126,35 @@ class _AddEventPageState extends State<AddEventPage> {
                         size: 25,
                       ),
                       text: '',
-                      title: 'Thời gian',
+                      title: 'Thời gian bắt đầu',
                       type: TextInputType.datetime,
                       controller: _dateTextController,
+                      onClickIcon: () {
+
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(DateTime.now().year - 1,
+                              DateTime.now().month, DateTime.now().day),
+                          lastDate: DateTime(DateTime.now().year + 2),
+                        ).then((value) {
+                          startDate = value;
+
+                          if (startDate != null) {
+                            final formattedDate =
+                                DateFormat('dd/MM/yyyy').format(startDate!);
+                            if (formattedDate != _dateTextController.text)
+                              setState(() {
+                                _dateTextController.text = formattedDate;
+                                print("Date selected: $formattedDate");
+                              });
+                          } else {
+                            setState(() {
+                              _dateTextController.text = '';
+                            });
+                          }
+                        });
+                      },
                     ),
                     textFormFieldWithTitle(
                       iconData: Icon(
@@ -247,7 +271,7 @@ class textFormFieldWithTitle extends StatelessWidget {
   final Icon? iconData;
   final TextInputType type;
   final TextEditingController controller;
-  final Function(Object? object)? onClickIcon;
+  final Function()? onClickIcon;
   const textFormFieldWithTitle({
     Key? key,
     required this.title,
@@ -289,7 +313,10 @@ class textFormFieldWithTitle extends StatelessWidget {
                   color: maincolor,
                 ),
               ),
-              suffixIcon: iconData,
+              suffixIcon: iconData != null
+                  ? IconButton(
+                      onPressed: () => onClickIcon?.call(), icon: iconData!)
+                  : null,
               label: null),
         ),
         SizedBox(height: 7)

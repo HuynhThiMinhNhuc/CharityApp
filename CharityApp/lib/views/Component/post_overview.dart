@@ -20,7 +20,13 @@ class PostOverviewCard extends StatefulWidget {
 
 class _PostOverviewCardState extends State<PostOverviewCard> {
   bool love = false;
-  FaIcon icon = FaIcon(FontAwesomeIcons.heart);
+  late FaIcon icon;
+
+  @override
+  void initState() {
+    super.initState();
+    icon = FaIcon(FontAwesomeIcons.heart);
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +42,7 @@ class _PostOverviewCardState extends State<PostOverviewCard> {
             SizedBox(
               height: 10,
             ),
-            Container(
+            if (widget.post.imagesUri.length > 0) Container(
               height: 400,
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -74,7 +80,7 @@ class _PostOverviewCardState extends State<PostOverviewCard> {
                 style: TextStyle(fontSize: 13, fontFamily: 'Roboto_Regular'),
               ),
             ),
-            SizedBox(
+            if (widget.post.tags.length > 0) SizedBox(
               height: 30,
               child: ListView.builder(
                 itemBuilder: (_, index) {
@@ -101,9 +107,6 @@ class _PostOverviewCardState extends State<PostOverviewCard> {
                 itemCount: widget.post.tags.length,
                 scrollDirection: Axis.horizontal,
               ),
-            ),
-            SizedBox(
-              height: 5,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 10, 0),

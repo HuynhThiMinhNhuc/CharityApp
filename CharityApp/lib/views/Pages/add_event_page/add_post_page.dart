@@ -1,17 +1,17 @@
+import 'dart:io';
+
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
-import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/post.dart';
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
-import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPostPage extends StatefulWidget {
-  final Function(String eventId, Post post)? onClickSubmit;
+  final Function(Post post, List<File> images)? onClickSubmit;
   AddPostPage({Key? key, this.onClickSubmit}) : super(key: key);
 
   @override
@@ -22,6 +22,7 @@ class _AddPostPageState extends State<AddPostPage> {
   late TextEditingController _titleTextController;
   late TextEditingController _descriptionTextControlelr;
   BaseEvent? chooseEvent;
+  List<File> images = <File>[];
 
   @override
   void initState() {
@@ -179,21 +180,29 @@ class _AddPostPageState extends State<AddPostPage> {
               fontWeight: FontWeight.w600)),
       actions: [
         TextButton(
-            onPressed: () {
-              final post = Post(
-                title: _titleTextController.text,
-                description: _descriptionTextControlelr.text,
-              );
-              String eventId = "1";
+          onPressed: () {
+            //TODO: fix creator here
+            final post = Post(
+              title: _titleTextController.text,
+              description: _descriptionTextControlelr.text,
+              eventId: chooseEvent!.id!,
+              creator: UserOverview(
+                  name: 'khong co',
+                  avatarUri: null,
+                  id: '7hKHP4tpuIyeTJ44IdJe'),
+            );
 
-              widget.onClickSubmit?.call(eventId, post);
-            },
-            child: Text("Đăng",
-                style: TextStyle(
-                    color: maincolor,
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600)))
+            widget.onClickSubmit?.call(post, images);
+          },
+          child: Text(
+            "Đăng",
+            style: TextStyle(
+                color: maincolor,
+                fontFamily: 'Roboto_Regular',
+                fontSize: 17,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
       ],
     );
   }

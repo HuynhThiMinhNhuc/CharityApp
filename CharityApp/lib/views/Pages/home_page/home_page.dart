@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         if (state is PostsLoadSuccess) {
           return LoadSuccessHomeView(state.posts);
         }
-        if (state is PostsLoadInProgress) {
+        if (state is PostLoadInProgress) {
           return Text("Loading view...");
         } else
           return Text("Load fail");
