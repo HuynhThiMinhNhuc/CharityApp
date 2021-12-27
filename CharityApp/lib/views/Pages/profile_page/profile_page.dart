@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   if (state is LoadedOverViewUserState) {
                     return ProfileOverView(
                         state.userProfile as UserProfile, mode.My, overViewUserBloc);
-                  } else if (state is LoadingPostState)
+                  } else if (state is PostLoadInProgress)
                     return Text("Loading");
                   else
                     return Text("Loading failer.....");
@@ -64,14 +64,14 @@ class _ProfilePageState extends State<ProfilePage> {
             //        return state is ClickPostEvent;
             // },
             listener: (context, state) {
-              if (state is LoadingPostState) {
+              if (state is PostLoadInProgress) {
                 //push DetailPost with post ID
               }
             },
             buildWhen: (context, state){
-                   return state is LoadingPostState ||
+                   return state is PostLoadInProgress ||
                           state is LoadedPostState ||
-                          state is PostsLoadFailure;
+                          state is PostLoadFailure;
             },
             builder: (context, state){
                    if ( state is LoadedPostState) {

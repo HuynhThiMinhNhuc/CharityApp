@@ -44,7 +44,7 @@ class ChossesEventView extends StatelessWidget {
                   ),
                 ),
               );
-            } else if (state is PostsLoadInProgress) {
+            } else if (state is PostLoadInProgress) {
               return Text('Loading...');
             }
             return Text('Load fail');

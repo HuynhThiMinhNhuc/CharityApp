@@ -1,7 +1,7 @@
 enum AppTab {
   home,
   calendar,
-  addpost,
+  addObject,
   friend,
   profile,
 }

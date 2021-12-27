@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
+import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
@@ -12,6 +13,7 @@ import 'package:charityapp/views/root_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 import 'injector.dart';
 import 'views/Pages/add_event_page/add_event_page.dart';
@@ -82,7 +84,6 @@ class MeerApp extends StatelessWidget {
               if (state is EventUpdated) {
                 showMyDialog(context, "Thêm sự kiện thành công");
               } else if (state is EventLoadFailure) {
-                print("add event fail");
                 showMyDialog(context, "Thêm sự kiện thất bại",
                     closeWhenClick: false);
               }
@@ -104,24 +105,38 @@ class MeerApp extends StatelessWidget {
         },
         AppRoutes.addPost: (context) {
           print("create add_post route");
-          return AddPostPage(
-            onClickSubmit: (eventId, post) {
-              BlocProvider.of<PostBloc>(context).add(
-                AddPost(post: post),
-              );
+          return BlocListener<PostBloc, PostState>(
+            listener: (bloc_context, state) async {
+              if (state is PostUpdated) {
+                await showMyDialog(bloc_context, 'Thêm bài viết thành công');
+                Navigator.of(context).pushNamed(AppRoutes.eventPage);
+              } else if (state is PostLoadFailure) {
+                showMyDialog(bloc_context, 'Thêm bài viết thất bại',
+                    closeWhenClick: false);
+              }
             },
+            child: AddPostPage(
+              onClickSubmit: (post, images) {
+                BlocProvider.of<PostBloc>(context).add(
+                  AddPost(post: post, images: images),
+                );
+              },
+            ),
           );
         },
         AppRoutes.chooseEvent: (context) {
           return ChossesEventView();
+        },
+        AppRoutes.eventPage: (context) {
+          return EventPage(name: 'test');
         }
       },
     );
   }
 
-  void showMyDialog(BuildContext context, String text,
+  Future<void> showMyDialog(BuildContext context, String text,
       {bool closeWhenClick = true}) async {
-    await showDialog(
+    return showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:charityapp/domain/entities/base_post.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:equatable/equatable.dart';
@@ -8,6 +10,7 @@ abstract class PostEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
 class LoadEventPosts extends PostEvent {
   final String eventId;
   final int number;
@@ -23,10 +26,9 @@ class LoadOverViewEventsPaticipant extends PostEvent {
   final String creatorId;
   const LoadOverViewEventsPaticipant({required this.creatorId});
 
-    @override
+  @override
   List<Object> get props => [creatorId];
 }
-
 
 class DeletePost extends PostEvent {
   final BasePost post;
@@ -38,9 +40,9 @@ class DeletePost extends PostEvent {
 
 class AddPost extends PostEvent {
   final Post post;
-  const AddPost({required this.post});
+  final List<File> images;
+  const AddPost({required this.post, this.images = const<File>[]});
 
   @override
   List<Object> get props => [post];
 }
-
