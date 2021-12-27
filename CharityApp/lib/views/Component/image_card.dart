@@ -9,16 +9,20 @@ import 'package:path_provider/path_provider.dart';
 class ImageCard extends StatefulWidget {
   final double width;
   final double height;
-  final String hintTitle;
-  final Function(File?)? onImageChanged;
+  final String? hintTitle;
+  final IconData? icon;
+  final Function(File)? onImageChanged;
+  final Function()? onImageDeleted;
 
-  ImageCard(
-      {Key? key,
-      this.hintTitle = "+ Thêm hình ảnh",
-      this.width = 120,
-      this.height = 150,
-      this.onImageChanged})
-      : super(key: key);
+  ImageCard({
+    Key? key,
+    this.hintTitle,
+    this.width = 120,
+    this.height = 150,
+    this.onImageChanged,
+    this.onImageDeleted,
+    this.icon,
+  }) : super(key: key);
 
   @override
   _ImageCardState createState() => _ImageCardState();
@@ -36,13 +40,23 @@ class _ImageCardState extends State<ImageCard> {
       final image = File('${directory.path}/${basename(picture.path)}');
 
       //Create new image from source image, add temporary to storage app
-      final file = await File(picture.path);//.copy(image.path);
-      
+      final file = await File(picture.path); //.copy(image.path);
+
       this.setState(() {
         //Update UI with image
         imageFile = file;
-        widget.onImageChanged?.call(imageFile);
       });
+      widget.onImageChanged?.call(imageFile!);
+    }
+  }
+
+  Future<void> _deleteImage() async {
+    if (imageFile != null) {
+      print('request delete if image not null');
+      setState(() {
+        imageFile = null;
+      });
+      widget.onImageDeleted?.call();
     }
   }
 
@@ -52,25 +66,32 @@ class _ImageCardState extends State<ImageCard> {
     final double height = widget.height;
 
     return Container(
-      child: imageFile != null
-          ? Image.file(
-              imageFile!,
-              width: width,
-              height: height,
-            )
-          : InkWell(
-              child: Center(
-                child: Text(
-                  widget.hintTitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Roboto-Regular.ttf',
-                      fontSize: 13,
-                      color: Colors.grey[600]),
-                ),
+      child: InkWell(
+        child: imageFile != null
+            ? Image.file(
+                imageFile!,
+                width: width,
+                height: height,
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (widget.hintTitle != null)
+                    Text(
+                      widget.hintTitle!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Roboto-Regular.ttf',
+                          fontSize: 13,
+                          color: Colors.grey[600]),
+                    ),
+                  if (widget.icon != null)
+                    Icon(widget.icon, color: maincolor, size: 25),
+                ],
               ),
-              onTap: _galleryImage,
-            ),
+        onTap: _galleryImage,
+        onLongPress: _deleteImage,
+      ),
       height: 150,
       width: 120,
       decoration: BoxDecoration(

@@ -7,15 +7,10 @@ import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChossesEventView extends StatefulWidget {
+class ChossesEventView extends StatelessWidget {
   final Function(EventOverview event)? onClick;
   const ChossesEventView({Key? key, this.onClick}) : super(key: key);
-
-  @override
-  _ChossesEventViewState createState() => _ChossesEventViewState();
-}
-
-class _ChossesEventViewState extends State<ChossesEventView> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
