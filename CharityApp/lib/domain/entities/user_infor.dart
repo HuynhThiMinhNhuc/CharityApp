@@ -36,6 +36,7 @@ class UserInfor extends UserOverview {
         description: json['description'] as String?,
         birthDayString: json['birthDayString'] as String?,
         gender: $enumDecode(_$GendersEnumMap, json['gender']),
+
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,

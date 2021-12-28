@@ -58,6 +58,37 @@ class PostRepositoryImp implements IPostRepository {
   }
 
   @override
+  Future<List<Post>> loadRandomPosts(int startIndex, int number) async {
+    final userCollection = FirebaseFirestore.instance.collection('users');
+    List<Future> tasks = <Future>[];
+
+    final posts = await collection
+        .orderBy('timeCreate', descending: true)
+        .get()
+        .then((snapshot) {
+      return snapshot.docs.map((docPost) {
+        final postJson = docPost.data() as Map<String, dynamic>;
+        final post = Post.fromJson(postJson);
+        post.id = docPost.id; //Set doc id
+        // post.creator = UserOverview(name: 'test', avatarUri: Uri(path: "avatarUri"));
+        //Load UserOverview
+        tasks.add(userCollection.doc(postJson['creatorId']).get().then(
+          (docUser) {
+            post.creator =
+                UserOverview.fromJson(docUser.data() as Map<String, dynamic>);
+            post.id = docUser.id; //Set doc id
+          },
+        ));
+
+        return post;
+      }).toList();
+    });
+
+    await Future.wait(tasks);
+    return posts;
+  }
+
+  @override
   Future<List<UserComment>> loadComments(
       String postId, int startIndex, int number) {
     // return collection.doc(id).

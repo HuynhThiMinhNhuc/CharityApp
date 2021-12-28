@@ -52,7 +52,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
                   if (state is LoadedOverViewUserState) {
                     return ProfileOverView(state.userProfile as UserProfile,
                         state.isfriend, overViewUserBloc);
-                  } else if (state is LoadingPostState)
+                  } else if (state is PostLoadInProgress)
                     return Text("Loading");
                   else
                     return Text("Loading failer.....");
@@ -65,14 +65,14 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
             //        return state is ClickPostEvent;
             // },
             listener: (context, state) {
-              if (state is LoadingPostState) {
+              if (state is PostLoadInProgress) {
                 //push DetailPost with post ID
               }
             },
             buildWhen: (context, state) {
-              return state is LoadingPostState ||
+              return state is PostLoadInProgress ||
                   state is LoadedPostState ||
-                  state is PostsLoadFailure;
+                  state is PostLoadFailure;
             },
             builder: (context, state) {
               if (state is LoadedPostState) {

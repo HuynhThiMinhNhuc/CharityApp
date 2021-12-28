@@ -17,7 +17,8 @@ class EventOverviewPaticipants extends BaseEvent {
     required this.number,
     required this.timeStart,
     required this.backgroundUri,
-  }) : super(name: name) {
+    DateTime? timeCreate,
+  }) : super(name: name, timeCreate: timeCreate) {
     if (paticipantsUri != null) this.paticipantsUri = paticipantsUri;
   }
 
@@ -27,6 +28,9 @@ class EventOverviewPaticipants extends BaseEvent {
         number: json['numberMember'] as int,
         timeStart: (json['timeStart'] as Timestamp).toDate(),
         backgroundUri: json['backgroundUri'] as String?,
+        timeCreate: json['timeCreate'] == null
+            ? null
+            : (json['timeCreate'] as Timestamp).toDate(),
       );
 
   // factory PostOverview.fromJson(Map<String, dynamic> json) => _$PostOverviewFromJson(json);

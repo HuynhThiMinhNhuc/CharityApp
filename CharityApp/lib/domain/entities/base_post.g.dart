@@ -11,12 +11,14 @@ extension BasePostCopyWith on BasePost {
     UserOverview? creator,
     String? eventId,
     String? id,
+    DateTime? timeCreate,
     String? title,
   }) {
     return BasePost(
       creator: creator ?? this.creator,
       eventId: eventId ?? this.eventId,
       id: id ?? this.id,
+      timeCreate: timeCreate ?? this.timeCreate,
       title: title ?? this.title,
     );
   }
@@ -33,6 +35,9 @@ BasePost _$BasePostFromJson(Map<String, dynamic> json) => BasePost(
           : UserOverview.fromJson(json['creator'] as Map<String, dynamic>),
       eventId: json['eventId'] as String?,
       id: json['id'] as String?,
+      timeCreate: json['timeCreate'] == null
+          ? null
+          : DateTime.parse(json['timeCreate'] as String),
     );
 
 Map<String, dynamic> _$BasePostToJson(BasePost instance) => <String, dynamic>{
@@ -40,4 +45,5 @@ Map<String, dynamic> _$BasePostToJson(BasePost instance) => <String, dynamic>{
       'title': instance.title,
       'eventId': instance.eventId,
       'creator': instance.creator,
+      'timeCreate': instance.timeCreate?.toIso8601String(),
     };

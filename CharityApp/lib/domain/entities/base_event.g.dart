@@ -11,11 +11,13 @@ extension BaseEventCopyWith on BaseEvent {
     BaseUser? creator,
     String? id,
     String? name,
+    DateTime? timeCreate,
   }) {
     return BaseEvent(
       creator: creator ?? this.creator,
       id: id ?? this.id,
       name: name ?? this.name,
+      timeCreate: timeCreate ?? this.timeCreate,
     );
   }
 }
@@ -30,10 +32,14 @@ BaseEvent _$BaseEventFromJson(Map<String, dynamic> json) => BaseEvent(
           ? null
           : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
       id: json['id'] as String?,
+      timeCreate: json['timeCreate'] == null
+          ? null
+          : DateTime.parse(json['timeCreate'] as String),
     );
 
 Map<String, dynamic> _$BaseEventToJson(BaseEvent instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
+      'timeCreate': instance.timeCreate?.toIso8601String(),
     };

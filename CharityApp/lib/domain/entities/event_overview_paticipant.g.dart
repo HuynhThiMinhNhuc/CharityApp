@@ -8,19 +8,21 @@ part of 'event_overview_paticipant.dart';
 
 extension EventOverviewPaticipantsCopyWith on EventOverviewPaticipants {
   EventOverviewPaticipants copyWith({
-    String? avatarUri,
+    String? backgroundUri,
     String? id,
     String? name,
     int? number,
     List<String?>? paticipantsUri,
+    DateTime? timeCreate,
     DateTime? timeStart,
   }) {
     return EventOverviewPaticipants(
-      backgroundUri: avatarUri ?? this.backgroundUri,
+      backgroundUri: backgroundUri ?? this.backgroundUri,
       id: id ?? this.id,
       name: name ?? this.name,
       number: number ?? this.number,
       paticipantsUri: paticipantsUri ?? this.paticipantsUri,
+      timeCreate: timeCreate ?? this.timeCreate,
       timeStart: timeStart ?? this.timeStart,
     );
   }

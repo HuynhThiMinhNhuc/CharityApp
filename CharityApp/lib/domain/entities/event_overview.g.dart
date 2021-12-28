@@ -14,6 +14,7 @@ extension EventOverviewCopyWith on EventOverview {
     String? id,
     String? name,
     List<TagEvent>? tags,
+    DateTime? timeCreate,
   }) {
     return EventOverview(
       avatarUri: avatarUri ?? this.avatarUri,
@@ -22,6 +23,7 @@ extension EventOverviewCopyWith on EventOverview {
       id: id ?? this.id,
       name: name ?? this.name,
       tags: tags ?? this.tags,
+      timeCreate: timeCreate ?? this.timeCreate,
     );
   }
 }
@@ -43,6 +45,9 @@ EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      timeCreate: json['timeCreate'] == null
+          ? null
+          : DateTime.parse(json['timeCreate'] as String),
     );
 
 Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
@@ -50,6 +55,7 @@ Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
       'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
+      'timeCreate': instance.timeCreate?.toIso8601String(),
       'avatarUri': instance.avatarUri,
       'backgroundUri': instance.backgroundUri,
       'tags': instance.tags,

@@ -5,6 +5,8 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/tab_selector.dart';
 import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
+import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -26,7 +28,7 @@ class RootApp extends StatelessWidget {
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(80),
               child: getappbar(activateTab)),
-          body: getbody(activateTab),
+          body: getbody(context, activateTab),
           bottomNavigationBar: TabSelector(
             activeTab: activateTab,
             onTabSelected: (tab) {
@@ -177,12 +179,11 @@ class RootApp extends StatelessWidget {
     );
   }
 
-  Widget getbody(AppTab activateTab) {
-    if (activateTab == AppTab.home)
-      return HomePage(
-        needReload: true,
-      );
-    else if (activateTab == AppTab.calendar)
+  Widget getbody(BuildContext context, AppTab activateTab) {
+    if (activateTab == AppTab.home) {
+
+      return HomePage();
+    } else if (activateTab == AppTab.calendar)
       return CalendarPage();
     // else if (activateTab == AppTab.addpost)
     //   return AddEventPage();

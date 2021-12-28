@@ -1,5 +1,6 @@
 import 'package:charityapp/domain/entities/base_post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -24,7 +25,8 @@ class Post extends BasePost {
     this.imagesUri = const <String>[],
     String? eventId,
     String? id,
-  }) : super(title: title, creator: creator, eventId: eventId, id: id);
+    DateTime? timeCreate,
+  }) : super(title: title, creator: creator, eventId: eventId, id: id, timeCreate: timeCreate);
 
   // factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   // Map<String, dynamic> toJson() => _$PostToJson(this);
@@ -43,6 +45,9 @@ class Post extends BasePost {
                 .toList() ??
             const <String>[],
         eventId: json['eventId'] as String?,
+        timeCreate: json['timeCreate'] == null
+          ? null
+          : (json['timeCreate'] as Timestamp).toDate(),
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'title': this.title,
@@ -54,5 +59,6 @@ class Post extends BasePost {
         // 'numberLike': this.numberLike,
         'tags': this.tags,
         'imagesUri': this.imagesUri,
+        'timeCreate': this.timeCreate == null ? null : Timestamp.fromDate(this.timeCreate!),
       };
 }

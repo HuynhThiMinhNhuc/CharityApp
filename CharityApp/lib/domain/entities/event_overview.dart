@@ -1,6 +1,7 @@
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -20,10 +21,12 @@ class EventOverview extends BaseEvent {
     this.backgroundUri,
     String? id,
     this.tags = const[],
+    DateTime? timeCreate
   }) : super(
           name: name,
           creator: creator,
           id: id,
+          timeCreate: timeCreate,
         );
 
   // factory EventOverview.fromJson(Map<String, dynamic> json) => _$EventOverviewFromJson(json);
@@ -34,6 +37,9 @@ class EventOverview extends BaseEvent {
         creator: BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
         avatarUri: json['avatarUri'] as String?,
         backgroundUri: json['backgroundUri'] as String?,
+        timeCreate: json['timeCreate'] == null
+          ? null
+          : (json['timeCreate'] as Timestamp).toDate(),
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
@@ -41,5 +47,6 @@ class EventOverview extends BaseEvent {
         'avatarUri': this.avatarUri,
         'backgroundUri': this.backgroundUri,
         'tags': this.tags.map((tag) => tag.id).toList(),
+        'timeCreate': this.timeCreate == null ? null : Timestamp.fromDate(this.timeCreate!),
       };
 }

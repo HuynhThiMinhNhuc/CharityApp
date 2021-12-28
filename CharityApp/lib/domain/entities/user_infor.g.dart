@@ -37,12 +37,13 @@ UserInfor _$UserInforFromJson(Map<String, dynamic> json) => UserInfor(
       birthDayString: json['birthDayString'] as String?,
       gender: $enumDecode(_$GendersEnumMap, json['gender']),
       id: json['id'] as String?,
-    );
+    )..address = json['address'] as String?;
 
 Map<String, dynamic> _$UserInforToJson(UserInfor instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'avatarUri': instance.avatarUri?.toString(),
+      'address': instance.address,
       'description': instance.description,
       'birthDayString': instance.birthDayString,
       'gender': _$GendersEnumMap[instance.gender],

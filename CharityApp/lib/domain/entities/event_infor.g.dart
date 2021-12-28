@@ -17,6 +17,7 @@ extension EventInforCopyWith on EventInfor {
     int? numberMember,
     int? numberPost,
     List<TagEvent>? tags,
+    DateTime? timeCreate,
     DateTime? timeStart,
   }) {
     return EventInfor(
@@ -29,6 +30,7 @@ extension EventInforCopyWith on EventInfor {
       numberMember: numberMember ?? this.numberMember,
       numberPost: numberPost ?? this.numberPost,
       tags: tags ?? this.tags,
+      timeCreate: timeCreate ?? this.timeCreate,
       timeStart: timeStart ?? this.timeStart,
     );
   }
@@ -56,6 +58,9 @@ EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
               .toList() ??
           const [],
       id: json['id'] as String?,
+      timeCreate: json['timeCreate'] == null
+          ? null
+          : DateTime.parse(json['timeCreate'] as String),
     );
 
 Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
@@ -63,6 +68,7 @@ Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
       'id': instance.id,
       'name': instance.name,
       'creator': instance.creator,
+      'timeCreate': instance.timeCreate?.toIso8601String(),
       'avatarUri': instance.avatarUri,
       'backgroundUri': instance.backgroundUri,
       'tags': instance.tags,

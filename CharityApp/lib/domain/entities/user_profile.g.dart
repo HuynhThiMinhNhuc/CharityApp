@@ -11,29 +11,29 @@ extension UserProfileCopyWith on UserProfile {
     dynamic? avatarUri,
     dynamic? birthDayString,
     dynamic? description,
+    String? email,
     dynamic? gender,
     String? id,
     dynamic? name,
     int? numberFollower,
     int? numberFollowing,
     int? numberPost,
-    dynamic? phone,
-    dynamic? email,
-    dynamic? password,
+    String? password,
+    String? phone,
   }) {
     return UserProfile(
       avatarUri: avatarUri ?? this.avatarUri,
       birthDayString: birthDayString ?? this.birthDayString,
       description: description ?? this.description,
+      email: email ?? this.email,
       gender: gender ?? this.gender,
       id: id ?? this.id,
       name: name ?? this.name,
       numberFollower: numberFollower ?? this.numberFollower,
       numberFollowing: numberFollowing ?? this.numberFollowing,
-      numberPost: numberPost ?? this.numberPost, 
-      email: phone ?? this.phone, 
-      password: email ?? this.email, 
-      phone: password ?? this.password, 
+      numberPost: numberPost ?? this.numberPost,
+      password: password ?? this.password,
+      phone: phone ?? this.phone,
     );
   }
 }
@@ -51,17 +51,18 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       numberFollower: json['numberFollower'] as int? ?? 0,
       numberFollowing: json['numberFollowing'] as int? ?? 0,
       numberPost: json['numberPost'] as int? ?? 0,
-      id: json['id'] as String?, 
-      email: json['email'] as String, 
-      password: json['password'] as String, 
+      password: json['password'] as String,
       phone: json['phone'] as String,
-    );
+      email: json['email'] as String,
+      id: json['id'] as String?,
+    )..address = json['address'] as String?;
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'avatarUri': instance.avatarUri?.toString(),
+      'address': instance.address,
       'description': instance.description,
       'birthDayString': instance.birthDayString,
       'gender': _$GendersEnumMap[instance.gender],
@@ -69,8 +70,8 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
       'numberFollower': instance.numberFollower,
       'numberFollowing': instance.numberFollowing,
       'phone': instance.phone,
-      'email':instance.email,
-      'password': instance.password
+      'email': instance.email,
+      'password': instance.password,
     };
 
 const _$GendersEnumMap = {
