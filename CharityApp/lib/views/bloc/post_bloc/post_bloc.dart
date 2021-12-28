@@ -73,7 +73,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     //Save to database
     try {
-      await this.postRepository.add(event.post);
+      await this.postRepository.add(event.post..timeCreate = DateTime.now());
       emit(PostUpdated());
     } catch (_) {
       emit(PostLoadFailure());

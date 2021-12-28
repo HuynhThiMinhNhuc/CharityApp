@@ -61,6 +61,7 @@ class PostRepositoryImp implements IPostRepository {
   Future<List<Post>> loadRandomPosts(int startIndex, int number) async {
     final userCollection = FirebaseFirestore.instance.collection('users');
     List<Future> tasks = <Future>[];
+    final myId = '7hKHP4tpuIyeTJ44IdJe';
 
     final posts = await collection
         .orderBy('timeCreate', descending: true)
@@ -69,17 +70,23 @@ class PostRepositoryImp implements IPostRepository {
       return snapshot.docs.map((docPost) {
         final postJson = docPost.data() as Map<String, dynamic>;
         final post = Post.fromJson(postJson);
-        post.id = docPost.id; //Set doc id
-        // post.creator = UserOverview(name: 'test', avatarUri: Uri(path: "avatarUri"));
+        post.numberLike = (postJson['like'] as List<dynamic>?)!.length;
+        post.isLike = (postJson['like'] as List<dynamic>?)!.contains(myId);
+        // post.numberComment = await _getNumberComment(docPost);
+        docPost.reference.collection('comments').get().then((_) {
+          post.numberComment++;
+        });
+
         //Load UserOverview
         tasks.add(userCollection.doc(postJson['creatorId']).get().then(
           (docUser) {
             post.creator =
                 UserOverview.fromJson(docUser.data() as Map<String, dynamic>);
-            post.id = docUser.id; //Set doc id
+            post.creator.id = docUser.id; //Set doc id
           },
         ));
 
+        post.id = docPost.id; //Set doc id
         return post;
       }).toList();
     });
@@ -106,5 +113,28 @@ class PostRepositoryImp implements IPostRepository {
         .doc(entity.id)
         .update(entity.toJson())
         .then((value) => print('Update ${entity.toString()} success'));
+  }
+
+  @override
+  Future<void> likePost(String postId, bool isLike) {
+    return collection.doc(postId).get().then((doc) {
+      final json = doc.data() as Map<String, dynamic>;
+      final usersLike =
+          (json['like'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              <String>[];
+      final myId = '7hKHP4tpuIyeTJ44IdJe';
+
+      if (usersLike.contains(myId) && !isLike) {
+        //Unlike
+        doc.reference.update(<String, dynamic>{
+          'like': FieldValue.arrayRemove([myId])
+        });
+      } else if (!usersLike.contains(myId) && isLike) {
+        //Like
+        doc.reference.update(<String, dynamic>{
+          'like': FieldValue.arrayUnion([myId])
+        });
+      }
+    });
   }
 }
