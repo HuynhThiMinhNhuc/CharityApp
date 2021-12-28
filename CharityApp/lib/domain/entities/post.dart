@@ -11,8 +11,9 @@ part 'post.g.dart';
 class Post extends BasePost {
   List<String> imagesUri;
   String description;
-  final int numberComment;
-  final int numberLike;
+  int numberComment;
+  int numberLike;
+  bool isLike;
   final List<String> tags;
 
   Post({
@@ -26,6 +27,7 @@ class Post extends BasePost {
     String? eventId,
     String? id,
     DateTime? timeCreate,
+    this.isLike = false,
   }) : super(title: title, creator: creator, eventId: eventId, id: id, timeCreate: timeCreate);
 
   // factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
@@ -34,8 +36,8 @@ class Post extends BasePost {
   factory Post.fromJson(Map<String, dynamic> json) => Post(
         title: json['title'] as String,
         description: json['description'] as String,
-        numberComment: json['numberComment'] as int? ?? 0,
-        numberLike: json['numberLike'] as int? ?? 0,
+        // numberComment: json['numberComment'] as int? ?? 0,
+        // numberLike: json['numberLike'] as int? ?? 0,
         tags: (json['tags'] as List<dynamic>?)
                 ?.map((e) => e as String)
                 .toList() ??
