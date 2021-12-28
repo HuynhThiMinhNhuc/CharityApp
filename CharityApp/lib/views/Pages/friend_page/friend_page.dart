@@ -77,6 +77,7 @@ class _FriendPageState extends State<FriendPage> {
       openAxisAlignment: 0.0,
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
+      closeOnBackdropTap: true,
       onQueryChanged: (query) {
         friendBloc.add(FriendSearchEvent(query));
       },
@@ -143,27 +144,16 @@ class _FriendPageState extends State<FriendPage> {
                                                         PostBloc(),
                                                   ),
                                                 ],
-                                                child: Scaffold(
-                                                  appBar: AppBar(
-                                                    iconTheme: IconThemeData(
-                                                      color:
-                                                          textcolor, //change your color here
-                                                    ),
-                                                    backgroundColor:
-                                                        backgroundbottomtab,
-                                                    centerTitle: true,
-                                                    title: Text(
-                                                      "Hồ sơ người dùng",
-                                                      style: TextStyle(
-                                                          color: textcolor,
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                  body: ProfileOtherPage(state
-                                                      .suggestion[index].id),
-                                                ),
+                                                child: ProfileOtherPage(
+                                                    state.suggestion[index].id,
+                                                    () => {
+                                                          friendBloc.add(
+                                                              FriendLoadEvent(GetIt
+                                                                  .instance
+                                                                  .get<
+                                                                      Authenticator>()
+                                                                  .idCurrentUser))
+                                                        }),
                                               )),
                                     )
                                   },
@@ -209,6 +199,7 @@ class _FriendPageState extends State<FriendPage> {
               return friends(
                 listFriend: state.friends,
                 totalfriend: state.totalfriend,
+                friendBloc: this.friendBloc,
               );
             else
               return Text("Loading failer....");
@@ -281,10 +272,12 @@ class Skeletonloaderfriend extends StatelessWidget {
 class friends extends StatelessWidget {
   final List<UserOverview>? listFriend;
   final totalfriend;
+  final friendBloc;
   const friends({
     Key? key,
     this.listFriend,
     this.totalfriend,
+    this.friendBloc,
   }) : super(key: key);
 
   @override
@@ -305,11 +298,37 @@ class friends extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: listFriend!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ShortInforCard(
-                      userOverview: new UserOverview(
-                          name: listFriend![index].name,
-                          avatarUri: listFriend![index].avatarUri),
-                      isFollow: true);
+                  return InkWell(
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MultiBlocProvider(
+                                  providers: [
+                                    BlocProvider<OverViewUserBloc>(
+                                      create: (context) => OverViewUserBloc(),
+                                    ),
+                                    BlocProvider<PostBloc>(
+                                      create: (context) => PostBloc(),
+                                    ),
+                                  ],
+                                  child: ProfileOtherPage(
+                                      listFriend![index].id,
+                                      () => {
+                                            friendBloc.add(FriendLoadEvent(GetIt
+                                                .instance
+                                                .get<Authenticator>()
+                                                .idCurrentUser))
+                                          }),
+                                )),
+                      )
+                    },
+                    child: ShortInforCard(
+                        userOverview: new UserOverview(
+                            name: listFriend![index].name,
+                            avatarUri: listFriend![index].avatarUri),
+                        isFollow: true),
+                  );
                 },
               )
             : Text("Bạn chưa có bạn bè nào cả")
