@@ -15,7 +15,7 @@ class EventCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+      padding: const EdgeInsets.all(0),
       child: Card(
         child: Column(
           children: <Widget>[
@@ -25,7 +25,9 @@ class EventCardView extends StatelessWidget {
                 height: 70,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(eventOverviewPaticipants.backgroundUri ?? image), fit: BoxFit.fill),
+                      image: NetworkImage(
+                          eventOverviewPaticipants.backgroundUri ?? image),
+                      fit: BoxFit.fill),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -53,9 +55,11 @@ class EventCardView extends StatelessWidget {
                   RichText(
                       text: TextSpan(children: <TextSpan>[
                     TextSpan(
-                        text: eventOverviewPaticipants.timeStart.hour.toString() +
-                            ":" +
-                            eventOverviewPaticipants.timeStart.minute.toString(),
+                        text:
+                            eventOverviewPaticipants.timeStart.hour.toString() +
+                                ":" +
+                                eventOverviewPaticipants.timeStart.minute
+                                    .toString(),
                         style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
                           fontSize: 13,

@@ -1,4 +1,5 @@
 import 'package:charityapp/domain/entities/user_profile.dart';
+import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
@@ -16,7 +17,8 @@ import 'Widgets/profile_overview.dart';
 
 class ProfileOtherPage extends StatefulWidget {
   final id;
-  ProfileOtherPage(this.id);
+  final Function onClose;
+  ProfileOtherPage(this.id, this.onClose);
 
   @override
   _ProfileOtherPageState createState() => _ProfileOtherPageState();
@@ -30,65 +32,85 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
     super.initState();
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
-    overViewUserBloc.add(LoadOverViewUserEvent(
-        widget.id));
+    overViewUserBloc.add(LoadOverViewUserEvent(widget.id));
     //poverViewUserBlocostBloc.add(LoadPostEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: BlocBuilder<OverViewUserBloc, OverViewUserState>(
-                buildWhen: (context, state) {
-                  return state is LoadingOverViewUserState ||
-                      state is LoadFailOverViewUserState ||
-                      state is LoadedOverViewUserState;
-                },
-                builder: (context, state) {
-                  if (state is LoadedOverViewUserState) {
-                    return ProfileOverView(state.userProfile as UserProfile,
-                        state.isfriend, overViewUserBloc);
-                  } else if (state is PostLoadInProgress)
-                    return Text("Loading");
-                  else
-                    return Text("Loading failer.....");
-                },
-              )),
-          Divider(thickness: 1.0),
-          Center(
-              child: BlocConsumer<PostBloc, PostState>(
-            //      listenWhen: (context, state){
-            //        return state is ClickPostEvent;
-            // },
-            listener: (context, state) {
-              if (state is PostLoadInProgress) {
-                //push DetailPost with post ID
-              }
-            },
-            buildWhen: (context, state) {
-              return state is PostLoadInProgress ||
-                  state is LoadedPostState ||
-                  state is PostLoadFailure;
-            },
-            builder: (context, state) {
-              if (state is LoadedPostState) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: state.listPost.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return PostOverviewCard(post: state.listPost[index]);
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: textcolor, //change your color here
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () async {
+            await widget.onClose.call();
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: backgroundbottomtab,
+        centerTitle: true,
+        title: Text(
+          "Hồ sơ người dùng",
+          style: TextStyle(
+              color: textcolor, fontSize: 20, fontWeight: FontWeight.w600),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: BlocBuilder<OverViewUserBloc, OverViewUserState>(
+                  buildWhen: (context, state) {
+                    return state is LoadingOverViewUserState ||
+                        state is LoadFailOverViewUserState ||
+                        state is LoadedOverViewUserState;
                   },
-                );
-              } else
-                return Text("Loading");
-            },
-          )),
-        ],
+                  builder: (context, state) {
+                    if (state is LoadedOverViewUserState) {
+                      return ProfileOverView(state.userProfile as UserProfile,
+                          state.isfriend, overViewUserBloc);
+                    } else if (state is PostLoadInProgress)
+                      return Text("Loading");
+                    else
+                      return Text("Loading failer.....");
+                  },
+                )),
+            Divider(thickness: 1.0),
+            Center(
+                child: BlocConsumer<PostBloc, PostState>(
+              //      listenWhen: (context, state){
+              //        return state is ClickPostEvent;
+              // },
+              listener: (context, state) {
+                if (state is PostLoadInProgress) {
+                  //push DetailPost with post ID
+                }
+              },
+              buildWhen: (context, state) {
+                return state is PostLoadInProgress ||
+                    state is LoadedPostState ||
+                    state is PostLoadFailure;
+              },
+              builder: (context, state) {
+                if (state is LoadedPostState) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: state.listPost.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return PostOverviewCard(post: state.listPost[index]);
+                    },
+                  );
+                } else
+                  return Text("Loading");
+              },
+            )),
+          ],
+        ),
       ),
     );
   }
