@@ -1,19 +1,16 @@
 import 'package:charityapp/Constant/cmt_json.dart';
+import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path/path.dart';
 
-class CommentView extends StatefulWidget {
-  final int total;
-  final bool islove;
-  const CommentView({Key? key, required this.total, required this.islove})
-      : super(key: key);
+class CommentView extends StatelessWidget {
+  final String postId;
+  const CommentView({Key? key, required this.postId}) : super(key: key);
 
-  @override
-  _CommentViewState createState() => _CommentViewState();
-}
-
-class _CommentViewState extends State<CommentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,26 +18,35 @@ class _CommentViewState extends State<CommentView> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: textcolor),
         backgroundColor: backgroundbottomtab,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              widget.total.toString(),
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular', fontSize: 12, color: textcolor),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: widget.islove
-                    ? FaIcon(
-                        FontAwesomeIcons.heart,
-                        color: Colors.red[900],
-                      )
-                    : FaIcon(FontAwesomeIcons.heart))
-          ],
+        title: BlocBuilder<NumberLikeCubit, int>(
+          builder: (context, numberLike) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  // total.toString(),
+                  FormatNumberK.call(numberLike),
+                  style: TextStyle(
+                      fontFamily: 'Roboto_Regular',
+                      fontSize: 12,
+                      color: textcolor),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                IconButton(
+                    onPressed: () {
+                      context.read<NumberLikeCubit>().like(postId, true);
+                    },
+                    icon: true
+                        ? FaIcon(
+                            FontAwesomeIcons.heart,
+                            color: Colors.red[900],
+                          )
+                        : FaIcon(FontAwesomeIcons.heart))
+              ],
+            );
+          },
         ),
       ),
       body: getbody(),
@@ -52,27 +58,25 @@ class _CommentViewState extends State<CommentView> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child:
-             ListView.builder(
-               shrinkWrap: true,
-               physics: NeverScrollableScrollPhysics(),
-               itemCount: cmts.length,
-               itemBuilder: (BuildContext context, int index) {
-                 return CommentItem(
-                           avatar: cmts[index]['avatar'],
-                           name: cmts[index]['name'],
-                           time: cmts[index]['timeago'],
-                           cmt: cmts[index]['comment']);
-               }
-             )// Column(
-            //     children: List.generate(cmts.length, (index) {
-            //   return CommentItem(
-            //       avatar: cmts[index]['avatar'],
-            //       name: cmts[index]['name'],
-            //       time: cmts[index]['timeago'],
-            //       cmt: cmts[index]['comment']);
-            // })),
-          ),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: cmts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CommentItem(
+                        avatar: cmts[index]['avatar'],
+                        name: cmts[index]['name'],
+                        time: cmts[index]['timeago'],
+                        cmt: cmts[index]['comment']);
+                  }) // Column(
+              //     children: List.generate(cmts.length, (index) {
+              //   return CommentItem(
+              //       avatar: cmts[index]['avatar'],
+              //       name: cmts[index]['name'],
+              //       time: cmts[index]['timeago'],
+              //       cmt: cmts[index]['comment']);
+              // })),
+              ),
         ),
         Container(
             padding: EdgeInsets.symmetric(horizontal: 8.0),

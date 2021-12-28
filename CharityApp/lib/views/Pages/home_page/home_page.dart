@@ -7,54 +7,18 @@ import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// class HomePage extends StatefulWidget {
-//   // final List<Post> posts = const <Post>[];
-//   // final List<UserOverview> friends = const <UserOverview>[];
-//   final bool isReload;
-
-//   const HomePage({Key? key, this.isReload = false}) : super(key: key);
-
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-
-class HomePage extends StatefulWidget {
-  // final bool needReload;
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  // late bool isReload;
-
-  @override
-  void initState() {
-    super.initState();
+  void loadPage(BuildContext context) {
     BlocProvider.of<PostBloc>(context)
         .add(LoadRandomPosts(startIndex: 0, number: 5));
   }
 
   @override
   Widget build(BuildContext context) {
-    return getbody();
-  }
-
-  getbody() {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        // if (needLoad) {
-        //   BlocProvider.of<PostBloc>(context).add(LoadPosts(
-        //       eventId: "CnNqZwmqSBf9RYMXAnpp", startIndex: 0, number: 10));
-        // }
-        // if (!isReload) {
-        //   isReload = true;
-        //   BlocProvider.of<PostBloc>(context).add(LoadEventPosts(
-        //       eventId: "CnNqZwmqSBf9RYMXAnpp", startIndex: 0, number: 10));
-        //   return Text("Loading view 2...");
-        //   ;
-        // }
         if (state is PostsLoadSuccess) {
           return LoadSuccessHomeView(state.posts);
         }

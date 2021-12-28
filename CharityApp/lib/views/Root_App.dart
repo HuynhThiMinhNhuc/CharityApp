@@ -33,10 +33,6 @@ class RootApp extends StatelessWidget {
             activeTab: activateTab,
             onTabSelected: (tab) {
               if (tab == AppTab.addObject) {
-                // Navigator.pushNamed(
-                //   context,
-                //   AppRoutes.addPost,
-                // );
               } else {
                 BlocProvider.of<TabBloc>(context)
                     .add(UpdateTab(newActiveTab: tab));
@@ -181,8 +177,7 @@ class RootApp extends StatelessWidget {
 
   Widget getbody(BuildContext context, AppTab activateTab) {
     if (activateTab == AppTab.home) {
-
-      return HomePage();
+      return HomePage()..loadPage(context);
     } else if (activateTab == AppTab.calendar)
       return CalendarPage();
     // else if (activateTab == AppTab.addpost)

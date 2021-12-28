@@ -137,4 +137,11 @@ class PostRepositoryImp implements IPostRepository {
       }
     });
   }
+
+  @override
+  Future<int> loadNumberLike(String postId) {
+    return collection.doc(postId).get().then((doc) {
+      return ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>).length;
+    });
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
+import 'package:charityapp/views/Pages/home_page/comment_view.dart';
 import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
@@ -130,6 +131,9 @@ class MeerApp extends StatelessWidget {
         },
         AppRoutes.eventPage: (context) {
           return EventPage(name: 'test');
+        },
+        AppRoutes.comment: (context) {
+          return CommentView(postId: 'test');
         }
       },
     );
