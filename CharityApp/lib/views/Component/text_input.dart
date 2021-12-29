@@ -9,6 +9,7 @@ class TextInput extends StatelessWidget {
   final String labeltext;
   final Function? onTextChange = () => {};
   final TextEditingController textEditingController;
+  TextInputType textInputType = TextInputType.text;
 
   TextInput(
       {required this.icon,
@@ -16,34 +17,32 @@ class TextInput extends StatelessWidget {
       required this.boder,
       required this.hint,
       required this.labeltext,
-      required this.textEditingController});
+      required this.textEditingController,
+      required this.textInputType});
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      TextFormField(
-        controller: textEditingController,
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            icon,
-            color: maincolor,
-            size: 23,
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: boder.withOpacity(1), width: 2)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: boder.withOpacity(1), width: 1)),
-          hintText: hint,
-          hintStyle: TextStyle(
-              color: hinttextcolor,
-              fontSize: 15,
-              fontFamily: 'Roboto-Thin.tff'),
-          fillColor: background.withOpacity(0.2),
-          filled: true,
+    return TextFormField(
+      keyboardType: textInputType ,
+      controller: textEditingController,
+      decoration: InputDecoration(
+        prefixIcon: Icon(
+          icon,
+          color: maincolor,
+          size: 23,
         ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: boder.withOpacity(1), width: 2)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: boder.withOpacity(1), width: 1)),
+        hintText: hint,
+        hintStyle: TextStyle(
+            color: hinttextcolor, fontSize: 15, fontFamily: 'Roboto-Thin.tff'),
+        fillColor: background.withOpacity(0.2),
+        filled: true,
       ),
-    ]);
+    );
   }
 }

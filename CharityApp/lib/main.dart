@@ -3,6 +3,7 @@ import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
 import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/Login/login_view.dart';
+import 'package:charityapp/views/Pages/home_page/thankyou_view.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
@@ -45,14 +46,14 @@ class MeerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: [
-      Locale('en', ''), // English, no country code
-      Locale('vi', ''), // VietNam, no country code
-    ],
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''), // English, no country code
+        Locale('vi', ''), // VietNam, no country code
+      ],
       debugShowCheckedModeBanner: true,
       routes: {
         AppRoutes.home: (context) {
@@ -70,11 +71,11 @@ class MeerApp extends StatelessWidget {
               BlocProvider<OverViewUserBloc>(
                 create: (context) => OverViewUserBloc(),
               ),
-               BlocProvider<SigninBloc>(
+              BlocProvider<SigninBloc>(
                 create: (context) => SigninBloc(),
               ),
             ],
-            child: RootApp(),
+            child: Login(),
           );
         },
         AppRoutes.addEvent: (context) {

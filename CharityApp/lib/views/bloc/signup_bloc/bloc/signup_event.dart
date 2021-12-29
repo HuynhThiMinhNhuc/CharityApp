@@ -10,5 +10,6 @@ abstract class SignupEvent extends Equatable {
 class SignupWithEmailAndPassEvent extends SignupEvent {
   final String email;
   final String password;
-  SignupWithEmailAndPassEvent(this.email, this.password);
+  final String confirmPassword;
+  SignupWithEmailAndPassEvent(this.email, this.password, this.confirmPassword);
 }

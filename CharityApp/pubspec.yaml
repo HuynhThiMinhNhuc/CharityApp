@@ -53,6 +53,7 @@ dependencies:
   skeleton_loader: ^2.0.0+4
   implicitly_animated_reorderable_list: ^0.4.2
   animations: ^2.0.2
+  email_auth: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -92,6 +93,8 @@ flutter:
     - asset/imagesample/post1.jpg
     - asset/imagesample/avatar1.jpg
     - asset/avatar.png
+    - asset/imagesample/ImageAlerDIalog/wrong.png
+    - asset/imagesample/ImageAlerDIalog/lostconnect.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

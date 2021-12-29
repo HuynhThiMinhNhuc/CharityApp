@@ -75,6 +75,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 hint: '',
                 labeltext: '',
                 textEditingController: phonecontroller,
+                textInputType: TextInputType.text,
               )),
           Padding(
               padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
