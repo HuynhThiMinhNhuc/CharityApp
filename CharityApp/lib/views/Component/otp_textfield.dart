@@ -1,10 +1,12 @@
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:flutter/material.dart';
 
 class OtpTextField extends StatefulWidget {
   final bool next;
+  final TextEditingController textEditingController;
 
-  OtpTextField({required this.next});
+  OtpTextField({required this.next, required this.textEditingController});
   @override
   _OtpTextFieldState createState() => _OtpTextFieldState();
 }
@@ -13,8 +15,9 @@ class _OtpTextFieldState extends State<OtpTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 70,
+      width: 50,
       child: TextFormField(
+        controller: widget.textEditingController,
         maxLength: 1,
         decoration: InputDecoration(
           counterText: '',
@@ -22,12 +25,10 @@ class _OtpTextFieldState extends State<OtpTextField> {
           filled: true,
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide:
-                  BorderSide(color: backgrountbutton.withOpacity(1), width: 1)),
+              borderSide: BorderSide(color: maincolor, width: 1)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                  color: backgrountbutton.withOpacity(0.1), width: 0)),
+              borderSide: BorderSide(color: maincolor, width: 0)),
         ),
         keyboardType: TextInputType.number,
         textInputAction:

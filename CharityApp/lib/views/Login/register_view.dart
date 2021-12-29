@@ -2,10 +2,14 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
+import 'package:charityapp/views/Login/login_view.dart';
+import 'package:charityapp/views/Login/verification_otp_view.dart';
 import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
+import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -30,139 +34,239 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 30, 0, 30),
-              child: Row(children: [
-                IconButton(
-                    onPressed: () => {},
-                    icon: FaIcon(
-                      FontAwesomeIcons.chevronCircleLeft,
-                      color: notetextcolor,
-                      size: 40,
-                    )),
-              ]),
-            ),
-            Text(
-              'Register',
-              style: TextStyle(
-                  color: maincolor,
-                  fontSize: 40,
-                  fontFamily: 'Roboto-Regular.ttf',
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Create your new account',
-              style: TextStyle(
-                  color: notetextcolor,
-                  fontSize: 20,
-                  fontFamily: 'Roboto_Regular'),
-            ),
-            SizedBox(
-              height: 60,
-            ),
-            Padding(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 30, 0, 30),
+                child: Row(children: [
+                  IconButton(
+                      onPressed: () => {Navigator.pop(context)},
+                      icon: Icon(Icons.arrow_back)),
+                ]),
+              ),
+              Text(
+                'Đăng ký',
+                style: TextStyle(
+                    color: maincolor,
+                    fontSize: 38,
+                    fontFamily: 'Roboto-Regular.ttf',
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Tạo tài khoản mới',
+                style: TextStyle(
+                    color: notetextcolor,
+                    fontSize: 18,
+                    fontFamily: 'Roboto_Regular'),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextInput(
+                    icon: Icons.people,
+                    background: backgrountbutton.withOpacity(0.2),
+                    boder: maincolor.withOpacity(0.1),
+                    hint: 'Email',
+                    labeltext: '',
+                    textEditingController: emailcontroller,
+                    textInputType: TextInputType.emailAddress,
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
                 padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: TextInput(
-                  icon: Icons.people,
-                  background: backgrountbutton.withOpacity(0.2),
-                  boder: backgrountbutton.withOpacity(0.1),
-                  hint: 'Email',
-                  labeltext: '',
-                  textEditingController: emailcontroller,
-                )),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: PassWordInput(
-                hint: 'Mật khẩu',
-                background: backgrountbutton,
-                boder: backgrountbutton,
-                securitytext: false,
-                ispass: true,
-                textcontroller: passwordcontroller,
+                child: PassWordInput(
+                  hint: 'Mật khẩu',
+                  background: backgrountbutton,
+                  boder: maincolor,
+                  securitytext: false,
+                  ispass: true,
+                  textcontroller: passwordcontroller,
+                  textInputType: TextInputType.text,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: PassWordInput(
-                hint: 'Xác nhận mật khẩu',
-                background: backgrountbutton,
-                boder: backgrountbutton,
-                securitytext: true,
-                ispass: true,
-                textcontroller: confirmpasswordcontroller,
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: PassWordInput(
+                  hint: 'Xác nhận mật khẩu',
+                  background: backgrountbutton,
+                  boder: maincolor,
+                  securitytext: true,
+                  ispass: true,
+                  textcontroller: confirmpasswordcontroller,
+                  textInputType: TextInputType.text,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(children: <TextSpan>[
+                      TextSpan(
+                        text: 'Bằng cách đăng ký, bạn đã đồng ý với',
+                        style: TextStyle(color: icon, fontSize: 14),
+                      ),
+                      TextSpan(
+                          text: ' điều khoản sử dụng',
+                          style: TextStyle(color: maincolor)),
+                      TextSpan(
+                        text: ' và',
+                        style: TextStyle(color: icon, fontSize: 14),
+                      ),
+                      TextSpan(
+                        text: ' chế độ riêng tư',
+                        style: TextStyle(color: maincolor, fontSize: 14),
+                      ),
+                    ])),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: BlocListener<SignupBloc, SignupState>(
+                  listener: (context, state) {
+                    if (state is SignupSussesState) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                  create: (context) => VerifycodeBloc(),
+                                  child: VerificationOtpView(
+                                    email: this.emailcontroller.text.trim(),
+                                  ))));
+                    } else if (state is SignupFailEmailFomatState) {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogCustom(
+                          content: 'Vui lòng nhập email hợp lệ',
+                          title: "Email không hợp lệ",
+                          pathImage:
+                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                        ),
+                      );
+                    } else if (state is SignupFailMutilAccountState) {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogCustom(
+                          content:
+                              'Vui lòng nhập địa chỉ email chưa từng tạo tài khoản bao giờ',
+                          title: "Email đã được sử dụng",
+                          pathImage:
+                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                        ),
+                      );
+                    } else if (state is SignupFailPassweakState) {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogCustom(
+                          content: 'Mật khẩu phải chứa ít nhất 6 kí tự',
+                          title: "Mật khẩu không hợp lệ",
+                          pathImage:
+                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                        ),
+                      );
+                    } else if (state is SignupIncorrectPassConfirmState) {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogCustom(
+                          content:
+                              'Mật khẩu xác nhận phải trùng với mật khẩu vừa đặt',
+                          title: "Mật khẩu xác nhận không trùng khớp",
+                          pathImage:
+                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                        ),
+                      );
+                    }
+                  },
+                  child: CustomButton(
+                    onPressed: () => {
+                      signupbloc.add(SignupWithEmailAndPassEvent(
+                          emailcontroller.text.trim(),
+                          passwordcontroller.text.trim(),
+                          confirmpasswordcontroller.text.trim()))
+                    },
+                    textInput: 'ĐĂNG KÝ',
+                  ),
+                ),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'Bằng cách đăng ký, bạn đã đồng ý với',
-                    style: TextStyle(color: icon),
+                  Text('Bạn đã có tài khoản?',
+                      style: TextStyle(
+                        color: icon,
+                        fontSize: 16,
+                      )),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Text(
-                    ' điều khoản sử dụng',
-                    style: TextStyle(color: maincolor),
-                  ),
-                  Text(
-                    ' và',
-                    style: TextStyle(color: icon),
-                  ),
-                ]),
-            Text(
-              ' chế độ riêng tư',
-              style: TextStyle(color: maincolor),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-              child: CustomButton(
-                onPressed: () => {
-                  signupbloc.add(SignupWithEmailAndPassEvent(
-                      emailcontroller.text, passwordcontroller.text))
-                },
-                textInput: 'ĐĂNG KÝ',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Already have account?',
-                    style: TextStyle(
-                      color: icon,
-                      fontSize: 16,
-                    )),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(' Login!',
-                    style: TextStyle(
-                        color: red, fontSize: 17, fontWeight: FontWeight.bold))
-              ],
-            )
-          ],
+                  TextButton(
+                    child: Text(' Đăng nhập!',
+                        style: TextStyle(
+                            color: redcolor,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600)),
+                    onPressed: () => {Navigator.pop(context)},
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class AlertDialogCustom extends StatelessWidget {
+  final String pathImage;
+  final String title;
+  final String content;
+  const AlertDialogCustom(
+      {Key? key,
+      required this.content,
+      required this.pathImage,
+      required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(pathImage, width: 200, height: 200, fit: BoxFit.cover),
+          Text(title),
+        ],
+      ),
+      content: Text(content),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Đồng ý'),
+          child: const Text(
+            'Đồng ý',
+            style: TextStyle(color: maincolor, fontSize: 15),
+          ),
+        ),
+      ],
     );
   }
 }

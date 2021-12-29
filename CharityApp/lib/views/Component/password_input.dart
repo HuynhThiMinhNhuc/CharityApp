@@ -9,14 +9,16 @@ class PassWordInput extends StatefulWidget {
   final String hint;
   final bool ispass;
   final TextEditingController textcontroller;
+  final TextInputType textInputType;
 
   PassWordInput(
       {required this.securitytext,
       required this.background,
       required this.boder,
       required this.hint,
-      required this.ispass, 
-      required this.textcontroller});
+      required this.ispass,
+      required this.textcontroller,
+      required this.textInputType});
 
   @override
   _PassWordInputState createState() => _PassWordInputState();
@@ -34,6 +36,7 @@ class _PassWordInputState extends State<PassWordInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: widget.textInputType,
       controller: widget.textcontroller,
       decoration: InputDecoration(
           prefixIcon: Icon(
@@ -59,20 +62,27 @@ class _PassWordInputState extends State<PassWordInput> {
           suffixIcon: IconButton(
             icon: widget.ispass
                 ? securi
-                    ? FaIcon(FontAwesomeIcons.eyeSlash)
-                    : Icon(Icons.remove_red_eye_outlined)
+                    ? FaIcon(FontAwesomeIcons.eyeSlash, size: 22)
+                    : Icon(Icons.remove_red_eye_outlined, size: 25)
                 : FaIcon(
                     FontAwesomeIcons.calendar,
                     color: maincolor,
                   ),
             color: icon,
             onPressed: () {
-              setState(() {
-                securi = !securi;
-              });
+              widget.ispass
+                  ? setState(() {
+                      securi = !securi;
+                    })
+                  : showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2015, 8),
+                      lastDate: DateTime(2101));
             },
+            splashRadius: 25,
           )),
-      obscureText: securi,
+      obscureText: widget.ispass ? securi : false,
     );
   }
 }

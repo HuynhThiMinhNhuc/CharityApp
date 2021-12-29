@@ -2,13 +2,15 @@ import 'package:charityapp/repositories/user_repository_imp.dart';
 
 class Authenticator {
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
-  String idCurrentUser = "1G0aTSj46pSsvP8eBYb5";
+  String idCurrentUser = "";
+  String email = "";
 
-  bool login(String email, String pass) {
-    idCurrentUser = userRepositoryImp.getIdUser(email, pass) as String;
-    if (idCurrentUser.length > 0)
+  Future<bool> login(String email) async {
+    idCurrentUser = await userRepositoryImp.getIdUser(email);
+    if (idCurrentUser.length > 0) {
+      this.email = email;
       return true;
-    else
+    } else
       return false;
   }
 }

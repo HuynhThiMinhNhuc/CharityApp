@@ -69,6 +69,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
             child: PassWordInput(
+              textInputType: TextInputType.text,
               securitytext: false,
               background: Colors.white,
               boder: maincolor,
@@ -99,6 +100,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               hint: '',
               ispass: true,
               textcontroller: confirmpasswordcontroller,
+              textInputType: TextInputType.text,
             ),
           ),
           Padding(

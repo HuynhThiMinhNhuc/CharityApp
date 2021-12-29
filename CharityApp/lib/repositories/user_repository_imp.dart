@@ -88,16 +88,16 @@ class UserRepositoryImp implements IUserRepository {
   }
 
   @override
-  Future<int> getIdUser(String email, String pass) async {
-    int id = 0;
-    await user
-        .where("name", isEqualTo: email)
-        .where("password", isEqualTo: pass)
-        .limit(1)
-        .get()
-        .then((value) {
-      id = value.docs[0].data()['id'];
-    });
+  Future<String> getIdUser(String email) async {
+    String id = "";
+    try {
+      await user.where("email", isEqualTo: email).get().then((value) {
+        id = value.docs[0].id;
+      });
+    } catch (e) {
+      print("Lỗi lấy id người dùng: " + e.toString());
+    }
+
     return id;
   }
 
@@ -214,5 +214,22 @@ class UserRepositoryImp implements IUserRepository {
     } catch (e) {
       print("Bỏ theo dõi: lỗi kết nối database" + e.toString());
     }
+  }
+
+  Future<void> create(UserInfor userInfor, String email) async {
+    user
+        .add({
+          'email': email,
+          'name': userInfor.name,
+          'birthday': userInfor.birthDayString,
+          'gender': userInfor.gender == Genders.Male
+              ? 0
+              : userInfor.gender == Genders.Female
+                  ? 1
+                  : 0
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+    ;
   }
 }

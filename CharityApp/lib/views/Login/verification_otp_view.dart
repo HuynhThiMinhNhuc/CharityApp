@@ -1,99 +1,169 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/otp_textfield.dart';
+import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/Login/welcome_view.dart';
+import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
-
 class VerificationOtpView extends StatefulWidget {
+  final String email;
+  TextEditingController onecontrolller = new TextEditingController();
+  TextEditingController twocontrolller = new TextEditingController();
+  TextEditingController threecontrolller = new TextEditingController();
+  TextEditingController fourcontrolller = new TextEditingController();
+  TextEditingController fivecontrolller = new TextEditingController();
+  TextEditingController sixcontrolller = new TextEditingController();
+  VerificationOtpView({Key? key, required this.email}) : super(key: key);
   @override
   _VerificationOtpViewState createState() => _VerificationOtpViewState();
 }
 
 class _VerificationOtpViewState extends State<VerificationOtpView> {
+  var verifyCodeBloc;
+  @override
+  void initState() {
+    super.initState();
+    verifyCodeBloc = BlocProvider.of<VerifycodeBloc>(context);
+    verifyCodeBloc.add(VerifycodeInitEvent(widget.email));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 30, 0, 50),
-              child: Row(children: [
-                IconButton(
-                    onPressed: () => {},
-                    icon: FaIcon(
-                      FontAwesomeIcons.chevronCircleLeft,
-                      color: notetextcolor,
-                      size: 40,
-                    )),
-              ]),
-            ),
-            Text(
-              'Verification code',
-              style: TextStyle(
-                  color: maincolor,
-                  fontSize: 40,
-                  fontFamily: 'Roboto-Regular.ttf',
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Enter the OTP has been sent to',
-              style: TextStyle(
-                  color: notetextcolor,
-                  fontSize: 20,
-                  fontFamily: 'Roboto_Regular'),
-            ),
-            Text(
-              '******1034',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 28,
-                fontFamily: 'Roboto-Regular.ttf',
-                fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 30, 0, 50),
+                child: Row(children: [
+                  IconButton(
+                      onPressed: () => {Navigator.pop(context)},
+                      icon: Icon(Icons.arrow_back)),
+                ]),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 70, 30, 20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    OtpTextField(next: true),
-                    OtpTextField(next: true),
-                    OtpTextField(next: true),
-                    OtpTextField(next: false)
-                  ]),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Don’t receive OTP?',
-                    style: TextStyle(
-                      color: icon,
-                      fontSize: 16,
-                    )),
-                SizedBox(
-                  height: 20,
+              Text(
+                'Xác nhận mã',
+                style: TextStyle(
+                    color: maincolor,
+                    fontSize: 38,
+                    fontFamily: 'Roboto-Regular.ttf',
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Nhập mã OTP đã được gửi đến',
+                style: TextStyle(
+                    color: notetextcolor,
+                    fontSize: 18,
+                    fontFamily: 'Roboto_Regular'),
+              ),
+              Text(
+                widget.email,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontFamily: 'Roboto_Regular',
                 ),
-                Text(' RESENT OTP (112)',
-                    style: TextStyle(
-                        color: maincolor,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold))
-              ],
-            ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(30, 70, 30, 10),
-                child: CustomButton(onPressed: () => {}, textInput: 'VERIFY'))
-          ],
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(30, 70, 30, 20),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      OtpTextField(
+                        next: true,
+                        textEditingController: widget.onecontrolller,
+                      ),
+                      OtpTextField(
+                        next: true,
+                        textEditingController: widget.twocontrolller,
+                      ),
+                      OtpTextField(
+                        next: true,
+                        textEditingController: widget.threecontrolller,
+                      ),
+                      OtpTextField(
+                        next: false,
+                        textEditingController: widget.fourcontrolller,
+                      ),
+                      OtpTextField(
+                        next: false,
+                        textEditingController: widget.fivecontrolller,
+                      ),
+                      OtpTextField(
+                        next: false,
+                        textEditingController: widget.sixcontrolller,
+                      )
+                    ]),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Chưa nhập được mã OTP?',
+                      style: TextStyle(
+                        color: icon,
+                        fontSize: 14,
+                      )),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  TextButton(
+                    child: Text(' GỬI LẠI OTP (112)',
+                        style: TextStyle(
+                            color: redcolor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600)),
+                    onPressed: () =>
+                        {verifyCodeBloc.add(VerifycodeInitEvent(widget.email))},
+                  )
+                ],
+              ),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(30, 70, 30, 10),
+                  child: BlocListener<VerifycodeBloc, VerifycodeState>(
+                    listener: (context, state) {
+                      if (state is VerifycodeSucessState) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WelcomeView(email: widget.email)));
+                      } else if (state is VerifycodeFailState) {
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                AlertDialogCustom(
+                                  title: "Mã OTP sai",
+                                  content: "",
+                                  pathImage:
+                                      'asset/imagesample/ImageAlerDIalog/wrong.png',
+                                ));
+                      }
+                    },
+                    child: CustomButton(
+                        onPressed: () => {
+                              this.verifyCodeBloc.add(VerifycodeVerifyEvent(
+                                  widget.onecontrolller.text +
+                                      widget.twocontrolller.text +
+                                      widget.threecontrolller.text +
+                                      widget.fourcontrolller.text +
+                                      widget.fivecontrolller.text +
+                                      widget.sixcontrolller.text,
+                                  widget.email))
+                            },
+                        textInput: 'XÁC NHẬN'),
+                  ))
+            ],
+          ),
         ),
       ),
     );
