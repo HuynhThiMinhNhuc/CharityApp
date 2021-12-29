@@ -49,8 +49,8 @@ class CommentView extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () {
-                    BlocProvider.of<LikePostBloc>(likeContext)
-                        .add(LikePost(isLike: !postState.isLike, postId: postId));
+                    BlocProvider.of<LikePostBloc>(likeContext).add(
+                        LikePost(isLike: !postState.isLike, postId: postId));
                   },
                   icon: postState.isLike
                       ? FaIcon(
@@ -76,6 +76,13 @@ class CommentViewElement extends StatefulWidget {
 
 class _CommentViewElementState extends State<CommentViewElement> {
   late CommentBloc _bloc;
+  late TextEditingController commentController;
+
+  @override
+  void initState() {
+    super.initState();
+    commentController = TextEditingController();
+  }
 
   @override
   void didChangeDependencies() {
@@ -87,6 +94,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
   @override
   void dispose() {
     // _bloc.dispose();
+    commentController.dispose();
     super.dispose();
   }
 
@@ -125,6 +133,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
                       borderSide: BorderSide(color: maincolor),
                     ),
                   ),
+                  controller: commentController,
                 ),
               ),
               SizedBox(
@@ -132,7 +141,14 @@ class _CommentViewElementState extends State<CommentViewElement> {
               ),
               IconButton(
                   iconSize: 25,
-                  onPressed: null,
+                  onPressed: () {
+                    if (commentController.text.trim() != '') {
+                      _bloc.add(AddComment(
+                          postId: widget.postId,
+                          content: commentController.text));
+                      commentController.text = '';
+                    }
+                  },
                   icon: Icon(
                     Icons.send,
                     color: maincolor,

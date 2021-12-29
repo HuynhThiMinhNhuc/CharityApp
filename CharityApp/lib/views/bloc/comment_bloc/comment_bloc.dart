@@ -24,7 +24,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   }
 
   FutureOr<void> _onAddComment(AddComment event, Emitter<CommentState> emit) {
-    final userComment = UserComment(name: 'test', avatarUri: null, content: event.content, timeComment: DateTime.now());
+    final userComment = UserComment(id: '1G0aTSj46pSsvP8eBYb5', name: 'test', avatarUri: null, content: event.content, timeComment: DateTime.now());
     _repository.addComment(event.postId, userComment);
   }
 

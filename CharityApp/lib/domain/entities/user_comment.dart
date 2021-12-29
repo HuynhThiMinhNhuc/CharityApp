@@ -32,7 +32,7 @@ class UserComment extends BaseObject{
         timeComment: (json['timeComment'] as Timestamp).toDate(),
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'creator': this.id,
+        'creatorId': this.id,
         'content': this.content,
         'timeComment': Timestamp.fromDate(this.timeComment),
       };
