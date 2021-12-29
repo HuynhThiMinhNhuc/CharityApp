@@ -1,132 +1,214 @@
 import 'package:charityapp/Constant/cmt_json.dart';
+import 'package:charityapp/core/helper/format_number_k.dart';
+import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
+import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CommentView extends StatefulWidget {
-  final int total;
-  final bool islove;
-  const CommentView({Key? key, required this.total, required this.islove})
-      : super(key: key);
+class CommentView extends StatelessWidget {
+  const CommentView({Key? key}) : super(key: key);
 
-  @override
-  _CommentViewState createState() => _CommentViewState();
-}
-
-class _CommentViewState extends State<CommentView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: textcolor),
-        backgroundColor: backgroundbottomtab,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              widget.total.toString(),
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular', fontSize: 12, color: textcolor),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: widget.islove
-                    ? FaIcon(
-                        FontAwesomeIcons.heart,
-                        color: Colors.red[900],
-                      )
-                    : FaIcon(FontAwesomeIcons.heart))
-          ],
-        ),
+    final postId = ModalRoute.of(context)!.settings.arguments as String;
+    BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: postId));
+
+    return BlocProvider(
+        create: (context) => CommentBloc(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: getAppbar(context, postId),
+          body: CommentViewElement(postId: postId),
+        ));
+  }
+
+  AppBar getAppbar(BuildContext context, String postId) {
+    return AppBar(
+      iconTheme: IconThemeData(color: textcolor),
+      backgroundColor: backgroundbottomtab,
+      title: BlocBuilder<LikePostBloc, LikePostState>(
+        builder: (likeContext, state) {
+          final postState = (state as PostNumberLike);
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                // total.toString(),
+                FormatNumberK.call(postState.numberLike),
+                style: TextStyle(
+                    fontFamily: 'Roboto_Regular',
+                    fontSize: 12,
+                    color: textcolor),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              IconButton(
+                  onPressed: () {
+                    BlocProvider.of<LikePostBloc>(likeContext).add(
+                        LikePost(isLike: !postState.isLike, postId: postId));
+                  },
+                  icon: postState.isLike
+                      ? FaIcon(
+                          FontAwesomeIcons.heart,
+                          color: Colors.red[900],
+                        )
+                      : FaIcon(FontAwesomeIcons.heart))
+            ],
+          );
+        },
       ),
-      body: getbody(),
+    );
+  }
+}
+
+class CommentViewElement extends StatefulWidget {
+  final String postId;
+  CommentViewElement({Key? key, required this.postId}) : super(key: key);
+
+  @override
+  _CommentViewElementState createState() => _CommentViewElementState();
+}
+
+class _CommentViewElementState extends State<CommentViewElement> {
+  late CommentBloc _bloc;
+  late TextEditingController commentController;
+
+  @override
+  void initState() {
+    super.initState();
+    commentController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = BlocProvider.of<CommentBloc>(context);
+    _bloc.getComments(widget.postId);
+  }
+
+  @override
+  void dispose() {
+    // _bloc.dispose();
+    commentController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        BlocBuilder<CommentBloc, CommentState>(
+          builder: (context, state) {
+            return _buildComments(context);
+          },
+        ),
+        _buildTextComment(),
+      ],
     );
   }
 
-  Widget getbody() {
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child:
-             ListView.builder(
-               shrinkWrap: true,
-               physics: NeverScrollableScrollPhysics(),
-               itemCount: cmts.length,
-               itemBuilder: (BuildContext context, int index) {
-                 return CommentItem(
-                           avatar: cmts[index]['avatar'],
-                           name: cmts[index]['name'],
-                           time: cmts[index]['timeago'],
-                           cmt: cmts[index]['comment']);
-               }
-             )// Column(
-            //     children: List.generate(cmts.length, (index) {
-            //   return CommentItem(
-            //       avatar: cmts[index]['avatar'],
-            //       name: cmts[index]['name'],
-            //       time: cmts[index]['timeago'],
-            //       cmt: cmts[index]['comment']);
-            // })),
-          ),
-        ),
-        Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            height: 60,
-            color: backgroundbottomtab,
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        hintText: "Viết bình luận",
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.fromLTRB(5, 5, 50, 0),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: maincolor),
-                        ),
-                      ),
+  _buildTextComment() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        height: 60,
+        color: backgroundbottomtab,
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    hintText: "Viết bình luận",
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.fromLTRB(5, 5, 50, 0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: maincolor),
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  IconButton(
-                      iconSize: 25,
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.send,
-                        color: maincolor,
-                      ))
-                ],
+                  controller: commentController,
+                ),
               ),
-            )),
-      ],
+              SizedBox(
+                width: 10,
+              ),
+              IconButton(
+                  iconSize: 25,
+                  onPressed: () {
+                    if (commentController.text.trim() != '') {
+                      _bloc.add(AddComment(
+                          postId: widget.postId,
+                          content: commentController.text));
+                      commentController.text = '';
+                    }
+                  },
+                  icon: Icon(
+                    Icons.send,
+                    color: maincolor,
+                  ))
+            ],
+          ),
+        ));
+  }
+
+  _buildComments(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+          child: StreamBuilder(
+              stream: BlocProvider.of<CommentBloc>(context).commentStream,
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Text('loading or not data');
+                } else {
+                  final listComment = snapshot.data!.docs;
+                  if (listComment.length == 0) return Text('no comments');
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: listComment.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return FutureBuilder<UserComment>(
+                        future: _bloc.getComment(
+                            listComment[index].data() as Map<String, dynamic>),
+                        builder: (context, user) {
+                          if (user.hasError) {
+                            return Text('error loading');
+                          }
+                          if (user.hasData) {
+                            return CommentItem(
+                              comment: user.data!,
+                            );
+                          }
+                          return Text('loading user');
+                        },
+                      );
+                    },
+                  );
+                }
+              }) // Column(
+          //     children: List.generate(cmts.length, (index) {
+          //   return CommentItem(
+          //       avatar: cmts[index]['avatar'],
+          //       name: cmts[index]['name'],
+          //       time: cmts[index]['timeago'],
+          //       cmt: cmts[index]['comment']);
+          // })),
+          ),
     );
   }
 }
 
 class CommentItem extends StatelessWidget {
-  final String avatar;
-  final String name;
-  final int time;
-  final String cmt;
+  final UserComment comment;
 
-  const CommentItem(
-      {Key? key,
-      required this.avatar,
-      required this.name,
-      required this.time,
-      required this.cmt})
-      : super(key: key);
+  const CommentItem({Key? key, required this.comment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +226,14 @@ class CommentItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: NetworkImage(avatar), fit: BoxFit.cover))),
+                          image: NetworkImage(
+                              comment.avatarUri ?? cmts[0]['avatarUri']),
+                          fit: BoxFit.cover))),
               SizedBox(
                 width: 5,
               ),
               Text(
-                name,
+                comment.name,
                 style: TextStyle(
                     fontFamily: 'Roboto_Regular',
                     fontSize: 13,
@@ -160,7 +244,7 @@ class CommentItem extends StatelessWidget {
                 width: 3,
               ),
               Text(
-                " - " + time.toString() + " tiếng trước",
+                " - " + comment.timeComment.toString(),
                 style: TextStyle(
                     fontFamily: 'Roboto_Regular',
                     fontSize: 12,
@@ -172,7 +256,7 @@ class CommentItem extends StatelessWidget {
             height: 5,
           ),
           Text(
-            cmt,
+            comment.content,
             textAlign: TextAlign.start,
             style: TextStyle(
                 fontFamily: 'Roboto_Regular', fontSize: 14, color: textcolor),

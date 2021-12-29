@@ -73,8 +73,8 @@ class PostRepositoryImp implements IPostRepository {
         post.numberLike = (postJson['like'] as List<dynamic>?)!.length;
         post.isLike = (postJson['like'] as List<dynamic>?)!.contains(myId);
         // post.numberComment = await _getNumberComment(docPost);
-        docPost.reference.collection('comments').get().then((_) {
-          post.numberComment++;
+        docPost.reference.collection('comments').get().then((commentSnapshot) {
+          post.numberComment = commentSnapshot.docs.length;
         });
 
         //Load UserOverview
@@ -93,18 +93,6 @@ class PostRepositoryImp implements IPostRepository {
 
     await Future.wait(tasks);
     return posts;
-  }
-
-  @override
-  Future<List<UserComment>> loadComments(
-      String postId, int startIndex, int number) {
-    // return collection.doc(id).
-    // collection('comments').startAt(values).limit(number).
-    // snapshots().map((snapshot) {
-    //   return snapshot.
-    // })
-
-    throw Exception();
   }
 
   @override
@@ -135,6 +123,20 @@ class PostRepositoryImp implements IPostRepository {
           'like': FieldValue.arrayUnion([myId])
         });
       }
+    });
+  }
+
+  @override
+  Future<List> loadNumberLike(String postId) {
+    final myId = '7hKHP4tpuIyeTJ44IdJe';
+    return collection.doc(postId).get().then((doc) {
+      final list =
+          ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>)
+              .map((element) => element as String)
+              .toList();
+      int number = list.length;
+      bool isLike = list.contains(myId);
+      return [number, isLike];
     });
   }
 }

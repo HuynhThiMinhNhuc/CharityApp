@@ -8,11 +8,11 @@ part of 'user_comment.dart';
 
 extension UserCommentCopyWith on UserComment {
   UserComment copyWith({
-    Uri? avatarUri,
+    String? avatarUri,
     String? content,
     String? id,
     String? name,
-    String? timeComment,
+    DateTime? timeComment,
   }) {
     return UserComment(
       avatarUri: avatarUri ?? this.avatarUri,
@@ -30,20 +30,17 @@ extension UserCommentCopyWith on UserComment {
 
 UserComment _$UserCommentFromJson(Map<String, dynamic> json) => UserComment(
       name: json['name'] as String,
-      avatarUri: json['avatarUri'] == null
-          ? null
-          : Uri.parse(json['avatarUri'] as String),
+      avatarUri: json['avatarUri'] as String?,
       content: json['content'] as String,
-      timeComment: json['timeComment'] as String,
+      timeComment: DateTime.parse(json['timeComment'] as String),
       id: json['id'] as String?,
-    )..address = json['address'] as String?;
+    );
 
 Map<String, dynamic> _$UserCommentToJson(UserComment instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'avatarUri': instance.avatarUri?.toString(),
-      'address': instance.address,
+      'avatarUri': instance.avatarUri,
       'content': instance.content,
-      'timeComment': instance.timeComment,
+      'timeComment': instance.timeComment.toIso8601String(),
     };
