@@ -12,8 +12,16 @@ class LoadOverViewUserEvent extends OverviewUserEvent {
   List<Object> get props => [];
 }
 
-class ClickButtonEvent extends OverviewUserEvent {
-  ClickButtonEvent();
+class FollowEvent extends OverviewUserEvent {
+  final String? id;
+  FollowEvent(this.id);
+
+  @override
+  List<Object?> get props => [];
+}
+class UnFollowEvent extends OverviewUserEvent {
+  final String? id;
+  UnFollowEvent(this.id);
 
   @override
   List<Object?> get props => [];

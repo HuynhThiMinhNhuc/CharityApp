@@ -11,4 +11,6 @@ abstract class IUserRepository implements CRUDableRepository<UserProfile> {
   Future<List<Post>> getListPost(String id);
   Future<List<UserOverview>> searchUser(String query);
   Future<bool> isFriend(String id);
+  Future<void> follow(String? id);
+  Future<void> unfollow(String? id);
 }

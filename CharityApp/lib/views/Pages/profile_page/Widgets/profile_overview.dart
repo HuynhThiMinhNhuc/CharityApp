@@ -15,7 +15,7 @@ import 'information_profile_view.dart';
 class ProfileOverView extends StatefulWidget {
   UserProfile userProfile;
   mode modeProfile;
-  final overViewUserBloc;
+  OverViewUserBloc overViewUserBloc;
   ProfileOverView(this.userProfile, this.modeProfile, this.overViewUserBloc);
 
   @override
@@ -114,8 +114,8 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         ),
         SizedBox(
           width: double.infinity,
-          child: widget.modeProfile == mode.My
-              ? ElevatedButton(
+          child:  widget.modeProfile == mode.My?
+          ElevatedButton(
                   onPressed: () => {
                     Navigator.push(
                         context,
@@ -129,10 +129,48 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                                         .add(LoadOverViewUserEvent(
                                             widget.userProfile.id)),
                                   ),
-                                )))
+                                )))},
+                    child: Text(
+                    'Chỉnh sửa hồ sơ',
+                    style: TextStyle(
+                        fontSize: 13,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Roboto_Regular',
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(maincolor)),
+          ):
+          widget.modeProfile == mode.Friend
+              ? ElevatedButton(
+                  onPressed: () => {
+                    setState(() {
+                      widget.overViewUserBloc
+                          .add(UnFollowEvent(widget.userProfile.id));
+                      widget.modeProfile = mode.Stranger;
+                    })
                   },
                   child: Text(
-                    'Chỉnh sửa hồ sơ',
+                    'Bỏ theo dõi',
+                    style: TextStyle(
+                        fontSize: 13,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Roboto_Regular',
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(redcolor)),
+                )
+              : ElevatedButton(
+                  onPressed: () => {
+                    setState(() {
+                      widget.overViewUserBloc
+                          .add(FollowEvent(widget.userProfile.id));
+                      widget.modeProfile = mode.Friend;
+                    })
+                  },
+                  child: Text(
+                    'Theo dõi',
                     style: TextStyle(
                         fontSize: 13,
                         decoration: TextDecoration.none,
@@ -142,43 +180,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                           Color.fromRGBO(90, 164, 105, 1.0))),
-                )
-              : widget.modeProfile == mode.Friend
-                  ? ElevatedButton(
-                      onPressed: () => {
-                        setState(() {
-                          widget.modeProfile = mode.Stranger;
-                        })
-                      },
-                      child: Text(
-                        'Bỏ theo dõi',
-                        style: TextStyle(
-                            fontSize: 13,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(redcolor)),
-                    )
-                  : ElevatedButton(
-                      onPressed: () => {
-                        setState(() {
-                          widget.modeProfile = mode.Friend;
-                        })
-                      },
-                      child: Text(
-                        'Theo dõi',
-                        style: TextStyle(
-                            fontSize: 13,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Color.fromRGBO(90, 164, 105, 1.0))),
-                    ),
+                ),
         ),
       ],
     );

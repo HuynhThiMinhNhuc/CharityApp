@@ -33,7 +33,6 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
   FutureOr<void> _onFriendSearchEvent(
       FriendSearchEvent event, Emitter<FriendState> emit) async {
     try {
-      emit(FriendLoadingState());
       List<UserOverview> suggestions =
           await userRepositoryImp.searchUser(event.name);
       emit(FriendSearchState(suggestions));
