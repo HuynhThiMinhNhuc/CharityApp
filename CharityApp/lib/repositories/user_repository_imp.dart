@@ -109,19 +109,19 @@ class UserRepositoryImp implements IUserRepository {
       userinfo = value.data()!;
     });
     UserProfile userProfile = new UserProfile(
-        name: userinfo['name'],
-        description: userinfo["description"],
+        name: userinfo['name'] ?? "",
+        description: userinfo["description"] ?? "",
         gender: userinfo['gender'] == 0
             ? Genders.Female
             : userinfo['gender'] == 1
                 ? Genders.Male
                 : Genders.Undefined,
-        birthDayString: "17/02/2001",
+        birthDayString: "17/02/2001" ?? "",
         avatarUri: null,
         id: id,
         email: userinfo['email'],
-        password: userinfo['password'],
-        phone: userinfo['phone']);
+        phone: userinfo['phone']?? "",
+        password: '' ) ;
     return userProfile;
   }
 
