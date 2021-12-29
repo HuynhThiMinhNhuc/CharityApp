@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 abstract class CommentEvent extends Equatable {
@@ -11,7 +10,7 @@ abstract class CommentEvent extends Equatable {
 class LoadComments extends CommentEvent {
   final int startIndex;
   final int endIndex;
-  final int postId;
+  final String postId;
   const LoadComments(
       {required this.postId, required this.startIndex, required this.endIndex});
 
@@ -20,9 +19,10 @@ class LoadComments extends CommentEvent {
 }
 
 class AddComment extends CommentEvent {
+  final String postId;
   final String content;
 
-  const AddComment({required this.content});
+  const AddComment({required this.postId, required this.content});
 
   @override
   List<Object> get props => [content];

@@ -133,7 +133,7 @@ class MeerApp extends StatelessWidget {
           return EventPage(name: 'test');
         },
         AppRoutes.comment: (context) {
-          return CommentView(postId: 'test');
+          return CommentView(postId: 'BHjc6lTbqmxfExrLYZdk');
         }
       },
     );
