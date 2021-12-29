@@ -3,58 +3,64 @@ import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
+import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CommentView extends StatelessWidget {
-  final String postId;
-  const CommentView({Key? key, required this.postId}) : super(key: key);
+  const CommentView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final postId = ModalRoute.of(context)!.settings.arguments as String;
+    BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: postId));
+
     return BlocProvider(
         create: (context) => CommentBloc(),
         child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: getAppbar(context),
-          body: CommentViewElement(postId: this.postId),
+          appBar: getAppbar(context, postId),
+          body: CommentViewElement(postId: postId),
         ));
   }
 
-  AppBar getAppbar(BuildContext context) {
+  AppBar getAppbar(BuildContext context, String postId) {
     return AppBar(
       iconTheme: IconThemeData(color: textcolor),
       backgroundColor: backgroundbottomtab,
-      title: /*BlocBuilder<NumberLikeCubit, int>(
-            builder: (_, numberLike) {
-              return */
-          Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            // total.toString(),
-            FormatNumberK.call(12000),
-            style: TextStyle(
-                fontFamily: 'Roboto_Regular', fontSize: 12, color: textcolor),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          IconButton(
-              onPressed: () {
-                //context.read<NumberLikeCubit>().like(postId, true);
-              },
-              icon: true
-                  ? FaIcon(
-                      FontAwesomeIcons.heart,
-                      color: Colors.red[900],
-                    )
-                  : FaIcon(FontAwesomeIcons.heart))
-        ],
-        //   );
-        // },
+      title: BlocBuilder<LikePostBloc, LikePostState>(
+        builder: (likeContext, state) {
+          final postState = (state as PostNumberLike);
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                // total.toString(),
+                FormatNumberK.call(postState.numberLike),
+                style: TextStyle(
+                    fontFamily: 'Roboto_Regular',
+                    fontSize: 12,
+                    color: textcolor),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              IconButton(
+                  onPressed: () {
+                    BlocProvider.of<LikePostBloc>(likeContext)
+                        .add(LikePost(isLike: !postState.isLike, postId: postId));
+                  },
+                  icon: postState.isLike
+                      ? FaIcon(
+                          FontAwesomeIcons.heart,
+                          color: Colors.red[900],
+                        )
+                      : FaIcon(FontAwesomeIcons.heart))
+            ],
+          );
+        },
       ),
     );
   }
@@ -70,15 +76,17 @@ class CommentViewElement extends StatefulWidget {
 
 class _CommentViewElementState extends State<CommentViewElement> {
   late CommentBloc _bloc;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = BlocProvider.of<CommentBloc>(context);
     _bloc.getComments(widget.postId);
   }
+
   @override
   void dispose() {
-    _bloc.dispose();
+    // _bloc.dispose();
     super.dispose();
   }
 
@@ -144,18 +152,26 @@ class _CommentViewElementState extends State<CommentViewElement> {
                   return Text('loading or not data');
                 } else {
                   final listComment = snapshot.data!.docs;
-
+                  if (listComment.length == 0) return Text('no comments');
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: listComment.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return CommentItem(
-                        comment: UserComment(
-                            avatarUri: cmts[index]['avatarUri'],
-                            name: cmts[index]['name'],
-                            timeComment: DateTime.now(),
-                            content: cmts[index]['content']),
+                      return FutureBuilder<UserComment>(
+                        future: _bloc.getComment(
+                            listComment[index].data() as Map<String, dynamic>),
+                        builder: (context, user) {
+                          if (user.hasError) {
+                            return Text('error loading');
+                          }
+                          if (user.hasData) {
+                            return CommentItem(
+                              comment: user.data!,
+                            );
+                          }
+                          return Text('loading user');
+                        },
                       );
                     },
                   );
@@ -194,7 +210,8 @@ class CommentItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: NetworkImage(comment.avatarUri!),
+                          image: NetworkImage(
+                              comment.avatarUri ?? cmts[0]['avatarUri']),
                           fit: BoxFit.cover))),
               SizedBox(
                 width: 5,

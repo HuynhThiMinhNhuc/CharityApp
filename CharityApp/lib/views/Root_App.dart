@@ -20,7 +20,6 @@ typedef onAddPostCallback = Function(Post post);
 class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('rebuild root app');
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activateTab) {
         return Scaffold(

@@ -6,7 +6,7 @@ import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/home_page/comment_view.dart';
 import 'package:charityapp/views/Pages/home_page/event_page.dart';
-import 'package:charityapp/views/bloc/single_post_bloc/single_post.dart';
+import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -102,7 +102,15 @@ class PostOverviewCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                 ),
               ),
-            BlocBuilder<SinglePostBloc, SinglePostState>(
+            BlocConsumer<LikePostBloc, LikePostState>(
+              listener: (context, state) {
+                if (state is PostNumberLike) {
+                  if (post.id == state.id) {
+                    post.isLike = state.isLike;
+                    post.numberLike = state.numberLike;
+                  }
+                }
+              },
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 10, 0),
@@ -122,12 +130,10 @@ class PostOverviewCard extends StatelessWidget {
                         children: <Widget>[
                           IconButton(
                             onPressed: () {
-                              post.isLike = !post.isLike;
-                              post.numberLike += post.isLike ? 1 : -1;
-                              BlocProvider.of<SinglePostBloc>(context)
-                                  .add(LikeSinglePost(
+                              BlocProvider.of<LikePostBloc>(context)
+                                  .add(LikePost(
                                 postId: post.id!,
-                                isLike: post.isLike,
+                                isLike: !post.isLike,
                               ));
                             },
                             icon: post.isLike
@@ -152,7 +158,7 @@ class PostOverviewCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            onPressed: () {
+                            onPressed: () async {
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
@@ -160,7 +166,11 @@ class PostOverviewCard extends StatelessWidget {
                               //               total: post.numberLike,
                               //               islove: true,
                               //             )));
-                              Navigator.of(context).pushNamed(AppRoutes.comment);
+                              await Navigator.of(context).pushNamed(
+                                  AppRoutes.comment,
+                                  arguments: post.id);
+                              BlocProvider.of<LikePostBloc>(context)
+                                  .add(GetNumberLike(postId: post.id!));
                             },
                             icon: FaIcon(FontAwesomeIcons.comment),
                             splashRadius: 20,

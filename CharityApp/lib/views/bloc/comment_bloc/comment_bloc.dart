@@ -28,6 +28,10 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     _repository.addComment(event.postId, userComment);
   }
 
+  Future<UserComment> getComment(Map<String, dynamic> json) {
+    return _repository.getComment(json);
+  }
+
   @override
   void dispose() {
     _commentStream.sink.close();

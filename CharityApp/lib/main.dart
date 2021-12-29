@@ -6,9 +6,9 @@ import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
+import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
-import 'package:charityapp/views/bloc/single_post_bloc/single_post.dart';
 import 'package:charityapp/views/root_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,9 @@ void main() async {
       BlocProvider<PostBloc>(
         create: (context) => PostBloc(),
       ),
+      BlocProvider<LikePostBloc>(
+        create: (context) => LikePostBloc(),
+      ),
     ],
     child: MeerApp(),
   ));
@@ -44,14 +47,14 @@ class MeerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: [
-      Locale('en', ''), // English, no country code
-      Locale('vi', ''), // VietNam, no country code
-    ],
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''), // English, no country code
+        Locale('vi', ''), // VietNam, no country code
+      ],
       debugShowCheckedModeBanner: true,
       routes: {
         AppRoutes.home: (context) {
@@ -69,11 +72,8 @@ class MeerApp extends StatelessWidget {
               BlocProvider<OverViewUserBloc>(
                 create: (context) => OverViewUserBloc(),
               ),
-               BlocProvider<SigninBloc>(
+              BlocProvider<SigninBloc>(
                 create: (context) => SigninBloc(),
-              ),
-               BlocProvider<SinglePostBloc>(
-                create: (context) => SinglePostBloc(),
               ),
             ],
             child: RootApp(),
@@ -133,7 +133,7 @@ class MeerApp extends StatelessWidget {
           return EventPage(name: 'test');
         },
         AppRoutes.comment: (context) {
-          return CommentView(postId: 'BHjc6lTbqmxfExrLYZdk');
+          return CommentView();
         }
       },
     );

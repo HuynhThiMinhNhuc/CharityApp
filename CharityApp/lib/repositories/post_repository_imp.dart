@@ -127,9 +127,16 @@ class PostRepositoryImp implements IPostRepository {
   }
 
   @override
-  Future<int> loadNumberLike(String postId) {
+  Future<List> loadNumberLike(String postId) {
+    final myId = '7hKHP4tpuIyeTJ44IdJe';
     return collection.doc(postId).get().then((doc) {
-      return ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>).length;
+      final list =
+          ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>)
+              .map((element) => element as String)
+              .toList();
+      int number = list.length;
+      bool isLike = list.contains(myId);
+      return [number, isLike];
     });
   }
 }

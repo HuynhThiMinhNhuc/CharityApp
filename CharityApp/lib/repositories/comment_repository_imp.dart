@@ -24,4 +24,10 @@ class CommentRepositoryImp extends ICommentRepository {
         .limit(5)
         .snapshots();
   }
+
+  Future<UserComment> getComment(Map<String, dynamic> json) {
+    return FirebaseFirestore.instance.collection('users').doc(json['creatorId']).get().then((doc) {
+      return UserComment(name: doc['name'], avatarUri: doc['avatarUri'], content: json['content'], timeComment:  (json['timeComment'] as Timestamp).toDate());
+    });
+  }
 }
