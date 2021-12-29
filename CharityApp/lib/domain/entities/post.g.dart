@@ -13,6 +13,7 @@ extension PostCopyWith on Post {
     String? eventId,
     String? id,
     List<String>? imagesUri,
+    bool? isLike,
     int? numberComment,
     int? numberLike,
     List<String>? tags,
@@ -25,6 +26,7 @@ extension PostCopyWith on Post {
       eventId: eventId ?? this.eventId,
       id: id ?? this.id,
       imagesUri: imagesUri ?? this.imagesUri,
+      isLike: isLike ?? this.isLike,
       numberComment: numberComment ?? this.numberComment,
       numberLike: numberLike ?? this.numberLike,
       tags: tags ?? this.tags,
@@ -58,6 +60,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       timeCreate: json['timeCreate'] == null
           ? null
           : DateTime.parse(json['timeCreate'] as String),
+      isLike: json['isLike'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -70,5 +73,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'description': instance.description,
       'numberComment': instance.numberComment,
       'numberLike': instance.numberLike,
+      'isLike': instance.isLike,
       'tags': instance.tags,
     };

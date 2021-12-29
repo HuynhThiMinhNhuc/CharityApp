@@ -3,8 +3,10 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 class UserRepositoryImp implements IUserRepository {
   final user = FirebaseFirestore.instance.collection("users");
@@ -36,6 +38,7 @@ class UserRepositoryImp implements IUserRepository {
       await user.doc(id).get().then((value) {
         List.from(value.data()!['friends']).forEach((element) async {
           useroverview = await getUserOverView(element);
+          useroverview.id = element;
           friends.add(useroverview);
         });
       });
@@ -135,7 +138,10 @@ class UserRepositoryImp implements IUserRepository {
       userinfo = value.data()!;
     });
     UserOverview userProfile = new UserOverview(
-        name: userinfo['name'], avatarUri: null, address: userinfo['address']);
+        name: userinfo['name'],
+        avatarUri: null,
+        address: userinfo['address'],
+        id: id);
     return userProfile;
   }
 
@@ -163,19 +169,51 @@ class UserRepositoryImp implements IUserRepository {
   @override
   Future<bool> isFriend(String id) async {
     bool isFriend = false;
+
     try {
-      await user.doc(id).get().then((value) => () {
-            var list = List.from( value.data()!['friends']) ;  
-            if (list.contains(id))
-              isFriend = true;
-            else
-              isFriend = false;
-          });
+      await user
+          .doc(GetIt.instance.get<Authenticator>().idCurrentUser)
+          .get()
+          .then((value) {
+        isFriend =
+            List.from(value.data()!['friends']).contains(id) ? true : false;
+      });
     } catch (e) {
-      print("Kiểm tra bạn bè lỗi" + e.toString());
-      isFriend = isFriend;
+      print("Lỗi load danh sách bạn bè" + e.toString());
     }
-    return isFriend; 
+    return isFriend;
+  }
+
+  @override
+  Future<void> follow(String? id) async {
+    // final usercolection =
+    //     user.doc(GetIt.instance.get<Authenticator>().idCurrentUser);
+    try {
+      await user
+          .doc(GetIt.instance.get<Authenticator>().idCurrentUser)
+          .update({
+            'friends': FieldValue.arrayUnion([id])
+          })
+          .then((value) => print("Them ban be thanh coong"))
+          .catchError((onError) => print("Loi :" + onError.toString()));
+    } catch (e) {
+      print("Bỏ theo dõi: lỗi kết nối database" + e.toString());
+    }
+  }
+
+  @override
+  Future<void> unfollow(String? id) async {
+    try {
+      await user
+          .doc(GetIt.instance.get<Authenticator>().idCurrentUser)
+          .update({
+            'friends': FieldValue.arrayRemove([id])
+          })
+          .then((value) => print("Xoas thanh coong"))
+          .catchError((onError) => print("Loi :" + onError.toString()));
+    } catch (e) {
+      print("Bỏ theo dõi: lỗi kết nối database" + e.toString());
+    }
   }
 
   Future<void> create(UserInfor userInfor, String email) async {

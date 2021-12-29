@@ -54,6 +54,7 @@ dependencies:
   implicitly_animated_reorderable_list: ^0.4.2
   animations: ^2.0.2
   email_auth: ^1.0.0
+  rxdart: ^0.27.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

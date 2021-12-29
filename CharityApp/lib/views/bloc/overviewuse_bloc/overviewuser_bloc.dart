@@ -13,6 +13,8 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
 
   OverViewUserBloc() : super(LoadingOverViewUserState()) {
     on<LoadOverViewUserEvent>(_onLoadPostEvent);
+    on<UnFollowEvent>(_onUnFollowEvent);
+    on<FollowEvent>(_followEvent);
   }
   Future<void> _onLoadPostEvent(
       LoadOverViewUserEvent event, Emitter<OverViewUserState> emit) async {
@@ -23,11 +25,32 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
       bool isfriend = await _userReposibility.isFriend(event.id);
       event.id == GetIt.instance.get<Authenticator>().idCurrentUser
           ? modeprofile = mode.My
-          : isfriend ? modeprofile = mode.Friend : modeprofile = mode.Stranger;
+          : isfriend
+              ? modeprofile = mode.Friend
+              : modeprofile = mode.Stranger;
       emit(LoadedOverViewUserState(userProfile, modeprofile));
     } catch (e) {
       print("Loi loading OverViewUserEvent  " + e.toString());
       emit(LoadFailOverViewUserState());
     }
   }
+
+  Future<void> _followEvent(
+      FollowEvent event, Emitter<OverViewUserState> emit) async {
+    try {
+      await _userReposibility.follow(event.id);
+    } catch (e) {
+      print("Theo dõi bạn bè:" + e.toString());
+    }
+  }
+  Future<void> _onUnFollowEvent(
+      UnFollowEvent event, Emitter<OverViewUserState> emit) async {
+    try {
+      await _userReposibility.unfollow(event.id);
+    } catch (e) {
+      print("Bỏ theo dõi bạn bè:" + e.toString());
+    }
+  }
 }
+
+
