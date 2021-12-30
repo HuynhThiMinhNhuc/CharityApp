@@ -1,5 +1,3 @@
-
-
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/main.dart';
 import 'package:charityapp/views/Component/password_input.dart';
@@ -193,9 +191,6 @@ class _LoginState extends State<Login> {
                                       ),
                                       BlocProvider<OverViewUserBloc>(
                                         create: (context) => OverViewUserBloc(),
-                                      ),
-                                      BlocProvider<SigninBloc>(
-                                        create: (context) => SigninBloc(),
                                       ),
                                     ],
                                     child: RootApp(),
