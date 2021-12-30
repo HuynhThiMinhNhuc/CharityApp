@@ -32,7 +32,7 @@ class UserInfor extends UserOverview {
 
   factory UserInfor.fromJson(Map<String, dynamic> json) => UserInfor(
         name: json['name'],
-        avatarUri: json['avatarUri'],
+        avatarUri: json['avatarUri'] as String?,
         description: json['description'] as String?,
         birthDayString: json['birthDayString'] as String?,
         gender: $enumDecode(_$GendersEnumMap, json['gender']),
@@ -40,7 +40,7 @@ class UserInfor extends UserOverview {
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
-        'avatarUri': this.avatarUri?.toString(),
+        'avatarUri': this.avatarUri,
         'description': this.description,
         'birthDayString': this.birthDayString,
         'gender': _$GendersEnumMap[this.gender],

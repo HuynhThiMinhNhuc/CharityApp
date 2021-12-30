@@ -61,7 +61,7 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'avatarUri': instance.avatarUri?.toString(),
+      'avatarUri': instance.avatarUri,
       'address': instance.address,
       'description': instance.description,
       'birthDayString': instance.birthDayString,
