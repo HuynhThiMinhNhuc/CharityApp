@@ -1,4 +1,5 @@
 import 'package:charityapp/repositories/user_repository_imp.dart';
+import 'package:charityapp/views/Login/register_view.dart';
 
 class Authenticator {
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();

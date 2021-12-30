@@ -27,7 +27,10 @@ class RootApp extends StatelessWidget {
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(80),
               child: getappbar(activateTab)),
-          body: getbody(context, activateTab),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: getbody(context, activateTab),
+          ),
           bottomNavigationBar: TabSelector(
             activeTab: activateTab,
             onTabSelected: (tab) {
@@ -144,11 +147,11 @@ class RootApp extends StatelessWidget {
   AppBar homeAppBar({Function? onClickSearch, Function? onClickNotification}) {
     return AppBar(
       automaticallyImplyLeading: false,
-      leadingWidth: 80,
+      leadingWidth: 100,
       backgroundColor: backgroundbottomtab,
       titleSpacing: 0,
       leading: Text(
-        'Meer',
+        ' Meer',
         style: TextStyle(
             color: maincolor,
             fontFamily: 'Redressed_Regular',
