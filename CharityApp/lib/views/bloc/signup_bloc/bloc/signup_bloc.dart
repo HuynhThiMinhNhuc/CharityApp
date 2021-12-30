@@ -31,12 +31,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           UserCredential userCredential = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(
                   email: event.email, password: event.password);
-          User? user = FirebaseAuth.instance.currentUser;
+          //User? user = FirebaseAuth.instance.currentUser;
           
           emit(SignupSussesState());
-          if (user != null && !user.emailVerified) {
-            await user.sendEmailVerification();
-          }
+          // if (user != null && !user.emailVerified) {
+          //   await user.sendEmailVerification();
+          // }
           
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {

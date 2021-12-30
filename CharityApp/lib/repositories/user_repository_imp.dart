@@ -115,7 +115,7 @@ class UserRepositoryImp implements IUserRepository {
             ? Genders.Female
             : userinfo['gender'] == 1
                 ? Genders.Male
-                : Genders.Undefined,
+                : Genders.Undefined ?? Genders.Undefined,
         birthDayString: "17/02/2001" ?? "",
         avatarUri: null,
         id: id,
@@ -219,8 +219,8 @@ class UserRepositoryImp implements IUserRepository {
   Future<void> create(UserInfor userInfor, String email) async {
     user
         .add({
-          'email': email,
-          'name': userInfor.name,
+          'email': email ,
+          'name': userInfor.name ,
           'birthday': userInfor.birthDayString,
           'gender': userInfor.gender == Genders.Male
               ? 0

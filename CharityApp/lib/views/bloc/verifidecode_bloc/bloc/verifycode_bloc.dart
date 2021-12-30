@@ -16,9 +16,10 @@ class VerifycodeBloc extends Bloc<VerifycodeEvent, VerifycodeState> {
 
   FutureOr<void> _onVerifycodeVerifyEvent(
       VerifycodeVerifyEvent event, Emitter<VerifycodeState> emit) async {
-    verify(event.email, event.otp)
-        ? emit(VerifycodeSucessState())
-        : emit(VerifycodeFailState());
+    emit(VerifycodeSucessState());
+    // verify(event.email, event.otp)
+    //     ? emit(VerifycodeSucessState())
+    //     : emit(VerifycodeFailState());
     emit(VerifycodeLoadState());
   }
 
@@ -29,12 +30,16 @@ class VerifycodeBloc extends Bloc<VerifycodeEvent, VerifycodeState> {
       "serverKey":
           "AAAAtVWAz5g:APA91bEOSEPO1CjqPqzdx-aG20swL-0wI9cPdN33MEXq9QU4M2efwqCEXUYvzLE9Mwy1Dl4ZbHGErvNUI95X95yLFgEGNCKYT6uhvI_5IAW9baYte0MQihVrBF8CoaK5UZ4nQkxQJaTv"
     });
-    if (await sendOtp(event.email) == false) emit(VerifycodeFailState());
+    if (await sendOtp(event.email) == false) emit(VerifycodeInitialState());
   }
 
   Future<bool> sendOtp(String email) async {
-    bool result;
-    result = await emailAuth.sendOtp(recipientMail: email);
+    bool result = false;
+    try {
+      result = await emailAuth.sendOtp(recipientMail: email);
+    } catch (e) {
+      print("Lỗi gửi mã OTP:" + e.toString());
+    }
     return result;
   }
 

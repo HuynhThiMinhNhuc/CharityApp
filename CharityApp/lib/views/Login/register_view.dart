@@ -253,17 +253,22 @@ class AlertDialogCustom extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(pathImage, width: 200, height: 200, fit: BoxFit.cover),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+            child: Image.asset(pathImage,
+                width: 250, height: 200, fit: BoxFit.fill),
+          ),
           Text(title),
         ],
       ),
       content: Text(content),
+      actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Đồng ý'),
           child: const Text(
             'Đồng ý',
-            style: TextStyle(color: maincolor, fontSize: 15),
+            style: TextStyle(color: maincolor, fontSize: 18),
           ),
         ),
       ],

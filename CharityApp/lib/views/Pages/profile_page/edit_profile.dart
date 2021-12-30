@@ -5,6 +5,7 @@ import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/aler_dialog.dart';
+import 'package:charityapp/views/Login/register_view.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
@@ -41,11 +42,10 @@ class _EditProfileState extends State<EditProfile> {
     await editprofileBloc.add(EditprofileEditEvent(widget.currentUser));
     await showDialog(
         context: context,
-        builder: (BuildContext context) => AlerDialog(
-              description: 'Nhấn Đồng ý để quay lại màn hình Hồ sơ của bạn',
-              title: 'Cập nhật thông tin thành công',
-              imagepath: 'asset/avatar.png',
-            ));
+        builder: (BuildContext context) => AlertDialogCustom(
+            content: "Nhấn đồng ý đề quay lại Hồ sơ của bạn",
+            pathImage: "asset/imagesample/ImageAlerDIalog/updateprofile.png",
+            title: "Cập nhật hồ sơ thành công"));
     await widget.onEditPro.call();
 
     Navigator.pop(context);

@@ -60,24 +60,8 @@ class MeerApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       routes: {
         AppRoutes.home: (context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<TabBloc>(
-                create: (context) => TabBloc(),
-              ),
-              BlocProvider<FriendBloc>(
-                create: (context) => FriendBloc(),
-              ),
-              BlocProvider<EditprofileBloc>(
-                create: (context) => EditprofileBloc(),
-              ),
-              BlocProvider<OverViewUserBloc>(
-                create: (context) => OverViewUserBloc(),
-              ),
-              BlocProvider<SigninBloc>(
-                create: (context) => SigninBloc(),
-              ),
-            ],
+          return BlocProvider(
+            create: (context) => SigninBloc(),
             child: Login(),
           );
         },
