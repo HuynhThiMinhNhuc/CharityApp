@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'profile_event.dart';
@@ -18,6 +20,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   FutureOr<void> _onProfileSaveEvent(
       ProfileSaveEvent event, Emitter<ProfileState> emit) async {
     try {
+      event.userInfor.id = FirebaseAuth.instance.currentUser!.uid;
       await userRepositoryImp.create(event.userInfor, event.email);
       emit(ProfileSucessState());
     } catch (e) {

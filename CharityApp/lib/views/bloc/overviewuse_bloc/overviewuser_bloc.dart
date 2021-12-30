@@ -23,7 +23,7 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
       emit(LoadingOverViewUserState());
       userProfile = await _userReposibility.getUserProfile(event.id);
       bool isfriend = await _userReposibility.isFriend(event.id);
-      event.id == GetIt.instance.get<Authenticator>().idCurrentUser
+      event.id == GetIt.instance.get<Authenticator>().userProfile.id
           ? modeprofile = mode.My
           : isfriend
               ? modeprofile = mode.Friend

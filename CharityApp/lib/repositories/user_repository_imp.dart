@@ -79,7 +79,6 @@ class UserRepositoryImp implements IUserRepository {
       'name': userProfile.name,
       'phone': userProfile.phone,
       'email': userProfile.email,
-      'password': userProfile.password,
     };
     user
         .doc(userProfile.id)
@@ -104,7 +103,6 @@ class UserRepositoryImp implements IUserRepository {
   @override
   Future<UserProfile> getUserProfile(String id) async {
     var userinfo;
-
     await user.doc(id).get().then((value) {
       userinfo = value.data()!;
     });
@@ -116,12 +114,14 @@ class UserRepositoryImp implements IUserRepository {
             : userinfo['gender'] == 1
                 ? Genders.Male
                 : Genders.Undefined ?? Genders.Undefined,
-        birthDayString: "17/02/2001" ?? "",
+        birthDayString: "17/02/2001" ,
         avatarUri: null,
-        id: id,
         email: userinfo['email'],
-        phone: userinfo['phone']?? "",
-        password: '' ) ;
+        phone: userinfo['phone'] ?? "",
+        numberPost: userinfo['numberevent'],
+        numberFollower: userinfo['numberfollower'],
+        id: id);
+    userProfile.numberFollowing = await loadNumberFriends(id);
     return userProfile;
   }
 
@@ -172,7 +172,7 @@ class UserRepositoryImp implements IUserRepository {
 
     try {
       await user
-          .doc(GetIt.instance.get<Authenticator>().idCurrentUser)
+          .doc(GetIt.instance.get<Authenticator>().userProfile.id)
           .get()
           .then((value) {
         isFriend =
@@ -190,7 +190,7 @@ class UserRepositoryImp implements IUserRepository {
     //     user.doc(GetIt.instance.get<Authenticator>().idCurrentUser);
     try {
       await user
-          .doc(GetIt.instance.get<Authenticator>().idCurrentUser)
+          .doc(GetIt.instance.get<Authenticator>().userProfile.id)
           .update({
             'friends': FieldValue.arrayUnion([id])
           })
@@ -205,7 +205,7 @@ class UserRepositoryImp implements IUserRepository {
   Future<void> unfollow(String? id) async {
     try {
       await user
-          .doc(GetIt.instance.get<Authenticator>().idCurrentUser)
+          .doc(GetIt.instance.get<Authenticator>().userProfile.id)
           .update({
             'friends': FieldValue.arrayRemove([id])
           })
@@ -218,15 +218,21 @@ class UserRepositoryImp implements IUserRepository {
 
   Future<void> create(UserInfor userInfor, String email) async {
     user
-        .add({
-          'email': email ,
-          'name': userInfor.name ,
+        .doc(userInfor.id)
+        .set({
+          'email': email,
+          'name': userInfor.name,
           'birthday': userInfor.birthDayString,
           'gender': userInfor.gender == Genders.Male
               ? 0
               : userInfor.gender == Genders.Female
                   ? 1
-                  : 0
+                  : 0,
+          'description': "",
+          'friends': [],
+          'phone': '',
+          'numberevent': 0,
+          'numberfollower': 0
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
