@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
-    overViewUserBloc.add(LoadOverViewUserEvent(GetIt.instance.get<Authenticator>().idCurrentUser));
+    overViewUserBloc.add(LoadOverViewUserEvent(GetIt.instance.get<Authenticator>().userProfile.id));
     //poverViewUserBlocostBloc.add(LoadPostEvent());
   }
 

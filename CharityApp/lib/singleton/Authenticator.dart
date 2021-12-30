@@ -1,17 +1,13 @@
+import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/views/Login/register_view.dart';
 
 class Authenticator {
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
-  String idCurrentUser = "";
-  String email = "";
+  var userProfile;
 
-  Future<bool> login(String email) async {
-    idCurrentUser = await userRepositoryImp.getIdUser(email);
-    if (idCurrentUser.length > 0) {
-      this.email = email;
-      return true;
-    } else
-      return false;
+  Future<void> login(String email) async {
+    String id = await userRepositoryImp.getIdUser(email);
+    userProfile = await userRepositoryImp.getUserProfile(id);
   }
 }
