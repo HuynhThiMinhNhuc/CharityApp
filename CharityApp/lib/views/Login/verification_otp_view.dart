@@ -1,14 +1,18 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/otp_textfield.dart';
+import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
 import 'package:charityapp/views/Login/welcome_view.dart';
+import 'package:charityapp/views/Pages/profile_page/changepassforgot.dart';
+import 'package:charityapp/views/bloc/changepassforgot_bloc/bloc/changepassforgot_bloc.dart';
 import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class VerificationOtpView extends StatefulWidget {
+  final bool ischangepass;
   final String email;
   TextEditingController onecontrolller = new TextEditingController();
   TextEditingController twocontrolller = new TextEditingController();
@@ -16,7 +20,9 @@ class VerificationOtpView extends StatefulWidget {
   TextEditingController fourcontrolller = new TextEditingController();
   TextEditingController fivecontrolller = new TextEditingController();
   TextEditingController sixcontrolller = new TextEditingController();
-  VerificationOtpView({Key? key, required this.email}) : super(key: key);
+  VerificationOtpView(
+      {Key? key, required this.email, required this.ischangepass})
+      : super(key: key);
   @override
   _VerificationOtpViewState createState() => _VerificationOtpViewState();
 }
@@ -136,7 +142,13 @@ class _VerificationOtpViewState extends State<VerificationOtpView> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => WelcomeView(email: widget.email)));
+                                builder: (context) => !widget.ischangepass
+                                    ? WelcomeView(email: widget.email)
+                                    : BlocProvider(
+                                        create: (context) => ChangepassforgotBloc(),
+                                        child: ChangePassforgotprofile(
+                                            email: widget.email),
+                                      )));
                       } else if (state is VerifycodeFailState) {
                         showDialog<String>(
                             context: context,

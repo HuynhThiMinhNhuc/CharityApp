@@ -147,7 +147,7 @@ class _RegisterViewState extends State<RegisterView> {
                               builder: (context) => BlocProvider(
                                   create: (context) => VerifycodeBloc(),
                                   child: VerificationOtpView(
-                                    email: this.emailcontroller.text.trim(),
+                                    email: this.emailcontroller.text.trim(), ischangepass: false,
                                   ))));
                     } else if (state is SignupFailEmailFomatState) {
                       showDialog<String>(

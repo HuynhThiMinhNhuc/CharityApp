@@ -1,86 +1,100 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/text_input.dart';
+import 'package:charityapp/views/Login/verification_otp_view.dart';
+import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 class ForgotPassword extends StatefulWidget {
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-    final TextEditingController phonecontroller = new TextEditingController();
+  final TextEditingController emailcontroller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 50, 0, 50),
-            child: Row(children: [
-              IconButton(
-                  onPressed: () => {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.chevronCircleLeft,
-                    color: notetextcolor,
-                    size: 40,
-                  )),
-            ]),
-          ),
-          Text(
-            'Forgot password',
-            style: TextStyle(
-                color: maincolor,
-                fontSize: 40,
-                fontFamily: 'Roboto-Regular.ttf',
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-            child: Text(
-              'Enter the Email/Phone number associated with your account and we’ll send an email with instruction to reset your password',
-              style: TextStyle(
-                  color: notetextcolor,
-                  fontSize: 18,
-                  fontFamily: 'Roboto_Regular'),
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
+              padding: EdgeInsets.fromLTRB(20, 50, 0, 50),
+              child: Row(children: [
+                IconButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    icon: Icon(Icons.arrow_back)),
+              ]),
+            ),
+            Text(
+              'QUÊN MẬT KHẨU',
+              style: TextStyle(
+                  color: maincolor,
+                  fontSize: 38,
+                  fontFamily: 'Roboto-Regular.ttf',
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
               child: Text(
-                'Email/ Phone number',
+                'Nhập email bạn đã đăng ký và chúng tôi sẽ gửi một mã xác thực để bạn tiến hành việc đổi mật khẩu',
                 style: TextStyle(
-                    color: maincolor,
-                    fontFamily: 'Roboto-Regular.tff',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                    color: notetextcolor,
+                    fontSize: 16,
+                    fontFamily: 'Roboto_Regular'),
               ),
             ),
-          ]),
-          Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: TextInput(
-                icon: Icons.people,
-                background: Colors.white,
-                boder: maincolor,
-                hint: '',
-                labeltext: '',
-                textEditingController: phonecontroller,
-                textInputType: TextInputType.text,
-              )),
-          Padding(
-              padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-              child: CustomButton(onPressed: () => {}, textInput: 'SEND OTP'))
-        ],
+            SizedBox(
+              height: 40,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
+                child: Text(
+                  'Email',
+                  style: TextStyle(
+                      color: maincolor,
+                      fontFamily: 'Roboto-Regular.tff',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ]),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: TextInput(
+                  icon: Icons.mail,
+                  background: Colors.white,
+                  boder: maincolor,
+                  hint: '',
+                  labeltext: '',
+                  textEditingController: emailcontroller,
+                  textInputType: TextInputType.text,
+                )),
+            Padding(
+                padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                child: CustomButton(
+                    onPressed: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                        create: (context) => VerifycodeBloc(),
+                                        child: VerificationOtpView(
+                                            email: emailcontroller.text.trim(),
+                                            ischangepass: true),
+                                      )))
+                        },
+                    textInput: 'GỬI MÃ OTP'))
+          ],
+        ),
       ),
     );
   }

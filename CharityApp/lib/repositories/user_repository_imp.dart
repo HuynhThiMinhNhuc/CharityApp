@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tiengviet/tiengviet.dart';
 
 class UserRepositoryImp implements IUserRepository {
   final user = FirebaseFirestore.instance.collection("users");
@@ -141,7 +142,7 @@ class UserRepositoryImp implements IUserRepository {
     });
     UserOverview userProfile = new UserOverview(
         name: userinfo['name'],
-        avatarUri: null,
+        avatarUri: userinfo['avatarUri'],
         address: userinfo['address'],
         id: id);
     return userProfile;
@@ -152,15 +153,16 @@ class UserRepositoryImp implements IUserRepository {
     List<UserOverview> suggesstion = [];
     UserOverview userOverview;
     try {
-      final value = await user
-          .where("name", isGreaterThanOrEqualTo: search)
-          .where('name', isLessThan: search + "z")
-          .get()
-          .then((value) => value.docs.forEach((user) {
-                userOverview = new UserOverview(
-                    name: user['name'], avatarUri: null, id: user.id);
-                suggesstion.add(userOverview);
-              }));
+      final value = await user.get().then((value) => value.docs.forEach((user) {
+            if (TiengViet.parse(user['name'].toString().toLowerCase())
+                .contains(TiengViet.parse(search.toLowerCase()))) {
+              userOverview = new UserOverview(
+                  name: user['name'],
+                  avatarUri: user['avatarUri'],
+                  id: user.id);
+              suggesstion.add(userOverview);
+            }
+          }));
       return suggesstion;
     } catch (e) {
       print("Lỗi tìm kiếm: " + e.toString());
