@@ -1,7 +1,9 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/main.dart';
 import 'package:charityapp/views/Component/password_input.dart';
+import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/Login/verification_otp_view.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
@@ -139,13 +141,21 @@ class _LoginState extends State<Login> {
                             'Nhớ tài khoản',
                             style: TextStyle(color: icon),
                           )),
-                      Text(
-                        'Quên mật khẩu?',
-                        style: TextStyle(
-                            color: maincolor,
-                            fontFamily: 'Roboto-Regular.ttf',
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgotPassword()));
+                        },
+                        child: Text(
+                          'Quên mật khẩu?',
+                          style: TextStyle(
+                              color: maincolor,
+                              fontFamily: 'Roboto-Regular.ttf',
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),

@@ -1,32 +1,33 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/password_input.dart';
+import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Login/register_view.dart';
 import 'package:charityapp/views/Login/verification_otp_view.dart';
+import 'package:charityapp/views/bloc/changepassforgot_bloc/bloc/changepassforgot_bloc.dart';
 import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bloc.dart';
+import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ChangePasswordEditprofile extends StatefulWidget {
+class ChangePassforgotprofile extends StatefulWidget {
   final String email;
 
-  ChangePasswordEditprofile({Key? key, required this.email}) : super(key: key);
+  ChangePassforgotprofile({Key? key, required this.email}) : super(key: key);
   @override
-  _ChangePasswordEditprofileState createState() =>
-      _ChangePasswordEditprofileState();
+  _ChangePassforgotprofileState createState() =>
+      _ChangePassforgotprofileState();
 }
 
-class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
+class _ChangePassforgotprofileState extends State<ChangePassforgotprofile> {
   final TextEditingController passwordcontroller = new TextEditingController();
   final TextEditingController confirmpasswordcontroller =
       new TextEditingController();
-  final TextEditingController oldpasswordcontroller =
-      new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final _changepassBloc = BlocProvider.of<ChangepasswordBloc>(context);
+    final _changepassBloc = BlocProvider.of<ChangepassforgotBloc>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -60,31 +61,6 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
                     color: notetextcolor,
                     fontSize: 16,
                     fontFamily: 'Roboto_Regular'),
-              ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
-                child: Text(
-                  'Mật khẩu cũ',
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto-Regular.tff',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-            ]),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: PassWordInput(
-                textInputType: TextInputType.text,
-                securitytext: false,
-                background: Colors.white,
-                boder: maincolor,
-                hint: '',
-                ispass: true,
-                textcontroller: oldpasswordcontroller,
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
@@ -137,30 +113,22 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
                 textInputType: TextInputType.text,
               ),
             ),
-            TextButton(
-                onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BlocProvider(
-                                    create: (context) => VerifycodeBloc(),
-                                    child: VerificationOtpView(
-                                        email: widget.email, ischangepass: true,),
-                                  )))
-                    },
-                child: Text(
-                  "Quên mật khẩu?",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: redcolor,
-                    fontSize: 15,
-                  ),
-                )),
             Padding(
                 padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-                child: BlocListener<ChangepasswordBloc, ChangepasswordState>(
+                child:
+                    BlocListener<ChangepassforgotBloc, ChangepassforgotState>(
                   listener: (context, state) {
-                    if (state is ChangepasswordSuccess) {
+                    if (state is ChangepassforgotEmpty) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext buildercontext) =>
+                              AlertDialogCustom(
+                                content: "Vui lòng nhập đầy đủ thông tin",
+                                title: "Thông tin bị bỏ trống",
+                                pathImage:
+                                    "asset/imagesample/ImageAlerDIalog/wrong.png",
+                              ));
+                    } else if (state is Changepassforgotsuccess) {
                       showDialog(
                           context: context,
                           builder: (BuildContext buildercontext) =>
@@ -171,7 +139,15 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
                                 pathImage:
                                     "asset/imagesample/ImageAlerDIalog/changepasssuccess.png",
                               ));
-                    } else if (state is ChangepasswordFailConfirmPass) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                    create: (context) => SigninBloc(),
+                                    child: Login(),
+                                  )),
+                          (route) => false);
+                    } else if (state is ChangepassforgotWrongconfirmpass) {
                       showDialog(
                           context: context,
                           builder: (BuildContext buildercontext) =>
@@ -182,26 +158,13 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
                                 pathImage:
                                     "asset/imagesample/ImageAlerDIalog/changepasssuccess.png",
                               ));
-                    } else if (state is ChangepasswordFailOldpass) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext buildercontext) =>
-                              AlertDialogCustom(
-                                content: "Vui lòng nhập đúng mật khẩu cũ",
-                                title: "Mật khẩu cũ sai",
-                                pathImage:
-                                    "asset/imagesample/ImageAlerDIalog/changepasssuccess.png",
-                              ));
                     }
                   },
                   child: CustomButton(
                       onPressed: () => {
-                            _changepassBloc.add(ChangepasswordChange(
-                                confirmpass:
-                                    this.confirmpasswordcontroller.text.trim(),
-                                newpass: this.passwordcontroller.text.trim(),
-                                oldpass: this.oldpasswordcontroller.text.trim(),
-                                email: widget.email))
+                            _changepassBloc.add(ChangepassforgotChange(
+                                confirmpass: confirmpasswordcontroller.text,
+                                newpass: passwordcontroller.text))
                           },
                       textInput: 'LƯU'),
                 ))

@@ -120,11 +120,12 @@ class _FriendPageState extends State<FriendPage> {
                                 return ListTile(
                                   leading: CircleAvatar(
                                       radius: 18,
-                                      backgroundImage:
-                                          state.suggestion[index].avatarUri ==
-                                                  null
-                                              ? AssetImage('asset/avatar.png')
-                                              : AssetImage('asset/avatar.png')),
+                                      backgroundImage: state.suggestion[index]
+                                                  .avatarUri ==
+                                              null
+                                          ? AssetImage('asset/avatar.png')
+                                          : NetworkImage(state.suggestion[index]
+                                              .avatarUri!) as ImageProvider),
                                   title: Text(state.suggestion[index].name),
                                   selectedColor: Color(0x10F4F4F4),
                                   onTap: () => {
@@ -150,8 +151,10 @@ class _FriendPageState extends State<FriendPage> {
                                                           friendBloc.add(
                                                               FriendLoadEvent(GetIt
                                                                   .instance
-                                                                  .get<Authenticator>()
-                                                                 .userProfile.id))
+                                                                  .get<
+                                                                      Authenticator>()
+                                                                  .userProfile
+                                                                  .id))
                                                         }),
                                               )),
                                     )
@@ -317,7 +320,8 @@ class friends extends StatelessWidget {
                                             friendBloc.add(FriendLoadEvent(GetIt
                                                 .instance
                                                 .get<Authenticator>()
-                                                .userProfile.id))
+                                                .userProfile
+                                                .id))
                                           }),
                                 )),
                       )
