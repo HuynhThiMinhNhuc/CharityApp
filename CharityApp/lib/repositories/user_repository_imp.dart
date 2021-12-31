@@ -5,6 +5,8 @@ import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
@@ -114,8 +116,8 @@ class UserRepositoryImp implements IUserRepository {
             : userinfo['gender'] == 1
                 ? Genders.Male
                 : Genders.Undefined ?? Genders.Undefined,
-        birthDayString: "17/02/2001" ,
-        avatarUri: null,
+        birthDayString: userinfo['birthday'],
+        avatarUri: userinfo['avatarUri'],
         email: userinfo['email'],
         phone: userinfo['phone'] ?? "",
         numberPost: userinfo['numberevent'],
@@ -237,5 +239,15 @@ class UserRepositoryImp implements IUserRepository {
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
     ;
+  }
+
+  @override
+  Future<void> changepassword(String newpass) async {
+    try {
+      var user = FirebaseAuth.instance.currentUser;
+      await user!.updatePassword(newpass);
+    } catch (e) {
+      print("Error change passsword:" + e.toString());
+    }
   }
 }

@@ -247,6 +247,7 @@ class _ProfileState extends State<Profile> {
                           pathImage:
                               "asset/imagesample/ImageAlerDIalog/lostconnect.png",
                           title: "Lỗi kết nối");
+
                     }
                   },
                   child: CustomButton(

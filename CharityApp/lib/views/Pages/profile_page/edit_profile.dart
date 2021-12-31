@@ -1,17 +1,22 @@
 import 'dart:io';
 
 import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/aler_dialog.dart';
 import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/Pages/profile_page/changepassword.dart';
+import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bloc.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class EditProfile extends StatefulWidget {
   final UserProfile currentUser;
@@ -27,15 +32,22 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   var editprofileBloc;
   var dropvalue = "Nữ";
-
-  File? image;
+  var _datetextcontroler;
 
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
 
     final imagetemporary = File(image.path);
-    setState(() => {this.image = imagetemporary});
+    final copyimage = await UploadImageToFirestorage.call(
+      imageFile: imagetemporary,
+      rootPath: 'images/users',
+    );
+    if (widget.currentUser.avatarUri != null)
+      FirebaseStorage.instance
+          .refFromURL(widget.currentUser.avatarUri!)
+          .delete();
+    setState(() => {widget.currentUser.avatarUri = copyimage});
   }
 
   Future<void> close() async {
@@ -49,6 +61,7 @@ class _EditProfileState extends State<EditProfile> {
     await widget.onEditPro.call();
 
     Navigator.pop(context);
+
   }
 
   @override
@@ -59,6 +72,8 @@ class _EditProfileState extends State<EditProfile> {
         : widget.currentUser.gender == Genders.Male
             ? "Nam"
             : "Khác";
+    this._datetextcontroler =
+        new TextEditingController(text: widget.currentUser.birthDayString);
     editprofileBloc = BlocProvider.of<EditprofileBloc>(context);
   }
 
@@ -103,16 +118,45 @@ class _EditProfileState extends State<EditProfile> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              TextButton(
-                onPressed: close,
-                //onPressed:()=>{},
-                child: Text(
-                  "Hoàn thành",
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal),
+              BlocListener<EditprofileBloc, EditprofileState>(
+                listener: (context, state) async {
+                  if (state is EditprofilePhoneWrongFormatFail) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext buildercontext) =>
+                            AlertDialogCustom(
+                              content:
+                                  "Số điện thoại phải có 10 chữ số, bắt đầu bằng 0",
+                              pathImage:
+                                  'asset/imagesample/ImageAlerDIalog/lostconnect.png',
+                              title: "Số điện thoại không hợp lệ",
+                            ));
+                  } else if (state is EditprofileSucess) {
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext buildercontext) {
+                          return AlertDialogCustom(
+                            content:
+                                "Vui lòng nhấn Đồng ý để quay về màn hình Hồ sơ của bạn",
+                            pathImage:
+                                'asset/imagesample/ImageAlerDIalog/updateprofile.png',
+                            title: "Cập nhật hồ sơ thành công",
+                          );
+                        });
+                    widget.onEditPro.call();
+                    Navigator.pop(context);
+                  }
+                },
+                child: TextButton(
+                  onPressed: close,
+                  child: Text(
+                    "Hoàn thành",
+                    style: TextStyle(
+                        color: maincolor,
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal),
+                  ),
                 ),
               ),
             ],
@@ -150,8 +194,10 @@ class _EditProfileState extends State<EditProfile> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
-                                image: image != null
-                                    ? FileImage(image!) as ImageProvider
+                                image: widget.currentUser.avatarUri != null
+                                    ? NetworkImage(
+                                            widget.currentUser.avatarUri!)
+                                        as ImageProvider
                                     : AssetImage('asset/avatar.png'),
                                 fit: BoxFit.cover),
                           ),
@@ -168,6 +214,8 @@ class _EditProfileState extends State<EditProfile> {
                                 color: Colors.white,
                               ),
                               child: IconButton(
+                                padding: EdgeInsets.all(0),
+                                splashRadius: 20,
                                 color: maincolor,
                                 icon: Icon(Icons.camera_enhance_outlined),
                                 onPressed: pickImage,
@@ -222,9 +270,38 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        initialValue: widget.currentUser.birthDay.toString(),
-                        onChanged: (value) =>
-                            {widget.currentUser.birthDayString = value},
+                        controller: _datetextcontroler,
+                        decoration: InputDecoration(
+                            suffixIcon: Theme(
+                          data: Theme.of(context).copyWith(
+                            primaryColor: maincolor,
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.calendar_today, color: maincolor),
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(DateTime.now().year - 1,
+                                    DateTime.now().month, DateTime.now().day),
+                                lastDate: DateTime(DateTime.now().year + 2),
+                              ).then((value) {
+                                if (value != null) {
+                                  widget.currentUser.birthDayString =
+                                      DateFormat('dd/MM/yyyy').format(value!);
+                                  if (widget.currentUser.birthDayString !=
+                                      _datetextcontroler.text)
+                                    setState(() {
+                                      _datetextcontroler.text =
+                                          widget.currentUser.birthDayString!;
+                                      print(
+                                          "Date selected: $widget.currentUser.birthDayString");
+                                    });
+                                }
+                              });
+                            },
+                          ),
+                        )),
                       ),
                     ),
                   ],
@@ -375,13 +452,32 @@ class _EditProfileState extends State<EditProfile> {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: Text(
-                        "Đổi mật khẩu",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                      child: TextButton(
+                        style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(
+                                maincolor.withOpacity(0.1))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                        create: (context) =>
+                                            ChangepasswordBloc(),
+                                        child: ChangePasswordEditprofile(
+                                            email: widget.currentUser.email),
+                                      )));
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Đổi mật khẩu",
+                            style: TextStyle(
+                                color: textcolor,
+                                fontFamily: 'Roboto_Regular',
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                     IconButton(onPressed: null, icon: Icon(Icons.navigate_next))

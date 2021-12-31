@@ -43,6 +43,7 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
       print("Theo dõi bạn bè:" + e.toString());
     }
   }
+
   Future<void> _onUnFollowEvent(
       UnFollowEvent event, Emitter<OverViewUserState> emit) async {
     try {
@@ -52,5 +53,3 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
     }
   }
 }
-
-
