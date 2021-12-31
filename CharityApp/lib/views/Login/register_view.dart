@@ -180,6 +180,7 @@ class _RegisterViewState extends State<RegisterView> {
                               'asset/imagesample/ImageAlerDIalog/wrong.png',
                         ),
                       );
+
                     } else if (state is SignupIncorrectPassConfirmState) {
                       showDialog<String>(
                         context: context,
@@ -243,6 +244,7 @@ class AlertDialogCustom extends StatelessWidget {
       required this.pathImage,
       required this.title})
       : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

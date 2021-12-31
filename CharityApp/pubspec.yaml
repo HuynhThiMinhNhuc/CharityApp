@@ -97,6 +97,7 @@ flutter:
     - asset/imagesample/ImageAlerDIalog/wrong.png
     - asset/imagesample/ImageAlerDIalog/lostconnect.png
     - asset/imagesample/ImageAlerDIalog/updateprofile.png
+    - asset/imagesample/ImageAlerDIalog/changepasssuccess.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -48,9 +48,12 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 5),
                   image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")),
+                    fit: BoxFit.cover,
+                    image: widget.userProfile.avatarUri != null
+                        ? NetworkImage(widget.userProfile.avatarUri!)
+                            as ImageProvider
+                        : AssetImage('asset/avatar.png'),
+                  ),
                 ),
               ),
             ),
@@ -114,8 +117,8 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         ),
         SizedBox(
           width: double.infinity,
-          child:  widget.modeProfile == mode.My?
-          ElevatedButton(
+          child: widget.modeProfile == mode.My
+              ? ElevatedButton(
                   onPressed: () => {
                     Navigator.push(
                         context,
@@ -124,13 +127,13 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                                   create: (context) => EditprofileBloc(),
                                   child: EditProfile(
                                     currentUser: widget.userProfile,
-                                    onEditPro: () => 
-                                    widget.overViewUserBloc
+                                    onEditPro: () => widget.overViewUserBloc
                                         .add(LoadOverViewUserEvent(
                                             widget.userProfile.id)),
                                   ),
-                                )))},
-                    child: Text(
+                                )))
+                  },
+                  child: Text(
                     'Chỉnh sửa hồ sơ',
                     style: TextStyle(
                         fontSize: 13,
@@ -140,47 +143,47 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   ),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(maincolor)),
-          ):
-          widget.modeProfile == mode.Friend
-              ? ElevatedButton(
-                  onPressed: () => {
-                    setState(() {
-                      widget.overViewUserBloc
-                          .add(UnFollowEvent(widget.userProfile.id));
-                      widget.modeProfile = mode.Stranger;
-                    })
-                  },
-                  child: Text(
-                    'Bỏ theo dõi',
-                    style: TextStyle(
-                        fontSize: 13,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(redcolor)),
                 )
-              : ElevatedButton(
-                  onPressed: () => {
-                    setState(() {
-                      widget.overViewUserBloc
-                          .add(FollowEvent(widget.userProfile.id));
-                      widget.modeProfile = mode.Friend;
-                    })
-                  },
-                  child: Text(
-                    'Theo dõi',
-                    style: TextStyle(
-                        fontSize: 13,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(90, 164, 105, 1.0))),
-                ),
+              : widget.modeProfile == mode.Friend
+                  ? ElevatedButton(
+                      onPressed: () => {
+                        setState(() {
+                          widget.overViewUserBloc
+                              .add(UnFollowEvent(widget.userProfile.id));
+                          widget.modeProfile = mode.Stranger;
+                        })
+                      },
+                      child: Text(
+                        'Bỏ theo dõi',
+                        style: TextStyle(
+                            fontSize: 13,
+                            decoration: TextDecoration.none,
+                            fontFamily: 'Roboto_Regular',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(redcolor)),
+                    )
+                  : ElevatedButton(
+                      onPressed: () => {
+                        setState(() {
+                          widget.overViewUserBloc
+                              .add(FollowEvent(widget.userProfile.id));
+                          widget.modeProfile = mode.Friend;
+                        })
+                      },
+                      child: Text(
+                        'Theo dõi',
+                        style: TextStyle(
+                            fontSize: 13,
+                            decoration: TextDecoration.none,
+                            fontFamily: 'Roboto_Regular',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Color.fromRGBO(90, 164, 105, 1.0))),
+                    ),
         ),
       ],
     );
