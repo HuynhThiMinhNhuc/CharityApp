@@ -1,8 +1,6 @@
 import 'package:charityapp/Constant/post_jason.dart';
-import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/Pages/home_page/form_view.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +24,8 @@ class EventOverviewCard extends StatelessWidget {
                   height: 210,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(post[0]['postImage']),
+                        image: NetworkImage(
+                            state.event.backgroundUri ?? post[0]['postImage']),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -92,12 +91,8 @@ class EventOverviewCard extends StatelessWidget {
                   SizedBox(width: 0),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FormView(
-                                    username: users[0]['name'],
-                                    userphone: users[0]['phone'])));
+                        Navigator.pushNamed(context, AppRoutes.formRegister,
+                            arguments: state.event);
                       },
                       child: Text(
                         "Tham gia",

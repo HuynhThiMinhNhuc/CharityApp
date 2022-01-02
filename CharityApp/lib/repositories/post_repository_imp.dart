@@ -13,14 +13,27 @@ class PostRepositoryImp implements IPostRepository {
     final docRef = await collection.add(entity.toJson());
     entity.id = docRef.id;
     print('Add ${entity.toString()} success');
+
+    final eventCollection = FirebaseFirestore.instance.collection("events");
+    eventCollection.doc(entity.eventId).update(<String, dynamic>{
+      'numberPost': FieldValue.increment(1),
+    });
   }
 
   @override
   Future<void> delete(String id) {
-    return collection
-        .doc(id)
-        .delete()
-        .then((value) => print('Update $id success'));
+    final docRef = collection.doc(id);
+
+    docRef.get().then((doc) {
+      final json = doc.data() as Map<String, dynamic>;
+      final eventCollection = FirebaseFirestore.instance.collection("events");
+
+      eventCollection.doc(json['eventId']).update(<String, dynamic>{
+        'numberPost': FieldValue.increment(-1),
+      });
+    });
+
+    return docRef.delete().then((value) => print('Delete $id success'));
   }
 
   @override
@@ -161,11 +174,11 @@ class PostRepositoryImp implements IPostRepository {
     return collection.doc(postId).get().then((doc) {
       final json = doc.data() as Map<String, dynamic>;
       final images = (json['imagesUri'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList() ??
-            const <String>[];
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[];
 
-            return images;
+      return images;
     });
   }
 }

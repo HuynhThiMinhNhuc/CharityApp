@@ -5,4 +5,5 @@ class AppRoutes {
   static final chooseEvent = addEvent + '/chooseEvent';
   static final eventPage = '/eventPage';
   static final comment = '/comment';
+  static final formRegister = eventPage + '/formRegis';
 }

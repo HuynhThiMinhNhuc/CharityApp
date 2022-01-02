@@ -45,6 +45,8 @@ class EventOverview extends BaseEvent {
         timeCreate: json['timeCreate'] == null
             ? null
             : (json['timeCreate'] as Timestamp).toDate(),
+        numberMember: json['numberMember'] as int,
+        numberPost: json['numberPost'] as int,
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,

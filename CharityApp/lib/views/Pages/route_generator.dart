@@ -1,6 +1,8 @@
 import 'package:charityapp/core/model/routes.dart';
+import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'add_event_page/add_post_page.dart';
 import 'add_event_page/chosse_eventview.dart';
 import 'home_page/comment_view.dart';
 import 'home_page/event_page.dart';
+import 'home_page/form_view.dart';
 
 class RouteGenerator {
   Route generateRoute(RouteSettings settings) {
@@ -30,7 +33,9 @@ class RouteGenerator {
             listener: (bloc_context, state) async {
               if (state is PostUpdated) {
                 await showMyDialog(bloc_context, 'Thêm bài viết thành công');
-                Navigator.of(context).pushNamed(AppRoutes.eventPage, );
+                Navigator.of(context).pushNamed(
+                  AppRoutes.eventPage,
+                );
               } else if (state is PostLoadFailure) {
                 showMyDialog(bloc_context, 'Thêm bài viết thất bại',
                     closeWhenClick: false);
@@ -90,6 +95,14 @@ class RouteGenerator {
       final postId = settings.arguments as String;
       return MaterialPageRoute(
           builder: (context) => CommentView(postId: postId));
+    } else if (settings.name == AppRoutes.formRegister) {
+      final event = settings.arguments as BaseEvent;
+      return MaterialPageRoute(builder: (context) {
+        return BlocProvider(
+          create: (_) => FormBloc(),
+          child: FormView(event: event),
+        );
+      });
     }
     return MaterialPageRoute(builder: (context) {
       return Text('fail page');

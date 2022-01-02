@@ -112,7 +112,9 @@ class EventRepositoryImp implements IEventRepository {
   Future<EventOverview> loadEventOverview(String eventId) {
     return collection.doc(eventId).get().then((doc) {
       final json = doc.data() as Map<String, dynamic>;
-      return EventOverview.fromJson(json)..id = doc.id;
+      final event = EventOverview.fromJson(json)..id = doc.id;
+      
+      return event;
     });
   }
 
@@ -153,11 +155,30 @@ class EventRepositoryImp implements IEventRepository {
   Future<EventPageState> loadStatePage(String eventId, String creatorId) async {
     final snapshot = await paticipantCollection
         .where('eventId', isEqualTo: eventId)
-        .where('creatorId', isEqualTo: creatorId).limit(1)
+        .where('creatorId', isEqualTo: creatorId)
+        .limit(1)
         .get();
 
     if (snapshot.docs.length == 0) return EventPageState.notFollow;
     if (snapshot.docs.length == 1) return EventPageState.followed;
     throw Exception();
+  }
+
+  @override
+  Future<void> follow(String eventId, String userId, bool isTrue) async {
+    final snapshot = await paticipantCollection
+        .where('eventId', isEqualTo: eventId)
+        .where('userId', isEqualTo: userId)
+        .limit(1)
+        .get();
+    if (isTrue && snapshot.docs.length == 0) {
+      paticipantCollection.add(<String, dynamic>{
+        'eventId': eventId,
+        'userId': userId,
+      });
+    }
+    else if (!isTrue && snapshot.docs.length == 1) {
+      snapshot.docs[0].reference.delete();
+    }
   }
 }

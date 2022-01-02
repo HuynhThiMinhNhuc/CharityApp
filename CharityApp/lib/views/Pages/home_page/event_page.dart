@@ -1,13 +1,9 @@
 import 'package:charityapp/core/model/event_tab.dart';
-import 'package:charityapp/domain/entities/event_infor.dart';
-import 'package:charityapp/domain/entities/event_overview.dart';
-import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
-import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

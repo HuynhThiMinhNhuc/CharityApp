@@ -1,12 +1,18 @@
 import 'package:charityapp/Constant/post_jason.dart';
+import 'package:charityapp/domain/entities/base_event.dart';
+import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FormView extends StatefulWidget {
+  final BaseEvent event;
   final String username;
   final String userphone;
-  const FormView({Key? key, required this.username, required this.userphone})
+  const FormView(
+      {Key? key, this.username = '', this.userphone = '', required this.event})
       : super(key: key);
 
   @override
@@ -14,6 +20,35 @@ class FormView extends StatefulWidget {
 }
 
 class _FormViewState extends State<FormView> {
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _question1Controller;
+  late TextEditingController _question2Controller;
+  late TextEditingController _question3Controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _emailController = TextEditingController();
+    _question1Controller = TextEditingController();
+    _question2Controller = TextEditingController();
+    _question3Controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _question1Controller.dispose();
+    _question2Controller.dispose();
+    _question3Controller.dispose();
+    super.dispose();
+  }
+
   List<String> Items = [
     "Email",
     "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?",
@@ -45,8 +80,22 @@ class _FormViewState extends State<FormView> {
             alignment: Alignment.center,
             child: Padding(
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child:
-                    CustomButton(onPressed: () => {}, textInput: 'Đăng ký'))));
+                child: CustomButton(
+                  onPressed: () {
+                    String myId = '';
+                    final form = FormRegister(
+                        name: _nameController.text,
+                        phone: _phoneController.text,
+                        email: _emailController.text,
+                        creatorId: myId,
+                        eventId: widget.event.id!,
+                        timeCreate: DateTime.now());
+                        
+                    BlocProvider.of<FormBloc>(context)
+                        .add(RegisterForm(form: form));
+                  },
+                  textInput: 'Đăng ký',
+                ))));
   }
 
   Widget getbody() {
@@ -58,7 +107,7 @@ class _FormViewState extends State<FormView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              post[0]['title'],
+              widget.event.name,
               style: TextStyle(
                   fontFamily: 'Roboto_Regular',
                   fontSize: 24,
