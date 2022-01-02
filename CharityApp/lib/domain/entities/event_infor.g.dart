@@ -10,7 +10,7 @@ extension EventInforCopyWith on EventInfor {
   EventInfor copyWith({
     String? avatarUri,
     String? backgroundUri,
-    BaseUser? creator,
+    String? creatorId,
     String? description,
     String? id,
     String? name,
@@ -23,7 +23,7 @@ extension EventInforCopyWith on EventInfor {
     return EventInfor(
       avatarUri: avatarUri ?? this.avatarUri,
       backgroundUri: backgroundUri ?? this.backgroundUri,
-      creator: creator ?? this.creator,
+      creatorId: creatorId ?? this.creatorId,
       description: description ?? this.description,
       id: id ?? this.id,
       name: name ?? this.name,
@@ -42,9 +42,7 @@ extension EventInforCopyWith on EventInfor {
 
 EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
       name: json['name'] as String,
-      creator: json['creator'] == null
-          ? null
-          : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
+      creatorId: json['creatorId'] as String,
       avatarUri: json['avatarUri'] as String?,
       backgroundUri: json['backgroundUri'] as String?,
       description: json['description'] as String?,
@@ -67,13 +65,13 @@ Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'creator': instance.creator,
+      'creatorId': instance.creatorId,
       'timeCreate': instance.timeCreate?.toIso8601String(),
       'avatarUri': instance.avatarUri,
       'backgroundUri': instance.backgroundUri,
       'tags': instance.tags,
-      'description': instance.description,
-      'timeStart': instance.timeStart?.toIso8601String(),
       'numberMember': instance.numberMember,
       'numberPost': instance.numberPost,
+      'description': instance.description,
+      'timeStart': instance.timeStart?.toIso8601String(),
     };

@@ -1,12 +1,19 @@
+import 'package:charityapp/core/model/event_page_state.dart';
+import 'package:charityapp/domain/entities/base_event.dart';
+import 'package:charityapp/domain/entities/base_user.dart';
+import 'package:charityapp/domain/entities/event_detail.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
+import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventRepositoryImp implements IEventRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection("events");
+  final CollectionReference paticipantCollection =
+      FirebaseFirestore.instance.collection("event_paticipants");
 
   @override
   Future<void> add(EventInfor entity) async {
@@ -39,22 +46,22 @@ class EventRepositoryImp implements IEventRepository {
     });
   }
 
-  @override
-  Future<List<EventOverview>> loadEventsOverview(
-      String creatorId, int startIndex, int number) {
-    return collection
-        .where('creatorId', isEqualTo: creatorId)
-        .orderBy('timeCreate', descending: true)
-        .get()
-        .then((snapshot) {
-      return snapshot.docs.map((doc) {
-        final json = doc.data() as Map<String, dynamic>;
-        final event = EventOverview.fromJson(json);
-        event.id = doc.id;
-        return event;
-      }).toList();
-    });
-  }
+  // @override
+  // Future<List<EventOverview>> loadEventsOverview(
+  //     String creatorId, int startIndex, int number) {
+  //   return collection
+  //       .where('creatorId', isEqualTo: creatorId)
+  //       .orderBy('timeCreate', descending: true)
+  //       .get()
+  //       .then((snapshot) {
+  //     return snapshot.docs.map((doc) {
+  //       final json = doc.data() as Map<String, dynamic>;
+  //       final event = EventOverview.fromJson(json);
+  //       event.id = doc.id;
+  //       return event;
+  //     }).toList();
+  //   });
+  // }
 
   @override
   Future<void> update(EventInfor entity) {
@@ -67,11 +74,9 @@ class EventRepositoryImp implements IEventRepository {
   @override
   Future<List<EventOverviewPaticipants>> loadEventsPaticipant(
       String creatorId) async {
-    final paticipantCollection =
-        FirebaseFirestore.instance.collection('event_paticipants');
     List<Future<void>> paticipantsTask = [];
 
-    final task = await collection
+    final events = await collection
         .where('creatorId', isEqualTo: creatorId)
         // .orderBy('timeStart')
         .get()
@@ -86,7 +91,8 @@ class EventRepositoryImp implements IEventRepository {
             .get()
             .then((snapshot) {
           final paticipants = snapshot.docs.map((paticipantsDoc) {
-            return paticipantsDoc.data()['avatarUri'] as String?;
+            return (paticipantsDoc.data() as Map<String, dynamic>)['avatarUri']
+                as String?;
           }).toList();
           event.paticipantsUri = paticipants;
         }));
@@ -99,6 +105,59 @@ class EventRepositoryImp implements IEventRepository {
 
     await Future.wait(paticipantsTask);
 
-    return task;
+    return events;
+  }
+
+  @override
+  Future<EventOverview> loadEventOverview(String eventId) {
+    return collection.doc(eventId).get().then((doc) {
+      final json = doc.data() as Map<String, dynamic>;
+      return EventOverview.fromJson(json)..id = doc.id;
+    });
+  }
+
+  @override
+  Future<List<String>> loadImages(String eventId) async {
+    List<String> images = [];
+    final postRepository = PostRepositoryImp();
+    collection.where('eventId', isEqualTo: eventId).get().then((snapshot) {
+      return snapshot.docs.map((doc) async {
+        print('images run');
+        images.addAll(await postRepository.loadImages(doc.id));
+        print('images end');
+      }).toList();
+    });
+
+    return images;
+  }
+
+  @override
+  Future<EventDetail> loadDetail(String eventId) async {
+    final userCollection = FirebaseFirestore.instance.collection('users');
+    final event = await collection.doc(eventId).get().then((doc) async {
+      final json = doc.data() as Map<String, dynamic>;
+      final element = EventDetail.fromJson(json)..id = doc.id;
+      await userCollection.doc(json['creatorId']).get().then((userDoc) {
+        element.creator =
+            BaseUser.fromJson(userDoc.data() as Map<String, dynamic>)
+              ..id = userDoc.id;
+      });
+
+      return element;
+    });
+
+    return event;
+  }
+
+  @override
+  Future<EventPageState> loadStatePage(String eventId, String creatorId) async {
+    final snapshot = await paticipantCollection
+        .where('eventId', isEqualTo: eventId)
+        .where('creatorId', isEqualTo: creatorId).limit(1)
+        .get();
+
+    if (snapshot.docs.length == 0) return EventPageState.notFollow;
+    if (snapshot.docs.length == 1) return EventPageState.followed;
+    throw Exception();
   }
 }

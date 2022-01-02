@@ -1,33 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'event_overview.dart';
+part of 'event_detail.dart';
 
 // **************************************************************************
 // CopyWithGenerator
 // **************************************************************************
 
-extension EventOverviewCopyWith on EventOverview {
-  EventOverview copyWith({
-    String? avatarUri,
-    String? backgroundUri,
-    String? creatorId,
+extension EventDetailCopyWith on EventDetail {
+  EventDetail copyWith({
+    BaseUser? creator,
+    String? description,
     String? id,
-    String? name,
     int? numberMember,
-    int? numberPost,
     List<TagEvent>? tags,
     DateTime? timeCreate,
+    DateTime? timeStart,
   }) {
-    return EventOverview(
-      avatarUri: avatarUri ?? this.avatarUri,
-      backgroundUri: backgroundUri ?? this.backgroundUri,
-      creatorId: creatorId ?? this.creatorId,
+    return EventDetail(
+      creator: creator ?? this.creator,
+      description: description ?? this.description,
       id: id ?? this.id,
-      name: name ?? this.name,
       numberMember: numberMember ?? this.numberMember,
-      numberPost: numberPost ?? this.numberPost,
       tags: tags ?? this.tags,
       timeCreate: timeCreate ?? this.timeCreate,
+      timeStart: timeStart ?? this.timeStart,
     );
   }
 }
@@ -36,12 +32,11 @@ extension EventOverviewCopyWith on EventOverview {
 // JsonSerializableGenerator
 // **************************************************************************
 
-EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
-    EventOverview(
-      name: json['name'] as String,
-      creatorId: json['creatorId'] as String,
-      avatarUri: json['avatarUri'] as String?,
-      backgroundUri: json['backgroundUri'] as String?,
+EventDetail _$EventDetailFromJson(Map<String, dynamic> json) => EventDetail(
+      creator: json['creator'] == null
+          ? null
+          : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
+      description: json['description'] as String?,
       id: json['id'] as String?,
       tags: (json['tags'] as List<dynamic>?)
               ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
@@ -50,19 +45,19 @@ EventOverview _$EventOverviewFromJson(Map<String, dynamic> json) =>
       timeCreate: json['timeCreate'] == null
           ? null
           : DateTime.parse(json['timeCreate'] as String),
+      timeStart: json['timeStart'] == null
+          ? null
+          : DateTime.parse(json['timeStart'] as String),
       numberMember: json['numberMember'] as int? ?? 0,
-      numberPost: json['numberPost'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$EventOverviewToJson(EventOverview instance) =>
+Map<String, dynamic> _$EventDetailToJson(EventDetail instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'creatorId': instance.creatorId,
+      'creator': instance.creator,
       'timeCreate': instance.timeCreate?.toIso8601String(),
-      'avatarUri': instance.avatarUri,
-      'backgroundUri': instance.backgroundUri,
-      'tags': instance.tags,
+      'timeStart': instance.timeStart?.toIso8601String(),
       'numberMember': instance.numberMember,
-      'numberPost': instance.numberPost,
+      'description': instance.description,
+      'tags': instance.tags,
     };

@@ -8,13 +8,13 @@ part of 'base_event.dart';
 
 extension BaseEventCopyWith on BaseEvent {
   BaseEvent copyWith({
-    BaseUser? creator,
+    String? creatorId,
     String? id,
     String? name,
     DateTime? timeCreate,
   }) {
     return BaseEvent(
-      creator: creator ?? this.creator,
+      creatorId: creatorId ?? this.creatorId,
       id: id ?? this.id,
       name: name ?? this.name,
       timeCreate: timeCreate ?? this.timeCreate,
@@ -28,9 +28,7 @@ extension BaseEventCopyWith on BaseEvent {
 
 BaseEvent _$BaseEventFromJson(Map<String, dynamic> json) => BaseEvent(
       name: json['name'] as String,
-      creator: json['creator'] == null
-          ? null
-          : BaseUser.fromJson(json['creator'] as Map<String, dynamic>),
+      creatorId: json['creatorId'] as String,
       id: json['id'] as String?,
       timeCreate: json['timeCreate'] == null
           ? null
@@ -40,6 +38,6 @@ BaseEvent _$BaseEventFromJson(Map<String, dynamic> json) => BaseEvent(
 Map<String, dynamic> _$BaseEventToJson(BaseEvent instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'creator': instance.creator,
+      'creatorId': instance.creatorId,
       'timeCreate': instance.timeCreate?.toIso8601String(),
     };

@@ -12,29 +12,29 @@ part 'event_infor.g.dart';
 class EventInfor extends EventOverview {
   String? description;
   final DateTime? timeStart;
-  final int numberMember;
-  final int numberPost;
 
   EventInfor({
     required String name,
-    BaseUser? creator,
+    required String creatorId,
     String? avatarUri,
     String? backgroundUri,
     this.description,
     this.timeStart,
-    this.numberMember = 0,
-    this.numberPost = 0,
+    int numberMember = 0,
+    int numberPost = 0,
     List<TagEvent> tags = const [],
     String? id,
     DateTime? timeCreate,
   }) : super(
           name: name,
-          creator: creator,
+          creatorId: creatorId,
           avatarUri: avatarUri,
           backgroundUri: backgroundUri,
           id: id,
           tags: tags,
           timeCreate: timeCreate,
+          numberMember: numberMember,
+          numberPost: numberPost,
         );
 
   // factory EventInfor.fromJson(Map<String, dynamic> json) => _$EventInforFromJson(json);
@@ -42,14 +42,13 @@ class EventInfor extends EventOverview {
 
   factory EventInfor.fromJson(Map<String, dynamic> json) => EventInfor(
         name: json['name'] as String,
+        creatorId: json['creatorId'] as String,
         avatarUri: json['avatarUri'] as String?,
         backgroundUri: json['backgroundUri'] as String?,
         description: json['description'] as String?,
         timeStart: json['timeStart'] == null
             ? null
             : (json['timeStart'] as Timestamp).toDate(),
-        numberMember: json['numberMember'] as int? ?? 0,
-        numberPost: json['numberPost'] as int? ?? 0,
         timeCreate: json['timeCreate'] == null
             ? null
             : (json['timeCreate'] as Timestamp).toDate(),
@@ -61,7 +60,7 @@ class EventInfor extends EventOverview {
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
-        'creatorId': this.creator.id,
+        'creatorId': this.creatorId,
         'avatarUri': this.avatarUri,
         'backgroundUri': this.backgroundUri,
         'description': this.description,

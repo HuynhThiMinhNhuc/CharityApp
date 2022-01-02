@@ -9,27 +9,26 @@ part 'base_event.g.dart';
 
 @CopyWith()
 @JsonSerializable()
-class BaseEvent extends BaseObject implements CreatableObject<BaseUser>{
+class BaseEvent extends BaseObject{
   final String name;
-  late BaseUser creator;
+  final String creatorId;
   DateTime? timeCreate;
 
-  BaseEvent({required this.name, BaseUser? creator, String? id, this.timeCreate}) :super(id: id){
-    if (creator != null) this.creator = creator;
-  }
+  BaseEvent({required this.name, required this.creatorId, String? id, this.timeCreate}) :super(id: id);
 
   // factory BaseEvent.fromJson(Map<String, dynamic> json) => _$BaseEventFromJson(json);
   // Map<String, dynamic> toJson() => _$BaseEventToJson(this);
 
   factory BaseEvent.fromJson(Map<String, dynamic> json) => BaseEvent(
     name: json['name'] as String,
+    creatorId: json['creatorId'] as String,
     timeCreate: json['timeCreate'] == null
           ? null
           : (json['timeCreate'] as Timestamp).toDate(),
   );
   Map<String, dynamic> toJson() => <String, dynamic>{
       'name': this.name,
-      'creatorId': this.creator.id,
+      'creatorId': this.creatorId,
       'timeCreate': this.timeCreate == null ? null : Timestamp.fromDate(this.timeCreate!),
   };
 

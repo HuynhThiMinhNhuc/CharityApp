@@ -73,7 +73,7 @@ class _AddEventPageState extends State<AddEventPage> {
 
               final _event = EventInfor(
                 name: _nameTextController.text,
-                creator: BaseUser(name: 'Thạch'),
+                creatorId: 'test',
                 description: _descriptionTextController.text == ""
                     ? null
                     : _descriptionTextController.text,

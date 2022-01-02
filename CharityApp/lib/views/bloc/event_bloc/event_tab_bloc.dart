@@ -2,36 +2,62 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
+import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
+import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:charityapp/repositories/event_repository_imp.dart';
+import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import './event.dart';
+import 'event.dart';
 
-class EventBloc extends Bloc<EventEvent, EventState> {
-  final IEventRepository repository = EventRepositoryImp();
+class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
+  final IEventRepository eventRepository = EventRepositoryImp();
+  final IPostRepository postRepository = PostRepositoryImp();
 
-  EventBloc() : super(EventViewLoadInProgress()) {
-    on<LoadPostsView>(_onLoadPostView);
-    on<LoadDescriptionView>(_onLoadDescriptionView);
+  EventTabBloc() : super(EventViewLoadInProgress()) {
+    on<LoadEventView>(_onLoadEventView);
     // on<LoadImagesView>(_onLoadImagesView);
     on<UpdateEvent>(_onUpdateEvent);
     on<AddEvent>(_onAddEvent);
     on<DeleteEvent>(_onDeleteEvent);
   }
 
-  FutureOr<void> _onLoadPostView(
-      LoadPostsView event, Emitter<EventState> emit) {}
+  FutureOr<void> _onLoadEventView(
+      LoadEventView event, Emitter<EventTabState> emit) async {
+        emit(EventViewLoadInProgress());
+    switch (event.tab) {
+      case EventTab.posts:
+        {
+          if (event is LoadPagingView) {
+            final posts = postRepository.load(
+                event.eventId, event.startIndex, event.number);
+            emit(EventPostViewSuccess(posts: await posts));
+          }
+        }
+        break;
+      case EventTab.description:
+        {
+          final detail = eventRepository.loadDetail(event.eventId);
+          emit(EventDetailViewSuccess(detail: await detail));
+        }
+        break;
+      case EventTab.image:
+        {
+          final images = eventRepository.loadImages(event.eventId);
+          emit(EventImagesViewSuccess(images: await images));
+        }
+        break;
+      default:
+        emit(EventLoadFailure());
+    }
+  }
 
-  FutureOr<void> _onLoadDescriptionView(
-      LoadDescriptionView event, Emitter<EventState> emit) {}
+  FutureOr<void> _onUpdateEvent(
+      UpdateEvent event, Emitter<EventTabState> emit) {}
 
-  // FutureOr<void> _onLoadImagesView(
-  //     LoadImagesView event, Emitter<EventState> emit) {}
-
-  FutureOr<void> _onUpdateEvent(UpdateEvent event, Emitter<EventState> emit) {}
-
-  FutureOr<void> _onAddEvent(AddEvent event, Emitter<EventState> emit) async {
+  FutureOr<void> _onAddEvent(
+      AddEvent event, Emitter<EventTabState> emit) async {
     try {
       print("Add event to reporistory");
       final rootPath = "images/events";
@@ -72,14 +98,15 @@ class EventBloc extends Bloc<EventEvent, EventState> {
         avatarUri: avatarUriPath,
         backgroundUri: backgroundUriPath,
       );
-      await repository.add(newEvent);
+      await eventRepository.add(newEvent);
       print('Add new event complete');
 
-      emit(EventUpdated(event: eventAdded));
+      // emit(EventPostViewSuccess(event: eventAdded, posts: const []));
     } catch (e) {
       emit(EventLoadFailure());
     }
   }
 
-  FutureOr<void> _onDeleteEvent(DeleteEvent event, Emitter<EventState> emit) {}
+  FutureOr<void> _onDeleteEvent(
+      DeleteEvent event, Emitter<EventTabState> emit) {}
 }

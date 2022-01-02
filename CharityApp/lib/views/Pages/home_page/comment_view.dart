@@ -10,11 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CommentView extends StatelessWidget {
-  const CommentView({Key? key}) : super(key: key);
+  final String postId;
+  const CommentView({Key? key, required this.postId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final postId = ModalRoute.of(context)!.settings.arguments as String;
+
     BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: postId));
 
     return BlocProvider(
