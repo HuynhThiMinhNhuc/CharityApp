@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TagEventRepositoryImp implements ITagEventRepository {
   final CollectionReference collection =
-      FirebaseFirestore.instance.collection('tags_event');
+      FirebaseFirestore.instance.collection('event_tags');
 
   TagEventRepositoryImp();
 
@@ -26,11 +26,14 @@ class TagEventRepositoryImp implements ITagEventRepository {
     //Get tags id from eventId
     final eventCollection = FirebaseFirestore.instance.collection('events');
     final tagsId = await eventCollection.doc(eventId).get().then((doc) {
-              final json = doc.data() as Map<String, dynamic>;
-              return json['tags'] as List<String>;
+      final json = doc.data() as Map<String, dynamic>;
+      return json['tags'] as List<String>;
     });
 
-    return collection.where(FieldPath.documentId, whereIn: tagsId).get().then((snapshot) {
+    return collection
+        .where(FieldPath.documentId, whereIn: tagsId)
+        .get()
+        .then((snapshot) {
       return snapshot.docs.map((doc) {
         final json = doc.data() as Map<String, dynamic>;
         final tag = TagEvent.fromJson(json);
@@ -39,5 +42,13 @@ class TagEventRepositoryImp implements ITagEventRepository {
         return tag;
       }).toList();
     });
+  }
+
+  Future<List<String>> loadTags() async {
+    List<String> tags = [];
+    await collection.get().then((value) => value.docs.forEach((element) {
+          tags.add(element['vn']);
+        }));
+    return tags;
   }
 }

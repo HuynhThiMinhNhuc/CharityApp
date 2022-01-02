@@ -4,6 +4,7 @@ import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/entities/post.dart';
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/domain/repositories/can_crud_repository.dart';
 
 abstract class IEventRepository implements CRUDableRepository<EventInfor>{
@@ -15,4 +16,5 @@ abstract class IEventRepository implements CRUDableRepository<EventInfor>{
   Future<EventDetail> loadDetail(String eventId);
   Future<EventPageState> loadStatePage(String eventId, String creatorId);
   Future<void> follow(String eventId, String userId, bool isTrue);
+  Future<List<EventOverview>> searchevent(String query, List<String> tags);
 }

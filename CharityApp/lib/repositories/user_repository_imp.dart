@@ -213,7 +213,7 @@ class UserRepositoryImp implements IUserRepository {
           .update({
             'friends': FieldValue.arrayRemove([id])
           })
-          .then((value) => print("Xoas thanh coong"))
+          .then((value) => print("Xoa thanh coong"))
           .catchError((onError) => print("Loi :" + onError.toString()));
     } catch (e) {
       print("Bỏ theo dõi: lỗi kết nối database" + e.toString());
@@ -252,4 +252,6 @@ class UserRepositoryImp implements IUserRepository {
       print("Error change passsword:" + e.toString());
     }
   }
+
+
 }

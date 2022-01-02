@@ -1,4 +1,5 @@
 import 'package:charityapp/domain/entities/user_infor.dart';
+import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/views/Login/register_view.dart';
 
