@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:charityapp/repositories/active_user_repository_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:equatable/equatable.dart';
@@ -13,7 +14,8 @@ part 'signin_state.dart';
 
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
   final UserRepositoryImp _userRepositoryImp = new UserRepositoryImp();
-
+  final ActiveUserRepositoryImp _activeUserRepositoryImp =
+      new ActiveUserRepositoryImp();
   SigninBloc() : super(SigninInitState()) {
     on<SigninLoadEvent>((event, emit) {
       // TODO: implement event handler
@@ -31,7 +33,9 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: event.email, password: event.password);
-        GetIt.instance.get<Authenticator>().login(event.email);
+        await GetIt.instance.get<Authenticator>().login(event.email);
+        await _activeUserRepositoryImp
+            .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id);
         emit(SigninSussessState());
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found' || e.code == 'invalid-email') {

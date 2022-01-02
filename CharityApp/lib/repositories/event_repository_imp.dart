@@ -5,9 +5,12 @@ import 'package:charityapp/domain/entities/event_detail.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
+import 'package:tiengviet/tiengviet.dart';
 
 class EventRepositoryImp implements IEventRepository {
   final CollectionReference collection =
@@ -113,7 +116,7 @@ class EventRepositoryImp implements IEventRepository {
     return collection.doc(eventId).get().then((doc) {
       final json = doc.data() as Map<String, dynamic>;
       final event = EventOverview.fromJson(json)..id = doc.id;
-      
+
       return event;
     });
   }
@@ -176,9 +179,43 @@ class EventRepositoryImp implements IEventRepository {
         'eventId': eventId,
         'userId': userId,
       });
-    }
-    else if (!isTrue && snapshot.docs.length == 1) {
+    } else if (!isTrue && snapshot.docs.length == 1) {
       snapshot.docs[0].reference.delete();
     }
+  }
+
+  @override
+  Future<List<EventOverview>> searchevent(
+      String query, List<String> tags) async {
+    List<EventOverview> listEvent = [];
+    try {
+      var unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+      await collection.get().then((value) => value.docs.forEach((element) {
+            if (query == "" ||
+                ((CheckListContain(element['tags'], tags)) &&
+                    TiengViet.parse(element['name'].toString().toLowerCase())
+                        .contains(TiengViet.parse(query.toLowerCase())))) {
+              EventOverview eventOverview = new EventOverview(
+                  name: element['name'],
+                  avatarUri: element['avatarUri'],
+                  id: element.id,
+                  creatorId: element['creatorId']);
+              listEvent.add(eventOverview);
+            }
+          }));
+      return listEvent;
+    } catch (e) {
+      print("Erro search event reposity");
+      return listEvent;
+    }
+  }
+
+  bool CheckListContain(List<dynamic> l1, List<String> l2) {
+    if (l2.length == 0) return true;
+    if (l1.length < l2.length) return false;
+    for (var i in l2) {
+      if (!l1.contains(i)) return false;
+    }
+    return true;
   }
 }

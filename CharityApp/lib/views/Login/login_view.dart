@@ -4,9 +4,11 @@ import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
 import 'package:charityapp/views/Login/verification_otp_view.dart';
+import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/searchevent_bloc/bloc/searchevent_bloc.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:charityapp/views/bloc/tab_bloc/tab_bloc.dart';
@@ -202,6 +204,9 @@ class _LoginState extends State<Login> {
                                       BlocProvider<OverViewUserBloc>(
                                         create: (context) => OverViewUserBloc(),
                                       ),
+                                      BlocProvider<ActiveuserBloc>(
+                                        create: (context) => ActiveuserBloc(),
+                                      ), 
                                     ],
                                     child: RootApp(),
                                   )),

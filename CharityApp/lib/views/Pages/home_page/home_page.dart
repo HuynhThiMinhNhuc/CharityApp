@@ -3,6 +3,7 @@ import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
+import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post_bloc.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post_event.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatelessWidget {
   void loadPage(BuildContext context) {
     BlocProvider.of<PostBloc>(context)
         .add(LoadRandomPosts(startIndex: 0, number: 5));
+    BlocProvider.of<ActiveuserBloc>(context).add(ActiveuserLoadEvent());
   }
 
   @override
@@ -39,7 +41,7 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(5, 20, 0, 15),
           child: SizedBox(
             width: double.infinity,
-            child: Text("Hoạt động tích cực",
+            child: Text("Đang hoạt động",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
@@ -50,13 +52,26 @@ class HomePage extends StatelessWidget {
                     fontWeight: FontWeight.bold)),
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-              children: List.generate(actives.length, (index) {
-            return ActiveItem(
-                imgUrl: actives[index]['img'], imgName: actives[index]['name']);
-          })),
+        BlocBuilder<ActiveuserBloc, ActiveuserState>(
+          builder: (context, state) {
+            if (state is ActiveuserLoadingState) {
+              return Text("Loading....");
+            } else if (state is ActiveuserLoadFailState) {
+              return Text("Load fail...");
+            } else if (state is ActiveuserLoadedState)
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(state.users.length, (index) {
+                      return ActiveItem(
+                          imgUrl: state.users[index].avatarUri!,
+                          imgName: state.users[index].name);
+                    })),
+              );
+            else
+              return (Text("Fail out"));
+          },
         ),
         Divider(),
         Padding(
@@ -76,8 +91,8 @@ class HomePage extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
           itemCount: posts.length,
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return PostOverviewCard(post: posts[index]);
           },
