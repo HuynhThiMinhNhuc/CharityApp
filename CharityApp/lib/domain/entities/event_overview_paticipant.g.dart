@@ -9,6 +9,7 @@ part of 'event_overview_paticipant.dart';
 extension EventOverviewPaticipantsCopyWith on EventOverviewPaticipants {
   EventOverviewPaticipants copyWith({
     String? backgroundUri,
+    String? creatorId,
     String? id,
     String? name,
     int? number,
@@ -18,6 +19,7 @@ extension EventOverviewPaticipantsCopyWith on EventOverviewPaticipants {
   }) {
     return EventOverviewPaticipants(
       backgroundUri: backgroundUri ?? this.backgroundUri,
+      creatorId: creatorId ?? this.creatorId,
       id: id ?? this.id,
       name: name ?? this.name,
       number: number ?? this.number,

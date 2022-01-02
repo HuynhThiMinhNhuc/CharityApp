@@ -8,8 +8,6 @@ class PostRepositoryImp implements IPostRepository {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection("posts");
 
-  PostRepositoryImp();
-
   @override
   Future<void> add(Post entity) async {
     final docRef = await collection.add(entity.toJson());
@@ -40,6 +38,7 @@ class PostRepositoryImp implements IPostRepository {
         final post = Post.fromJson(postJson);
         post.id = docPost.id; //Set doc id
         // post.creator = UserOverview(name: 'test', avatarUri: Uri(path: "avatarUri"));
+
         //Load UserOverview
         tasks.add(userCollection.doc(postJson['creatorId']).get().then(
           (docUser) {
@@ -137,6 +136,36 @@ class PostRepositoryImp implements IPostRepository {
       int number = list.length;
       bool isLike = list.contains(myId);
       return [number, isLike];
+    });
+  }
+
+  @override
+  Future<List<Post>> loadPostsFromCreator(
+      UserOverview creator, int startIndex, int number) {
+    return collection
+        .where('creatorId', isEqualTo: creator.id)
+        .get()
+        .then((snapshot) {
+      return snapshot.docs.map((doc) {
+        final json = doc.data() as Map<String, dynamic>;
+        final post = Post.fromJson(json);
+        post.creator = creator;
+        post.id = doc.id;
+        return post;
+      }).toList();
+    });
+  }
+
+  @override
+  Future<List<String>> loadImages(String postId) {
+    return collection.doc(postId).get().then((doc) {
+      final json = doc.data() as Map<String, dynamic>;
+      final images = (json['imagesUri'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            const <String>[];
+
+            return images;
     });
   }
 }

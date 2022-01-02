@@ -14,17 +14,19 @@ class EventOverviewPaticipants extends BaseEvent {
     List<String?>? paticipantsUri,
     String? id,
     required String name,
+    required String creatorId,
     required this.number,
     required this.timeStart,
     required this.backgroundUri,
     DateTime? timeCreate,
-  }) : super(name: name, timeCreate: timeCreate) {
+  }) : super(name: name, timeCreate: timeCreate, creatorId: creatorId) {
     if (paticipantsUri != null) this.paticipantsUri = paticipantsUri;
   }
 
   factory EventOverviewPaticipants.fromJson(Map<String, dynamic> json) =>
       EventOverviewPaticipants(
         name: json['name'] as String,
+        creatorId: json['creatorId'] as String,
         number: json['numberMember'] as int,
         timeStart: (json['timeStart'] as Timestamp).toDate(),
         backgroundUri: json['backgroundUri'] as String?,

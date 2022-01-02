@@ -1,3 +1,4 @@
+import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/post.dart';
@@ -11,12 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventPage extends StatefulWidget {
-  final String? scrAvatar;
-  final String? srcBackground;
-  final String name;
-  final List<Post> posts;
+  final String eventId;
 
-  EventPage({this.scrAvatar, this.srcBackground, required this.name, scrBackground, this.posts = const[]});
+  EventPage({required this.eventId});
 
   @override
   _EventPageState createState() => _EventPageState();
@@ -28,8 +26,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(
-        length: 2, vsync: this); //Post tab and information event tab
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -40,53 +37,108 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> tabs = [
-      Container(
-        child: SingleChildScrollView(
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: widget.posts.length,
-            itemBuilder: (BuildContext context, int index) {
-              return PostOverviewCard(post: widget.posts[index]);
-            },
-          ),
-        ),
-      ),
-      IntroductionEventView(),
-      Text('Hình ảnh')
-    ];
-
-    TabController _tabController =
-        new TabController(length: tabs.length, vsync: this);
+    BlocProvider.of<EventTitleCubit>(context).load(widget.eventId);
+    BlocProvider.of<EventTabBloc>(context).add(LoadPagingView(
+        eventId: widget.eventId,
+        tab: EventTab.posts,
+        startIndex: 0,
+        number: 5));
+    print('build event page');
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: NestedScrollView( 
+        child: NestedScrollView(
           headerSliverBuilder: (context, value) {
             return [
               SliverToBoxAdapter(
-                child: EventOverviewCard(widget.name, widget.scrAvatar),
+                child: EventOverviewCard(
+                  eventId: widget.eventId,
+                ),
               ),
               SliverAppBar(
                 pinned: true,
                 stretch: true,
                 backgroundColor: Colors.white,
                 title: TabBar(
-                    indicatorColor: maincolor,
-                    unselectedLabelColor: Color(0xFF757070),
-                    controller: _tabController,
-                    labelColor: maincolor,
-                    tabs: [
-                      Tab(text: "Trang chủ"),
-                      Tab(text: "Giới thiệu"),
-                      Tab(text: "Hình ảnh"),
-                    ]),
+                  indicatorColor: maincolor,
+                  unselectedLabelColor: Color(0xFF757070),
+                  controller: _tabController,
+                  labelColor: maincolor,
+                  tabs: [
+                    Tab(text: "Trang chủ"),
+                    Tab(text: "Giới thiệu"),
+                    Tab(text: "Hình ảnh"),
+                  ],
+                  onTap: (index) {
+                    late EventTab currentTab;
+                    if (index == 0)
+                      currentTab = EventTab.posts;
+                    else if (index == 1)
+                      currentTab = EventTab.description;
+                    else if (index == 2) currentTab = EventTab.image;
+
+                    if (index != 0) {
+                      BlocProvider.of<EventTabBloc>(context).add(LoadEventView(
+                        eventId: widget.eventId,
+                        tab: currentTab,
+                      ));
+                    } else {
+                      BlocProvider.of<EventTabBloc>(context).add(LoadPagingView(
+                          eventId: widget.eventId,
+                          tab: currentTab,
+                          startIndex: 0,
+                          number: 5));
+                    }
+                  },
+                ),
               ),
             ];
           },
           body: Container(
-            child: TabBarView(controller: _tabController, children: tabs),
+            child: BlocBuilder<EventTabBloc, EventTabState>(
+              builder: (context, state) {
+                if (state is EventViewLoadInProgress)
+                  return Text('loading tab');
+                else if (state is EventLoadFailure) return Text('Error tab');
+
+                if (state is EventPostViewSuccess) {
+                  return SingleChildScrollView(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: (state as EventPostViewSuccess).posts.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return PostOverviewCard(post: state.posts[index]);
+                        },
+                      ),
+                    );
+                }
+                else if (state is EventDetailViewSuccess) {
+                  return IntroductionEventView(
+                      detail: (state as EventDetailViewSuccess).detail);
+                }
+                else {
+                  return Text('Hình ảnh');
+                }
+                // return TabBarView(controller: _tabController, children: [
+                //   Container(
+                //     child: SingleChildScrollView(
+                //       child: ListView.builder(
+                //         shrinkWrap: true,
+                //         physics: NeverScrollableScrollPhysics(),
+                //         itemCount: (state as EventPostViewSuccess).posts.length,
+                //         itemBuilder: (BuildContext context, int index) {
+                //           return PostOverviewCard(post: state.posts[index]);
+                //         },
+                //       ),
+                //     ),
+                //   ),
+                //   IntroductionEventView(
+                //       detail: (state as EventDetailViewSuccess).detail),
+                //   if (state is EventImagesViewSuccess) Text('Hình ảnh'),
+                // ]);
+              },
+            ),
           ),
         ),
       ),

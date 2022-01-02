@@ -10,6 +10,7 @@ import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import 'information_creator_post_view.dart';
 
@@ -47,14 +48,7 @@ class PostOverviewCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EventPage(
-                                name: "text",
-                                scrAvatar: users[0]['img'],
-                                scrBackground: post_mock.post[5]['postImage'],
-                              )));
+                  Navigator.pushNamed(context, AppRoutes.eventPage, arguments: post.eventId!);
                 },
                 child: Text(
                   post.title,
@@ -158,19 +152,10 @@ class PostOverviewCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            onPressed: () async {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => CommentView(
-                              //               total: post.numberLike,
-                              //               islove: true,
-                              //             )));
-                              await Navigator.of(context).pushNamed(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
                                   AppRoutes.comment,
                                   arguments: post.id);
-                              // BlocProvider.of<LikePostBloc>(context)
-                              //     .add(GetNumberLike(postId: post.id!));
                             },
                             icon: FaIcon(FontAwesomeIcons.comment),
                             splashRadius: 20,

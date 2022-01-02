@@ -30,7 +30,10 @@ class PostLoadFailure extends PostState {}
 class PostLoadInProgress extends PostState {}
 
 class PostUpdated extends PostState {
-  
+  final Post post;
+  const PostUpdated({required this.post});
+    @override
+  List<Object> get props => [post];
 }
 class PostUpdateFail extends PostState {
   

@@ -1,25 +1,12 @@
-import 'package:charityapp/core/model/routes.dart';
-import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
-import 'package:charityapp/views/Pages/add_event_page/chosse_eventview.dart';
-import 'package:charityapp/views/Pages/home_page/comment_view.dart';
-import 'package:charityapp/views/Pages/home_page/event_page.dart';
-import 'package:charityapp/views/Login/login_view.dart';
-import 'package:charityapp/views/Pages/home_page/thankyou_view.dart';
-import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
+import 'package:charityapp/views/Pages/route_generator.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
-import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
-import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
-import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
-import 'package:charityapp/views/root_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'injector.dart';
-import 'views/Pages/add_event_page/add_event_page.dart';
 import 'views/bloc/post_bloc/post.dart';
-import 'views/bloc/tab_bloc/tab_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
@@ -28,8 +15,8 @@ void main() async {
   await initializeDependencies();
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider<EventBloc>(
-        create: (context) => EventBloc(),
+      BlocProvider<EventTabBloc>(
+        create: (context) => EventTabBloc(),
       ),
       BlocProvider<PostBloc>(
         create: (context) => PostBloc(),
@@ -43,7 +30,8 @@ void main() async {
 }
 
 class MeerApp extends StatelessWidget {
-  const MeerApp({Key? key}) : super(key: key);
+  final _appRoutes = RouteGenerator();
+  MeerApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,113 +46,7 @@ class MeerApp extends StatelessWidget {
         Locale('vi', ''), // VietNam, no country code
       ],
       debugShowCheckedModeBanner: true,
-      routes: {
-        AppRoutes.home: (context) {
-          return BlocProvider(
-            create: (context) => SigninBloc(),
-            child: Login(),
-          );
-        },
-        AppRoutes.addEvent: (context) {
-          print("create add_event route");
-          return BlocConsumer<EventBloc, EventState>(
-            listener: (context, state) async {
-              if (state is EventUpdated) {
-                showMyDialog(context, "Thêm sự kiện thành công");
-              } else if (state is EventLoadFailure) {
-                showMyDialog(context, "Thêm sự kiện thất bại",
-                    closeWhenClick: false);
-              }
-            },
-            builder: (context, state) {
-              return AddEventPage(
-                onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
-                  print("add new Event");
-                  BlocProvider.of<EventBloc>(context).add(
-                    AddEvent(
-                        event: newEvent,
-                        avartarFile: avatarImage,
-                        backgroundFile: backgroundImage),
-                  );
-                },
-              );
-            },
-          );
-        },
-        AppRoutes.addPost: (context) {
-          print("create add_post route");
-          return BlocListener<PostBloc, PostState>(
-            listener: (bloc_context, state) async {
-              if (state is PostUpdated) {
-                await showMyDialog(bloc_context, 'Thêm bài viết thành công');
-                Navigator.of(context).pushNamed(AppRoutes.eventPage);
-              } else if (state is PostLoadFailure) {
-                showMyDialog(bloc_context, 'Thêm bài viết thất bại',
-                    closeWhenClick: false);
-              }
-            },
-            child: AddPostPage(
-              onClickSubmit: (post, images) {
-                BlocProvider.of<PostBloc>(context).add(
-                  AddPost(post: post, images: images),
-                );
-              },
-            ),
-          );
-        },
-        AppRoutes.chooseEvent: (context) {
-          return ChossesEventView();
-        },
-        AppRoutes.eventPage: (context) {
-          return EventPage(name: 'test');
-        },
-        AppRoutes.comment: (context) {
-          return CommentView();
-        }
-      },
-    );
-  }
-
-  Future<void> showMyDialog(BuildContext context, String text,
-      {bool closeWhenClick = true}) async {
-    return showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          // shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          contentPadding: EdgeInsets.only(top: 30.0),
-          content: Container(
-            width: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: Text(text, textAlign: TextAlign.center),
-                ),
-                SizedBox(height: 30),
-                InkWell(
-                    child: Container(
-                      padding: EdgeInsets.only(top: 15, bottom: 15),
-                      decoration: BoxDecoration(color: Colors.grey),
-                      child: Text("Đồng ý", textAlign: TextAlign.center),
-                    ),
-                    onTap: () {
-                      if (closeWhenClick) {
-                        Navigator.of(context)
-                            .popUntil(ModalRoute.withName(AppRoutes.home));
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    })
-              ],
-            ),
-          ),
-        );
-      },
+      onGenerateRoute: _appRoutes.generateRoute,
     );
   }
 }
