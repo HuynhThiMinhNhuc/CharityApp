@@ -36,74 +36,68 @@ class HomePage extends StatelessWidget {
 
   Widget LoadSuccessHomeView(List<Post> posts) {
     return SingleChildScrollView(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 20, 0, 15),
-              child: SizedBox(
-                width: double.infinity,
-                child: Text("Đang hoạt động",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: textcolor,
-                        fontSize: 18,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold)),
-              ),
-            ),
-            BlocBuilder<ActiveuserBloc, ActiveuserState>(
-              builder: (context, state) {
-                if (state is ActiveuserLoadingState) {
-                  return Text("Loading....");
-                } else if (state is ActiveuserLoadFailState) {
-                  return Text("Load fail...");
-                } else if (state is ActiveuserLoadedState)
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: List.generate(state.users.length, (index) {
-                          return ActiveItem(
-                              imgUrl: state.users[index].avatarUri == null
-                                  ? ""
-                                  : state.users[index].avatarUri!,
-                              imgName: state.users[index].name);
-                        })),
-                  );
-                else
-                  return (Text("Fail out"));
-              },
-            ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 7, 0, 15),
-              child: SizedBox(
-                width: double.infinity,
-                child: Text("Sự kiện",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: textcolor,
-                        fontSize: 18,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold)),
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: posts.length,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return PostOverviewCard(post: posts[index]);
-              },
-            ),
-          ]),
+      child: Column(children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(5, 20, 0, 15),
+          child: SizedBox(
+            width: double.infinity,
+            child: Text("Đang hoạt động",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: textcolor,
+                    fontSize: 18,
+                    decoration: TextDecoration.none,
+                    fontFamily: 'Roboto_Regular',
+                    fontWeight: FontWeight.bold)),
+          ),
+        ),
+        BlocBuilder<ActiveuserBloc, ActiveuserState>(
+          builder: (context, state) {
+            if (state is ActiveuserLoadingState ) {
+              return Text("Loading....");
+            } else if (state is ActiveuserLoadFailState) {
+              return Text("Load fail...");
+            } else if (state is ActiveuserLoadedState)
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(state.users.length, (index) {
+                      return ActiveItem(
+                          imgUrl: state.users[index].avatarUri!,
+                          imgName: state.users[index].name);
+                    })),
+              );
+            else
+              return (Text("Fail out"));
+          },
+        ),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(5, 7, 0, 15),
+          child: SizedBox(
+            width: double.infinity,
+            child: Text("Sự kiện",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: textcolor,
+                    fontSize: 18,
+                    decoration: TextDecoration.none,
+                    fontFamily: 'Roboto_Regular',
+                    fontWeight: FontWeight.bold)),
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: posts.length,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return PostOverviewCard(post: posts[index]);
+          },
+        ),
+      ]),
     );
   }
 }

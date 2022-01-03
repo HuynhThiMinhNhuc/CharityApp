@@ -1,9 +1,16 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
+import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/tab_bloc/tab_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../Root_App.dart';
 
 class EventOverviewCard extends StatelessWidget {
   final String eventId;
@@ -30,7 +37,18 @@ class EventOverviewCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: -80,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => {Navigator.pop(context)},
+                  ),
+                  left: 10,
+                  top: 30,
+                ),
+                Positioned(
+                  bottom: -65,
                   left: 5,
                   child: Row(
                     children: [
@@ -68,6 +86,7 @@ class EventOverviewCard extends StatelessWidget {
                             ),
                             Text(
                               state.event.name,
+                              textAlign: TextAlign.start,
                               maxLines: 2,
                               style: TextStyle(
                                   fontFamily: 'Roboto_Regular',
