@@ -5,6 +5,7 @@ import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
+import 'package:charityapp/views/Pages/google_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -166,6 +167,11 @@ class _AddEventPageState extends State<AddEventPage> {
                       title: 'Địa điểm',
                       type: TextInputType.text,
                       controller: _locationTextController,
+                      onClickIcon: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          return GoogleMapPage();
+                        }));
+                      },
                     ),
                     Text(
                       "Thêm ảnh",
