@@ -1,10 +1,12 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:get_it/get_it.dart';
 //ignore: import_of_legacy_library_into_null_safe
 // import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
@@ -91,8 +93,14 @@ class TabSelector extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 1),
                   image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"),
+                      image: GetIt.instance
+                          .get<Authenticator>()
+                          .userProfile
+                          .avatarUri == null? AssetImage('asset/avatar.png') as ImageProvider:
+                      NetworkImage(GetIt.instance
+                          .get<Authenticator>()
+                          .userProfile
+                          .avatarUri),
                       fit: BoxFit.cover),
                 ),
               ),

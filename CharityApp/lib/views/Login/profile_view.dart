@@ -1,4 +1,5 @@
 import 'package:charityapp/domain/entities/user_infor.dart';
+import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/password_input.dart';
@@ -241,27 +242,44 @@ class _ProfileState extends State<Profile> {
                         (route) => false,
                       );
                     } else if (state is ProfileFailState) {
-                      AlertDialogCustom(
-                          content:
-                              "Xin lỗi vì sự bất tiện này. Vui lòng thử lại sau",
-                          pathImage:
-                              "asset/imagesample/ImageAlerDIalog/lostconnect.png",
-                          title: "Lỗi kết nối");
-
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialogCustom(
+                              content:
+                                  "Xin lỗi vì sự bất tiện này. Vui lòng thử lại sau",
+                              pathImage:
+                                  "asset/imagesample/ImageAlerDIalog/lostconnect.png",
+                              title: "Lỗi kết nối"));
+                    } else if (state is ProfileEmptyFeldState) {
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialogCustom(
+                              content: "Vui lòng nhập đầy đủ thông tin",
+                              pathImage:
+                                  "asset/imagesample/ImageAlerDIalog/lostconnect.png",
+                              title: "Thông tin bị bỏ trống"));
+                    } else if (state is ProfileWrongFormatPhoneState) {
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialogCustom(
+                              content:
+                                  "Số điện thoại cần bắt đầu từ 0 và có 10 chữ số. Ví dụ: 0348774510",
+                              pathImage:
+                                  "asset/imagesample/ImageAlerDIalog/lostconnect.png",
+                              title: "Sai định dạng số điện thoại"));
                     }
                   },
                   child: CustomButton(
                       onPressed: () => {
-                            profileBloc.add(ProfileSaveEvent(
-                                new UserInfor(
-                                    name: namecontroller.text.trim(),
-                                    avatarUri: null,
-                                    description: "",
-                                    birthDayString: birthcontroller.text.trim(),
-                                    gender: this.ismade
-                                        ? Genders.Male
-                                        : Genders.Female),
-                                widget.email))
+                            profileBloc.add(ProfileSaveEvent(new UserProfile(
+                                name: namecontroller.text.trim(),
+                                avatarUri: null,
+                                description: "",
+                                birthDayString: birthcontroller.text.trim(),
+                                gender:
+                                    this.ismade ? Genders.Male : Genders.Female,
+                                email: widget.email,
+                                phone: phonecontroller.text.trim())))
                           },
                       textInput: 'LƯU'),
                 ))

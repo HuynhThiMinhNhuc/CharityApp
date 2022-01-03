@@ -10,14 +10,14 @@ class ActiveUserRepositoryImp extends IActiveUserRepository {
   Future<List<UserOverview>> loadActiveUser() async {
     List<UserOverview> listactiveuser = [];
     try {
-     var users ;
-      await user.get().then((querySnapshot) async  {
-        for (var element in  querySnapshot.docs){
-               users = await _userRepositoryImp
-                  .getUserOverView(element.data()['id']);
-              listactiveuser.add(users);
-            }
-          });
+      var users;
+      await user.get().then((querySnapshot) async {
+        for (var element in querySnapshot.docs) {
+          users =
+              await _userRepositoryImp.getUserOverView(element.data()['id']);
+          listactiveuser.add(users);
+        }
+      });
       return listactiveuser;
     } catch (e) {
       print("Error load list active user" + e.toString());
@@ -28,10 +28,15 @@ class ActiveUserRepositoryImp extends IActiveUserRepository {
   @override
   Future<void> addActiveUser(String id) async {
     try {
-      await user
-          .add({'id': id})
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
+      await user.get().then((value) async {
+        for (var user in value.docs) {
+          if (user['id'] == id) return;
+        }
+        await user
+            .add({'id': id})
+            .then((value) => print("User Added"))
+            .catchError((error) => print("Failed to add user: $error"));
+      });
     } catch (e) {
       print("Error add actieuser:" + e.toString());
     }

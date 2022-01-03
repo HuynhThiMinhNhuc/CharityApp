@@ -18,11 +18,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   FutureOr<void> _onSignupWithEmailAndPass(
       SignupWithEmailAndPassEvent event, Emitter<SignupState> emit) async {
-    if (!RegExp(
+    if (event.password == "" ||
+        event.confirmPassword == '' ||
+        event.email == "") {
+      emit(SignupEmptyFeldmState());
+    } else if (!RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(event.email)) {
       emit(SignupFailEmailFomatState());
-    } else if (event.confirmPassword != event.password)
+    } else if (event.confirmPassword != event.password || event.password == "")
       emit(SignupIncorrectPassConfirmState());
     else
       try {
@@ -32,12 +36,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
               .createUserWithEmailAndPassword(
                   email: event.email, password: event.password);
           //User? user = FirebaseAuth.instance.currentUser;
-          
+
           emit(SignupSussesState());
           // if (user != null && !user.emailVerified) {
           //   await user.sendEmailVerification();
           // }
-          
+
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             print('The password provided is too weak.');
@@ -45,7 +49,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           } else if (e.code == 'email-already-in-use') {
             print('The account already exists for that email.');
             emit(SignupFailMutilAccountState());
-          }
+          } else
+            emit(SignupNoReasonState());
         } catch (e) {
           print(e);
         }

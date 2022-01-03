@@ -30,7 +30,8 @@ class ActiveItem extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 3),
                   image: DecorationImage(
-                      image: NetworkImage(imgUrl),
+                      // ignore: unnecessary_null_comparison
+                      image: imgUrl == ""?  AssetImage('asset/avatar.png') as ImageProvider: NetworkImage(imgUrl),
                       fit: BoxFit.cover),
                 ),
               ),

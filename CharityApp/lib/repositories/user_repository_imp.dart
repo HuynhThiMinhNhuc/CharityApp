@@ -220,11 +220,11 @@ class UserRepositoryImp implements IUserRepository {
     }
   }
 
-  Future<void> create(UserInfor userInfor, String email) async {
+  Future<void> create(UserProfile userInfor) async {
     user
         .doc(userInfor.id)
         .set({
-          'email': email,
+          'email': userInfor.email,
           'name': userInfor.name,
           'birthday': userInfor.birthDayString,
           'gender': userInfor.gender == Genders.Male
@@ -252,6 +252,4 @@ class UserRepositoryImp implements IUserRepository {
       print("Error change passsword:" + e.toString());
     }
   }
-
-
 }
