@@ -3,6 +3,7 @@ import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event_infor.g.dart';
@@ -12,6 +13,8 @@ part 'event_infor.g.dart';
 class EventInfor extends EventOverview {
   String? description;
   final DateTime? timeStart;
+  LatLng? locationGeo;
+  String? locationText;
 
   EventInfor({
     required String name,
@@ -25,6 +28,8 @@ class EventInfor extends EventOverview {
     List<TagEvent> tags = const [],
     String? id,
     DateTime? timeCreate,
+    this.locationGeo,
+    this.locationText,
   }) : super(
           name: name,
           creatorId: creatorId,
@@ -52,7 +57,11 @@ class EventInfor extends EventOverview {
         timeCreate: json['timeCreate'] == null
             ? null
             : (json['timeCreate'] as Timestamp).toDate(),
-
+        locationText: json['location'] as String?,
+        locationGeo: json['geometry'] is List<dynamic>
+            ? LatLng((json['geometry'] as List<dynamic>)[0],
+                (json['geometry'] as List<dynamic>)[1])
+            : null,
         // tags: (json['tags'] as List<dynamic>?)
         //         ?.map((e) => e as String)
         //         .toList() ??
@@ -64,9 +73,8 @@ class EventInfor extends EventOverview {
         'avatarUri': this.avatarUri,
         'backgroundUri': this.backgroundUri,
         'description': this.description,
-        'timeStart': this.timeStart == null
-            ? null
-            : Timestamp.fromDate(this.timeStart!),
+        'timeStart':
+            this.timeStart == null ? null : Timestamp.fromDate(this.timeStart!),
 
         // 'numberMember': this.numberMember,
         // 'numberPost': this.numberPost,
@@ -74,5 +82,9 @@ class EventInfor extends EventOverview {
         'timeCreate': this.timeCreate == null
             ? null
             : Timestamp.fromDate(this.timeCreate!),
+        'location': this.locationText,
+        'geometry': this.locationGeo == null
+            ? null
+            : [this.locationGeo!.latitude, this.locationGeo!.longitude],
       };
 }

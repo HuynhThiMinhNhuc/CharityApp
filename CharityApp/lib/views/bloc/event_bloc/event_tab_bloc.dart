@@ -97,6 +97,7 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
       final newEvent = eventAdded.copyWith(
         avatarUri: avatarUriPath,
         backgroundUri: backgroundUriPath,
+        timeCreate: DateTime.now(),
       );
       await eventRepository.add(newEvent);
       print('Add new event complete');
