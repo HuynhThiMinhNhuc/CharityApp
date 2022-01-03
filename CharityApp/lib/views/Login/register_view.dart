@@ -147,7 +147,8 @@ class _RegisterViewState extends State<RegisterView> {
                               builder: (context) => BlocProvider(
                                   create: (context) => VerifycodeBloc(),
                                   child: VerificationOtpView(
-                                    email: this.emailcontroller.text.trim(), ischangepass: false,
+                                    email: this.emailcontroller.text.trim(),
+                                    ischangepass: false,
                                   ))));
                     } else if (state is SignupFailEmailFomatState) {
                       showDialog<String>(
@@ -180,7 +181,6 @@ class _RegisterViewState extends State<RegisterView> {
                               'asset/imagesample/ImageAlerDIalog/wrong.png',
                         ),
                       );
-
                     } else if (state is SignupIncorrectPassConfirmState) {
                       showDialog<String>(
                         context: context,
@@ -188,6 +188,27 @@ class _RegisterViewState extends State<RegisterView> {
                           content:
                               'Mật khẩu xác nhận phải trùng với mật khẩu vừa đặt',
                           title: "Mật khẩu xác nhận không trùng khớp",
+                          pathImage:
+                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                        ),
+                      );
+                    } else if (state is SignupEmptyFeldmState) {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogCustom(
+                          content: 'Vui lòng điền đầy đủ thông tin',
+                          title: "Không được để trống",
+                          pathImage:
+                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                        ),
+                      );
+                    } else if (state is SignupNoReasonState) {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialogCustom(
+                          content:
+                              'Hệ thống đang gặp lỗi, chúng tôi sẽ cố gắng sửa lỗi sớm. Vui lòng thử lại sau',
+                          title: "Lỗi không xác định",
                           pathImage:
                               'asset/imagesample/ImageAlerDIalog/wrong.png',
                         ),
@@ -244,7 +265,6 @@ class AlertDialogCustom extends StatelessWidget {
       required this.pathImage,
       required this.title})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,6 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class ProfileSaveEvent extends ProfileEvent {
-  final UserInfor userInfor;
-  final String email;
-  ProfileSaveEvent(this.userInfor, this.email);
+  final UserProfile userInfor;
+  ProfileSaveEvent(this.userInfor);
 }
