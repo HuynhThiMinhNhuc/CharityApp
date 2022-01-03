@@ -1,8 +1,14 @@
+import 'dart:async';
+
+import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
 
 class GoogleMapPage extends StatefulWidget {
+  final googlePlace = GooglePlace("AIzaSyC1GPiRhUr2xSsz801IdinRlINbBkJAXKU");
   GoogleMapPage({Key? key}) : super(key: key);
 
   @override
@@ -13,18 +19,39 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   late CameraPosition initialCameraPosition =
       CameraPosition(target: LatLng(10.762622, 106.660172), zoom: 10);
   late Position position;
+  late GoogleMapController googleMapController;
+  late TextEditingController locationTextController;
+  Completer<GoogleMapController> _googleMapController = Completer();
+  Marker? locationMarker;
 
   @override
   void initState() {
     super.initState();
+    locationTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    locationTextController.dispose();
+    super.dispose();
   }
 
   void getCurrentLocation() async {
     position = await _determinePosition();
-    // setState(() {
-    //   initialCameraPosition = CameraPosition(
-    //       target: LatLng(position.latitude, position.longitude), zoom: 10);
-    // });
+    setMarker(position.latitude, position.longitude);
+
+    CameraPosition camera = CameraPosition(
+        target: LatLng(position.latitude, position.longitude), zoom: 12);
+    googleMapController.animateCamera(CameraUpdate.newCameraPosition(camera));
+  }
+
+  void setMarker(double lat, double lng) {
+    locationMarker = Marker(
+        markerId: const MarkerId('myLocation'),
+        position: LatLng(lat, lng),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        infoWindow: InfoWindow(title: "Tại đây"));
+    setState(() {});
   }
 
   Future<Position> _determinePosition() async {
@@ -66,18 +93,94 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
 
   @override
   Widget build(BuildContext context) {
-    getCurrentLocation();
     return MaterialApp(
       home: Scaffold(
-        body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: GoogleMap(
-              initialCameraPosition: initialCameraPosition,
-              myLocationEnabled: true,
-              zoomControlsEnabled: false,
-            )),
+        appBar: AppBar(
+          backgroundColor: backgroundbottomtab,
+          title: searchLocation(
+            onSearch: (placeId) async {
+              if (placeId != null) {
+                final response = await widget.googlePlace.details.get(placeId);
+                final location = response != null &&
+                        response.result != null &&
+                        response.result!.geometry != null
+                    ? response.result!.geometry!.location
+                    : null;
+
+                //Scroll screen to location
+                CameraPosition camera = CameraPosition(
+                    target: LatLng(location!.lat!, location!.lng!), zoom: 12);
+                googleMapController
+                    .animateCamera(CameraUpdate.newCameraPosition(camera));
+
+                //Set marker
+                setMarker(location!.lat!, location!.lng!);
+              }
+            },
+          ),
+        ),
+        body: Column(
+            // height: MediaQuery.of(context).size.height,
+            // width: MediaQuery.of(context).size.width,
+            children: [
+              Expanded(
+                child: GoogleMap(
+                  initialCameraPosition: initialCameraPosition,
+                  myLocationEnabled: true,
+                  zoomControlsEnabled: false,
+                  onMapCreated: (controller) {
+                    _googleMapController.complete(controller);
+                    googleMapController = controller;
+
+                    getCurrentLocation();
+                  },
+                  markers: {if (locationMarker != null) locationMarker!,},
+                ),
+              ),
+            ]),
       ),
     );
+  }
+
+  Widget searchLocation({Function(String? placeId)? onSearch}) {
+    return TypeAheadField(
+        textFieldConfiguration: TextFieldConfiguration(
+          controller: locationTextController,
+          decoration: InputDecoration(
+            hintText: 'Nhập địa chỉ...',
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.search),
+            ),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          ),
+        ),
+        suggestionsCallback: (keyword) async {
+          if (keyword.isEmpty) return [];
+
+          final result =
+              await widget.googlePlace.autocomplete.get(keyword, region: 'vn');
+
+          if (result != null && result.predictions != null) {
+            return result.predictions!;
+          }
+          return [];
+        },
+        itemBuilder: (context, suggestion) => Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              child: Text(
+                (suggestion as AutocompletePrediction).description!,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                    fontFamily: 'Roboto_Regular',
+                    fontWeight: FontWeight.normal),
+              ),
+            ),
+        onSuggestionSelected: (place) {
+          final placeId = (place as AutocompletePrediction).placeId;
+          onSearch?.call(placeId);
+        });
   }
 }
