@@ -48,7 +48,8 @@ class PostOverviewCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.eventPage, arguments: post.eventId!);
+                  Navigator.pushNamed(context, AppRoutes.eventPage,
+                      arguments: post.eventId!);
                 },
                 child: Text(
                   post.title,
@@ -153,8 +154,7 @@ class PostOverviewCard extends StatelessWidget {
                         children: <Widget>[
                           IconButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                  AppRoutes.comment,
+                              Navigator.of(context).pushNamed(AppRoutes.comment,
                                   arguments: post.id);
                             },
                             icon: FaIcon(FontAwesomeIcons.comment),

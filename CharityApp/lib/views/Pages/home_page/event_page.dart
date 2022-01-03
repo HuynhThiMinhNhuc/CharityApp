@@ -44,6 +44,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
       body: Container(
         color: Colors.white,
         child: NestedScrollView(
+          floatHeaderSlivers: true,
           headerSliverBuilder: (context, value) {
             return [
               SliverToBoxAdapter(
@@ -54,6 +55,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
               SliverAppBar(
                 pinned: true,
                 stretch: true,
+                floating: true,
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.white,
                 title: TabBar(
                   indicatorColor: maincolor,
@@ -63,7 +66,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                   tabs: [
                     Tab(text: "Trang chủ"),
                     Tab(text: "Giới thiệu"),
-                    Tab(text: "Hình ảnh"),
+                    Tab(text: "Thành viên"),
                   ],
                   onTap: (index) {
                     late EventTab currentTab;
@@ -112,9 +115,9 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                 else if (state is EventDetailViewSuccess) {
                   return IntroductionEventView(
                       detail: (state as EventDetailViewSuccess).detail);
-                }
-                else {
-                  return Text('Hình ảnh');
+
+                } else {
+                  return Joiner();
                 }
                 // return TabBarView(controller: _tabController, children: [
                 //   Container(
@@ -138,6 +141,76 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Joiner extends StatelessWidget {
+  const Joiner({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _joinercontroller =
+        new TextEditingController(text: "102  người đã tham gia ");
+    TextEditingController _joiningcontroller =
+        new TextEditingController(text: "   25  người đang chờ duyệt ");
+    bool isTapJoiner = false;
+    bool isTapJoining = false;
+    return Column(
+      children: [
+        TextField(
+          enabled: false,
+          readOnly: true,
+          controller: _joiningcontroller,
+          style: TextStyle(fontWeight: FontWeight.w600),
+          decoration: InputDecoration(
+              suffixIcon: !isTapJoining
+                  ? Icon(Icons.keyboard_arrow_down_rounded)
+                  : Icon(Icons.keyboard_arrow_up_rounded)),
+        ),
+        Visibility(
+          visible: isTapJoining ? true : false,
+          child: Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    leading: Container(
+                      width: 61,
+                      height: 61,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(colors: activecolor)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 3),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+                    ),
+                    title: Text("Janny"),
+                    subtitle: Text("Đang theo dõi - thành phố hồ chí minh"),
+                  );
+                },
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }

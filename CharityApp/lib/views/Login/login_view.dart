@@ -208,7 +208,7 @@ class _LoginState extends State<Login> {
                                         create: (context) => ActiveuserBloc(),
                                       ), 
                                     ],
-                                    child: RootApp(),
+                                    child: RootApp(loadactiveuser: true,),
                                   )),
                           (route) => false,
                         );

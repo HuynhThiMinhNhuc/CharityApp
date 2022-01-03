@@ -24,10 +24,13 @@ import 'bloc/tab_bloc/tab.dart';
 typedef onAddPostCallback = Function(Post post);
 
 class RootApp extends StatelessWidget {
-  var context;
+  final loadactiveuser;
+  //var context;
+
+  const RootApp({Key? key, required this.loadactiveuser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    this.context = context;
+    //this.context = context;
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activateTab) {
         return Scaffold(
@@ -170,13 +173,13 @@ class RootApp extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: () => {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                          create: (context) => SearcheventBloc(),
-                          child: SearchEvent(),
-                        )))
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => BlocProvider(
+            //               create: (context) => SearcheventBloc(),
+            //               child: SearchEvent(),
+            //             )))
           },
           icon: const Icon(Icons.search, color: textcolor),
           tooltip: "Tìm kiếm",
