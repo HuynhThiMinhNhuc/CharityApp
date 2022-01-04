@@ -52,7 +52,7 @@ class _FriendPageState extends State<FriendPage> {
         MediaQuery.of(context).orientation == Orientation.portrait;
     final actions = [
       FloatingSearchBarAction(
-        showIfOpened: false,
+        showIfOpened: true,
         child: CircularButton(
           icon: const Icon(Icons.place),
           onPressed: () {},
@@ -79,7 +79,7 @@ class _FriendPageState extends State<FriendPage> {
       debounceDelay: const Duration(milliseconds: 500),
       closeOnBackdropTap: true,
       onQueryChanged: (query) {
-        friendBloc.add(FriendSearchEvent(query));
+        friendBloc.add(FriendSearchEvent(query.trim()));
       },
       // Specify a custom transition to be used for
       // animating between opened and closed stated.
@@ -93,7 +93,7 @@ class _FriendPageState extends State<FriendPage> {
           ),
         ),
         FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
+          showIfClosed: true,
         ),
       ],
       builder: (context, transition) {
@@ -104,12 +104,12 @@ class _FriendPageState extends State<FriendPage> {
               elevation: 4.0,
               child: BlocBuilder<FriendBloc, FriendState>(
                 buildWhen: (context, state) {
-                  return state is FriendSearchState ||
-                      state is FriendLoadingState ||
-                      state is FriendLoadFailState;
+                  return state is FriendSearchWithResultState ||
+                      state is FriendSearchLoadingState ||
+                      state is FriendSearchNoResultState;
                 },
                 builder: (context, state) {
-                  return state is FriendSearchState
+                  return state is FriendSearchWithResultState
                       ? Column(
                           children: [
                             ListView.builder(
@@ -122,7 +122,7 @@ class _FriendPageState extends State<FriendPage> {
                                       radius: 18,
                                       backgroundImage: state.suggestion[index]
                                                   .avatarUri ==
-                                              null
+                                              ""
                                           ? AssetImage('asset/avatar.png')
                                           : NetworkImage(state.suggestion[index]
                                               .avatarUri!) as ImageProvider),
@@ -190,21 +190,21 @@ class _FriendPageState extends State<FriendPage> {
       child: SingleChildScrollView(
         child: BlocBuilder<FriendBloc, FriendState>(
           buildWhen: (context, state) {
-            return state is FriendLoadingState ||
-                state is FriendLoadedState ||
-                state is FriendLoadFailState;
+            return state is FriendLoadingPageState ||
+                state is FriendLoadedPageState ||
+                state is FriendLoadPageFailState;
           },
           builder: (context, state) {
-            if (state is FriendLoadingState)
+            if (state is FriendLoadingPageState)
               return Skeletonloaderfriend();
-            else if (state is FriendLoadedState)
+            else if (state is FriendLoadedPageState)
               return friends(
                 listFriend: state.friends,
                 totalfriend: state.totalfriend,
                 friendBloc: this.friendBloc,
               );
             else
-              return Text("Loading failer....");
+              return Text("");
           },
         ),
       ),
@@ -220,48 +220,35 @@ class Skeletonloaderfriend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SkeletonLoader(
-      builder: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flexible(
-                child: Container(
-                  width: 200,
-                  height: 20,
-                  color: Colors.white,
-                ),
-              )),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 30,
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        height: 10,
-                        color: Colors.white,
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        height: 12,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+      builder: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 30,
             ),
-          ),
-        ],
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    height: 10,
+                    color: Colors.white,
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    width: double.infinity,
+                    height: 12,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       items: 10,
       period: Duration(seconds: 2),
@@ -298,7 +285,7 @@ class friends extends StatelessWidget {
             ? ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: listFriend!.length,
+                itemCount: totalfriend,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () => {

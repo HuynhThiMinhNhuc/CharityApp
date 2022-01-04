@@ -7,17 +7,20 @@ abstract class FriendState extends Equatable {
   List<Object> get props => [];
 }
 
-class FriendLoadingState extends FriendState {}
-
-class FriendLoadedState extends FriendState {
+class FriendInitateState extends FriendState {}
+class FriendLoadingPageState extends FriendState {}
+class FriendLoadPageFailState extends FriendState {}
+class FriendLoadedPageState extends FriendState {
   final List<UserOverview> friends;
   final totalfriend;
-  FriendLoadedState(this.friends, this.totalfriend);
+  FriendLoadedPageState(this.friends, this.totalfriend);
 }
 
-class FriendSearchState extends FriendState {
+class FriendSearchWithResultState extends FriendState {
   final List<UserOverview> suggestion;
-  FriendSearchState(this.suggestion);
+  FriendSearchWithResultState(this.suggestion);
 }
 
-class FriendLoadFailState extends FriendState {}
+class FriendSearchNoResultState extends FriendState {}
+class FriendSearchLoadingState extends FriendState {}
+

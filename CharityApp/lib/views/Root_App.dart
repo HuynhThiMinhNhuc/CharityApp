@@ -1,17 +1,23 @@
 import 'package:charityapp/core/model/app_tab.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/tab_selector.dart';
+import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
 import 'package:charityapp/views/bloc/searchevent_bloc/bloc/searchevent_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
 import 'Pages/home_page/search_view.dart';
 import 'Pages/profile_page/profile_page.dart';
+import 'bloc/signin_bloc/signin_bloc.dart';
 import 'bloc/tab_bloc/tab.dart';
 
 typedef onAddPostCallback = Function(Post post);
@@ -162,14 +168,14 @@ class RootApp extends StatelessWidget {
       ),
       actions: [
         IconButton(
-          onPressed: () => {
+          onPressed: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => BlocProvider(
                           create: (context) => SearcheventBloc(),
                           child: SearchEvent(),
-                        )))
+                        )));
           },
           icon: const Icon(Icons.search, color: textcolor),
           tooltip: "Tìm kiếm",
@@ -181,7 +187,52 @@ class RootApp extends StatelessWidget {
             color: textcolor,
           ),
           tooltip: "Xem thông báo",
-        )
+        ),
+        PopupMenuButton(
+          icon: Icon(
+            Icons.more_vert,
+            color: Colors.black,
+          ),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            PopupMenuItem(
+              child: InkWell(
+                onTap: () async {
+                  String id = "";
+                  await FirebaseFirestore.instance
+                      .collection("activeusers")
+                      .where("id",
+                          isEqualTo: (GetIt.instance
+                              .get<Authenticator>()
+                              .userProfile
+                              .id))
+                      .get()
+                      .then((value) => id = value.docs[0].id);
+                  await FirebaseFirestore.instance
+                      .collection("activeusers")
+                      .doc(id)
+                      .delete();
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (_) => SigninBloc(),
+                          child: Login(),
+                        ),
+                      ),
+                      (route) => false);
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.exit_to_app,
+                    color: redcolor,
+                  ),
+                  title: Text('Đăng xuất'),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

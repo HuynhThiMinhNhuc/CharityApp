@@ -126,7 +126,16 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                             builder: (context) => BlocProvider(
                                   create: (context) => EditprofileBloc(),
                                   child: EditProfile(
-                                    currentUser: widget.userProfile,
+                                    currentUser: new UserProfile(
+                                        name: widget.userProfile.name,
+                                        avatarUri: widget.userProfile.avatarUri,
+                                        phone: widget.userProfile.phone,
+                                        email: widget.userProfile.email,
+                                        birthDayString:
+                                            widget.userProfile.birthDayString,
+                                        gender: widget.userProfile.gender,
+                                        description:
+                                            widget.userProfile.description),
                                     onEditPro: () => widget.overViewUserBloc
                                         .add(LoadOverViewUserEvent(
                                             widget.userProfile.id)),
@@ -164,83 +173,83 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(redcolor)),
                     )
-                  : widget.modeProfile == mode.Stranger? ElevatedButton(
-                      onPressed: () => {
-                        setState(() {
-                          widget.overViewUserBloc
-                              .add(FollowEvent(widget.userProfile.id));
-                          widget.modeProfile = mode.Friend;
-                        })
-                      },
-                      child: Text(
-                        'Theo dõi',
-                        style: TextStyle(
-                            fontSize: 13,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Color.fromRGBO(90, 164, 105, 1.0))),
-                    ): widget.modeProfile == mode.Joiner? ElevatedButton(
-                      onPressed: () => {
-                        setState(() {
-                          widget.overViewUserBloc
-                              .add(FollowEvent(widget.userProfile.id));
-                          widget.modeProfile = mode.Friend;
-                        })
-                      },
-                      child: Text(
-                        'Loại khỏi sự kiện',
-                        style: TextStyle(
-                            fontSize: 13,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Color.fromRGBO(90, 164, 105, 1.0))),
-                    ):
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                      ElevatedButton(
-                      onPressed: () => {
-                        setState(() {
-                        })
-                      },
-                      child: Text(
-                        'Chấp nhận',
-                        style: TextStyle(
-                            fontSize: 13,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Color.fromRGBO(90, 164, 105, 1.0))),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => {
-                        setState(() {
-                        })
-                      },
-                      child: Text(
-                        'Từ chối',
-                        style: TextStyle(
-                            fontSize: 13,
-                            decoration: TextDecoration.none,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              redcolor)),
-                    )
-                    ],),
+                  : widget.modeProfile == mode.Stranger
+                      ? ElevatedButton(
+                          onPressed: () => {
+                            setState(() {
+                              widget.overViewUserBloc
+                                  .add(FollowEvent(widget.userProfile.id));
+                              widget.modeProfile = mode.Friend;
+                            })
+                          },
+                          child: Text(
+                            'Theo dõi',
+                            style: TextStyle(
+                                fontSize: 13,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'Roboto_Regular',
+                                fontWeight: FontWeight.bold),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Color.fromRGBO(90, 164, 105, 1.0))),
+                        )
+                      : widget.modeProfile == mode.Joiner
+                          ? ElevatedButton(
+                              onPressed: () => {
+                                setState(() {
+                                  widget.overViewUserBloc
+                                      .add(FollowEvent(widget.userProfile.id));
+                                  widget.modeProfile = mode.Friend;
+                                })
+                              },
+                              child: Text(
+                                'Loại khỏi sự kiện',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    decoration: TextDecoration.none,
+                                    fontFamily: 'Roboto_Regular',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color.fromRGBO(90, 164, 105, 1.0))),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () => {setState(() {})},
+                                  child: Text(
+                                    'Chấp nhận',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        decoration: TextDecoration.none,
+                                        fontFamily: 'Roboto_Regular',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Color.fromRGBO(
+                                                  90, 164, 105, 1.0))),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => {setState(() {})},
+                                  child: Text(
+                                    'Từ chối',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        decoration: TextDecoration.none,
+                                        fontFamily: 'Roboto_Regular',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(redcolor)),
+                                )
+                              ],
+                            ),
         ),
       ],
     );
