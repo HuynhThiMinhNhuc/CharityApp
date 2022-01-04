@@ -13,7 +13,7 @@ import 'package:get_it/get_it.dart';
 
 import 'Widgets/profile_overview.dart';
 
-enum mode { My, Friend, Stranger }
+enum mode { My, Friend, Stranger, Joiner, Pending_approval }
 
 class ProfilePage extends StatefulWidget {
   ProfilePage();

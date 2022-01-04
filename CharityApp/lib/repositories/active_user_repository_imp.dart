@@ -1,7 +1,9 @@
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/repositories/activeuser_repository.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_it/get_it.dart';
 
 class ActiveUserRepositoryImp extends IActiveUserRepository {
   final user = FirebaseFirestore.instance.collection("activeusers");
@@ -13,9 +15,12 @@ class ActiveUserRepositoryImp extends IActiveUserRepository {
       var users;
       await user.get().then((querySnapshot) async {
         for (var element in querySnapshot.docs) {
-          users =
-              await _userRepositoryImp.getUserOverView(element.data()['id']);
-          listactiveuser.add(users);
+          if (element.data()['id'] !=
+              GetIt.instance.get<Authenticator>().userProfile.id) {
+            users =
+                await _userRepositoryImp.getUserOverView(element.data()['id']);
+            listactiveuser.add(users);
+          }
         }
       });
       return listactiveuser;

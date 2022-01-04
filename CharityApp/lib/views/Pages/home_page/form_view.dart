@@ -79,7 +79,7 @@ class _FormViewState extends State<FormView> {
             color: backgroundbottomtab,
             alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
                 child: CustomButton(
                   onPressed: () {
                     String myId = '';
@@ -90,7 +90,7 @@ class _FormViewState extends State<FormView> {
                         creatorId: myId,
                         eventId: widget.event.id!,
                         timeCreate: DateTime.now());
-                        
+
                     BlocProvider.of<FormBloc>(context)
                         .add(RegisterForm(form: form));
                   },
@@ -126,18 +126,19 @@ class _FormViewState extends State<FormView> {
                   color: textcolor),
             ),
             SizedBox(
-              height: 5,
+              height: 10,
             ),
             TextField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                fillColor: Color(0xFFF4F4F4),
+                filled: true,
                 hintText: widget.username,
                 enabled: false,
                 contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Text(
               "Số điện thoại",
@@ -148,21 +149,23 @@ class _FormViewState extends State<FormView> {
                   color: textcolor),
             ),
             SizedBox(
-              height: 5,
+              height: 10,
             ),
             TextField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  fillColor: Color(0xFFF4F4F4),
+                  filled: true,
                   hintText: widget.userphone,
                   enabled: false,
                   contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Column(
                 children: List.generate(Items.length, (index) {
               return (TextInput(
+                isEnable: true,
                 Items: [],
                 title: Items[index],
                 maxline: maxlines[index],
@@ -178,11 +181,13 @@ class _FormViewState extends State<FormView> {
 class TextInput extends StatelessWidget {
   final String title;
   final int maxline;
+  final isEnable;
   const TextInput(
       {Key? key,
       required this.title,
       required this.Items,
-      required this.maxline})
+      required this.maxline,
+      required this.isEnable})
       : super(key: key);
 
   final List<String> Items;
@@ -201,7 +206,7 @@ class TextInput extends StatelessWidget {
               color: textcolor),
         ),
         SizedBox(
-          height: 5,
+          height: 10,
         ),
         Theme(
           data: ThemeData(
@@ -211,7 +216,10 @@ class TextInput extends StatelessWidget {
           child: TextField(
             maxLines: maxline,
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              enabled: isEnable,
+              border: InputBorder.none,
+              fillColor: Color(0xFFF4F4F4),
+              filled: true,
               contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: maincolor),
@@ -220,7 +228,7 @@ class TextInput extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
       ],
     );
