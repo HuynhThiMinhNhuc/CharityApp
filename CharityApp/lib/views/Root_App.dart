@@ -7,18 +7,9 @@ import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:charityapp/views/Pages/home_page/search_view.dart';
-import 'package:charityapp/views/bloc/event_bloc/event.dart';
-import 'package:charityapp/views/bloc/post_bloc/post.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:path/path.dart';
-
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
 import 'Pages/profile_page/profile_page.dart';
-import 'bloc/searchevent_bloc/bloc/searchevent_bloc.dart';
 import 'bloc/tab_bloc/tab.dart';
 
 typedef onAddPostCallback = Function(Post post);

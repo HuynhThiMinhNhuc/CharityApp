@@ -1,10 +1,16 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/views/Login/login_view.dart';
+import 'package:charityapp/views/Root_App.dart';
+import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
+import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart';
+import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
+import 'package:charityapp/views/bloc/tab_bloc/tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,16 +23,43 @@ import 'home_page/form_view.dart';
 
 class RouteGenerator {
   Route generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-    if (settings.name == AppRoutes.home) {
+    if (settings.name == AppRoutes.login) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => BlocProvider(
           create: (_) => SigninBloc(),
           child: Login(),
         ),
       );
+    } else if (settings.name == AppRoutes.home) {
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (BuildContext context) => MultiBlocProvider(
+          providers: [
+            BlocProvider<TabBloc>(
+              create: (context) => TabBloc(),
+            ),
+            BlocProvider<FriendBloc>(
+              create: (context) => FriendBloc(),
+            ),
+            BlocProvider<EditprofileBloc>(
+              create: (context) => EditprofileBloc(),
+            ),
+            BlocProvider<OverViewUserBloc>(
+              create: (context) => OverViewUserBloc(),
+            ),
+            BlocProvider<ActiveuserBloc>(
+              create: (context) => ActiveuserBloc(),
+            ),
+          ],
+          child: RootApp(
+            loadactiveuser: true,
+          ),
+        ),
+      );
     } else if (settings.name == AppRoutes.addPost) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) {
           print("create add_post route");
           return BlocListener<PostBloc, PostState>(
@@ -53,11 +86,12 @@ class RouteGenerator {
       );
     } else if (settings.name == AppRoutes.addEvent) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) {
           print("create add_event route");
           return BlocConsumer<EventTabBloc, EventTabState>(
             listener: (context, state) async {
-              if (state is EventLoadSuccess) {
+              if (state is EventUpdateSuccess) {
                 showMyDialog(context, "Thêm sự kiện thành công");
               } else if (state is EventLoadFailure) {
                 showMyDialog(context, "Thêm sự kiện thất bại",
@@ -82,27 +116,35 @@ class RouteGenerator {
       );
     } else if (settings.name == AppRoutes.chooseEvent) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => ChossesEventView(),
       );
     } else if (settings.name == AppRoutes.eventPage) {
       final eventId = settings.arguments as String;
+
       return MaterialPageRoute(
+          settings: settings,
           builder: (context) => BlocProvider(
                 create: (_) => EventTitleCubit(),
                 child: EventPage(eventId: eventId),
               ));
     } else if (settings.name == AppRoutes.comment) {
       final postId = settings.arguments as String;
+
       return MaterialPageRoute(
+          settings: settings,
           builder: (context) => CommentView(postId: postId));
     } else if (settings.name == AppRoutes.formRegister) {
       final event = settings.arguments as BaseEvent;
-      return MaterialPageRoute(builder: (context) {
-        return BlocProvider(
-          create: (_) => FormBloc(),
-          child: FormView(event: event),
-        );
-      });
+
+      return MaterialPageRoute(
+          settings: settings,
+          builder: (context) {
+            return BlocProvider(
+              create: (_) => FormBloc(),
+              child: FormView(event: event),
+            );
+          });
     }
     return MaterialPageRoute(builder: (context) {
       return Text('fail page');

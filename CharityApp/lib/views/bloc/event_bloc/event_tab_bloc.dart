@@ -102,7 +102,7 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
       await eventRepository.add(newEvent);
       print('Add new event complete');
 
-      // emit(EventPostViewSuccess(event: eventAdded, posts: const []));
+      emit(EventUpdateSuccess(eventId: newEvent.id!));
     } catch (e) {
       emit(EventLoadFailure());
     }

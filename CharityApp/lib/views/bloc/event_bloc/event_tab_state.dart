@@ -20,6 +20,13 @@ abstract class EventLoadSuccess extends EventTabState {
   List<Object> get props => [];
 }
 
+class EventUpdateSuccess extends EventLoadSuccess {
+  final String eventId;
+  const EventUpdateSuccess({required this.eventId});
+  @override
+  List<Object> get props => [eventId];
+}
+
 class EventPostViewSuccess extends EventLoadSuccess {
   final List<Post> posts;
   const EventPostViewSuccess({required this.posts});
@@ -40,8 +47,7 @@ class EventDetailViewSuccess extends EventLoadSuccess {
 class EventImagesViewSuccess extends EventLoadSuccess {
   final List<String> images;
 
-  const EventImagesViewSuccess(
-      {required this.images});
+  const EventImagesViewSuccess({required this.images});
 
   @override
   List<Object> get props => [images];
