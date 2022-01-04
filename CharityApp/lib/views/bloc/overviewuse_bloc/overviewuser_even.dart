@@ -26,3 +26,26 @@ class UnFollowEvent extends OverviewUserEvent {
   @override
   List<Object?> get props => [];
 }
+
+class AcceptJoinerEvent extends OverviewUserEvent {
+  final String? id;
+  AcceptJoinerEvent(this.id);
+
+  @override
+  List<Object?> get props => [];
+}
+class DenieJoinerEvent extends OverviewUserEvent {
+  final String? id;
+  DenieJoinerEvent(this.id);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveJoinerEvent extends OverviewUserEvent {
+  final String? id;
+  RemoveJoinerEvent(this.id);
+
+  @override
+  List<Object?> get props => [];
+}

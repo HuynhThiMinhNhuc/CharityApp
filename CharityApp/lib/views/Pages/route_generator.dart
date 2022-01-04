@@ -53,7 +53,6 @@ class RouteGenerator {
             ),
           ],
           child: RootApp(
-            loadactiveuser: true,
           ),
         ),
       );

@@ -149,7 +149,6 @@ class _ThanhYouPage extends State<ThanhYouPage> {
                                               ),
                                             ],
                                             child: RootApp(
-                                              loadactiveuser: false,
                                             ),
                                           )),
                                   (route) => false,
