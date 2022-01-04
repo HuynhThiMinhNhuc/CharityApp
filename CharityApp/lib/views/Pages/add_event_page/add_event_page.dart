@@ -5,8 +5,11 @@ import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
+import 'package:charityapp/views/Login/login_view.dart';
+import 'package:charityapp/views/Login/register_view.dart';
 import 'package:charityapp/views/Pages/google_map_page.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -172,9 +175,24 @@ class _AddEventPageState extends State<AddEventPage> {
                       type: TextInputType.text,
                       controller: _locationTextController,
                       onClickIcon: () async {
+                        if (!await isPermissionMap()) {
+                          AlertDialog(
+                            title: Text('Thông báo'),
+                            content: Text(
+                                'Vui lòng cấp quyền cho ứng dụng để mở bản đồ'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Đồng ý'),
+                              )
+                            ],
+                          );
+                        }
                         final args = await Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return GoogleMapPage(initLatlng: latLng);
+                          return latLng != null ? GoogleMapPage(initLatlng: latLng!) : GoogleMapPage();
                         }));
 
                         if (args != null) {
@@ -281,6 +299,33 @@ class _AddEventPageState extends State<AddEventPage> {
         ),
       ),
     );
+  }
+
+  Future<bool> isPermissionMap() async {
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        print('Location permissions are denied');
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      print(
+          'Location permissions are permanently denied, we cannot request permissions.');
+      return false;
+    }
+
+    return true;
   }
 }
 

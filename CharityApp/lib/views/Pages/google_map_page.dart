@@ -10,17 +10,18 @@ import 'package:google_place/google_place.dart';
 
 class GoogleMapPage extends StatefulWidget {
   final googlePlace = GooglePlace("AIzaSyC1GPiRhUr2xSsz801IdinRlINbBkJAXKU");
-  LatLng? initLatlng;
-  GoogleMapPage({Key? key, this.initLatlng}) : super(key: key);
+
+  final LatLng initLatlng;
+  GoogleMapPage(
+      {Key? key, this.initLatlng = const LatLng(10.762622, 106.660172)})
+      : super(key: key);
 
   @override
   State<GoogleMapPage> createState() => _GoogleMapPageState();
 }
 
 class _GoogleMapPageState extends State<GoogleMapPage> {
-  late CameraPosition initialCameraPosition =
-      CameraPosition(target: LatLng(10.762622, 106.660172), zoom: 10);
-  // late Position position;
+  late CameraPosition initialCameraPosition;
   late GoogleMapController googleMapController;
   late TextEditingController locationTextController;
   Completer<GoogleMapController> _googleMapController = Completer();
@@ -33,6 +34,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   void initState() {
     super.initState();
     locationTextController = TextEditingController();
+    initialCameraPosition = CameraPosition(target: widget.initLatlng, zoom: 10);
   }
 
   @override
@@ -42,17 +44,20 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   }
 
   void getCurrentLocation() async {
-    if (widget.initLatlng == null) {
-      final current = await _determinePosition();
+    final current = await _determinePosition().catchError((e) {
+      print(e);
+      return null;
+    });
+    if (current != null) {
       googlePlace =
           (await placemarkFromCoordinates(current.latitude, current.longitude))
               .first;
       setMarker(current.latitude, current.longitude);
     } else {
       googlePlace = (await placemarkFromCoordinates(
-              widget.initLatlng!.latitude, widget.initLatlng!.longitude))
+              widget.initLatlng.latitude, widget.initLatlng.longitude))
           .first;
-      setMarker(widget.initLatlng!.latitude, widget.initLatlng!.longitude);
+      setMarker(widget.initLatlng.latitude, widget.initLatlng.longitude);
     }
   }
 
@@ -95,9 +100,9 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     setState(() {});
   }
 
-  Future<Position> _determinePosition() async {
+  Future<Position?> _determinePosition() async {
     bool serviceEnabled;
-    LocationPermission permission;
+    // LocationPermission permission;
 
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -108,24 +113,24 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
       return Future.error('Location services are disabled.');
     }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
+    // permission = await Geolocator.checkPermission();
+    // if (permission == LocationPermission.denied) {
+    //   permission = await Geolocator.requestPermission();
+    //   if (permission == LocationPermission.denied) {
+    //     // Permissions are denied, next time you could try
+    //     // requesting permissions again (this is also where
+    //     // Android's shouldShowRequestPermissionRationale
+    //     // returned true. According to Android guidelines
+    //     // your App should show an explanatory UI now.
+    //     return Future.error('Location permissions are denied');
+    //   }
+    // }
 
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
+    // if (permission == LocationPermission.deniedForever) {
+    //   // Permissions are denied forever, handle appropriately.
+    //   return Future.error(
+    //       'Location permissions are permanently denied, we cannot request permissions.');
+    // }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
@@ -157,7 +162,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
               Expanded(
                 child: GoogleMap(
                   initialCameraPosition: initialCameraPosition,
-                  myLocationEnabled: true,
+                  myLocationEnabled: false,
                   zoomControlsEnabled: false,
                   onMapCreated: (controller) {
                     _googleMapController.complete(controller);
