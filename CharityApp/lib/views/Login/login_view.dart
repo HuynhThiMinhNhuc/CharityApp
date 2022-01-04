@@ -187,7 +187,7 @@ class _LoginState extends State<Login> {
                               AlertFailPassword(),
                         );
                       } else if (state is SigninSussessState) {
-                        Navigator.of(context).pushNamed(AppRoutes.home);
+                        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
                         // Navigator.pushAndRemoveUntil(
                         //   context,
                         //   MaterialPageRoute(
