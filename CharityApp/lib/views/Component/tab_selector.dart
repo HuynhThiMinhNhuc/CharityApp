@@ -51,7 +51,7 @@ class TabSelector extends StatelessWidget {
               SpeedDialChild(
                   child: Icon(Icons.post_add_rounded, color: Colors.white),
                   backgroundColor: maincolor,
-                  label: "New post",
+                  label: "Bài đăng mới",
                   onTap: () => {
                         Navigator.pushNamed(
                           context,
@@ -62,7 +62,7 @@ class TabSelector extends StatelessWidget {
                   child:
                       Icon(Icons.event_available_outlined, color: Colors.white),
                   backgroundColor: Colors.red[400],
-                  label: "New event",
+                  label: "Sự kiện mới",
                   onTap: () => {
                         Navigator.pushNamed(
                           context,

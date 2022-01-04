@@ -13,6 +13,8 @@ extension EventInforCopyWith on EventInfor {
     String? creatorId,
     String? description,
     String? id,
+    LatLng? locationGeo,
+    String? locationText,
     String? name,
     int? numberMember,
     int? numberPost,
@@ -26,6 +28,8 @@ extension EventInforCopyWith on EventInfor {
       creatorId: creatorId ?? this.creatorId,
       description: description ?? this.description,
       id: id ?? this.id,
+      locationGeo: locationGeo ?? this.locationGeo,
+      locationText: locationText ?? this.locationText,
       name: name ?? this.name,
       numberMember: numberMember ?? this.numberMember,
       numberPost: numberPost ?? this.numberPost,
@@ -35,43 +39,3 @@ extension EventInforCopyWith on EventInfor {
     );
   }
 }
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-EventInfor _$EventInforFromJson(Map<String, dynamic> json) => EventInfor(
-      name: json['name'] as String,
-      creatorId: json['creatorId'] as String,
-      avatarUri: json['avatarUri'] as String?,
-      backgroundUri: json['backgroundUri'] as String?,
-      description: json['description'] as String?,
-      timeStart: json['timeStart'] == null
-          ? null
-          : DateTime.parse(json['timeStart'] as String),
-      numberMember: json['numberMember'] as int? ?? 0,
-      numberPost: json['numberPost'] as int? ?? 0,
-      tags: (json['tags'] as List<dynamic>?)
-              ?.map((e) => TagEvent.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      id: json['id'] as String?,
-      timeCreate: json['timeCreate'] == null
-          ? null
-          : DateTime.parse(json['timeCreate'] as String),
-    );
-
-Map<String, dynamic> _$EventInforToJson(EventInfor instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'creatorId': instance.creatorId,
-      'timeCreate': instance.timeCreate?.toIso8601String(),
-      'avatarUri': instance.avatarUri,
-      'backgroundUri': instance.backgroundUri,
-      'tags': instance.tags,
-      'numberMember': instance.numberMember,
-      'numberPost': instance.numberPost,
-      'description': instance.description,
-      'timeStart': instance.timeStart?.toIso8601String(),
-    };

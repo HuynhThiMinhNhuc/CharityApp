@@ -5,7 +5,9 @@ import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
+import 'package:charityapp/views/Pages/google_map_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 class AddEventPage extends StatefulWidget {
@@ -30,6 +32,7 @@ class _AddEventPageState extends State<AddEventPage> {
   File? avatarImage;
   File? backgroundImage;
   DateTime? startDate;
+  LatLng? latLng;
 
   @override
   void initState() {
@@ -70,7 +73,6 @@ class _AddEventPageState extends State<AddEventPage> {
         actions: [
           TextButton(
             onPressed: () {
-
               final _event = EventInfor(
                 name: _nameTextController.text,
                 creatorId: 'test',
@@ -78,6 +80,10 @@ class _AddEventPageState extends State<AddEventPage> {
                     ? null
                     : _descriptionTextController.text,
                 timeStart: startDate,
+                locationText: _locationTextController.text == ""
+                    ? null
+                    : _locationTextController.text,
+                locationGeo: latLng,
               );
               widget.onClickSubmit?.call(
                 _event,
@@ -130,7 +136,6 @@ class _AddEventPageState extends State<AddEventPage> {
                       type: TextInputType.datetime,
                       controller: _dateTextController,
                       onClickIcon: () {
-
                         showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -166,6 +171,20 @@ class _AddEventPageState extends State<AddEventPage> {
                       title: 'Địa điểm',
                       type: TextInputType.text,
                       controller: _locationTextController,
+                      onClickIcon: () async {
+                        final args = await Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return GoogleMapPage(initLatlng: latLng);
+                        }));
+
+                        if (args != null) {
+                          _locationTextController.text =
+                              args[0] as String? ?? "";
+                          latLng = args[1] as LatLng;
+                        } else {
+                          // latLng = null;
+                        }
+                      },
                     ),
                     Text(
                       "Thêm ảnh",
