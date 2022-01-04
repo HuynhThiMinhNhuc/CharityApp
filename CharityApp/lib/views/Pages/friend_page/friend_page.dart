@@ -33,7 +33,7 @@ class _FriendPageState extends State<FriendPage> {
     super.initState();
     friendBloc = BlocProvider.of<FriendBloc>(context);
     friendBloc.add(
-        FriendLoadEvent(GetIt.instance.get<Authenticator>().userProfile.id));
+        FriendLoadEvent(GetIt.instance.get<Authenticator>().userProfile.id!));
   }
 
   @override
@@ -154,7 +154,7 @@ class _FriendPageState extends State<FriendPage> {
                                                                   .get<
                                                                       Authenticator>()
                                                                   .userProfile
-                                                                  .id))
+                                                                  .id!))
                                                         }),
                                               )),
                                     )
@@ -321,7 +321,7 @@ class friends extends StatelessWidget {
                                                 .instance
                                                 .get<Authenticator>()
                                                 .userProfile
-                                                .id))
+                                                .id!))
                                           }),
                                 )),
                       )

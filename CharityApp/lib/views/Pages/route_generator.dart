@@ -3,6 +3,7 @@ import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Root_App.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
+import 'package:charityapp/views/bloc/calendar_bloc/calendar.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart';
@@ -51,6 +52,9 @@ class RouteGenerator {
             BlocProvider<ActiveuserBloc>(
               create: (context) => ActiveuserBloc(),
             ),
+            BlocProvider(
+              create: (context) => CalendarBloc(),
+            )
           ],
           child: RootApp(
           ),

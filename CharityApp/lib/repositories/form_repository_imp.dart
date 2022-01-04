@@ -1,3 +1,4 @@
+import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/domain/repositories/form_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,5 +50,14 @@ class FormRepositoryImp implements IFormRepository {
         .limit(1)
         .get();
     if (snapshot.docs.length == 1) snapshot.docs[0].reference.delete();
+  }
+
+  @override
+  Future<List<String>> loadEventPendingFrom(String userId) {
+    return collection.where('userId', isEqualTo: userId).get().then(
+        (snapshot) => snapshot.docs
+            .map((doc) =>
+                (doc.data() as Map<String, dynamic>)['eventId'] as String)
+            .toList());
   }
 }

@@ -7,7 +7,7 @@ part 'event_overview_paticipant.g.dart';
 @CopyWith()
 class EventOverviewPaticipants extends BaseEvent {
   final int number;
-  final DateTime timeStart;
+  final DateTime? timeStart;
   late List<String?> paticipantsUri;
   final String? backgroundUri;
   EventOverviewPaticipants({
@@ -27,8 +27,9 @@ class EventOverviewPaticipants extends BaseEvent {
       EventOverviewPaticipants(
         name: json['name'] as String,
         creatorId: json['creatorId'] as String,
-        number: json['numberMember'] as int,
-        timeStart: (json['timeStart'] as Timestamp).toDate(),
+        number: json['numberMember'] as int? ?? 0,
+        timeStart:  json['timeStart'] == null
+            ? null : (json['timeStart'] as Timestamp).toDate(),
         backgroundUri: json['backgroundUri'] as String?,
         timeCreate: json['timeCreate'] == null
             ? null

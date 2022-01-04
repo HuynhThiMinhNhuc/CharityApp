@@ -12,7 +12,7 @@ import 'package:get_it/get_it.dart';
 import 'package:tiengviet/tiengviet.dart';
 
 class UserRepositoryImp implements IUserRepository {
-  final user = FirebaseFirestore.instance.collection("users");
+  final userCollection = FirebaseFirestore.instance.collection("users");
 
   @override
   Future<void> add(UserInfor userInfor) {
@@ -38,7 +38,7 @@ class UserRepositoryImp implements IUserRepository {
     UserOverview useroverview;
 
     try {
-      await user.doc(id).get().then((value) {
+      await userCollection.doc(id).get().then((value) {
         List.from(value.data()!['friends']).forEach((element) async {
           useroverview = await getUserOverView(element);
           useroverview.id = element;
@@ -56,7 +56,7 @@ class UserRepositoryImp implements IUserRepository {
   Future<int> loadNumberFriends(String id) async {
     int number = 0;
     try {
-      await user
+      await userCollection
           .doc(id)
           .get()
           .then((value) => number = List.from(value.data()!['friends']).length);
@@ -83,7 +83,7 @@ class UserRepositoryImp implements IUserRepository {
       'phone': userProfile.phone,
       'email': userProfile.email,
     };
-    user
+    userCollection
         .doc(userProfile.id)
         .get()
         .then((value) => value.reference.update(data));
@@ -93,7 +93,7 @@ class UserRepositoryImp implements IUserRepository {
   Future<String> getIdUser(String email) async {
     String id = "";
     try {
-      await user.where("email", isEqualTo: email).get().then((value) {
+      await userCollection.where("email", isEqualTo: email).get().then((value) {
         id = value.docs[0].id;
       });
     } catch (e) {
@@ -106,7 +106,7 @@ class UserRepositoryImp implements IUserRepository {
   @override
   Future<UserProfile> getUserProfile(String id) async {
     var userinfo;
-    await user.doc(id).get().then((value) {
+    await userCollection.doc(id).get().then((value) {
       userinfo = value.data()!;
     });
     UserProfile userProfile = new UserProfile(
@@ -137,7 +137,7 @@ class UserRepositoryImp implements IUserRepository {
   Future<UserOverview> getUserOverView(String id) async {
     var userinfo;
 
-    await user.doc(id).get().then((value) {
+    await userCollection.doc(id).get().then((value) {
       userinfo = value.data()!;
     });
     UserOverview userProfile = new UserOverview(
@@ -153,16 +153,17 @@ class UserRepositoryImp implements IUserRepository {
     List<UserOverview> suggesstion = [];
     UserOverview userOverview;
     try {
-      final value = await user.get().then((value) => value.docs.forEach((user) {
-            if (TiengViet.parse(user['name'].toString().toLowerCase())
-                .contains(TiengViet.parse(search.toLowerCase()))) {
-              userOverview = new UserOverview(
-                  name: user['name'],
-                  avatarUri: user['avatarUri'],
-                  id: user.id);
-              suggesstion.add(userOverview);
-            }
-          }));
+      final value =
+          await userCollection.get().then((value) => value.docs.forEach((user) {
+                if (TiengViet.parse(user['name'].toString().toLowerCase())
+                    .contains(TiengViet.parse(search.toLowerCase()))) {
+                  userOverview = new UserOverview(
+                      name: user['name'],
+                      avatarUri: user['avatarUri'],
+                      id: user.id);
+                  suggesstion.add(userOverview);
+                }
+              }));
       return suggesstion;
     } catch (e) {
       print("Lỗi tìm kiếm: " + e.toString());
@@ -175,7 +176,7 @@ class UserRepositoryImp implements IUserRepository {
     bool isFriend = false;
 
     try {
-      await user
+      await userCollection
           .doc(GetIt.instance.get<Authenticator>().userProfile.id)
           .get()
           .then((value) {
@@ -193,7 +194,7 @@ class UserRepositoryImp implements IUserRepository {
     // final usercolection =
     //     user.doc(GetIt.instance.get<Authenticator>().idCurrentUser);
     try {
-      await user
+      await userCollection
           .doc(GetIt.instance.get<Authenticator>().userProfile.id)
           .update({
             'friends': FieldValue.arrayUnion([id])
@@ -208,7 +209,7 @@ class UserRepositoryImp implements IUserRepository {
   @override
   Future<void> unfollow(String? id) async {
     try {
-      await user
+      await userCollection
           .doc(GetIt.instance.get<Authenticator>().userProfile.id)
           .update({
             'friends': FieldValue.arrayRemove([id])
@@ -221,7 +222,7 @@ class UserRepositoryImp implements IUserRepository {
   }
 
   Future<void> create(UserProfile userInfor) async {
-    user
+    userCollection
         .doc(userInfor.id)
         .set({
           'email': userInfor.email,
@@ -251,5 +252,34 @@ class UserRepositoryImp implements IUserRepository {
     } catch (e) {
       print("Error change passsword:" + e.toString());
     }
+  }
+
+  @override
+  Future<List<String?>> loadAvatarUriPaticipant(String eventId,
+      [int number = 5]) async {
+    final paticipantCollection =
+        FirebaseFirestore.instance.collection('event_paticipants');
+    final listUserId = await paticipantCollection
+        .where('eventId', isEqualTo: eventId)
+        .limit(number)
+        .get()
+        .then((snapshot) {
+      return snapshot.docs.map((doc) {
+        return (doc.data() as Map<String, dynamic>)['userId'];
+      }).toList();
+    });
+
+    if (listUserId.isNotEmpty) {
+      return userCollection
+          .where(FieldPath.documentId, whereIn: listUserId)
+          .get()
+          .then((snapshot) {
+        return snapshot.docs
+            .map((doc) =>
+                (doc.data() as Map<String, dynamic>)['avatarUri'] as String?)
+            .toList();
+      });
+    } else
+      return [];
   }
 }

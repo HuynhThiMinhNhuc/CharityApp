@@ -10,7 +10,8 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Future<void> add(Post entity) async {
-    final docRef = await collection.add(entity.toJson());
+    final docRef = await collection
+        .add(entity.toJson()..addAll({'timeCreate': DateTime.now()}));
     entity.id = docRef.id;
     print('Add ${entity.toString()} success');
 
