@@ -67,10 +67,18 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
                   buildWhen: (context, state) {
                     return state is LoadingOverViewUserState ||
                         state is LoadFailOverViewUserState ||
+                        state is FollowOverViewUserState ||
+                        state is UnfollowOverViewUserState ||
                         state is LoadedOverViewUserState;
                   },
                   builder: (context, state) {
                     if (state is LoadedOverViewUserState) {
+                      return ProfileOverView(state.userProfile as UserProfile,
+                          state.isfriend, overViewUserBloc);
+                    } else if (state is FollowOverViewUserState) {
+                      return ProfileOverView(state.userProfile as UserProfile,
+                          state.isfriend, overViewUserBloc);
+                    } else if (state is UnfollowOverViewUserState) {
                       return ProfileOverView(state.userProfile as UserProfile,
                           state.isfriend, overViewUserBloc);
                     } else if (state is PostLoadInProgress)

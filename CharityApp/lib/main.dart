@@ -1,3 +1,4 @@
+import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/route_generator.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
@@ -31,11 +32,28 @@ void main() async {
 
 class MeerApp extends StatelessWidget {
   final _appRoutes = RouteGenerator();
+  Map<int, Color> maincolor = {
+    50: Color.fromRGBO(90, 164, 105, .1),
+    200: Color.fromRGBO(90, 164, 105, .3),
+    300: Color.fromRGBO(90, 164, 105, .4),
+    400: Color.fromRGBO(90, 164, 105, .5),
+    500: Color.fromRGBO(90, 164, 105, .6),
+    600: Color.fromRGBO(90, 164, 105, .7),
+    700: Color.fromRGBO(90, 164, 105, .8),
+    800: Color.fromRGBO(90, 164, 105, .9),
+    900: Color.fromRGBO(90, 164, 105, .1),
+    100: Color.fromRGBO(90, 164, 105, .2),
+  };
   MeerApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.green,
+        ),
+      ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

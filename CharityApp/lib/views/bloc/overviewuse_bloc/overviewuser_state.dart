@@ -13,3 +13,13 @@ class LoadedOverViewUserState extends OverViewUserState {
 }
 
 class LoadFailOverViewUserState extends OverViewUserState {}
+class FollowOverViewUserState extends OverViewUserState {
+  var userProfile;
+  mode isfriend;
+  FollowOverViewUserState(this.userProfile, this.isfriend);
+}
+class UnfollowOverViewUserState extends OverViewUserState {
+  var userProfile;
+  mode isfriend;
+  UnfollowOverViewUserState(this.userProfile, this.isfriend);
+}
