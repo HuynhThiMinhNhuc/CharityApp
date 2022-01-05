@@ -153,7 +153,7 @@ class UserRepositoryImp implements IUserRepository {
     List<UserOverview> suggesstion = [];
     UserOverview userOverview;
     try {
-      await user.get().then((value) => value.docs.forEach((user) {
+      await userCollection.get().then((value) => value.docs.forEach((user) {
             if (search == "" || TiengViet.parse(user['name'].toString().toLowerCase())
                 .contains(TiengViet.parse(search.toLowerCase()))) {
               userOverview = new UserOverview(
@@ -285,11 +285,11 @@ class UserRepositoryImp implements IUserRepository {
   Future<void> updateNumberFollowing(bool isincrease, String id) async {
     int number = 0;
     try {
-      await user
+      await userCollection
           .doc(id)
           .get()
           .then((value) => number = value.data()!['numberfollower']);
-      await user
+      await userCollection
           .doc(id)
           .update({"numberfollower": isincrease ? (number + 1) : (number - 1)});
     } catch (e) {

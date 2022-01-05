@@ -33,49 +33,14 @@ class _CalendarPageState extends State<CalendarPage>
     super.dispose();
   }
 
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  tabChanged(_tabController.index);
+}
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> tabs = [
-      ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          // return EventCardView(
-          //   number: 3,
-          //   time: DateTime.now(),
-          //   title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
-          // );
-          return Text('fail 1');
-        },
-      ),
-      ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          // return EventCardView(
-          //   number: 3,
-          //   time: DateTime.now(),
-          //   title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
-          // );
-          return Text('fail 2');
-        },
-      ),
-      ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          // return EventCardView(
-          //   number: 3,
-          //   time: DateTime.now(),
-          //   title: 'Sự kiện vận chuyển đồ đạc cho người già neo đơn',
-          // );
-          return Text('fail');
-        },
-      )
-    ];
 
     return NestedScrollView(body: BlocBuilder<CalendarBloc, CalendarState>(
       builder: (context, state) {
