@@ -166,9 +166,9 @@ class SketonCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SkeletonLoader(
-      builder: SingleChildScrollView(
-        child: Column(
+    return SingleChildScrollView(
+      child: SkeletonLoader(
+        builder: Column(
           children: <Widget>[
             Row(children: [
               Container(
@@ -238,11 +238,11 @@ class SketonCalendar extends StatelessWidget {
             )
           ],
         ),
+        items: 5,
+        period: Duration(seconds: 2),
+        highlightColor: Color(0x505AA469),
+        direction: SkeletonDirection.ltr,
       ),
-      items: 5,
-      period: Duration(seconds: 2),
-      highlightColor: Color(0x505AA469),
-      direction: SkeletonDirection.ltr,
     );
   }
 }

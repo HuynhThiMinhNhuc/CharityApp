@@ -89,7 +89,7 @@ class RootApp extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: backgroundbottomtab,
-      title: Text("Người theo dõi",
+      title: Text("Bạn bè",
           style: TextStyle(
               color: textcolor,
               fontFamily: 'Roboto_Regular',

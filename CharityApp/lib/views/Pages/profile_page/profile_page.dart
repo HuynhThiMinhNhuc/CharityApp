@@ -152,7 +152,7 @@ class SketonEvent extends StatelessWidget {
             ],
           ),
         ),
-        items: 1,
+        items: 2,
         period: Duration(seconds: 2),
         highlightColor: Color(0x505AA469),
         direction: SkeletonDirection.ltr,

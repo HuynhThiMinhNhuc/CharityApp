@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddEventPage extends StatefulWidget {
   final Function(
@@ -261,20 +262,30 @@ class _AddEventPageState extends State<AddEventPage> {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () => {},
+                          onPressed: () => {
+                            
+                          },
                           icon: Icon(
-                            Icons.attach_file_sharp,
+                            FontAwesomeIcons.tags,
                             color: maincolor,
                             size: 25,
                           )),
-                      Chip(
-                        deleteIcon: Icon(Icons.close),
-                        label: Text(
-                          "Mồ côi",
-                          style: TextStyle(
-                              fontFamily: 'Roboto_Regular',
-                              fontSize: 12,
-                              color: Color(0xFF455154)),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                            5,
+                            (indext) => Chip(
+                              deleteIcon: Icon(Icons.close),
+                              label: Text(
+                                "Mồ côi",
+                                style: TextStyle(
+                                    fontFamily: 'Roboto_Regular',
+                                    fontSize: 12,
+                                    color: Color(0xFF455154)),
+                              ),
+                            ),
+                          ),
                         ),
                       )
                       // ListView.builder(

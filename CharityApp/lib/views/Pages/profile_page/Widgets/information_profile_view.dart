@@ -19,6 +19,9 @@ class InformationProfileView extends StatelessWidget {
                 fontFamily: 'Roboto_Regular',
                 fontWeight: FontWeight.bold)),
         Text(text,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.fade,
             style: TextStyle(
                 color: textcolor,
                 fontSize: 14,
