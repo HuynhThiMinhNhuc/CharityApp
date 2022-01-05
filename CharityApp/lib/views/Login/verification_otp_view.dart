@@ -1,5 +1,6 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/otp_textfield.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
@@ -153,7 +154,7 @@ class _VerificationOtpViewState extends State<VerificationOtpView> {
                         showDialog<String>(
                             context: context,
                             builder: (BuildContext context) =>
-                                AlertDialogCustom(
+                                MyAlertDialog(
                                   title: "Mã OTP sai",
                                   content: "",
                                   pathImage:

@@ -1,5 +1,6 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
 import 'package:charityapp/views/Login/login_view.dart';
@@ -153,7 +154,7 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupFailEmailFomatState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialogCustom(
+                        builder: (BuildContext context) => MyAlertDialog(
                           content: 'Vui lòng nhập email hợp lệ',
                           title: "Email không hợp lệ",
                           pathImage:
@@ -163,7 +164,7 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupFailMutilAccountState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialogCustom(
+                        builder: (BuildContext context) => MyAlertDialog(
                           content:
                               'Vui lòng nhập địa chỉ email chưa từng tạo tài khoản bao giờ',
                           title: "Email đã được sử dụng",
@@ -174,7 +175,7 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupFailPassweakState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialogCustom(
+                        builder: (BuildContext context) => MyAlertDialog(
                           content: 'Mật khẩu phải chứa ít nhất 6 kí tự',
                           title: "Mật khẩu không hợp lệ",
                           pathImage:
@@ -184,7 +185,7 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupIncorrectPassConfirmState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialogCustom(
+                        builder: (BuildContext context) => MyAlertDialog(
                           content:
                               'Mật khẩu xác nhận phải trùng với mật khẩu vừa đặt',
                           title: "Mật khẩu xác nhận không trùng khớp",
@@ -195,7 +196,7 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupEmptyFeldmState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialogCustom(
+                        builder: (BuildContext context) => MyAlertDialog(
                           content: 'Vui lòng điền đầy đủ thông tin',
                           title: "Không được để trống",
                           pathImage:
@@ -205,7 +206,7 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupNoReasonState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialogCustom(
+                        builder: (BuildContext context) => MyAlertDialog(
                           content:
                               'Hệ thống đang gặp lỗi, chúng tôi sẽ cố gắng sửa lỗi sớm. Vui lòng thử lại sau',
                           title: "Lỗi không xác định",
@@ -251,49 +252,6 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class AlertDialogCustom extends StatelessWidget {
-  final String pathImage;
-  final String title;
-  final String content;
-  const AlertDialogCustom(
-      {Key? key,
-      required this.content,
-      required this.pathImage,
-      required this.title})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-            child: Image.asset(pathImage,
-                width: 250, height: 200, fit: BoxFit.fill),
-          ),
-          Text(title),
-        ],
-      ),
-      content: Text(content),
-      actionsAlignment: MainAxisAlignment.center,
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'Đồng ý'),
-          child: const Text(
-            'Đồng ý',
-            style: TextStyle(color: maincolor, fontSize: 18),
-          ),
-        ),
-      ],
     );
   }
 }

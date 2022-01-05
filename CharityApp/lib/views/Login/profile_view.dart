@@ -2,6 +2,7 @@ import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
 import 'package:charityapp/views/Login/login_view.dart';
@@ -244,7 +245,7 @@ class _ProfileState extends State<Profile> {
                     } else if (state is ProfileFailState) {
                       showDialog<String>(
                           context: context,
-                          builder: (BuildContext context) => AlertDialogCustom(
+                          builder: (BuildContext context) => MyAlertDialog(
                               content:
                                   "Xin lỗi vì sự bất tiện này. Vui lòng thử lại sau",
                               pathImage:
@@ -253,7 +254,7 @@ class _ProfileState extends State<Profile> {
                     } else if (state is ProfileEmptyFeldState) {
                       showDialog<String>(
                           context: context,
-                          builder: (BuildContext context) => AlertDialogCustom(
+                          builder: (BuildContext context) => MyAlertDialog(
                               content: "Vui lòng nhập đầy đủ thông tin",
                               pathImage:
                                   "asset/imagesample/ImageAlerDIalog/lostconnect.png",
@@ -261,7 +262,7 @@ class _ProfileState extends State<Profile> {
                     } else if (state is ProfileWrongFormatPhoneState) {
                       showDialog<String>(
                           context: context,
-                          builder: (BuildContext context) => AlertDialogCustom(
+                          builder: (BuildContext context) => MyAlertDialog(
                               content:
                                   "Số điện thoại cần bắt đầu từ 0 và có 10 chữ số. Ví dụ: 0348774510",
                               pathImage:

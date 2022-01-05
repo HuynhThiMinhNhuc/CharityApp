@@ -1,18 +1,13 @@
 import 'dart:io';
 
-import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
-import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Component/aler_dialog.dart';
-import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Pages/profile_page/changepassword.dart';
 import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bloc.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
-import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
-import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +51,7 @@ class _EditProfileState extends State<EditProfile> {
     await editprofileBloc.add(EditprofileEditEvent(widget.currentUser));
     await showDialog(
         context: context,
-        builder: (BuildContext context) => AlertDialogCustom(
+        builder: (BuildContext context) => MyAlertDialog(
             content: "Nhấn đồng ý đề quay lại Hồ sơ của bạn",
             pathImage: "asset/imagesample/ImageAlerDIalog/updateprofile.png",
             title: "Cập nhật hồ sơ thành công"));
@@ -132,7 +127,7 @@ class _EditProfileState extends State<EditProfile> {
                     showDialog(
                         context: context,
                         builder: (BuildContext buildercontext) =>
-                            AlertDialogCustom(
+                            MyAlertDialog(
                               content:
                                   "Số điện thoại phải có 10 chữ số, bắt đầu bằng 0",
                               pathImage:
@@ -143,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
                     await showDialog(
                         context: context,
                         builder: (BuildContext buildercontext) {
-                          return AlertDialogCustom(
+                          return MyAlertDialog(
                             content:
                                 "Vui lòng nhấn Đồng ý để quay về màn hình Hồ sơ của bạn",
                             pathImage:

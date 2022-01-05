@@ -1,16 +1,12 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/login_view.dart';
-import 'package:charityapp/views/Login/register_view.dart';
-import 'package:charityapp/views/Login/verification_otp_view.dart';
 import 'package:charityapp/views/bloc/changepassforgot_bloc/bloc/changepassforgot_bloc.dart';
-import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bloc.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
-import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChangePassforgotprofile extends StatefulWidget {
   final String email;
@@ -122,7 +118,7 @@ class _ChangePassforgotprofileState extends State<ChangePassforgotprofile> {
                       showDialog(
                           context: context,
                           builder: (BuildContext buildercontext) =>
-                              AlertDialogCustom(
+                              MyAlertDialog(
                                 content: "Vui lòng nhập đầy đủ thông tin",
                                 title: "Thông tin bị bỏ trống",
                                 pathImage:
@@ -132,7 +128,7 @@ class _ChangePassforgotprofileState extends State<ChangePassforgotprofile> {
                       showDialog(
                           context: context,
                           builder: (BuildContext buildercontext) =>
-                              AlertDialogCustom(
+                              MyAlertDialog(
                                 content:
                                     "Nhấn đồng ý để quay lại màn hình chỉnh sửa hồ sơ",
                                 title: "Đổi mật khẩu thành công",
@@ -151,7 +147,7 @@ class _ChangePassforgotprofileState extends State<ChangePassforgotprofile> {
                       showDialog(
                           context: context,
                           builder: (BuildContext buildercontext) =>
-                              AlertDialogCustom(
+                              MyAlertDialog(
                                 content:
                                     "Vui lòng nhập chính xác mật khẩu xác nhận",
                                 title: "Mật khẩu xác nhận sai",
