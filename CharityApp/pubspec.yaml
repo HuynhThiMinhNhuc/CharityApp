@@ -39,7 +39,7 @@ dependencies:
   path_provider: ^2.0.8
   path: ^1.8.0
   firebase_storage: ^10.2.4
-  copy_with_extension: ^2.0.2
+  copy_with_extension: ^3.0.0
   flat_icons_flutter: ^1.0.2
   flutter_speed_dial: ^5.0.0+1
   fancy_dialog: ^1.0.4
@@ -68,7 +68,7 @@ dev_dependencies:
     sdk: flutter
   font_awesome_flutter: ^9.1.0
   json_serializable: ^6.1.0
-  copy_with_extension_gen: ^2.0.2
+  copy_with_extension_gen: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

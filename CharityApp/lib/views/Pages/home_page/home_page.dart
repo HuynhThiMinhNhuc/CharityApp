@@ -6,6 +6,7 @@ import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post_bloc.dart';
@@ -154,114 +155,64 @@ class SkeletonEvent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: Text(" Đang hoạt động",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  color: textcolor,
-                  fontSize: 18,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'Roboto_Regular',
-                  fontWeight: FontWeight.bold)),
-        ),
-        SkeletonLoader(
-          builder: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: List.generate(5, (index) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 30,
-                  ),
-                );
-              }),
-            ),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20,
           ),
-          items: 1,
-          period: Duration(seconds: 2),
-          highlightColor: Color(0x505AA469),
-          direction: SkeletonDirection.ltr,
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: Text(" Sự kiện",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  color: textcolor,
-                  fontSize: 18,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'Roboto_Regular',
-                  fontWeight: FontWeight.bold)),
-        ),
-        SkeletonLoader(
-          builder: Container(
+          SizedBox(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            height: 10,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: 150,
-                            height: 12,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 40,
-                    height: 300,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+            child: Text(" Đang hoạt động",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: textcolor,
+                    fontSize: 18,
+                    decoration: TextDecoration.none,
+                    fontFamily: 'Roboto_Regular',
+                    fontWeight: FontWeight.bold)),
           ),
-          items: 1,
-          period: Duration(seconds: 2),
-          highlightColor: Color(0x505AA469),
-          direction: SkeletonDirection.ltr,
-        )
-      ],
+          SkeletonLoader(
+            builder: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List.generate(5, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 30,
+                    ),
+                  );
+                }),
+              ),
+            ),
+            items: 1,
+            period: Duration(seconds: 2),
+            highlightColor: Color(0x505AA469),
+            direction: SkeletonDirection.ltr,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Text(" Sự kiện",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: textcolor,
+                    fontSize: 18,
+                    decoration: TextDecoration.none,
+                    fontFamily: 'Roboto_Regular',
+                    fontWeight: FontWeight.bold)),
+          ),
+          SketonEvent()
+        ],
+      ),
     );
   }
 }

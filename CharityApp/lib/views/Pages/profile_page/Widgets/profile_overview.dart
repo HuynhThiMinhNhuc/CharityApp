@@ -64,7 +64,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   InformationProfileView(
                       widget.userProfile.numberPost, "Bài viết"),
                   InformationProfileView(
-                      widget.userProfile.numberFollower, "Người theo dõi"),
+                      widget.userProfile.numberFollower, "Theo dõi"),
                   InformationProfileView(
                       widget.userProfile.numberFollowing, "Đang theo dõi"),
                 ],

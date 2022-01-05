@@ -51,7 +51,7 @@ class TabSelector extends StatelessWidget {
               SpeedDialChild(
                   child: Icon(Icons.post_add_rounded, color: Colors.white),
                   backgroundColor: maincolor,
-                  label: "Bài đăng mới",
+                  label: "Bài đăng",
                   onTap: () => {
                         Navigator.pushNamed(
                           context,
@@ -62,7 +62,7 @@ class TabSelector extends StatelessWidget {
                   child:
                       Icon(Icons.event_available_outlined, color: Colors.white),
                   backgroundColor: Colors.red[400],
-                  label: "Sự kiện mới",
+                  label: "Sự kiện",
                   onTap: () => {
                         Navigator.pushNamed(
                           context,
@@ -94,13 +94,15 @@ class TabSelector extends StatelessWidget {
                   border: Border.all(color: Colors.white, width: 1),
                   image: DecorationImage(
                       image: GetIt.instance
-                          .get<Authenticator>()
-                          .userProfile
-                          .avatarUri == null? AssetImage('asset/avatar.png') as ImageProvider:
-                      NetworkImage(GetIt.instance
-                          .get<Authenticator>()
-                          .userProfile
-                          .avatarUri!),
+                                  .get<Authenticator>()
+                                  .userProfile
+                                  .avatarUri ==
+                              null
+                          ? AssetImage('asset/avatar.png') as ImageProvider
+                          : NetworkImage(GetIt.instance
+                              .get<Authenticator>()
+                              .userProfile
+                              .avatarUri!),
                       fit: BoxFit.cover),
                 ),
               ),
