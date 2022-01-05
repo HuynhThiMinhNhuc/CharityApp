@@ -12,7 +12,10 @@ class CommentRepositoryImp extends ICommentRepository {
     return postCollection
         .doc(postId)
         .collection('comments')
-        .add(comment.toJson());
+        .add(comment.toJson())
+        .then((doc) {
+      comment.id = doc.id;
+    });
   }
 
   @override
@@ -26,8 +29,17 @@ class CommentRepositoryImp extends ICommentRepository {
   }
 
   Future<UserComment> getComment(Map<String, dynamic> json) {
-    return FirebaseFirestore.instance.collection('users').doc(json['creatorId']).get().then((doc) {
-      return UserComment(name: doc['name'], avatarUri: doc['avatarUri'], content: json['content'], timeComment:  (json['timeComment'] as Timestamp).toDate());
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(json['creatorId'])
+        .get()
+        .then((doc) {
+      return UserComment(
+          id: doc.id,
+          name: doc['name'],
+          avatarUri: doc['avatarUri'],
+          content: json['content'],
+          timeComment: (json['timeComment'] as Timestamp).toDate());
     });
   }
 }

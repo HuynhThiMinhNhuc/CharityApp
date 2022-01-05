@@ -77,12 +77,12 @@ class CommentViewElement extends StatefulWidget {
 
 class _CommentViewElementState extends State<CommentViewElement> {
   late CommentBloc _bloc;
-  late TextEditingController commentController;
+  late TextEditingController commentTextController;
 
   @override
   void initState() {
     super.initState();
-    commentController = TextEditingController();
+    commentTextController = TextEditingController();
   }
 
   @override
@@ -95,7 +95,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
   @override
   void dispose() {
     // _bloc.dispose();
-    commentController.dispose();
+    commentTextController.dispose();
     super.dispose();
   }
 
@@ -134,7 +134,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
                       borderSide: BorderSide(color: maincolor),
                     ),
                   ),
-                  controller: commentController,
+                  controller: commentTextController,
                 ),
               ),
               SizedBox(
@@ -143,11 +143,11 @@ class _CommentViewElementState extends State<CommentViewElement> {
               IconButton(
                   iconSize: 25,
                   onPressed: () {
-                    if (commentController.text.trim() != '') {
+                    if (commentTextController.text.trim() != '') {
                       _bloc.add(AddComment(
                           postId: widget.postId,
-                          content: commentController.text));
-                      commentController.text = '';
+                          content: commentTextController.text));
+                      commentTextController.text = '';
                     }
                   },
                   icon: Icon(
@@ -169,12 +169,15 @@ class _CommentViewElementState extends State<CommentViewElement> {
                   return Text('loading or not data');
                 } else {
                   final listComment = snapshot.data!.docs;
-                  if (listComment.length == 0) return Text('no comments');
+
+                  if (listComment.isEmpty) return Text('no comments');
+
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: listComment.length,
                     itemBuilder: (BuildContext context, int index) {
+                      
                       return FutureBuilder<UserComment>(
                         future: _bloc.getComment(
                             listComment[index].data() as Map<String, dynamic>),

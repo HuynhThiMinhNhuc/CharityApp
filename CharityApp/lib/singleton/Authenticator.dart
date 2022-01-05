@@ -6,6 +6,7 @@ class Authenticator {
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
   late UserProfile userProfile;
   static late String Id;
+  static UserProfile get profile => GetIt.instance.get<Authenticator>().userProfile;
 
   Future<void> login(String email) async {
     String id = await userRepositoryImp.getIdUser(email);

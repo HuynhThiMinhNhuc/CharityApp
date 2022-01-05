@@ -143,9 +143,9 @@ class PostRepositoryImp implements IPostRepository {
   Future<List> loadNumberLike(String postId) {
     return collection.doc(postId).get().then((doc) {
       final list =
-          ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>)
-              .map((element) => element as String)
-              .toList();
+          ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>?)
+              ?.map((element) => element as String)
+              .toList() ?? [];
       int number = list.length;
       bool isLike = list.contains(Authenticator.Id);
       return [number, isLike];
