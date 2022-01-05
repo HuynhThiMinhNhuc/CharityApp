@@ -7,6 +7,7 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_tag_page.dart';
 import 'package:charityapp/views/Pages/google_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -58,6 +59,12 @@ class _AddEventPageState extends State<AddEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> _tags = <String>[
+      "Mồ côi",
+      "Người già",
+      "Trẻ em",
+      "Môi trường"
+    ];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -254,59 +261,104 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
             ),
             Container(
-              height: 70,
+              height: 65,
               alignment: Alignment.center,
               child: Column(
                 children: [
                   Divider(color: Colors.grey[600]),
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () => {
-                            
-                          },
-                          icon: Icon(
-                            FontAwesomeIcons.tags,
-                            color: maincolor,
-                            size: 25,
-                          )),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        IconButton(
+                            onPressed: () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddTag(tags: <Tags>[
+                                                new Tags(
+                                                    tag: "love",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "instagood",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "photooftheday",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "beautiful",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "fashion",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "happy",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "tbt",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "cute",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "summer",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "love",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "instadaily",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "followme",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "selfie",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "followme",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "love",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "picoftheday",
+                                                    isSelected: false),
+                                                new Tags(
+                                                    tag: "love",
+                                                    isSelected: false),
+                                              ])))
+                                },
+                            icon: Icon(
+                              FontAwesomeIcons.tags,
+                              color: maincolor,
+                              size: 25,
+                            )),
+                        Row(
                           children: List.generate(
-                            5,
-                            (indext) => Chip(
-                              deleteIcon: Icon(Icons.close),
-                              label: Text(
-                                "Mồ côi",
-                                style: TextStyle(
-                                    fontFamily: 'Roboto_Regular',
-                                    fontSize: 12,
-                                    color: Color(0xFF455154)),
+                            _tags.length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Chip(
+                                deleteIcon: Icon(
+                                  FontAwesomeIcons.timesCircle,
+                                  color: notetextcolor,
+                                ),
+                                label: Text(
+                                  _tags[index],
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto_Regular',
+                                      fontSize: 12,
+                                      color: Color(0xFF455154)),
+                                ),
+                                onDeleted: () => {},
                               ),
                             ),
                           ),
-                        ),
-                      )
-                      // ListView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: NeverScrollableScrollPhysics(),
-                      //   itemCount: 2,
-                      //   itemBuilder: (BuildContext context, int index) {
-                      //     return Chip(
-                      //       deleteIcon: Icon(Icons.close),
-                      //       label: Text(
-                      //         "Mồ côi",
-                      //         style: TextStyle(
-                      //             fontFamily: 'Roboto_Regular',
-                      //             fontSize: 12,
-                      //             color: Color(0xFF455154)),
-                      //       ),
-                      //       onDeleted: null,
-                      //     );
-                      //   },
-                      // )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
