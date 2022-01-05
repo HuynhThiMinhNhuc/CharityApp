@@ -12,9 +12,10 @@ class PostNumberLike extends LikePostState {
   // final Post post;
   final int numberLike;
   final bool isLike;
-  const PostNumberLike({required this.numberLike, required this.isLike, String? id}) :super(id: id);
+  final int numberComment;
+  const PostNumberLike({required this.numberLike, required this.isLike, required this.numberComment, String? id}) :super(id: id);
   @override
-  List<Object> get props => [isLike, numberLike];
+  List<Object> get props => [isLike, numberLike, numberComment];
 }
 
 // class LikePostUpdated extends LikePostState {

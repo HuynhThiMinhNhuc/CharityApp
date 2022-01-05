@@ -138,6 +138,7 @@ class HomePage extends StatelessWidget {
               itemCount: posts.length,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
+                BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: posts[index].id!));
                 return PostOverviewCard(post: posts[index]);
               },
             ),

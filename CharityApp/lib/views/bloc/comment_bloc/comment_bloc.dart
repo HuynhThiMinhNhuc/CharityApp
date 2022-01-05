@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/repositories/comment_repository_imp.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class CommentBloc extends Bloc<CommentEvent, CommentState> {
   final _repository = CommentRepositoryImp();
@@ -17,14 +17,21 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<AddComment>(_onAddComment);
   }
 
-  getComments(postId) => _commentStream.addStream(_repository.getComments(postId));
+  getComments(postId) =>
+      _commentStream.addStream(_repository.getComments(postId));
 
-  FutureOr<void> _onLoadComments(LoadComments event, Emitter<CommentState> emit) {
+  FutureOr<void> _onLoadComments(
+      LoadComments event, Emitter<CommentState> emit) {
     _commentStream.addStream(_repository.getComments(event.postId));
   }
 
   FutureOr<void> _onAddComment(AddComment event, Emitter<CommentState> emit) {
-    final userComment = UserComment(id: '1G0aTSj46pSsvP8eBYb5', name: 'test', avatarUri: null, content: event.content, timeComment: DateTime.now());
+    final userComment = UserComment(
+        id: Authenticator.Id,
+        name: Authenticator.profile.name,
+        avatarUri: Authenticator.profile.avatarUri,
+        content: event.content,
+        timeComment: DateTime.now());
     _repository.addComment(event.postId, userComment);
   }
 
