@@ -1,6 +1,7 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class PassWordInput extends StatefulWidget {
   final bool securitytext;
@@ -77,8 +78,21 @@ class _PassWordInputState extends State<PassWordInput> {
                   : showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2015, 8),
-                      lastDate: DateTime(2101));
+                      firstDate: DateTime(DateTime.now().year - 1,
+                          DateTime.now().month, DateTime.now().day),
+                      lastDate: DateTime(DateTime.now().year + 2),
+                    ).then((value) {
+                      if (value != null) {
+                        if (widget.textcontroller.text !=
+                            DateFormat('dd/MM/yyyy').format(value!))
+                          setState(() {
+                            widget.textcontroller.text =
+                                DateFormat('dd/MM/yyyy').format(value!)!;
+                            print(
+                                "Date selected: $widget.currentUser.birthDayString");
+                          });
+                      }
+                    });
             },
             splashRadius: 25,
           )),

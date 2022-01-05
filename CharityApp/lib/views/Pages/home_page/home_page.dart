@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:charityapp/Constant/active_json.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
@@ -14,6 +15,7 @@ import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,10 +31,21 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
         if (state is PostsLoadSuccess) {
-          return LoadSuccessHomeView(state.posts);
+          return PageTransitionSwitcher(
+              duration: Duration(microseconds: 3000),
+              transitionBuilder: (Widget child,
+                      Animation<double> primaryAnimation,
+                      Animation<double> secondaryAnimation) =>
+                  SharedAxisTransition(
+                    animation: primaryAnimation,
+                    secondaryAnimation: secondaryAnimation,
+                    transitionType: SharedAxisTransitionType.horizontal,
+                    child: LoadSuccessHomeView(state.posts),
+                  ),
+              child: LoadSuccessHomeView(state.posts));
         }
         if (state is PostLoadInProgress) {
-          return Text("Loading view...");
+          return SkeletonEvent();
         } else
           return Text("Load fail");
       },
@@ -63,7 +76,7 @@ class HomePage extends StatelessWidget {
             BlocBuilder<ActiveuserBloc, ActiveuserState>(
               builder: (context, state) {
                 if (state is ActiveuserLoadingState) {
-                  return Text("Loading....");
+                  return SkeletonEvent();
                 } else if (state is ActiveuserLoadFailState) {
                   return Container(
                     height: 0,
@@ -129,6 +142,154 @@ class HomePage extends StatelessWidget {
               },
             ),
           ]),
+    );
+  }
+}
+
+class SkeletonEvent extends StatelessWidget {
+  const SkeletonEvent({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(" Đang hoạt động",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: textcolor,
+                  fontSize: 18,
+                  decoration: TextDecoration.none,
+                  fontFamily: 'Roboto_Regular',
+                  fontWeight: FontWeight.bold)),
+        ),
+        SkeletonLoader(
+          builder: Container(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: List.generate(5, (index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 30,
+                  ),
+                );
+              }),
+            ),
+          ),
+          items: 1,
+          period: Duration(seconds: 2),
+          highlightColor: Color(0x505AA469),
+          direction: SkeletonDirection.ltr,
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(" Sự kiện",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: textcolor,
+                  fontSize: 18,
+                  decoration: TextDecoration.none,
+                  fontFamily: 'Roboto_Regular',
+                  fontWeight: FontWeight.bold)),
+        ),
+        SkeletonLoader(
+          builder: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 10,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            width: 150,
+                            height: 12,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: 300,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          items: 1,
+          period: Duration(seconds: 2),
+          highlightColor: Color(0x505AA469),
+          direction: SkeletonDirection.ltr,
+        )
+      ],
+    );
+  }
+}
+
+class SkeletonActiveUser extends StatelessWidget {
+  const SkeletonActiveUser({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SkeletonLoader(
+      builder: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 30,
+            ),
+            SizedBox(width: 10),
+          ],
+        ),
+      ),
+      items: 6,
+      period: Duration(seconds: 2),
+      highlightColor: Color(0x505AA469),
+      direction: SkeletonDirection.ltr,
     );
   }
 }

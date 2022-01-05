@@ -28,7 +28,7 @@ class _WelcomeViewState extends State<WelcomeView> {
       ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +52,7 @@ class _WelcomeViewState extends State<WelcomeView> {
               height: 10,
             ),
             Text(
-              'Chào mừng đến với MEER',
+              '  Chào mừng đến với MEER',
               style: TextStyle(
                   color: maincolor,
                   fontSize: 28,

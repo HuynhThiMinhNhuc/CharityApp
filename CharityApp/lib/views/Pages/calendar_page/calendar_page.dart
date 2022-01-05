@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -33,15 +34,14 @@ class _CalendarPageState extends State<CalendarPage>
     super.dispose();
   }
 
-@override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  tabChanged(_tabController.index);
-}
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    tabChanged(_tabController.index);
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return NestedScrollView(body: BlocBuilder<CalendarBloc, CalendarState>(
       builder: (context, state) {
         if (state is CalendarLoadEventsSuccess) {
@@ -62,7 +62,7 @@ void didChangeDependencies() {
             ),
           );
         } else if (state is CalendarLoadInProccess) {
-          return Text('Loading');
+          return SketonCalendar();
         } else
           return Text('Error');
       },
@@ -155,6 +155,94 @@ void didChangeDependencies() {
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: maincolor)),
       ),
+    );
+  }
+}
+
+class SketonCalendar extends StatelessWidget {
+  const SketonCalendar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SkeletonLoader(
+      builder: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Row(children: [
+              Container(
+                width: 90,
+                height: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: maincolor,
+                ),
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 150,
+                      height: 20,
+                      color: maincolor,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    height: 20,
+                    width: 100,
+                    color: maincolor,
+                  )
+                ],
+              ),
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text(
+                    "Người tham gia ",
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                        fontFamily: 'Roboto-Regular.ttf',
+                        fontSize: 13,
+                        color: Color(0xFFA6A6AA)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
+                  child: Stack(children: [
+                    SizedBox(
+                      width: 60,
+                      child: CircleAvatar(radius: 15),
+                    ),
+                    Positioned(right: 10, child: CircleAvatar(radius: 15)),
+                    Positioned(right: 20, child: CircleAvatar(radius: 15)),
+                    Positioned(
+                        right: 30,
+                        child: CircleAvatar(
+                          radius: 15,
+                          backgroundColor: maincolor,
+                        )),
+                  ]),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      items: 5,
+      period: Duration(seconds: 2),
+      highlightColor: Color(0x505AA469),
+      direction: SkeletonDirection.ltr,
     );
   }
 }

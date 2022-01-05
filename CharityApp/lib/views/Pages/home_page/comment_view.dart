@@ -2,8 +2,12 @@ import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Login/login_view.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
 import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +19,6 @@ class CommentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: postId));
 
     return BlocProvider(
@@ -42,11 +45,8 @@ class CommentView extends StatelessWidget {
                 FormatNumberK.call(postState.numberLike),
                 style: TextStyle(
                     fontFamily: 'Roboto_Regular',
-                    fontSize: 12,
+                    fontSize: 15,
                     color: textcolor),
-              ),
-              SizedBox(
-                width: 5,
               ),
               IconButton(
                   onPressed: () {
@@ -169,7 +169,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
                   return Text('loading or not data');
                 } else {
                   final listComment = snapshot.data!.docs;
-                  if (listComment.length == 0) return Text('no comments');
+                  if (listComment.length == 0) return NoComment();
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -206,6 +206,32 @@ class _CommentViewElementState extends State<CommentViewElement> {
   }
 }
 
+class NoComment extends StatelessWidget {
+  const NoComment({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: 200,
+          width: 200,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("asset/imageInpage/no_comment.png"))),
+        ),
+        Text(
+          "Chưa có bình luận nào",
+          style: TextStyle(fontSize: 15, color: notetextcolor),
+        )
+      ],
+    );
+  }
+}
+
 class CommentItem extends StatelessWidget {
   final UserComment comment;
 
@@ -221,34 +247,56 @@ class CommentItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                  width: 25,
-                  height: 25,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              comment.avatarUri ?? cmts[0]['avatarUri']),
-                          fit: BoxFit.cover))),
+              InkWell(
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: comment.avatarUri != ""
+                                ? NetworkImage(comment.avatarUri!)
+                                : AssetImage("asset/avatar.png")
+                                    as ImageProvider,
+                            fit: BoxFit.cover))),
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider<OverViewUserBloc>(
+                                  create: (context) => OverViewUserBloc(),
+                                ),
+                                BlocProvider<PostBloc>(
+                                  create: (context) => PostBloc(),
+                                ),
+                              ],
+                              child: ProfileOtherPage(comment.id, () => {}),
+                            )),
+                  )
+                },
+              ),
               SizedBox(
-                width: 5,
+                width: 10,
               ),
               Text(
                 comment.name,
                 style: TextStyle(
                     fontFamily: 'Roboto_Regular',
-                    fontSize: 13,
+                    fontSize: 15,
                     color: textcolor,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(
-                width: 3,
+                width: 5,
               ),
               Text(
-                " - " + comment.timeComment.toString(),
+                comment.timeComment.toString(),
                 style: TextStyle(
                     fontFamily: 'Roboto_Regular',
-                    fontSize: 12,
+                    fontSize: 13,
                     color: const Color(0xFF838282)),
               ),
             ],
@@ -256,11 +304,14 @@ class CommentItem extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Text(
-            comment.content,
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                fontFamily: 'Roboto_Regular', fontSize: 14, color: textcolor),
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Text(
+              comment.content,
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontFamily: 'Roboto_Regular', fontSize: 15, color: textcolor),
+            ),
           ),
           SizedBox(
             height: 10,

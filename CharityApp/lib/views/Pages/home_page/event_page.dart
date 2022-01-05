@@ -8,6 +8,8 @@ import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/detailFormJoining.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
+import 'package:charityapp/views/Pages/home_page/home_page.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,7 +105,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
             child: BlocBuilder<EventTabBloc, EventTabState>(
               builder: (context, state) {
                 if (state is EventViewLoadInProgress)
-                  return Text('loading tab');
+                  return SketonEvent();
                 else if (state is EventLoadFailure) return Text('Error tab');
 
                 if (state is EventPostViewSuccess) {
