@@ -39,6 +39,9 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
       FollowEvent event, Emitter<OverViewUserState> emit) async {
     try {
       await _userReposibility.follow(event.id);
+      await _userReposibility.updateNumberFollowing(true, event.id!);
+      userProfile = await _userReposibility.getUserProfile(event.id!);
+      emit(FollowOverViewUserState(userProfile, mode.Friend));
     } catch (e) {
       print("Theo dõi bạn bè:" + e.toString());
     }
@@ -48,6 +51,9 @@ class OverViewUserBloc extends Bloc<OverviewUserEvent, OverViewUserState> {
       UnFollowEvent event, Emitter<OverViewUserState> emit) async {
     try {
       await _userReposibility.unfollow(event.id);
+      await _userReposibility.updateNumberFollowing(false, event.id!);
+      userProfile = await _userReposibility.getUserProfile(event.id!);
+      emit(UnfollowOverViewUserState(userProfile, mode.Stranger));
     } catch (e) {
       print("Bỏ theo dõi bạn bè:" + e.toString());
     }

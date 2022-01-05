@@ -68,11 +68,24 @@ class _ImageCardState extends State<ImageCard> {
     return Container(
       child: InkWell(
         child: imageFile != null
-            ? Image.file(
-                imageFile!,
-                width: width,
-                height: height,
-              )
+            ? Stack(children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.file(
+                    imageFile!,
+                    width: width,
+                    height: height,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      icon: Icon(Icons.cancel_outlined),
+                      onPressed: _deleteImage,
+                    ))
+              ])
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -83,7 +96,7 @@ class _ImageCardState extends State<ImageCard> {
                       style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
                           fontSize: 13,
-                          color: Colors.grey[600]),
+                          color: Colors.black),
                     ),
                   if (widget.icon != null)
                     Icon(widget.icon, color: maincolor, size: 25),
@@ -95,7 +108,9 @@ class _ImageCardState extends State<ImageCard> {
       height: 150,
       width: 120,
       decoration: BoxDecoration(
-          color: backgroundbottomtab, borderRadius: BorderRadius.circular(10)),
+        color: backgroundbottomtab,
+        borderRadius: BorderRadius.circular(10),
+      ),
       margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
     );
   }

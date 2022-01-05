@@ -153,17 +153,16 @@ class UserRepositoryImp implements IUserRepository {
     List<UserOverview> suggesstion = [];
     UserOverview userOverview;
     try {
-      final value =
-          await userCollection.get().then((value) => value.docs.forEach((user) {
-                if (TiengViet.parse(user['name'].toString().toLowerCase())
-                    .contains(TiengViet.parse(search.toLowerCase()))) {
-                  userOverview = new UserOverview(
-                      name: user['name'],
-                      avatarUri: user['avatarUri'],
-                      id: user.id);
-                  suggesstion.add(userOverview);
-                }
-              }));
+      await user.get().then((value) => value.docs.forEach((user) {
+            if (search == "" || TiengViet.parse(user['name'].toString().toLowerCase())
+                .contains(TiengViet.parse(search.toLowerCase()))) {
+              userOverview = new UserOverview(
+                  name: user['name'],
+                  avatarUri: user['avatarUri'],
+                  id: user.id);
+              suggesstion.add(userOverview);
+            }
+          }));
       return suggesstion;
     } catch (e) {
       print("Lỗi tìm kiếm: " + e.toString());
@@ -281,5 +280,20 @@ class UserRepositoryImp implements IUserRepository {
       });
     } else
       return [];
+}
+
+  Future<void> updateNumberFollowing(bool isincrease, String id) async {
+    int number = 0;
+    try {
+      await user
+          .doc(id)
+          .get()
+          .then((value) => number = value.data()!['numberfollower']);
+      await user
+          .doc(id)
+          .update({"numberfollower": isincrease ? (number + 1) : (number - 1)});
+    } catch (e) {
+      print("Error update number following:" + e.toString());
+    }
   }
 }

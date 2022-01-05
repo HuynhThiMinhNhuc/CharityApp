@@ -15,4 +15,5 @@ abstract class IUserRepository implements CRUDableRepository<UserProfile> {
   Future<void> unfollow(String? id);
   Future<void> changepassword( String newpass);
   Future<List<String?>>loadAvatarUriPaticipant(String eventId);
+  Future<void> updateNumberFollowing(bool isincrease, String id);
 }

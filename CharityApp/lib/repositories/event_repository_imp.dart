@@ -298,8 +298,8 @@ class EventRepositoryImp implements IEventRepository {
     List<EventOverview> listEvent = [];
     try {
       var unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
-      await eventCollection.get().then((value) => value.docs.forEach((element) {
-            if (query == "" ||
+      await collection.get().then((value) => value.docs.forEach((element) {
+            if ((query == "" && (CheckListContain(element['tags'], tags))) ||
                 ((CheckListContain(element['tags'], tags)) &&
                     TiengViet.parse(element['name'].toString().toLowerCase())
                         .contains(TiengViet.parse(query.toLowerCase())))) {

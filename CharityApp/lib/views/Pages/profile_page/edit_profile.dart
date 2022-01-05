@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
@@ -33,6 +34,7 @@ class _EditProfileState extends State<EditProfile> {
   var editprofileBloc;
   var dropvalue = "Nữ";
   var _datetextcontroler;
+  var backupUser;
 
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -61,7 +63,6 @@ class _EditProfileState extends State<EditProfile> {
     await widget.onEditPro.call();
 
     Navigator.pop(context);
-
   }
 
   @override
@@ -75,6 +76,7 @@ class _EditProfileState extends State<EditProfile> {
     this._datetextcontroler =
         new TextEditingController(text: widget.currentUser.birthDayString);
     editprofileBloc = BlocProvider.of<EditprofileBloc>(context);
+    backupUser = widget.currentUser;
   }
 
   @override
@@ -91,6 +93,12 @@ class _EditProfileState extends State<EditProfile> {
       children: [
         AppBar(
           iconTheme: IconThemeData(color: textcolor),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: backgroundbottomtab,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -248,6 +256,11 @@ class _EditProfileState extends State<EditProfile> {
                       child: TextFormField(
                         initialValue: widget.currentUser.name,
                         onChanged: (value) => {widget.currentUser.name = value},
+                        decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: maincolor, width: 2.0),
+                        )),
                       ),
                     ),
                   ],
@@ -272,128 +285,44 @@ class _EditProfileState extends State<EditProfile> {
                       child: TextFormField(
                         controller: _datetextcontroler,
                         decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: maincolor, width: 2.0),
+                            ),
                             suffixIcon: Theme(
-                          data: Theme.of(context).copyWith(
-                            primaryColor: maincolor,
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.calendar_today, color: maincolor),
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(DateTime.now().year - 1,
-                                    DateTime.now().month, DateTime.now().day),
-                                lastDate: DateTime(DateTime.now().year + 2),
-                              ).then((value) {
-                                if (value != null) {
-                                  widget.currentUser.birthDayString =
-                                      DateFormat('dd/MM/yyyy').format(value!);
-                                  if (widget.currentUser.birthDayString !=
-                                      _datetextcontroler.text)
-                                    setState(() {
-                                      _datetextcontroler.text =
-                                          widget.currentUser.birthDayString!;
-                                      print(
-                                          "Date selected: $widget.currentUser.birthDayString");
-                                    });
-                                }
-                              });
-                            },
-                          ),
-                        )),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 110,
-                      child: Text(
-                        "Mô tả",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width - 140,
-                        child: Flexible(
-                          child: TextFormField(
-                            initialValue: widget.currentUser.description,
-                            onChanged: (value) =>
-                                {widget.currentUser.description = value},
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 0, 15),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Text(
-                    "Thông tin mật",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: textcolor,
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 110,
-                      child: Text(
-                        "Email",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Flexible(
-                      child: TextFormField(
-                        initialValue: widget.currentUser.email,
-                        onChanged: (value) =>
-                            {widget.currentUser.email = value},
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 110,
-                      child: Text(
-                        "Số điện thoại",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Flexible(
-                      child: TextFormField(
-                        initialValue: widget.currentUser.phone,
-                        onChanged: (value) =>
-                            {widget.currentUser.phone = value},
+                              data: Theme.of(context).copyWith(
+                                primaryColor: maincolor,
+                              ),
+                              child: IconButton(
+                                icon: Icon(Icons.calendar_today,
+                                    color: maincolor),
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(
+                                        DateTime.now().year - 1,
+                                        DateTime.now().month,
+                                        DateTime.now().day),
+                                    lastDate: DateTime(DateTime.now().year + 2),
+                                  ).then((value) {
+                                    if (value != null) {
+                                      widget.currentUser.birthDayString =
+                                          DateFormat('dd/MM/yyyy')
+                                              .format(value!);
+                                      if (widget.currentUser.birthDayString !=
+                                          _datetextcontroler.text)
+                                        setState(() {
+                                          _datetextcontroler.text = widget
+                                              .currentUser.birthDayString!;
+                                          print(
+                                              "Date selected: $widget.currentUser.birthDayString");
+                                        });
+                                    }
+                                  });
+                                },
+                              ),
+                            )),
                       ),
                     ),
                   ],
@@ -439,6 +368,112 @@ class _EditProfileState extends State<EditProfile> {
                             child: Text(value),
                           );
                         }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 110,
+                      child: Text(
+                        "Mô tả",
+                        style: TextStyle(
+                            color: textcolor,
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width - 140,
+                        child: Flexible(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: maincolor, width: 2.0),
+                              ),
+                            ),
+                            initialValue: widget.currentUser.description,
+                            onChanged: (value) =>
+                                {widget.currentUser.description = value},
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 20, 0, 15),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    "Thông tin mật",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: textcolor,
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 110,
+                      child: Text(
+                        "Email",
+                        style: TextStyle(
+                            color: textcolor,
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Flexible(
+                      child: TextFormField(
+                        enabled: false,
+                        initialValue: widget.currentUser.email,
+                        onChanged: (value) =>
+                            {widget.currentUser.email = value},
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 110,
+                      child: Text(
+                        "Số điện thoại",
+                        style: TextStyle(
+                            color: textcolor,
+                            fontFamily: 'Roboto_Regular',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Flexible(
+                      child: TextFormField(
+                        initialValue: widget.currentUser.phone,
+                        onChanged: (value) =>
+                            {widget.currentUser.phone = value},
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                        ),
                       ),
                     ),
                   ],

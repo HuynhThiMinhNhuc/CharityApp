@@ -12,7 +12,7 @@ part 'friend_state.dart';
 class FriendBloc extends Bloc<FriendEvent, FriendState> {
   final UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
   final List<UserOverview> friends = [];
-  FriendBloc() : super(FriendLoadingState()) {
+  FriendBloc() : super(FriendLoadingPageState()) {
     on<FriendLoadEvent>(_onFriendLoadEvent);
     on<FriendSearchEvent>(_onFriendSearchEvent);
   }
@@ -20,25 +20,27 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
   FutureOr<void> _onFriendLoadEvent(
       FriendLoadEvent event, Emitter<FriendState> emit) async {
     try {
-      emit(FriendLoadingState());
+      emit(FriendLoadingPageState());
       final friends = await userRepositoryImp.loadFriends(event.id, 20);
       final totalfriend = await userRepositoryImp.loadNumberFriends(event.id);
-      emit(FriendLoadedState(friends, totalfriend));
+      emit(FriendLoadedPageState(friends, totalfriend));
     } catch (e) {
       print("Lỗi tải bạn bè thất bại");
-      emit(FriendLoadFailState());
+      emit(FriendLoadPageFailState());
     }
+    emit(FriendInitateState());
   }
 
   FutureOr<void> _onFriendSearchEvent(
       FriendSearchEvent event, Emitter<FriendState> emit) async {
     try {
+      emit(FriendSearchLoadingState());
       List<UserOverview> suggestions =
           await userRepositoryImp.searchUser(event.name);
-      emit(FriendSearchState(suggestions));
+      emit(FriendSearchWithResultState(suggestions));
     } catch (e) {
       print("Lỗi tìm kiếm thất bại" + e.toString());
-      emit(FriendLoadFailState());
+      emit(FriendSearchNoResultState());
     }
   }
 }

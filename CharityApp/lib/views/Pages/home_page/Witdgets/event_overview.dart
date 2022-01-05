@@ -51,6 +51,8 @@ class EventOverviewCard extends StatelessWidget {
                   bottom: -65,
                   left: 5,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         width: 90,
@@ -82,12 +84,13 @@ class EventOverviewCard extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             SizedBox(
-                              height: 10,
+                              height: 32,
                             ),
                             Text(
                               state.event.name,
                               textAlign: TextAlign.start,
                               maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'Roboto_Regular',
                                   fontSize: 20,
@@ -101,13 +104,13 @@ class EventOverviewCard extends StatelessWidget {
                   ),
                 )
               ]),
-              SizedBox(height: 80),
+              SizedBox(height: 65),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(width: 100),
                   IconOverview(Icons.people, state.event.numberMember),
                   IconOverview(Icons.post_add, state.event.numberPost),
-                  SizedBox(width: 0),
+                  SizedBox(width: 10),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, AppRoutes.formRegister,
@@ -125,7 +128,10 @@ class EventOverviewCard extends StatelessWidget {
                         alignment: Alignment.center,
                         fixedSize: Size(150, 30),
                         primary: maincolor,
-                      ))
+                      )),
+                  SizedBox(
+                    width: 20,
+                  )
                 ],
               ),
               Padding(
