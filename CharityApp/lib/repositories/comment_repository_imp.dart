@@ -24,7 +24,6 @@ class CommentRepositoryImp extends ICommentRepository {
         .doc(postId)
         .collection('comments')
         .orderBy('timeComment', descending: true)
-        .limit(5)
         .snapshots();
   }
 

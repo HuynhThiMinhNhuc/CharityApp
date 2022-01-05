@@ -3,6 +3,7 @@ import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
+import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -128,6 +129,7 @@ class PostOverviewCard extends StatelessWidget {
                   if (post.id == state.id) {
                     post.isLike = state.isLike;
                     post.numberLike = state.numberLike;
+                    post.numberComment = state.numberComment;
                   }
                 }
               },
@@ -178,9 +180,10 @@ class PostOverviewCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(AppRoutes.comment,
+                            onPressed: () async {
+                              await Navigator.of(context).pushNamed(AppRoutes.comment,
                                   arguments: post.id);
+                                  BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: post.id!));
                             },
                             icon: FaIcon(FontAwesomeIcons.comment),
                             splashRadius: 20,
