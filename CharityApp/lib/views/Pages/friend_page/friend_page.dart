@@ -88,7 +88,7 @@ class _FriendPageState extends State<FriendPage> {
         FloatingSearchBarAction(
           showIfOpened: false,
           child: CircularButton(
-            icon: const Icon(Icons.search),
+            icon: Container(),
             onPressed: () {},
           ),
         ),
@@ -277,7 +277,7 @@ class friends extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            this.totalfriend.toString() + " người theo dõi bạn",
+            "Bạn đang theo dõi " + this.totalfriend.toString() + " người",
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
           ),
         ),
@@ -321,7 +321,7 @@ class friends extends StatelessWidget {
                   );
                 },
               )
-            : Text("Bạn chưa có bạn bè nào cả")
+            : Text("Bạn chưa theo dõi ai")
       ],
     );
   }

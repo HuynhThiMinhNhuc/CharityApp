@@ -1,7 +1,11 @@
 import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
+import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
+import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InformationCreatorPostView extends StatelessWidget {
   final UserOverview creator;
@@ -13,18 +17,41 @@ class InformationCreatorPostView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             width: 10,
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: NetworkImage(creator.avatarUri ?? users[0]['img']), fit: BoxFit.cover),
+          InkWell(
+            borderRadius: BorderRadius.circular(30),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: NetworkImage(creator.avatarUri ?? users[0]['img']),
+                    fit: BoxFit.cover),
+              ),
             ),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider<OverViewUserBloc>(
+                              create: (context) => OverViewUserBloc(),
+                            ),
+                            BlocProvider<PostBloc>(
+                              create: (context) => PostBloc(),
+                            ),
+                          ],
+                          child: ProfileOtherPage(creator.id, () => {}),
+                        )),
+              )
+            },
           ),
           SizedBox(
             width: 10,

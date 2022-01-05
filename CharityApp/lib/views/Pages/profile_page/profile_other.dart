@@ -82,9 +82,9 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
                       return ProfileOverView(state.userProfile as UserProfile,
                           state.isfriend, overViewUserBloc);
                     } else if (state is PostLoadInProgress)
-                      return Text("Loading");
+                      return SketonProfile();
                     else
-                      return Text("Loading failer.....");
+                      return SketonProfile();
                   },
                 )),
             Divider(thickness: 1.0),
@@ -114,7 +114,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
                     },
                   );
                 } else
-                  return Text("Loading");
+                  return SketonEvent();
               },
             )),
           ],
