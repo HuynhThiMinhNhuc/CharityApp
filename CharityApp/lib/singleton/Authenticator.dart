@@ -5,7 +5,7 @@ import 'package:charityapp/views/Login/register_view.dart';
 
 class Authenticator {
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
-  var userProfile;
+  late UserProfile userProfile;
 
   Future<void> login(String email) async {
     String id = await userRepositoryImp.getIdUser(email);

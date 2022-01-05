@@ -9,7 +9,10 @@ import 'package:charityapp/domain/repositories/can_crud_repository.dart';
 
 abstract class IEventRepository implements CRUDableRepository<EventInfor>{
   // Future<List<EventOverview>> loadEventsOverview(String eventId, int startIndex, int number);
-  Future<List<EventOverviewPaticipants>> loadEventsPaticipant(String creatorId);
+  Future<List<EventOverviewPaticipants>> loadEventsPaticipant(String creatorId, {DateTime? timeStart});
+  Future<List<EventOverviewPaticipants>> loadEventsAttending(String userId, {DateTime? timeStart});
+  Future<List<EventOverviewPaticipants>> loadEventsPaticipantFromList(List<String> eventId);
+
   Future<EventOverview> loadEventOverview(String eventId);
 
   Future<List<String>> loadImages(String eventId) ;

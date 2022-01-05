@@ -35,7 +35,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
             email: event.email, password: event.password);
         await GetIt.instance.get<Authenticator>().login(event.email);
         await _activeUserRepositoryImp
-            .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id);
+            .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id!);
         emit(SigninSussessState());
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found' || e.code == 'invalid-email') {

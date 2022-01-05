@@ -100,7 +100,7 @@ class TabSelector extends StatelessWidget {
                       NetworkImage(GetIt.instance
                           .get<Authenticator>()
                           .userProfile
-                          .avatarUri),
+                          .avatarUri!),
                       fit: BoxFit.cover),
                 ),
               ),

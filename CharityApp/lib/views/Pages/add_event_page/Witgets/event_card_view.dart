@@ -52,13 +52,14 @@ class EventCardView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 5),
+                  if (eventOverviewPaticipants.timeStart != null)
                   RichText(
                       text: TextSpan(children: <TextSpan>[
                     TextSpan(
                         text:
-                            eventOverviewPaticipants.timeStart.hour.toString() +
+                            eventOverviewPaticipants.timeStart!.hour.toString() +
                                 ":" +
-                                eventOverviewPaticipants.timeStart.minute
+                                eventOverviewPaticipants.timeStart!.minute
                                     .toString(),
                         style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
@@ -67,11 +68,11 @@ class EventCardView extends StatelessWidget {
                         )),
                     TextSpan(
                       text: ", " +
-                          eventOverviewPaticipants.timeStart.day.toString() +
+                          eventOverviewPaticipants.timeStart!.day.toString() +
                           "/" +
-                          eventOverviewPaticipants.timeStart.month.toString() +
+                          eventOverviewPaticipants.timeStart!.month.toString() +
                           "/" +
-                          eventOverviewPaticipants.timeStart.year.toString(),
+                          eventOverviewPaticipants.timeStart!.year.toString(),
                       style: TextStyle(
                         fontFamily: 'Roboto-Regular.ttf',
                         fontSize: 13,
