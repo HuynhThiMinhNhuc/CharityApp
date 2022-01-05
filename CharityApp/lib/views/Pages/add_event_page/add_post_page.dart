@@ -42,150 +42,148 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: getAppBar(),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: SingleChildScrollView(
-            child: Column(
-              // mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextButton(
-                      onPressed: () async {
-                        BlocProvider.of<PostBloc>(context).add(
-                          LoadOverViewEventsPaticipant(
-                              creatorId: '1G0aTSj46pSsvP8eBYb5'),
-                        );
-                        chooseEvent = await Navigator.of(context).pushNamed(
-                          AppRoutes.chooseEvent,
-                        ) as BaseEvent?;
-                        setState(() => {});
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            chooseEvent == null
-                                ? "Chọn sự kiện"
-                                : chooseEvent!.name,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontFamily: 'Roboto_Regular',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.navigate_next,
-                                size: 20, color: textcolor),
-                            splashRadius: 20,
-                            // onPressed: () {
-                            //   Navigator.pushNamed(
-                            //     context,
-                            //     AppRoutes.chooseEvent,
-                            //   );
-                            // },
-                            onPressed: null,
-                          )
-                        ],
-                      )),
-                  Divider(color: Colors.grey[600], height: 1),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  textFormFieldWithTitle(
-                    title: "Tiêu đề",
-                    text: "",
-                    iconData: null,
-                    type: TextInputType.text,
-                    controller: _titleTextController,
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Thêm ảnh",
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+      backgroundColor: Colors.white,
+      appBar: getAppBar(),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                  onPressed: () async {
+                    BlocProvider.of<PostBloc>(context).add(
+                      LoadOverViewEventsPaticipant(
+                          creatorId: '1G0aTSj46pSsvP8eBYb5'),
+                    );
+                    chooseEvent = await Navigator.of(context).pushNamed(
+                      AppRoutes.chooseEvent,
+                    ) as BaseEvent?;
+                    setState(() => {});
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        chooseEvent == null
+                            ? "Chọn sự kiện"
+                            : chooseEvent!.name,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Roboto_Regular',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text(
-                          "Tối đa 10 ảnh",
-                          style: TextStyle(
-                            color: Colors.grey[400],
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 13,
-                          ),
-                        )
-                      ]),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                        shrinkWrap: false,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: images.length + 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Row(
-                            children: [
-                              // Container(
-                              //   height: 150,
-                              //   width: 120,
-                              //   child: IconButton(
-                              //       onPressed: () => {
-                  
-                              //       },
-                              //       icon: Icon(Icons.add_photo_alternate_outlined,
-                              //           color: maincolor, size: 25)),
-                              //   decoration: BoxDecoration(
-                              //       color: backgroundbottomtab,
-                              //       borderRadius: BorderRadius.circular(10)),
-                              //   margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
-                              // ),
-                              ImageCard(
-                                icon: Icons.add_photo_alternate_outlined,
-                                onImageChanged: (imageFile) {
-                                  setState(() {
-                                    images.length == index
-                                        ? images.add(imageFile)
-                                        : images[index] = imageFile;
-                                  });
-                                },
-                                onImageDeleted: () {
-                                  setState(() {
-                                    images.removeAt(index);
-                                  });
-                                },
-                              ),
-                              SizedBox(width: 5),
-                            ],
-                          );
-                        },
                       ),
-                  ),
-                  TextFormField(
-                      cursorColor: maincolor,
-                      keyboardType: TextInputType.name,
-                      minLines: 3,
-                      maxLines: 5,
-                      style:
-                          TextStyle(fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
-                      decoration: InputDecoration(
-                          hintText: "Viết nội dung ở đây...",
-                          errorBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none),
-                      controller: _descriptionTextControlelr,
-                    ),
-                ],
+                      IconButton(
+                        icon: Icon(Icons.navigate_next,
+                            size: 20, color: textcolor),
+                        splashRadius: 20,
+                        // onPressed: () {
+                        //   Navigator.pushNamed(
+                        //     context,
+                        //     AppRoutes.chooseEvent,
+                        //   );
+                        // },
+                        onPressed: null,
+                      )
+                    ],
+                  )),
+              Divider(color: Colors.grey[800], height: 1),
+              SizedBox(
+                height: 10,
               ),
+              textFormFieldWithTitle(
+                title: "Tiêu đề",
+                text: "",
+                iconData: null,
+                type: TextInputType.text,
+                controller: _titleTextController,
+              ),
+              SizedBox(height: 10),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(
+                  "Thêm ảnh",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Roboto_Regular',
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Tối đa 10 ảnh",
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                    fontFamily: 'Roboto_Regular',
+                    fontSize: 13,
+                  ),
+                )
+              ]),
+              SizedBox(
+                height: 200,
+                child: ListView.builder(
+                  shrinkWrap: false,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: images.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: [
+                        // Container(
+                        //   height: 150,
+                        //   width: 120,
+                        //   child: IconButton(
+                        //       onPressed: () => {
+
+                        //       },
+                        //       icon: Icon(Icons.add_photo_alternate_outlined,
+                        //           color: maincolor, size: 25)),
+                        //   decoration: BoxDecoration(
+                        //       color: backgroundbottomtab,
+                        //       borderRadius: BorderRadius.circular(10)),
+                        //   margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
+                        // ),
+                        ImageCard(
+                          icon: Icons.add_photo_alternate_outlined,
+                          onImageChanged: (imageFile) {
+                            setState(() {
+                              images.length == index
+                                  ? images.add(imageFile)
+                                  : images[index] = imageFile;
+                            });
+                          },
+                          onImageDeleted: () {
+                            setState(() {
+                              images.removeAt(index);
+                            });
+                          },
+                        ),
+                        SizedBox(width: 5),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              TextFormField(
+                cursorColor: maincolor,
+                keyboardType: TextInputType.name,
+                minLines: 3,
+                maxLines: 5,
+                style:
+                    TextStyle(fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
+                decoration: InputDecoration(
+                    hintText: "Viết nội dung ở đây...",
+                    errorBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none),
+                controller: _descriptionTextControlelr,
+              ),
+            ],
           ),
-          ),
-        );
+        ),
+      ),
+    );
   }
 
   AppBar getAppBar() {
@@ -218,7 +216,7 @@ class _AddPostPageState extends State<AddPostPage> {
             widget.onClickSubmit?.call(post, images);
           },
           child: Text(
-            "Đăng",
+            "Đăng ",
             style: TextStyle(
                 color: maincolor,
                 fontFamily: 'Roboto_Regular',
