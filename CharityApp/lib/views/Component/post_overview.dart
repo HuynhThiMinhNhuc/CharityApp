@@ -30,7 +30,36 @@ class PostOverviewCard extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            InformationCreatorPostView(creator: post.creator),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InformationCreatorPostView(creator: post.creator),
+                PopupMenuButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Colors.black,
+                  ),
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                    PopupMenuItem(
+                      child: InkWell(
+                        onTap: () {},
+                        child: ListTile(
+                          title: Text('Chỉnh sửa'),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      child: InkWell(
+                        onTap: () {},
+                        child: ListTile(
+                          title: Text('Xóa'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             SizedBox(
               height: 10,
             ),

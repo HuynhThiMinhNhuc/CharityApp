@@ -192,7 +192,9 @@ class _AddEventPageState extends State<AddEventPage> {
                         }
                         final args = await Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return latLng != null ? GoogleMapPage(initLatlng: latLng!) : GoogleMapPage();
+                          return latLng != null
+                              ? GoogleMapPage(initLatlng: latLng!)
+                              : GoogleMapPage();
                         }));
 
                         if (args != null) {
@@ -204,13 +206,16 @@ class _AddEventPageState extends State<AddEventPage> {
                         }
                       },
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Text(
-                      "Thêm ảnh",
+                      " Thêm ảnh",
                       style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
                           fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.grey[600]),
+                          fontSize: 15,
+                          color: Colors.black),
                     ),
                     Row(
                       children: [
@@ -232,7 +237,6 @@ class _AddEventPageState extends State<AddEventPage> {
                         keyboardType: TextInputType.name,
                         controller: _descriptionTextController,
                         minLines: 3,
-                        maxLines: 5,
                         style: TextStyle(
                             fontFamily: 'Roboto-Regular.ttf',
                             fontSize: 15,
@@ -348,43 +352,46 @@ class textFormFieldWithTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-              fontFamily: 'Roboto-Regular.ttf',
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-              color: Colors.grey[600]),
-        ),
-        TextFormField(
-          controller: controller,
-          cursorColor: maincolor,
-          style: TextStyle(
-              fontFamily: 'Roboto-Regular.ttf',
-              fontSize: 15,
-              color: Colors.black),
-          keyboardType: type,
-          decoration: new InputDecoration(
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: maincolor),
-              ),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: maincolor,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontFamily: 'Roboto-Regular.ttf',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: Colors.black),
+          ),
+          TextFormField(
+            controller: controller,
+            cursorColor: maincolor,
+            style: TextStyle(
+                fontFamily: 'Roboto-Regular.ttf',
+                fontSize: 15,
+                color: Colors.black),
+            keyboardType: type,
+            decoration: new InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: maincolor),
                 ),
-              ),
-              suffixIcon: iconData != null
-                  ? IconButton(
-                      onPressed: () => onClickIcon?.call(), icon: iconData!)
-                  : null,
-              label: null),
-        ),
-        SizedBox(height: 7)
-      ],
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: maincolor,
+                  ),
+                ),
+                suffixIcon: iconData != null
+                    ? IconButton(
+                        onPressed: () => onClickIcon?.call(), icon: iconData!)
+                    : null,
+                label: null),
+          ),
+          SizedBox(height: 7)
+        ],
+      ),
     );
   }
 }
