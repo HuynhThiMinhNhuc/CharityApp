@@ -1,5 +1,6 @@
 import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/core/helper/format_number_k.dart';
+import 'package:charityapp/core/helper/get_time_compare_present.dart';
 import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
@@ -177,7 +178,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: listComment.length,
                     itemBuilder: (BuildContext context, int index) {
-                      
+
                       return FutureBuilder<UserComment>(
                         future: _bloc.getComment(
                             listComment[index].data() as Map<String, dynamic>),
@@ -248,7 +249,7 @@ class CommentItem extends StatelessWidget {
                 width: 3,
               ),
               Text(
-                " - " + comment.timeComment.toString(),
+                ' - ' + GetTimeComparePresent.call(comment.timeComment),
                 style: TextStyle(
                     fontFamily: 'Roboto_Regular',
                     fontSize: 12,
