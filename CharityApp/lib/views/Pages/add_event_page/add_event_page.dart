@@ -237,6 +237,7 @@ class _AddEventPageState extends State<AddEventPage> {
                         keyboardType: TextInputType.name,
                         controller: _descriptionTextController,
                         minLines: 3,
+                        maxLines: 3,
                         style: TextStyle(
                             fontFamily: 'Roboto-Regular.ttf',
                             fontSize: 15,

@@ -23,7 +23,7 @@ class InformationCreatorPostView extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: NetworkImage(users[0]['img']), fit: BoxFit.cover),
+                  image: NetworkImage(creator.avatarUri ?? users[0]['img']), fit: BoxFit.cover),
             ),
           ),
           SizedBox(

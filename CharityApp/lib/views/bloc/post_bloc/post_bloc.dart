@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
+import 'package:charityapp/domain/repositories/event_repository.dart';
+import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:charityapp/repositories/event_repository_imp.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_event.dart';
@@ -9,8 +11,8 @@ import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final postRepository = PostRepositoryImp();
-  final eventRepository = EventRepositoryImp();
+  final IPostRepository postRepository = PostRepositoryImp();
+  final IEventRepository eventRepository = EventRepositoryImp();
   // StreamSubscription? _postsSubscription;
   CancelableOperation? loadPostOperation;
 
@@ -69,7 +71,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         return;
       }));
     });
-    Future.wait(imagesTask);
+    await Future.wait(imagesTask);
 
     //Save to database
     try {

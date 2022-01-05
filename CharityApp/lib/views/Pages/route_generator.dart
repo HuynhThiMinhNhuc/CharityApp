@@ -70,7 +70,7 @@ class RouteGenerator {
               if (state is PostUpdated) {
                 await showMyDialog(bloc_context, 'Thêm bài viết thành công');
                 Navigator.of(context).pushNamed(
-                  AppRoutes.eventPage,
+                  AppRoutes.eventPage, arguments: state.post.eventId,
                 );
               } else if (state is PostLoadFailure) {
                 showMyDialog(bloc_context, 'Thêm bài viết thất bại',

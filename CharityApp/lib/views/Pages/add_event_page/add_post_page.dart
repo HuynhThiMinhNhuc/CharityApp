@@ -5,6 +5,7 @@ import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
@@ -210,7 +211,7 @@ class _AddPostPageState extends State<AddPostPage> {
               creator: UserOverview(
                   name: 'khong co',
                   avatarUri: null,
-                  id: '7hKHP4tpuIyeTJ44IdJe'),
+                  id: Authenticator.Id),
             );
 
             widget.onClickSubmit?.call(post, images);

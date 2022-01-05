@@ -2,7 +2,9 @@ import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/repositories/post_repository.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_it/get_it.dart';
 
 class PostRepositoryImp implements IPostRepository {
   final CollectionReference collection =
@@ -11,7 +13,7 @@ class PostRepositoryImp implements IPostRepository {
   @override
   Future<void> add(Post entity) async {
     final docRef = await collection
-        .add(entity.toJson()..addAll({'timeCreate': DateTime.now()}));
+        .add(entity.toJson()..addAll({'timeCreate': DateTime.now(), 'like': []}));
     entity.id = docRef.id;
     print('Add ${entity.toString()} success');
 
@@ -74,7 +76,6 @@ class PostRepositoryImp implements IPostRepository {
   Future<List<Post>> loadRandomPosts(int startIndex, int number) async {
     final userCollection = FirebaseFirestore.instance.collection('users');
     List<Future> tasks = <Future>[];
-    final myId = '7hKHP4tpuIyeTJ44IdJe';
 
     final posts = await collection
         .orderBy('timeCreate', descending: true)
@@ -83,8 +84,8 @@ class PostRepositoryImp implements IPostRepository {
       return snapshot.docs.map((docPost) {
         final postJson = docPost.data() as Map<String, dynamic>;
         final post = Post.fromJson(postJson);
-        post.numberLike = (postJson['like'] as List<dynamic>?)!.length;
-        post.isLike = (postJson['like'] as List<dynamic>?)!.contains(myId);
+        post.numberLike = (postJson['like'] as List<dynamic>?)?.length ?? 0;
+        post.isLike = (postJson['like'] as List<dynamic>?)?.contains(Authenticator.Id) ?? false;
         // post.numberComment = await _getNumberComment(docPost);
         docPost.reference.collection('comments').get().then((commentSnapshot) {
           post.numberComment = commentSnapshot.docs.length;
@@ -123,17 +124,16 @@ class PostRepositoryImp implements IPostRepository {
       final usersLike =
           (json['like'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               <String>[];
-      final myId = '7hKHP4tpuIyeTJ44IdJe';
 
-      if (usersLike.contains(myId) && !isLike) {
+      if (usersLike.contains(Authenticator.Id) && !isLike) {
         //Unlike
         doc.reference.update(<String, dynamic>{
-          'like': FieldValue.arrayRemove([myId])
+          'like': FieldValue.arrayRemove([Authenticator.Id])
         });
-      } else if (!usersLike.contains(myId) && isLike) {
+      } else if (!usersLike.contains(Authenticator.Id) && isLike) {
         //Like
         doc.reference.update(<String, dynamic>{
-          'like': FieldValue.arrayUnion([myId])
+          'like': FieldValue.arrayUnion([Authenticator.Id])
         });
       }
     });
@@ -141,14 +141,13 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Future<List> loadNumberLike(String postId) {
-    final myId = '7hKHP4tpuIyeTJ44IdJe';
     return collection.doc(postId).get().then((doc) {
       final list =
           ((doc.data() as Map<String, dynamic>)['like'] as List<dynamic>)
               .map((element) => element as String)
               .toList();
       int number = list.length;
-      bool isLike = list.contains(myId);
+      bool isLike = list.contains(Authenticator.Id);
       return [number, isLike];
     });
   }

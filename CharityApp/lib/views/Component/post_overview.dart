@@ -1,16 +1,12 @@
-import 'package:charityapp/Constant/post_jason.dart' as post_mock;
-import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Pages/home_page/comment_view.dart';
-import 'package:charityapp/views/Pages/home_page/event_page.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
 import 'information_creator_post_view.dart';
 
@@ -34,7 +30,7 @@ class PostOverviewCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InformationCreatorPostView(creator: post.creator),
-                PopupMenuButton(
+                if (post.creator.id == Authenticator.Id) PopupMenuButton(
                   icon: Icon(
                     Icons.more_vert,
                     color: Colors.black,
