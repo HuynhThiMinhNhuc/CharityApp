@@ -1,3 +1,4 @@
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
@@ -7,6 +8,7 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/home_page/form_view.dart';
 import 'package:charityapp/views/Pages/profile_page/Widgets/information_profile_view.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart' as bloc;
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,47 +55,57 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
   Widget build(BuildContext context) {
     double width = (MediaQuery.of(context).size.width - 60) / 2;
     BuildContext detailFormContext = context;
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: backgroundbottomtab,
-          centerTitle: true,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Text(
-            "Đang chờ duyệt",
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: JoinerOverview(widget.userProfile,
-                      mode.Pending_approval, width, detailFormContext),
-                ),
-                Divider(
-                  color: Colors.black54,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Câu trả lời form",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                getbody(widget.userProfile)
-              ],
+    return BlocListener<bloc.FormBloc, bloc.FormState>(
+      listener: (context, state) {
+        if (state is bloc.FormSuccess) {
+          Navigator.of(context).popUntil(ModalRoute.withName(AppRoutes.eventPage));
+        }
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: backgroundbottomtab,
+            centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.black),
+            title: Text(
+              "Đang chờ duyệt",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
             ),
           ),
-        ));
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: JoinerOverview(widget.userProfile,
+                        mode.Pending_approval, width, detailFormContext),
+                  ),
+                  Divider(
+                    color: Colors.black54,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Câu trả lời form",
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  getbody(widget.userProfile)
+                ],
+              ),
+            ),
+          )),
+    );
   }
 
   Column JoinerOverview(UserProfile joinerProfile, mode modeJoiner,
@@ -221,7 +233,12 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                     SizedBox(
                       width: width,
                       child: ElevatedButton(
-                        onPressed: () => {setState(() {})},
+                        onPressed: () {
+                          BlocProvider.of<bloc.FormBloc>(context).add(bloc.ConfirmForm(
+                              eventId: widget.formDetail.eventId,
+                              userId: widget.formDetail.creatorId,
+                              isConfirm: true));
+                        },
                         child: Text(
                           'Chấp nhận',
                           style: TextStyle(
@@ -238,7 +255,12 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                     SizedBox(
                       width: width,
                       child: ElevatedButton(
-                        onPressed: () => {setState(() {})},
+                        onPressed: () {
+                          BlocProvider.of<bloc.FormBloc>(context).add(bloc.ConfirmForm(
+                              eventId: widget.formDetail.eventId,
+                              userId: widget.formDetail.creatorId,
+                              isConfirm: false));
+                        },
                         child: Text(
                           'Từ chối',
                           style: TextStyle(
