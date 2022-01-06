@@ -26,19 +26,21 @@ class RegisterForm extends FormEvent{
 }
 class UnRegisterForm extends FormEvent {
   final String eventId;
+  final String userId;
 
-  const UnRegisterForm({required this.eventId});
+  const UnRegisterForm({required this.eventId, required this.userId});
 
       @override
-  List<Object> get props => [eventId];
+  List<Object> get props => [eventId, userId];
 }
 
 class ConfirmForm extends FormEvent {
-  final String formId;
+  final String eventId;
+  final String userId;
   final bool isConfirm;
 
-  const ConfirmForm({required this.formId, required this.isConfirm});
+  const ConfirmForm({required this.eventId, required this.userId, required this.isConfirm});
 
         @override
-  List<Object> get props => [formId, isConfirm];
+  List<Object> get props => [eventId, userId, isConfirm];
 }

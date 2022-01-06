@@ -61,7 +61,7 @@ class MyAlertDialog2 extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 5, 5),
           child: OutlinedButton(
-            onPressed: onTabNo,
+            onPressed: onTabNo ?? () => Navigator.of(context).pop(),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
               child: const Text(
@@ -81,7 +81,7 @@ class MyAlertDialog2 extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
           child: OutlinedButton(
-            onPressed: onTabYes,
+            onPressed: onTabYes ?? () => Navigator.of(context).pop(),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
               child: const Text(
