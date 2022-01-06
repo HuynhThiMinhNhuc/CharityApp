@@ -15,10 +15,13 @@ abstract class IEventRepository implements CRUDableRepository<EventInfor>{
 
   Future<EventOverview> loadEventOverview(String eventId);
   Future<int> getNumberPaticipant(String eventId);
+  Future<void> dismiss(String eventId, String userId);
 
   Future<List<String>> loadImages(String eventId) ;
   Future<EventDetail> loadDetail(String eventId);
   Future<EventPageState> loadStatePage(String eventId, String creatorId);
   Future<void> follow(String eventId, String userId, bool isTrue);
   Future<List<EventOverview>> searchevent(String query, List<String> tags);
+
+  Future<EventPermission> checkPermission(String eventId, String userId);
 }

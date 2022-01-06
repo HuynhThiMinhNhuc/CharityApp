@@ -3,12 +3,12 @@ import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:equatable/equatable.dart';
 
 
-class EventTitleState extends Equatable {
+class EventTitleSuccess extends Equatable {
   final EventOverview event;
-  final EventPageState pageState;
+  final EventPermission permission;
 
-  const EventTitleState({required this.event, required this.pageState});
+  const EventTitleSuccess({required this.event, required this.permission});
 
   @override
-  List<Object?> get props => [event, pageState];
+  List<Object?> get props => [permission];
 }

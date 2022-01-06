@@ -15,24 +15,6 @@ class UserRepositoryImp implements IUserRepository {
   final userCollection = FirebaseFirestore.instance.collection("users");
 
   @override
-  Future<void> add(UserInfor userInfor) {
-    // TODO: implement add
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<UserProfile>> load(String id, int startIndex, int number) {
-    // TODO: implement load
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<UserOverview>> loadFriends(String id, int number) async {
     List<UserOverview> friends = [];
     UserOverview useroverview;
@@ -304,7 +286,8 @@ class UserRepositoryImp implements IUserRepository {
     final paticipantsCollection =
         FirebaseFirestore.instance.collection('event_paticipants');
 
-    final paticipantSnapshot = await paticipantsCollection.where('eventId').get();
+    final paticipantSnapshot =
+        await paticipantsCollection.where('eventId').get();
 
     final users = paticipantSnapshot.docs.map((paticipantDoc) async {
       String userId = paticipantDoc.data()['userId'] as String;
@@ -314,7 +297,26 @@ class UserRepositoryImp implements IUserRepository {
 
       return UserOverview.fromJson(userJson);
     }).toList();
-    
+
     return Future.wait(users);
+  }
+
+  @override
+  Future<List<UserOverview>> loadOverviewFormList(
+      List<String> listUserId) async {
+    if (listUserId.isNotEmpty) {
+
+      return userCollection
+          .where(FieldPath.documentId, whereIn: listUserId)
+          .get()
+          .then((snapshot) {
+        return snapshot.docs.map((doc) {
+          final json = doc.data() as Map<String, dynamic>;
+
+          return UserOverview.fromJson(json);
+        }).toList();
+      });
+    } else
+      return [];
   }
 }
