@@ -182,10 +182,10 @@ class _JoinerState extends State<Joiner> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              if (permission == EventPermission.admin)
-                buildExpansion(context, _registerCubit, true, numberRegister),
+              if (widget.permission == EventPermission.admin)
+                buildExpansion(context, _registerCubit, true, widget.numberRegister),
               buildExpansion(
-                  context, _paticipantsCubit, false, numberPaticipant),
+                  context, _paticipantsCubit, false, widget.numberPaticipant),
             ],
           ),
         );
