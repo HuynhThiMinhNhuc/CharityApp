@@ -154,8 +154,9 @@ class UserRepositoryImp implements IUserRepository {
     UserOverview userOverview;
     try {
       await userCollection.get().then((value) => value.docs.forEach((user) {
-            if (search == "" || TiengViet.parse(user['name'].toString().toLowerCase())
-                .contains(TiengViet.parse(search.toLowerCase()))) {
+            if (search == "" ||
+                TiengViet.parse(user['name'].toString().toLowerCase())
+                    .contains(TiengViet.parse(search.toLowerCase()))) {
               userOverview = new UserOverview(
                   name: user['name'],
                   avatarUri: user['avatarUri'],
@@ -280,7 +281,7 @@ class UserRepositoryImp implements IUserRepository {
       });
     } else
       return [];
-}
+  }
 
   Future<void> updateNumberFollowing(bool isincrease, String id) async {
     int number = 0;
@@ -295,5 +296,25 @@ class UserRepositoryImp implements IUserRepository {
     } catch (e) {
       print("Error update number following:" + e.toString());
     }
+  }
+
+  @override
+  Future<List<UserOverview>> getUsersOfEvent(
+      String eventId, int startIndex, int number) async {
+    final paticipantsCollection =
+        FirebaseFirestore.instance.collection('event_paticipants');
+
+    final paticipantSnapshot = await paticipantsCollection.where('eventId').get();
+
+    final users = paticipantSnapshot.docs.map((paticipantDoc) async {
+      String userId = paticipantDoc.data()['userId'] as String;
+
+      final userDoc = await userCollection.doc(userId).get();
+      final userJson = userDoc.data() as Map<String, dynamic>;
+
+      return UserOverview.fromJson(userJson);
+    }).toList();
+    
+    return Future.wait(users);
   }
 }

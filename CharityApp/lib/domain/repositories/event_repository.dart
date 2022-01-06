@@ -14,6 +14,7 @@ abstract class IEventRepository implements CRUDableRepository<EventInfor>{
   Future<List<EventOverviewPaticipants>> loadEventsPaticipantFromList(List<String> eventId);
 
   Future<EventOverview> loadEventOverview(String eventId);
+  Future<int> getNumberPaticipant(String eventId);
 
   Future<List<String>> loadImages(String eventId) ;
   Future<EventDetail> loadDetail(String eventId);

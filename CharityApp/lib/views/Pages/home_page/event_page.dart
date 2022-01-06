@@ -82,7 +82,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                       currentTab = EventTab.posts;
                     else if (index == 1)
                       currentTab = EventTab.description;
-                    else if (index == 2) currentTab = EventTab.image;
+                    else if (index == 2) currentTab = EventTab.paticipants;
 
                     if (index != 0) {
                       BlocProvider.of<EventTabBloc>(context).add(LoadEventView(
@@ -123,7 +123,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                   return IntroductionEventView(
                       detail: (state as EventDetailViewSuccess).detail);
                 } else {
-                  return Joiner();
+                  return Joiner(eventId: widget.eventId);
                 }
                 // return TabBarView(controller: _tabController, children: [
                 //   Container(
@@ -152,212 +152,120 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
 }
 
 class Joiner extends StatefulWidget {
-  Joiner({Key? key}) : super(key: key);
-  bool isTapJoiner = false;
-  bool isTapJoining = false;
+  final String eventId;
+  Joiner({Key? key, required this.eventId}) : super(key: key);
 
   @override
   _JoinerState createState() => _JoinerState();
 }
 
 class _JoinerState extends State<Joiner> {
+  bool isTapJoiner = false;
+  bool isTapJoining = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController _joinercontroller =
-        new TextEditingController(text: "  102 người đã tham gia ");
-    TextEditingController _joiningcontroller =
-        new TextEditingController(text: "   25 người đang chờ duyệt ");
-
-    return Column(
-      children: [
-        OpenContainer(
-          transitionDuration: Duration(seconds: 1),
-          closedBuilder: (BuildContext context, VoidCallback openContainer) =>
-              TextField(
-            enabled: false,
-            readOnly: true,
-            controller: _joiningcontroller,
-            style: TextStyle(fontWeight: FontWeight.w600),
-            decoration: InputDecoration(
-                suffixIcon: !widget.isTapJoining
-                    ? Icon(Icons.keyboard_arrow_down_rounded)
-                    : Icon(Icons.keyboard_arrow_up_rounded)),
-            onTap: () => {openContainer},
-          ),
-          openBuilder: (BuildContext context, _) => ListJoining(joinings: [
-            new UserOverview(
-                name: "Minh Minh",
-                avatarUri:
-                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
-          ]),
-        ),
-        OpenContainer(
-          transitionDuration: Duration(seconds: 1),
-          closedBuilder: (BuildContext context, VoidCallback openContainer) =>
-              TextField(
-            enabled: false,
-            readOnly: true,
-            controller: _joinercontroller,
-            style: TextStyle(fontWeight: FontWeight.w600),
-            decoration: InputDecoration(
-                suffixIcon: !widget.isTapJoining
-                    ? Icon(Icons.keyboard_arrow_down_rounded)
-                    : Icon(Icons.keyboard_arrow_up_rounded)),
-            onTap: () => {openContainer},
-          ),
-          openBuilder: (BuildContext context, _) => ListJoiner(joiner: [
-            new UserOverview(
-                name: "Minh Minh",
-                avatarUri:
-                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
-          ]),
-        )
-      ],
+    return BlocBuilder<EventTabBloc, EventTabState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            ExpansionTile(
+                title: Text(
+                  '25 người đang chờ duyệt',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                children: [
+                  FormRegisterCard(
+                    user: UserOverview(name: 'name'),
+                    isFormRegister: true,
+                  ),
+                ]),
+            ExpansionTile(
+                title: Text(
+                  '102 người đã tham gia',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                children: [
+                  FormRegisterCard(
+                    user: UserOverview(name: 'name'),
+                    isFormRegister: false,
+                  ),
+                ]),
+          ],
+        );
+      },
     );
   }
 }
 
-class ListJoiner extends StatelessWidget {
-  final List<UserOverview> joiner;
-  const ListJoiner({Key? key, required this.joiner}) : super(key: key);
+class FormRegisterCard extends StatelessWidget {
+  final UserOverview user;
+  final bool isFormRegister;
+  const FormRegisterCard(
+      {Key? key, required this.user, required this.isFormRegister})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: backgroundbottomtab,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "  " + joiner.length.toString() + " người đã tham gia",
-          style: TextStyle(fontWeight: FontWeight.w600, color: textcolor),
+    return ListTile(
+      leading: Container(
+        width: 61,
+        height: 61,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(colors: activecolor)),
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 3),
+              image: DecorationImage(
+                  image: user.avatarUri == null
+                      ? AssetImage("asset/avatar.png") as ImageProvider
+                      : NetworkImage(user.avatarUri!),
+                  fit: BoxFit.cover),
+            ),
+          ),
         ),
       ),
-      body: Column(
+      title: Text(user.name),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: joiner.length,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                child: ListTile(
-                  leading: Container(
-                    width: 61,
-                    height: 61,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(colors: activecolor)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3),
-                          image: DecorationImage(
-                              image: joiner[index].avatarUri == ""
-                                  ? AssetImage("asset/avatar.png")
-                                      as ImageProvider
-                                  : NetworkImage(joiner[index].avatarUri!),
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                  ),
-                  title: Text("Janny"),
-                  subtitle: Text("Đang theo dõi - thành phố hồ chí minh"),
-                ),
-                onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailFormJoinings(
-                                event: new BaseEvent(
-                                    name: "Ủng hộ lũ lụt miền Trung",
-                                    creatorId: 'wxu87lK5Gabour4GQw0i4MDbdQl2'),
-                                userProfile: GetIt.instance
-                                    .get<Authenticator>()
-                                    .userProfile,
-                              )))
-                },
-              );
-            },
-          )
+          IconButton(
+            onPressed: null,
+            icon: Icon(Icons.cancel_outlined),
+          ),
+          if (isFormRegister)
+            IconButton(
+              onPressed: null,
+              icon: Icon(Icons.check_circle_outline),
+            ),
         ],
       ),
-    );
-  }
-}
-
-class ListJoining extends StatelessWidget {
-  final List<UserOverview> joinings;
-  const ListJoining({Key? key, required this.joinings}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: backgroundbottomtab,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "  " + joinings.length.toString() + " người đang chờ duyệt",
-          style: TextStyle(fontWeight: FontWeight.w600, color: textcolor),
-        ),
-      ),
-      body: Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: joinings.length,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                child: ListTile(
-                  leading: Container(
-                    width: 61,
-                    height: 61,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(colors: activecolor)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3),
-                          image: DecorationImage(
-                              image: joinings[index].avatarUri == ""
-                                  ? AssetImage("asset/avatar.png")
-                                      as ImageProvider
-                                  : NetworkImage(joinings[index].avatarUri!),
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                  ),
-                  title: Text("Janny"),
-                  subtitle: Text("Đang theo dõi - thành phố hồ chí minh"),
-                ),
-                onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailFormJoinings(
-                                event: new BaseEvent(
-                                    name: "Ủng hộ lũ lụt miền Trung",
-                                    creatorId: 'wxu87lK5Gabour4GQw0i4MDbdQl2'),
-                                userProfile: GetIt.instance
-                                    .get<Authenticator>()
-                                    .userProfile,
-                              )))
-                },
-              );
-            },
-          )
-        ],
-      ),
+      subtitle: Text(
+          "Đang theo dõi " + (user.address != null ? '- ${user.address}' : '')),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailFormJoinings(
+              event: BaseEvent(
+                  name: "Ủng hộ lũ lụt miền Trung",
+                  creatorId: 'wxu87lK5Gabour4GQw0i4MDbdQl2'),
+              userProfile: GetIt.instance.get<Authenticator>().userProfile,
+            ),
+          ),
+        );
+      },
     );
   }
 }

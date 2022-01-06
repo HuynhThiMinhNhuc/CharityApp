@@ -1,5 +1,5 @@
 enum EventTab{
   posts,
   description,
-  image,
+  paticipants,
 }

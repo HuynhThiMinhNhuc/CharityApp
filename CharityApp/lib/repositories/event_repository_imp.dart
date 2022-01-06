@@ -326,4 +326,12 @@ class EventRepositoryImp implements IEventRepository {
     }
     return true;
   }
+
+  @override
+  Future<int> getNumberPaticipant(String eventId) {
+    return paticipantCollection
+        .where('eventId', isEqualTo: eventId)
+        .get()
+        .then((snapshot) => snapshot.docs.length);
+  }
 }

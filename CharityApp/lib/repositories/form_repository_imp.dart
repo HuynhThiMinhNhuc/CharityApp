@@ -60,4 +60,9 @@ class FormRepositoryImp implements IFormRepository {
                 (doc.data() as Map<String, dynamic>)['eventId'] as String)
             .toList());
   }
+
+  @override
+  Future<int> getNumberForm(String eventId) {
+    return collection.where('eventId', isEqualTo: eventId).get().then((snapshot) => snapshot.docs.length);
+  }
 }

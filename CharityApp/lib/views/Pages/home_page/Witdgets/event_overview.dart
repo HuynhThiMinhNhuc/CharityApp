@@ -1,6 +1,7 @@
 import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
@@ -111,27 +112,29 @@ class EventOverviewCard extends StatelessWidget {
                   IconOverview(Icons.people, state.event.numberMember),
                   IconOverview(Icons.post_add, state.event.numberPost),
                   SizedBox(width: 10),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.formRegister,
-                            arguments: state.event);
-                      },
-                      child: Text(
-                        "Tham gia",
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        alignment: Alignment.center,
-                        fixedSize: Size(150, 30),
-                        primary: maincolor,
-                      )),
-                  SizedBox(
-                    width: 20,
-                  )
+                  if (state.event.creatorId != Authenticator.Id) ...[
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.formRegister,
+                              arguments: state.event);
+                        },
+                        child: Text(
+                          "Tham gia",
+                          style: TextStyle(
+                              fontFamily: 'Roboto_Regular',
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          alignment: Alignment.center,
+                          fixedSize: Size(150, 30),
+                          primary: maincolor,
+                        )),
+                    SizedBox(
+                      width: 20,
+                    )
+                  ]
                 ],
               ),
               Padding(
