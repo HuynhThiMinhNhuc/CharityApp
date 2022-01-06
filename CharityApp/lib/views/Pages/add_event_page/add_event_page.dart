@@ -78,7 +78,7 @@ class _AddEventPageState extends State<AddEventPage> {
           style: TextStyle(
               color: textcolor,
               fontFamily: 'Roboto_Regular',
-              fontSize: 25,
+              fontSize: 18,
               fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -107,6 +107,7 @@ class _AddEventPageState extends State<AddEventPage> {
               style: TextStyle(
                   color: maincolor,
                   fontFamily: 'Roboto_Regular',
+                  fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
             style: ButtonStyle(
@@ -138,7 +139,7 @@ class _AddEventPageState extends State<AddEventPage> {
                     ),
                     textFormFieldWithTitle(
                       iconData: Icon(
-                        Icons.calendar_today_outlined,
+                        FontAwesomeIcons.calendarAlt,
                         color: maincolor,
                         size: 25,
                       ),
@@ -174,7 +175,7 @@ class _AddEventPageState extends State<AddEventPage> {
                     ),
                     textFormFieldWithTitle(
                       iconData: Icon(
-                        Icons.location_on_outlined,
+                        FontAwesomeIcons.mapMarkerAlt,
                         color: Colors.red[400],
                         size: 25,
                       ),
@@ -221,9 +222,12 @@ class _AddEventPageState extends State<AddEventPage> {
                       " Thêm ảnh",
                       style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                           fontSize: 15,
-                          color: Colors.black),
+                          color: Color(0x50262626)),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Row(
                       children: [
@@ -426,9 +430,9 @@ class textFormFieldWithTitle extends StatelessWidget {
             title,
             style: TextStyle(
                 fontFamily: 'Roboto-Regular.ttf',
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 fontSize: 15,
-                color: Colors.black),
+                color: Color(0x50262626)),
           ),
           TextFormField(
             controller: controller,

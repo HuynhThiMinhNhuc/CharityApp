@@ -24,14 +24,11 @@ class MyAlertDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Image.asset(
-              pathImage,
-              fit: BoxFit.fill,
-              height: 300,
-              width: 300,
-            ),
+          Image.asset(
+            pathImage,
+            fit: BoxFit.fill,
+            height: 280,
+            width: 300,
           ),
           Text(
             title,
@@ -56,26 +53,26 @@ class MyAlertDialog extends StatelessWidget {
       ),
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
-        OutlinedButton(
-          onPressed: () => Navigator.pop(context, 'Đồng ý'),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-            child: const Text(
-              'Đồng ý',
-              style: TextStyle(color: maincolor, fontSize: 20),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
+          child: OutlinedButton(
+            onPressed: () => Navigator.pop(context, 'Đồng ý'),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+              child: const Text(
+                'Đồng ý',
+                style: TextStyle(color: maincolor, fontSize: 20),
+              ),
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: BorderSide(width: 2, color: maincolor),
+              )),
             ),
           ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.white),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              side: BorderSide(width: 2, color: maincolor),
-            )),
-          ),
         ),
-        SizedBox(
-          height: 20,
-        )
       ],
     );
   }
