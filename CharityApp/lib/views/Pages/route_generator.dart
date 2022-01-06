@@ -1,3 +1,4 @@
+import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/views/Login/login_view.dart';
@@ -56,8 +57,7 @@ class RouteGenerator {
               create: (context) => CalendarBloc(),
             )
           ],
-          child: RootApp(
-          ),
+          child: RootApp(),
         ),
       );
     } else if (settings.name == AppRoutes.addPost) {
@@ -70,7 +70,8 @@ class RouteGenerator {
               if (state is PostUpdated) {
                 await showMyDialog(bloc_context, 'Thêm bài viết thành công');
                 Navigator.of(context).pushNamed(
-                  AppRoutes.eventPage, arguments: state.post.eventId,
+                  AppRoutes.eventPage,
+                  arguments: state.post.eventId,
                 );
               } else if (state is PostLoadFailure) {
                 showMyDialog(bloc_context, 'Thêm bài viết thất bại',
@@ -126,11 +127,12 @@ class RouteGenerator {
       final eventId = settings.arguments as String;
 
       return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => BlocProvider(
-                create: (_) => EventTitleCubit(),
-                child: EventPage(eventId: eventId),
-              ));
+        settings: settings,
+        builder: (context) => BlocProvider(
+          create: (_) => EventTitleCubit(),
+          child: EventPage(eventId: eventId),
+        ),
+      );
     } else if (settings.name == AppRoutes.comment) {
       final postId = settings.arguments as String;
 

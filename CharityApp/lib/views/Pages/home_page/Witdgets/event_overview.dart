@@ -1,9 +1,13 @@
 import 'package:charityapp/Constant/post_jason.dart';
+import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
+import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/tab_bloc/tab_bloc.dart';
@@ -21,8 +25,13 @@ class EventOverviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double c_width = MediaQuery.of(context).size.width;
 
-    return BlocBuilder<EventTitleCubit, EventTitleState>(
+    return BlocBuilder<EventTitleCubit, EventTitleSuccess>(
       builder: (context, state) {
+        bool isJoin() {
+          return state.permission == EventPermission.notPaticipant ||
+              state.permission == EventPermission.pending;
+        }
+
         return Container(
           child: Column(
             children: [
@@ -42,7 +51,7 @@ class EventOverviewCard extends StatelessWidget {
                       Icons.arrow_back,
                       color: Colors.white,
                     ),
-                    onPressed: () => {Navigator.pop(context)},
+                    onPressed: () => Navigator.pop(context),
                   ),
                   left: 10,
                   top: 30,
@@ -111,27 +120,37 @@ class EventOverviewCard extends StatelessWidget {
                   IconOverview(Icons.people, state.event.numberMember),
                   IconOverview(Icons.post_add, state.event.numberPost),
                   SizedBox(width: 10),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.formRegister,
-                            arguments: state.event);
-                      },
-                      child: Text(
-                        "Tham gia",
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        alignment: Alignment.center,
-                        fixedSize: Size(150, 30),
-                        primary: maincolor,
-                      )),
-                  SizedBox(
-                    width: 20,
-                  )
+                  
+                  //If not a admin, show button register
+                  if (state.permission != EventPermission.admin) ...[
+                    ElevatedButton(
+                        onPressed: () {
+                          if (isJoin()) {
+                            //Open form to register
+                            Navigator.pushNamed(context, AppRoutes.formRegister,
+                                arguments: state.event);
+                          } else {
+                            BlocProvider.of<FormBloc>(context)
+                                .add(UnRegisterForm(eventId: eventId));
+                          }
+                        },
+                        child: Text(
+                          isJoin() ? "Tham gia" : "Hủy tham gia",
+                          style: TextStyle(
+                              fontFamily: 'Roboto_Regular',
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          alignment: Alignment.center,
+                          fixedSize: Size(150, 30),
+                          primary: isJoin() ? maincolor : Colors.red,
+                        )),
+                    SizedBox(
+                      width: 20,
+                    )
+                  ]
                 ],
               ),
               Padding(

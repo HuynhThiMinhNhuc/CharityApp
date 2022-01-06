@@ -1,4 +1,5 @@
 import 'package:charityapp/domain/entities/base_event.dart';
+import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
@@ -17,9 +18,9 @@ enum mode { Joiner, Pending_approval }
 
 class DetailFormJoinings extends StatefulWidget {
   final UserProfile userProfile;
-  final BaseEvent event;
+  final FormRegister formDetail;
   const DetailFormJoinings(
-      {Key? key, required this.userProfile, required this.event})
+      {Key? key, required this.userProfile, required this.formDetail})
       : super(key: key);
 
   @override
@@ -67,7 +68,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                getbody(widget.event, widget.userProfile)
+                getbody(widget.userProfile)
               ],
             ),
           ),
@@ -237,7 +238,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
     );
   }
 
-  Widget getbody(BaseEvent event, UserProfile joiner) {
+  Widget getbody(UserProfile joiner) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),

@@ -44,13 +44,14 @@ class EventDetailViewSuccess extends EventLoadSuccess {
   List<Object> get props => [detail];
 }
 
-class EventImagesViewSuccess extends EventLoadSuccess {
-  final List<String> images;
+class EventPaticipantsViewSuccess extends EventLoadSuccess {
+  final int numberFormRegister;
+  final int numberPaticipants;
 
-  const EventImagesViewSuccess({required this.images});
+  const EventPaticipantsViewSuccess({required this.numberFormRegister, required this.numberPaticipants});
 
   @override
-  List<Object> get props => [images];
+  List<Object> get props => [numberFormRegister, numberPaticipants];
 }
 
 class EventLoadFailure extends EventTabState {}

@@ -3,3 +3,9 @@ enum EventPageState {
   isPending,
   followed,
 }
+enum EventPermission{
+  admin,
+  joined,
+  pending,
+  notPaticipant,
+}

@@ -15,24 +15,6 @@ class UserRepositoryImp implements IUserRepository {
   final userCollection = FirebaseFirestore.instance.collection("users");
 
   @override
-  Future<void> add(UserInfor userInfor) {
-    // TODO: implement add
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<UserProfile>> load(String id, int startIndex, int number) {
-    // TODO: implement load
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<UserOverview>> loadFriends(String id, int number) async {
     List<UserOverview> friends = [];
     UserOverview useroverview;
@@ -154,8 +136,9 @@ class UserRepositoryImp implements IUserRepository {
     UserOverview userOverview;
     try {
       await userCollection.get().then((value) => value.docs.forEach((user) {
-            if (search == "" || TiengViet.parse(user['name'].toString().toLowerCase())
-                .contains(TiengViet.parse(search.toLowerCase()))) {
+            if (search == "" ||
+                TiengViet.parse(user['name'].toString().toLowerCase())
+                    .contains(TiengViet.parse(search.toLowerCase()))) {
               userOverview = new UserOverview(
                   name: user['name'],
                   avatarUri: user['avatarUri'],
@@ -280,7 +263,7 @@ class UserRepositoryImp implements IUserRepository {
       });
     } else
       return [];
-}
+  }
 
   Future<void> updateNumberFollowing(bool isincrease, String id) async {
     int number = 0;
@@ -295,5 +278,45 @@ class UserRepositoryImp implements IUserRepository {
     } catch (e) {
       print("Error update number following:" + e.toString());
     }
+  }
+
+  @override
+  Future<List<UserOverview>> getUsersOfEvent(
+      String eventId, int startIndex, int number) async {
+    final paticipantsCollection =
+        FirebaseFirestore.instance.collection('event_paticipants');
+
+    final paticipantSnapshot =
+        await paticipantsCollection.where('eventId').get();
+
+    final users = paticipantSnapshot.docs.map((paticipantDoc) async {
+      String userId = paticipantDoc.data()['userId'] as String;
+
+      final userDoc = await userCollection.doc(userId).get();
+      final userJson = userDoc.data() as Map<String, dynamic>;
+
+      return UserOverview.fromJson(userJson);
+    }).toList();
+
+    return Future.wait(users);
+  }
+
+  @override
+  Future<List<UserOverview>> loadOverviewFormList(
+      List<String> listUserId) async {
+    if (listUserId.isNotEmpty) {
+
+      return userCollection
+          .where(FieldPath.documentId, whereIn: listUserId)
+          .get()
+          .then((snapshot) {
+        return snapshot.docs.map((doc) {
+          final json = doc.data() as Map<String, dynamic>;
+
+          return UserOverview.fromJson(json);
+        }).toList();
+      });
+    } else
+      return [];
   }
 }
