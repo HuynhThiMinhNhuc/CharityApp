@@ -40,7 +40,7 @@ class _EditProfileState extends State<EditProfile> {
       imageFile: imagetemporary,
       rootPath: 'images/users',
     );
-    if (widget.currentUser.avatarUri != null)
+    if (widget.currentUser.avatarUri != "")
       FirebaseStorage.instance
           .refFromURL(widget.currentUser.avatarUri!)
           .delete();
