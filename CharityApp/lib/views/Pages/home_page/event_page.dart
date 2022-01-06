@@ -5,6 +5,7 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
+import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/detailFormJoining.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
@@ -178,14 +179,15 @@ class _JoinerState extends State<Joiner> {
   Widget build(BuildContext context) {
     return BlocBuilder<EventTabBloc, EventTabState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            if (widget.permission == EventPermission.admin)
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              if (permission == EventPermission.admin)
+                buildExpansion(context, _registerCubit, true, numberRegister),
               buildExpansion(
-                  context, _registerCubit, true, widget.numberRegister),
-            buildExpansion(
-                context, _paticipantsCubit, false, widget.numberPaticipant),
-          ],
+                  context, _paticipantsCubit, false, numberPaticipant),
+            ],
+          ),
         );
       },
     );
@@ -227,7 +229,7 @@ class _JoinerState extends State<Joiner> {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             children: listUser == null
-                ? [Text('loading...')]
+                ? [Skeletonloaderfriend()]
                 : listUser
                     .map((user) => FormRegisterCard(
                         user: user,

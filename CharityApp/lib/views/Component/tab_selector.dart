@@ -34,11 +34,11 @@ class TabSelector extends StatelessWidget {
       onTap: (index) => onTabSelected(AppTab.values[index]),
       items: [
         BottomNavigationBarItem(
-          label: 'Home',
+          label: 'Trang chủ',
           icon: Icon(Icons.home),
         ),
         BottomNavigationBarItem(
-            label: 'Calendar', icon: Icon(Icons.calendar_today_rounded)),
+            label: 'Lịch', icon: Icon(Icons.calendar_today_rounded)),
         BottomNavigationBarItem(
           label: '',
           icon: SpeedDial(
@@ -73,11 +73,11 @@ class TabSelector extends StatelessWidget {
           ),
         ),
         BottomNavigationBarItem(
-          label: 'Friend',
+          label: 'Bạn bè',
           icon: Icon(Icons.people),
         ),
         BottomNavigationBarItem(
-          label: 'Profile',
+          label: 'Hồ sơ',
           icon: Container(
             width: 31,
             height: 31,

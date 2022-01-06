@@ -42,8 +42,11 @@ class EventOverviewCard extends StatelessWidget {
                   height: 210,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(
-                            state.event.backgroundUri ?? post[0]['postImage']),
+                        image: (state.event.backgroundUri == "" ||
+                                state.event.backgroundUri == null)
+                            ? AssetImage("asset/background.png")
+                                as ImageProvider
+                            : NetworkImage(state.event.backgroundUri!),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -81,8 +84,11 @@ class EventOverviewCard extends StatelessWidget {
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
                                 alignment: Alignment(0, -0.8),
-                                image: NetworkImage(
-                                    state.event.avatarUri ?? post[0]['avatar']),
+                                image: (state.event.avatarUri != "" &&
+                                        state.event.avatarUri != null)
+                                    ? NetworkImage(state.event.avatarUri!)
+                                    : AssetImage('asset/avatar.png')
+                                        as ImageProvider,
                                 fit: BoxFit.cover),
                           ),
                         ),
@@ -140,13 +146,13 @@ class EventOverviewCard extends StatelessWidget {
                                   arguments: state.event);
                             } else {
                               //Unregist form
-                              showUnRegisterForm(context,
-                                  'Bạn có chắc hủy đăng ký form?');
+                              showUnRegisterForm(
+                                  context, 'Bạn có chắc hủy đăng ký form?');
                             }
                           } else {
                             //Out event
-                            showUnRegisterForm(context,
-                                'Bạn có chắc thoát khỏi sự kiện này?');
+                            showUnRegisterForm(
+                                context, 'Bạn có chắc thoát khỏi sự kiện này?');
                           }
                         },
                         child: Text(
