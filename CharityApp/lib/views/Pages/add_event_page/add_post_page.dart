@@ -106,7 +106,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 Text(
                   "Thêm ảnh",
                   style: TextStyle(
-                    color: Color(0x50262626),
+                    color: Color(0x80262626),
                     fontFamily: 'Roboto_Regular',
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -198,8 +198,8 @@ class _AddPostPageState extends State<AddPostPage> {
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'Roboto_Regular',
-              fontSize: 19,
-              fontWeight: FontWeight.w600)),
+              fontSize: 18,
+              fontWeight: FontWeight.bold)),
       actions: [
         TextButton(
           onPressed: () {
@@ -219,8 +219,8 @@ class _AddPostPageState extends State<AddPostPage> {
             style: TextStyle(
                 color: maincolor,
                 fontFamily: 'Roboto_Regular',
-                fontSize: 17,
-                fontWeight: FontWeight.w600),
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
           ),
         ),
       ],
