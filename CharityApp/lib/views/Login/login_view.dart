@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/main.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
@@ -25,7 +26,7 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login>  {
+class _LoginState extends State<Login> {
   bool securtytext = false;
   final IconData eye = Icons.remove_red_eye_outlined;
   final TextEditingController passwordcontroller = new TextEditingController();
@@ -56,12 +57,13 @@ class _LoginState extends State<Login>  {
                 // ),
                 //,
                 Text(
-                  'Xin chào',
+                  'MEER',
                   style: TextStyle(
-                      color: maincolor,
-                      fontSize: 38,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.bold),
+                    color: maincolor,
+                    fontSize: 70,
+                    fontFamily: 'Redressed_Regular',
+                    //fontWeight: FontWeight.bold
+                  ),
                 ),
                 SizedBox(
                   height: 5,
@@ -173,48 +175,27 @@ class _LoginState extends State<Login>  {
                     },
                     listener: (context, state) {
                       if (state is SigninfailEmailState) {
-                        showDialog<void>(
+                        showDialog<String>(
                           context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlerDialogFailEmail();
-                          },
+                          builder: (BuildContext context) => MyAlertDialog(
+                              content: "Vui lòng nhập đúng email đã đăng ký!",
+                              pathImage:
+                                  "asset/imagesample/ImageAlerDIalog/wrong.png",
+                              title: "Sai Email"),
                         );
                       } else if (state is SigninfailPassState) {
                         showDialog<String>(
                           context: context,
-                          builder: (BuildContext context) =>
-                              AlertFailPassword(),
+                          builder: (BuildContext context) => MyAlertDialog(
+                              content:
+                                  "Vui lòng nhập đúng mật khẩu đã đăng ký!",
+                              pathImage:
+                                  "asset/imagesample/ImageAlerDIalog/wrong.png",
+                              title: "Sai mật khẩu"),
                         );
                       } else if (state is SigninSussessState) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
-                        // Navigator.pushAndRemoveUntil(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (BuildContext context) =>
-                        //           MultiBlocProvider(
-                        //             providers: [
-                        //               BlocProvider<TabBloc>(
-                        //                 create: (context) => TabBloc(),
-                        //               ),
-                        //               BlocProvider<FriendBloc>(
-                        //                 create: (context) => FriendBloc(),
-                        //               ),
-                        //               BlocProvider<EditprofileBloc>(
-                        //                 create: (context) => EditprofileBloc(),
-                        //               ),
-                        //               BlocProvider<OverViewUserBloc>(
-                        //                 create: (context) => OverViewUserBloc(),
-                        //               ),
-                        //               BlocProvider<ActiveuserBloc>(
-                        //                 create: (context) => ActiveuserBloc(),
-                        //               ), 
-                        //             ],
-                        //             child: RootApp(loadactiveuser: true,),
-                        //           )),
-                        //   (route) => false,
-                        // );
-
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            AppRoutes.home, (route) => false);
                       }
                     },
                     child: BlocBuilder<SigninBloc, SigninState>(

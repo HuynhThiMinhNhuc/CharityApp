@@ -15,6 +15,7 @@ import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:charityapp/views/bloc/tab_bloc/tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'add_event_page/add_event_page.dart';
 import 'add_event_page/add_post_page.dart';
@@ -34,9 +35,10 @@ class RouteGenerator {
         ),
       );
     } else if (settings.name == AppRoutes.home) {
-      return MaterialPageRoute(
+      return PageTransition(
+        type: PageTransitionType.bottomToTop,
         settings: settings,
-        builder: (BuildContext context) => MultiBlocProvider(
+        child: MultiBlocProvider(
           providers: [
             BlocProvider<TabBloc>(
               create: (context) => TabBloc(),
@@ -125,7 +127,6 @@ class RouteGenerator {
       );
     } else if (settings.name == AppRoutes.eventPage) {
       final eventId = settings.arguments as String;
-
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => BlocProvider(
@@ -133,6 +134,7 @@ class RouteGenerator {
           child: EventPage(eventId: eventId),
         ),
       );
+
     } else if (settings.name == AppRoutes.comment) {
       final postId = settings.arguments as String;
 

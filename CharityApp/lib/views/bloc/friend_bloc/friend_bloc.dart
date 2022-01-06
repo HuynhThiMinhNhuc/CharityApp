@@ -22,7 +22,7 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
     try {
       emit(FriendLoadingPageState());
       final friends = await userRepositoryImp.loadFriends(event.id, 20);
-      final totalfriend = await userRepositoryImp.loadNumberFriends(event.id);
+      final totalfriend = friends.length;
       emit(FriendLoadedPageState(friends, totalfriend));
     } catch (e) {
       print("Lỗi tải bạn bè thất bại");

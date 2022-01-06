@@ -18,14 +18,15 @@ class UserRepositoryImp implements IUserRepository {
   Future<List<UserOverview>> loadFriends(String id, int number) async {
     List<UserOverview> friends = [];
     UserOverview useroverview;
-
     try {
-      await userCollection.doc(id).get().then((value) {
-        List.from(value.data()!['friends']).forEach((element) async {
-          useroverview = await getUserOverView(element);
-          useroverview.id = element;
-          friends.add(useroverview);
-        });
+      await userCollection.doc(id).get().then((value) async {
+        for (var element in List.from(value.data()!['friends'])) {
+          if (element != id) {
+            useroverview = await getUserOverView(element);
+            friends.add(useroverview);
+          }
+        }
+        ;
       });
       return friends;
     } catch (e) {

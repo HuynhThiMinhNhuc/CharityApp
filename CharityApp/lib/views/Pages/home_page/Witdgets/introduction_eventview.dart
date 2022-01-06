@@ -17,18 +17,25 @@ class IntroductionEventView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Thông tin chung",
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: textcolor),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 80,
+                  child: Text(
+                    "Thông tin chung",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: 'Roboto_Regular',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: textcolor),
+                  ),
                 ),
                 IconButton(onPressed: () => {}, icon: Icon(Icons.edit))
               ],
@@ -87,7 +94,7 @@ class IntroductionEventView extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  " Sự kiện sẽ diễn ra vào ngày ${DateFormat('dd/MM/yyyy').format(detail.timeStart!)}",
+                  " Ngày tổ chức: ${DateFormat('dd/MM/yyyy').format(detail.timeStart!)}",
                   style: TextStyle(
                       fontFamily: 'Roboto_Regular',
                       fontSize: 15,
