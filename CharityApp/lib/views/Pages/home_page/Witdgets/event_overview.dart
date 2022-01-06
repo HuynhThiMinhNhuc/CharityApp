@@ -3,6 +3,8 @@ import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
+import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Pages/home_page/event_page.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
@@ -28,8 +30,8 @@ class EventOverviewCard extends StatelessWidget {
     return BlocBuilder<EventTitleCubit, EventTitleSuccess>(
       builder: (context, state) {
         bool isJoin() {
-          return state.permission == EventPermission.notPaticipant ||
-              state.permission == EventPermission.pending;
+          return state.permission == EventPermission.admin ||
+              state.permission == EventPermission.joined;
         }
 
         return Container(
@@ -120,22 +122,58 @@ class EventOverviewCard extends StatelessWidget {
                   IconOverview(Icons.people, state.event.numberMember),
                   IconOverview(Icons.post_add, state.event.numberPost),
                   SizedBox(width: 10),
-                  
+
                   //If not a admin, show button register
                   if (state.permission != EventPermission.admin) ...[
                     ElevatedButton(
                         onPressed: () {
-                          if (isJoin()) {
+                          if (!isJoin()) {
                             //Open form to register
-                            Navigator.pushNamed(context, AppRoutes.formRegister,
-                                arguments: state.event);
+                            if (state.permission ==
+                                EventPermission.notPaticipant) {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.formRegister,
+                                  arguments: state.event);
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (builder) => MyAlertDialog2(
+                                  content: 'Bạn có chắc hủy đăng ký form?',
+                                  title: 'Thông báo',
+                                  onTabYes: () {
+                                    //Unregist form
+                                    BlocProvider.of<FormBloc>(context)
+                                        .add(UnRegisterForm(eventId: eventId));
+
+                                    BlocProvider.of<EventTitleCubit>(context).load(eventId);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              );
+                            }
                           } else {
-                            BlocProvider.of<FormBloc>(context)
-                                .add(UnRegisterForm(eventId: eventId));
+                            //Out event
+                            showDialog(
+                              context: context,
+                              builder: (builder) => MyAlertDialog2(
+                                content: 'Bạn có chắc thoát khỏi sự kiện này?',
+                                title: 'Thông báo',
+                                onTabYes: () {
+                                  //Unregist form
+                                  BlocProvider.of<FormBloc>(context)
+                                      .add(UnRegisterForm(eventId: eventId));
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            );
                           }
                         },
                         child: Text(
-                          isJoin() ? "Tham gia" : "Hủy tham gia",
+                          isJoin()
+                              ? "Hủy tham gia"
+                              : state.permission == EventPermission.pending
+                                  ? "Đang đợi"
+                                  : "Tham gia",
                           style: TextStyle(
                               fontFamily: 'Roboto_Regular',
                               fontSize: 13,
@@ -145,7 +183,7 @@ class EventOverviewCard extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           alignment: Alignment.center,
                           fixedSize: Size(150, 30),
-                          primary: isJoin() ? maincolor : Colors.red,
+                          primary: !isJoin() ? maincolor : Colors.red,
                         )),
                     SizedBox(
                       width: 20,

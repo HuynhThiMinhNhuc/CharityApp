@@ -12,53 +12,32 @@ import 'package:get_it/get_it.dart';
 
 class FormView extends StatefulWidget {
   final BaseEvent event;
-  final String username;
-  final String userphone;
-  const FormView(
-      {Key? key, this.username = '', this.userphone = '', required this.event})
-      : super(key: key);
+  const FormView({Key? key, required this.event}) : super(key: key);
 
   @override
   _FormViewState createState() => _FormViewState();
 }
 
 class _FormViewState extends State<FormView> {
-  late TextEditingController _nameController;
-  late TextEditingController _phoneController;
-  late TextEditingController _emailController;
-  late TextEditingController _question1Controller;
-  late TextEditingController _question2Controller;
-  late TextEditingController _question3Controller;
+  List<TextEditingController> _listController = [];
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
-    _phoneController = TextEditingController();
-    _emailController = TextEditingController();
-    _question1Controller = TextEditingController();
-    _question2Controller = TextEditingController();
-    _question3Controller = TextEditingController();
+
+    for (int i = 0; i < 6; i++) {
+      _listController.add(TextEditingController());
+    }
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
-    _question1Controller.dispose();
-    _question2Controller.dispose();
-    _question3Controller.dispose();
+    _listController.clear();
+
     super.dispose();
   }
 
-  List<String> Items = [
-    "Email",
-    "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?",
-    "Đối nét về bản thân( sở thích, tính cách, tài lẻ...)",
-    "Link Facebook(nếu có)",
-  ];
-  List<int> maxlines = [1, 5, 5, 2];
+  List<int> maxlines = [1, 5, 5, 1];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,9 +65,13 @@ class _FormViewState extends State<FormView> {
                 child: CustomButton(
                   onPressed: () {
                     final form = FormRegister(
-                        name: _nameController.text,
-                        phone: _phoneController.text,
-                        email: _emailController.text,
+                        name: _listController[0].text,
+                        phone: _listController[1].text,
+                        email: _listController[2].text,
+                        questions: _listController
+                            .skip(3)
+                            .map((controller) => controller.text)
+                            .toList(),
                         creatorId: Authenticator.Id,
                         eventId: widget.event.id!,
                         timeCreate: DateTime.now());
@@ -104,7 +87,7 @@ class _FormViewState extends State<FormView> {
                                       .userProfile
                                       .avatarUri!,
                                   event: widget.event.name,
-                                  name: widget.username,
+                                  name: _listController[0].text,
                                 )));
                   },
                   textInput: 'Đăng ký',
@@ -130,60 +113,10 @@ class _FormViewState extends State<FormView> {
             SizedBox(
               height: 15,
             ),
-            Text(
-              "Tên",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
+            FormBody(
+              listController: _listController,
+              isReadonly: false,
             ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                fillColor: Color(0xFFF4F4F4),
-                filled: true,
-                hintText: widget.username,
-                enabled: false,
-                contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Số điện thoại",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                  fillColor: Color(0xFFF4F4F4),
-                  filled: true,
-                  hintText: widget.userphone,
-                  enabled: false,
-                  contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-                children: List.generate(Items.length, (index) {
-              return (TextInput(
-                isEnable: true,
-                Items: [],
-                title: Items[index],
-                maxline: maxlines[index],
-              ));
-            }))
           ],
         ),
       ),
@@ -191,19 +124,138 @@ class _FormViewState extends State<FormView> {
   }
 }
 
+class FormBody extends StatefulWidget {
+  final List<TextEditingController> listController;
+  final bool isReadonly;
+  const FormBody(
+      {Key? key, required this.listController, required this.isReadonly})
+      : assert(listController.length > 2),
+        super(key: key);
+
+  @override
+  State<FormBody> createState() => _FormBodyState();
+}
+
+class _FormBodyState extends State<FormBody> {
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+
+  List<TextEditingController> _questionController = [];
+  final Map<String, int> items = {
+    "Email": 1,
+    "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?": 3,
+    "Đối nét về bản thân( sở thích, tính cách, tài lẻ...)": 3,
+    "Link Facebook(nếu có)": 1,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = widget.listController[0];
+    _phoneController = widget.listController[1];
+
+    for (int i = 0; i < items.length; i++) {
+      _questionController.add(widget.listController[2 + i]);
+    }
+
+    getmyProfile();
+  }
+
+  void getmyProfile() {
+    if (_nameController.text.isEmpty)
+      _nameController.text = Authenticator.profile.name;
+    if (_phoneController.text.isEmpty)
+      _phoneController.text = Authenticator.profile.phone;
+    if (_questionController[0].text.isEmpty)
+      _questionController[0].text = Authenticator.profile.email;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _questionController.clear();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          "Tên",
+          style: TextStyle(
+              fontFamily: 'Roboto_Regular',
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: textcolor),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextField(
+          controller: _nameController,
+          decoration: InputDecoration(
+            fillColor: Color(0xFFF4F4F4),
+            filled: true,
+            hintText: 'Nhập tên bạn tại đây',
+            enabled: !widget.isReadonly,
+            contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Số điện thoại",
+          style: TextStyle(
+              fontFamily: 'Roboto_Regular',
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: textcolor),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextField(
+          controller: _phoneController,
+          decoration: InputDecoration(
+              fillColor: Color(0xFFF4F4F4),
+              filled: true,
+              hintText: 'Nhập số điện thoại của bạn tại đây',
+              enabled: !widget.isReadonly,
+              contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Column(
+            children: List.generate(items.length, (index) {
+          return (TextInput(
+            isReadonly: widget.isReadonly,
+            title: items.keys.elementAt(index),
+            maxline: items.values.elementAt(index),
+            textController: _questionController[index],
+          ));
+        }))
+      ],
+    );
+  }
+}
+
 class TextInput extends StatelessWidget {
   final String title;
   final int maxline;
-  final isEnable;
-  const TextInput(
-      {Key? key,
-      required this.title,
-      required this.Items,
-      required this.maxline,
-      required this.isEnable})
-      : super(key: key);
-
-  final List<String> Items;
+  final bool isReadonly;
+  final TextEditingController textController;
+  const TextInput({
+    Key? key,
+    required this.title,
+    this.maxline = 1,
+    required this.isReadonly,
+    required this.textController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -227,9 +279,10 @@ class TextInput extends StatelessWidget {
             primaryColorDark: Colors.red,
           ),
           child: TextField(
+            controller: textController,
             maxLines: maxline,
             decoration: InputDecoration(
-              enabled: isEnable,
+              enabled: !isReadonly,
               border: InputBorder.none,
               fillColor: Color(0xFFF4F4F4),
               filled: true,

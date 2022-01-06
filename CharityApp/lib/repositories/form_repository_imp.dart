@@ -10,14 +10,14 @@ class FormRepositoryImp implements IFormRepository {
       FirebaseFirestore.instance.collection('form_registers');
   final CollectionReference paticipantsCollection =
       FirebaseFirestore.instance.collection('event_paticipants');
+  final CollectionReference eventCollection =
+      FirebaseFirestore.instance.collection('events');
 
   @override
   Future<void> confirm(String formId, bool isTrue) async {
-    final eventCollection = FirebaseFirestore.instance.collection('events');
     final doc = await formCollection.doc(formId).get();
 
     if (isTrue && doc.exists) {
-
       //Add to paticipants
       paticipantsCollection.add(<String, dynamic>{
         'userId': doc['userId'],
@@ -30,9 +30,6 @@ class FormRepositoryImp implements IFormRepository {
       });
     } else if (!doc.exists) {
       return Future.error('Form does not exists');
-      // eventCollection.doc(doc['eventId']).update(<String, dynamic>{
-      //   'numberMember': FieldValue.increment(-1),
-      // });
     }
 
     //Delete form
@@ -52,13 +49,44 @@ class FormRepositoryImp implements IFormRepository {
   }
 
   @override
-  Future<void> unRegister(String eventId, String userId) async {
+  Future<String> unRegister(String eventId, String userId) async {
+    late String formId;
+
     final snapshot = await formCollection
         .where('eventId', isEqualTo: eventId)
         .where('userId', isEqualTo: userId)
         .limit(1)
         .get();
-    if (snapshot.docs.length == 1) snapshot.docs[0].reference.delete();
+    //Delete form if not confirm
+    if (snapshot.docs.length == 1) {
+      formId = snapshot.docs[0].id;
+      snapshot.docs[0].reference.delete();
+    } else if (snapshot.docs.length == 0) {
+      //Delete from event
+      await paticipantsCollection
+          .where('eventId', isEqualTo: eventId)
+          .where('userId', isEqualTo: userId)
+          .get()
+          .then((snapshot) {
+        if (snapshot.docs[0].exists) {
+          //Delete form paticipants
+          formId = snapshot.docs[0].id;
+          snapshot.docs[0].reference.delete();
+
+          //Decrease 1 numberMember
+          eventCollection
+              .where('eventId', isEqualTo: snapshot.docs[0]['eventId'])
+              .get()
+              .then((eventSnapshot) {
+            eventSnapshot.docs[0].reference.update(<String, dynamic>{
+              'numberMember': FieldValue.increment(-1),
+            });
+          });
+        }
+      });
+    }
+
+    return formId;
   }
 
   @override
@@ -100,5 +128,16 @@ class FormRepositoryImp implements IFormRepository {
 
     final userRepor = UserRepositoryImp();
     return userRepor.loadOverviewFormList(listUserId);
+  }
+
+  @override
+  Future<FormRegister> load(String eventId, String userId) async {
+    final snapshot = await formCollection
+        .where('eventId', isEqualTo: eventId)
+        .where('userId', isEqualTo: userId)
+        .limit(1)
+        .get();
+    final json = snapshot.docs[0].data() as Map<String, dynamic>;
+    return FormRegister.fromJson(json)..id = snapshot.docs[0].id;
   }
 }
