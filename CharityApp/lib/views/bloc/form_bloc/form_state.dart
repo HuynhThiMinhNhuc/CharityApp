@@ -19,10 +19,11 @@ class FormFail extends FormState{
   List<Object> get props => [error, errorId];
 }
 class FormSuccess extends FormState {
-  final String formId;
-  const FormSuccess({required this.formId});
+  final String userId;
+  final String eventId;
+  const FormSuccess({required this.userId, required this.eventId});
     @override
-  List<Object> get props => [formId];
+  List<Object> get props => [userId, eventId];
 }
 class FormLoadSuccess extends FormState {
   final FormRegister form;

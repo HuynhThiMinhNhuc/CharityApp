@@ -195,7 +195,7 @@ class EventOverviewCard extends StatelessWidget {
         onTabYes: () {
           //Unregist form
           BlocProvider.of<FormBloc>(context)
-              .add(UnRegisterForm(eventId: eventId));
+              .add(UnRegisterForm(eventId: eventId, userId: Authenticator.Id));
 
           BlocProvider.of<EventTitleCubit>(context).load(eventId);
           Navigator.of(context).pop();

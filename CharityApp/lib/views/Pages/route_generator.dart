@@ -8,7 +8,7 @@ import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/calendar_bloc/calendar.dart';
 import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
-import 'package:charityapp/views/bloc/form_bloc/form.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart' as formBLoc;
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
@@ -21,6 +21,7 @@ import 'package:page_transition/page_transition.dart';
 import 'add_event_page/add_event_page.dart';
 import 'add_event_page/add_post_page.dart';
 import 'add_event_page/chosse_eventview.dart';
+import 'home_page/Witdgets/detailFormJoining.dart';
 import 'home_page/comment_view.dart';
 import 'home_page/event_page.dart';
 import 'home_page/form_view.dart';
@@ -154,10 +155,25 @@ class RouteGenerator {
           settings: settings,
           builder: (context) {
             return BlocProvider(
-              create: (_) => FormBloc(),
+              create: (_) => formBLoc.FormBloc(),
               child: FormView(event: event),
             );
           });
+    } else if (settings.name == AppRoutes.detailFormRegister) {
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) =>
+            BlocBuilder<formBLoc.FormBloc, formBLoc.FormState>(
+                builder: (_, state) {
+          if (state is formBLoc.FormLoadSuccess) {
+            return DetailFormJoinings(
+              formDetail: state.form,
+              userProfile: state.user,
+            );
+          } else
+            return Text('error');
+        }),
+      );
     }
     return MaterialPageRoute(builder: (context) {
       return Text('fail page');

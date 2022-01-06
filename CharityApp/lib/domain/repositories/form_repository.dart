@@ -5,8 +5,8 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 
 abstract class IFormRepository {
   Future<void> register(FormRegister form);
-  Future<String> unRegister(String eventId, String userId);
-  Future<void> confirm(String formId, bool isTrue);
+  Future<void> unRegister(String eventId, String userId);
+  Future<void> confirm(String eventId, String userId, bool isTrue);
   Future<FormRegister> load(String eventId, String userId);
 
   Future<List<String>> loadEventPendingFrom(String userId);

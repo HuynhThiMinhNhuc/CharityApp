@@ -8,11 +8,9 @@ import 'package:charityapp/views/Pages/home_page/form_view.dart';
 import 'package:charityapp/views/Pages/profile_page/Widgets/information_profile_view.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
 
 enum mode { Joiner, Pending_approval }
 
