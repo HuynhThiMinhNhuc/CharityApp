@@ -24,7 +24,7 @@ class EventRepositoryImp implements IEventRepository {
   @override
   Future<void> add(EventInfor entity) async {
     final docref = await eventCollection
-        .add(entity.toJson()..addAll({'numberMember': 0, 'numberPost': 0}));
+        .add(entity.toJson()..addAll({'numberMember': 0, 'numberPost': 0, 'timeCreate':DateTime.now()}));
     entity.id = docref.id;
     print('Add ${entity.toString()} success');
   }
