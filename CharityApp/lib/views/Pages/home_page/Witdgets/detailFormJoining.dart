@@ -146,11 +146,11 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
             ),
             Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InformationProfileView(joinerProfile.numberPost, "Bài viết"),
                   InformationProfileView(
-                      joinerProfile.numberFollower, "Người theo dõi"),
+                      joinerProfile.numberFollower, "Theo dõi"),
                   InformationProfileView(
                       joinerProfile.numberFollowing, "Đang theo dõi"),
                 ],
