@@ -135,18 +135,20 @@ class UserRepositoryImp implements IUserRepository {
   Future<List<UserOverview>> searchUser(String search) async {
     List<UserOverview> suggesstion = [];
     UserOverview userOverview;
+    String id = GetIt.instance.get<Authenticator>().userProfile.id!;
     try {
-      await userCollection.get().then((value) => value.docs.forEach((user) {
-            if (search == "" ||
-                TiengViet.parse(user['name'].toString().toLowerCase())
-                    .contains(TiengViet.parse(search.toLowerCase()))) {
-              userOverview = new UserOverview(
-                  name: user['name'],
-                  avatarUri: user['avatarUri'],
-                  id: user.id);
-              suggesstion.add(userOverview);
-            }
-          }));
+      await userCollection.get().then((value) {
+        for (var user in value.docs) {
+          if (user.id != id &&
+              (search == "" ||
+                  TiengViet.parse(user['name'].toString().toLowerCase())
+                      .contains(TiengViet.parse(search.toLowerCase())))) {
+            userOverview = new UserOverview(
+                name: user['name'], avatarUri: user['avatarUri'], id: user.id);
+            suggesstion.add(userOverview);
+          }
+        }
+      });
       return suggesstion;
     } catch (e) {
       print("Lỗi tìm kiếm: " + e.toString());
@@ -220,7 +222,8 @@ class UserRepositoryImp implements IUserRepository {
           'friends': [],
           'phone': '',
           'numberevent': 0,
-          'numberfollower': 0
+          'numberfollower': 0,
+          'avatarUri': ""
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
@@ -306,7 +309,6 @@ class UserRepositoryImp implements IUserRepository {
   Future<List<UserOverview>> loadOverviewFormList(
       List<String> listUserId) async {
     if (listUserId.isNotEmpty) {
-
       return userCollection
           .where(FieldPath.documentId, whereIn: listUserId)
           .get()

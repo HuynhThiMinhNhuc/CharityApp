@@ -111,6 +111,7 @@ flutter:
     - asset/imageInpage/no_result.png
     - asset/imageInpage/no_comment.png
     - asset/imageInpage/heart.png
+    - asset/imageInpage/success.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

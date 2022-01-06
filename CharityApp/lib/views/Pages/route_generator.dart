@@ -1,6 +1,7 @@
 import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
+import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Root_App.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
@@ -98,7 +99,13 @@ class RouteGenerator {
           return BlocConsumer<EventTabBloc, EventTabState>(
             listener: (context, state) async {
               if (state is EventUpdateSuccess) {
-                showMyDialog(context, "Thêm sự kiện thành công");
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => MyAlertDialog(
+                      content: "Nhấn đồng ý để quay lại màn hình chính",
+                      pathImage: "asset/imageInpage/success.png",
+                      title: "Thêm sự kiện thành công"),
+                );
               } else if (state is EventLoadFailure) {
                 showMyDialog(context, "Thêm sự kiện thất bại",
                     closeWhenClick: false);
@@ -134,7 +141,6 @@ class RouteGenerator {
           child: EventPage(eventId: eventId),
         ),
       );
-
     } else if (settings.name == AppRoutes.comment) {
       final postId = settings.arguments as String;
 

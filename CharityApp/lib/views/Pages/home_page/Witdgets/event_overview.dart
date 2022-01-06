@@ -91,20 +91,24 @@ class EventOverviewCard extends StatelessWidget {
                       SizedBox(
                         width: c_width - 110,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             SizedBox(
-                              height: 32,
+                              height: 35,
                             ),
-                            Text(
-                              state.event.name,
-                              textAlign: TextAlign.start,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontFamily: 'Roboto_Regular',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: textcolor),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                state.event.name,
+                                textAlign: TextAlign.start,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontFamily: 'Roboto_Regular',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: textcolor),
+                              ),
                             )
                           ],
                         ),
@@ -120,7 +124,7 @@ class EventOverviewCard extends StatelessWidget {
                   IconOverview(Icons.people, state.event.numberMember),
                   IconOverview(Icons.post_add, state.event.numberPost),
                   SizedBox(width: 10),
-                  
+
                   //If not a admin, show button register
                   if (state.permission != EventPermission.admin) ...[
                     ElevatedButton(

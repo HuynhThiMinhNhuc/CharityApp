@@ -36,7 +36,7 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
     try {
       emit(FriendSearchLoadingState());
       List<UserOverview> suggestions =
-          await userRepositoryImp.searchUser(event.name);
+          await userRepositoryImp.searchUser(event.name.trim());
       emit(FriendSearchWithResultState(suggestions));
     } catch (e) {
       print("Lỗi tìm kiếm thất bại" + e.toString());

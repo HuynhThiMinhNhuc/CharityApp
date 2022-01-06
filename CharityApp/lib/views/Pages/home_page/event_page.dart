@@ -277,7 +277,7 @@ class FormRegisterCard extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white, width: 3),
               image: DecorationImage(
-                  image: user.avatarUri == null
+                  image: user.avatarUri == ""
                       ? AssetImage("asset/avatar.png") as ImageProvider
                       : NetworkImage(user.avatarUri!),
                   fit: BoxFit.cover),

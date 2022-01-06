@@ -196,7 +196,7 @@ class _EditProfileState extends State<EditProfile> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
-                                image: widget.currentUser.avatarUri != null
+                                image: widget.currentUser.avatarUri != ""
                                     ? NetworkImage(
                                             widget.currentUser.avatarUri!)
                                         as ImageProvider
