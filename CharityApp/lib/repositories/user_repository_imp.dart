@@ -316,7 +316,7 @@ class UserRepositoryImp implements IUserRepository {
         return snapshot.docs.map((doc) {
           final json = doc.data() as Map<String, dynamic>;
 
-          return UserOverview.fromJson(json);
+          return UserOverview.fromJson(json)..id=doc.id;
         }).toList();
       });
     } else

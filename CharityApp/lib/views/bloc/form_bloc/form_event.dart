@@ -8,6 +8,15 @@ abstract class FormEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadForm extends FormEvent{
+  final String userId;
+  final String eventId;
+  const LoadForm({required this.userId, required this.eventId});
+
+    @override
+  List<Object> get props => [userId, eventId];
+}
+
 class RegisterForm extends FormEvent{
   final FormRegister form;
   const  RegisterForm({required this.form});

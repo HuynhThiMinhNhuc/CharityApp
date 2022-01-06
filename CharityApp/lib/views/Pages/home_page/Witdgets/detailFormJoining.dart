@@ -28,6 +28,29 @@ class DetailFormJoinings extends StatefulWidget {
 }
 
 class _DetailFormJoiningsState extends State<DetailFormJoinings> {
+  List<TextEditingController> listTextController = [];
+
+  @override
+  void initState() {
+    super.initState();
+    listTextController.add(TextEditingController(text: widget.formDetail.name));
+    listTextController
+        .add(TextEditingController(text: widget.formDetail.phone));
+    listTextController
+        .add(TextEditingController(text: widget.formDetail.email));
+
+    for (int i = 0; i < widget.formDetail.questions.length; i++) {
+      listTextController
+          .add(TextEditingController(text: widget.formDetail.questions[i]));
+    }
+  }
+
+  @override
+  void dispose() {
+    listTextController.clear();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = (MediaQuery.of(context).size.width - 60) / 2;
@@ -242,72 +265,9 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Tên",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                fillColor: Color(0xFFF4F4F4),
-                filled: true,
-                hintText: joiner.name,
-                enabled: false,
-                contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Số điện thoại",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xFFF4F4F4),
-                  hintText: joiner.phone,
-                  enabled: false,
-                  contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextInput(
-                isEnable: false,
-                title:
-                    "Bạn nghĩ mình sẽ giúp đỡ công việc tình nguyện này như thế nào?",
-                Items: [],
-                maxline: 5),
-            TextInput(
-                isEnable: false,
-                title: "Đối nét về bản thân( sở thích, tính cách, tài lẻ...)",
-                Items: [],
-                maxline: 5),
-            TextInput(
-                isEnable: false,
-                title: "Link Facebook(nếu có)",
-                Items: [],
-                maxline: 5)
-          ],
+        child: FormBody(
+          listController: listTextController,
+          isReadonly: true,
         ),
       ),
     );

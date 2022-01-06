@@ -1,23 +1,16 @@
-import 'package:animations/animations.dart';
 import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/event_tab.dart';
-import 'package:charityapp/domain/entities/base_event.dart';
-import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/repositories/event_repository_imp.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/detailFormJoining.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
-import 'package:charityapp/views/Pages/home_page/home_page.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
-import 'package:charityapp/views/bloc/form_bloc/form.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart' as bloc;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class EventPage extends StatefulWidget {
   final String eventId;
@@ -158,8 +151,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
 class Joiner extends StatelessWidget {
   final String eventId;
   final EventPermission permission;
-  final FormRegisterCubit _registerCubit = FormRegisterCubit();
-  final FormRegisterCubit _paticipantsCubit = FormRegisterCubit();
+  final bloc.FormRegisterCubit _registerCubit = bloc.FormRegisterCubit();
+  final bloc.FormRegisterCubit _paticipantsCubit = bloc.FormRegisterCubit();
   final int numberRegister;
   final int numberPaticipant;
 
@@ -186,29 +179,30 @@ class Joiner extends StatelessWidget {
     );
   }
 
-  void onTabUser(BuildContext context) {
-    final form = FormRegister(
-        name: 'name',
-        phone: 'phone',
-        email: 'email',
-        creatorId: 'creatorId',
-        eventId: 'eventId',
-        timeCreate: DateTime.now());
+  void onTabUser(BuildContext context, UserOverview user) {
+    BlocProvider.of<bloc.FormBloc>(context)
+        .add(bloc.LoadForm(eventId: eventId, userId: user.id!));
+
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => DetailFormJoinings(
-          formDetail: form,
-          userProfile: GetIt.instance.get<Authenticator>().userProfile,
-        ),
+        builder: (context) => BlocBuilder<bloc.FormBloc,bloc.FormState>(builder: (_, state) {
+          if (state is bloc.FormLoadSuccess) {
+            return DetailFormJoinings(
+              formDetail: state.form,
+              userProfile: state.user,
+            );
+          } else
+            return Text('error');
+        }),
       ),
     );
   }
 
-  Widget buildExpansion(BuildContext context, FormRegisterCubit cubit,
+  Widget buildExpansion(BuildContext context, bloc.FormRegisterCubit cubit,
       bool isRegister, int number) {
     int valueNumber = number;
 
-    return BlocConsumer<FormRegisterCubit, List<UserOverview>?>(
+    return BlocConsumer<bloc.FormRegisterCubit, List<UserOverview>?>(
       bloc: cubit,
       listener: (_, listUser) {
         valueNumber = listUser?.length ?? valueNumber;
@@ -228,7 +222,7 @@ class Joiner extends StatelessWidget {
                       user: user,
                       isFormRegister: isRegister,
                       onTabUser: permission == EventPermission.admin
-                          ? () => onTabUser(context)
+                          ? () => onTabUser(context, user)
                           : null))
                   .toList(),
           onExpansionChanged: (isExpansion) {
