@@ -20,6 +20,7 @@ import 'Pages/profile_page/profile_page.dart';
 import 'bloc/signin_bloc/signin_bloc.dart';
 import 'bloc/tab_bloc/tab.dart';
 
+
 typedef onAddPostCallback = Function(Post post);
 
 class RootApp extends StatelessWidget {

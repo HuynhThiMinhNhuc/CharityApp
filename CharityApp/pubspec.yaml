@@ -65,6 +65,8 @@ dependencies:
   http: ^0.13.4
   flutter_staggered_grid_view: ^0.6.0
   page_transition: ^2.0.4
+  spincircle_bottom_bar: ^2.0.0
+  flutter_spinkit: ^5.1.0
   
 dev_dependencies:
   flutter_test:
@@ -97,6 +99,7 @@ flutter:
     - asset/login.png
     - asset/splash2.png
     - asset/logo.png
+    - asset/background.png
     - asset/welcome.png
     - asset/Icon/CalendarFullIcon.png
     - asset/Icon/CalendarIcon.png

@@ -182,14 +182,18 @@ class _FormBodyState extends State<FormBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          "Tên",
-          style: TextStyle(
-              fontFamily: 'Roboto_Regular',
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: textcolor),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Tên",
+            style: TextStyle(
+                fontFamily: 'Roboto_Regular',
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: textcolor),
+          ),
         ),
         SizedBox(
           height: 10,
@@ -200,20 +204,23 @@ class _FormBodyState extends State<FormBody> {
             fillColor: Color(0xFFF4F4F4),
             filled: true,
             hintText: 'Nhập tên bạn tại đây',
-            enabled: !widget.isReadonly,
+            enabled: false,
             contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
           ),
         ),
         SizedBox(
           height: 20,
         ),
-        Text(
-          "Số điện thoại",
-          style: TextStyle(
-              fontFamily: 'Roboto_Regular',
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: textcolor),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Số điện thoại",
+            style: TextStyle(
+                fontFamily: 'Roboto_Regular',
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: textcolor),
+          ),
         ),
         SizedBox(
           height: 10,
@@ -224,7 +231,7 @@ class _FormBodyState extends State<FormBody> {
               fillColor: Color(0xFFF4F4F4),
               filled: true,
               hintText: 'Nhập số điện thoại của bạn tại đây',
-              enabled: !widget.isReadonly,
+              enabled: false,
               contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
         ),
         SizedBox(

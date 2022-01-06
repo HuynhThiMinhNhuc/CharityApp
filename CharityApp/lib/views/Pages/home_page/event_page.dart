@@ -3,6 +3,7 @@ import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
+import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/detailFormJoining.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
@@ -168,12 +169,15 @@ class Joiner extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EventTabBloc, EventTabState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            if (permission == EventPermission.admin)
-              buildExpansion(context, _registerCubit, true, numberRegister),
-            buildExpansion(context, _paticipantsCubit, false, numberPaticipant),
-          ],
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              if (permission == EventPermission.admin)
+                buildExpansion(context, _registerCubit, true, numberRegister),
+              buildExpansion(
+                  context, _paticipantsCubit, false, numberPaticipant),
+            ],
+          ),
         );
       },
     );
@@ -185,7 +189,8 @@ class Joiner extends StatelessWidget {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => BlocBuilder<bloc.FormBloc,bloc.FormState>(builder: (_, state) {
+        builder: (context) =>
+            BlocBuilder<bloc.FormBloc, bloc.FormState>(builder: (_, state) {
           if (state is bloc.FormLoadSuccess) {
             return DetailFormJoinings(
               formDetail: state.form,
@@ -216,7 +221,7 @@ class Joiner extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           children: listUser == null
-              ? [Text('loading...')]
+              ? [Skeletonloaderfriend()]
               : listUser
                   .map((user) => FormRegisterCard(
                       user: user,
