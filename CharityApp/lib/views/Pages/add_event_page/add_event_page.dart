@@ -4,6 +4,7 @@ import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Login/register_view.dart';
@@ -86,7 +87,7 @@ class _AddEventPageState extends State<AddEventPage> {
             onPressed: () {
               final _event = EventInfor(
                 name: _nameTextController.text,
-                creatorId: 'test',
+                creatorId: Authenticator.Id,
                 description: _descriptionTextController.text == ""
                     ? null
                     : _descriptionTextController.text,
