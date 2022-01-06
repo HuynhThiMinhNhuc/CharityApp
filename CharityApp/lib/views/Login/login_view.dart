@@ -44,29 +44,28 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Image(
-                //   image: AssetImage('asset/Login.png'),
-                //   height: 280,
-                //   width: MediaQuery.of(context).size.width,
-                // ),
-                //,
-                Text(
-                  'MEER',
-                  style: TextStyle(
-                    color: maincolor,
-                    fontSize: 70,
-                    fontFamily: 'Redressed_Regular',
-                    //fontWeight: FontWeight.bold
-                  ),
+                Image(
+                  image: AssetImage('asset/login.png'),
+                  width: MediaQuery.of(context).size.width,
                 ),
+                // Text(
+                //   'MEER',
+                //   style: TextStyle(
+                //     color: maincolor,
+                //     fontSize: 70,
+                //     fontFamily: 'Redressed_Regular',
+                //     //fontWeight: FontWeight.bold
+                //   ),
+                // ),
                 SizedBox(
-                  height: 5,
+                  height: 20,
                 ),
                 Text(
                   'Đăng nhập vào tài khoản của bạn',
