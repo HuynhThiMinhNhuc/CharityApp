@@ -37,7 +37,7 @@ class _State extends State<ShortInforCard> {
                 border: Border.all(color: Colors.white, width: 3),
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: widget.userOverview.avatarUri == null
+                    image: (widget.userOverview.avatarUri == "" || widget.userOverview.avatarUri == null)
                         ? AssetImage('asset/avatar.png') as ImageProvider
                         : NetworkImage(widget.userOverview.avatarUri!)),
               ),

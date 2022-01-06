@@ -2,10 +2,13 @@ import 'package:charityapp/Constant/post_jason.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Pages/home_page/thankyou_view.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class FormView extends StatefulWidget {
   final BaseEvent event;
@@ -93,6 +96,17 @@ class _FormViewState extends State<FormView> {
 
                     BlocProvider.of<FormBloc>(context)
                         .add(RegisterForm(form: form));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ThanhYouPage(
+                                  avataruri: GetIt.instance
+                                      .get<Authenticator>()
+                                      .userProfile
+                                      .avatarUri!,
+                                  event: widget.event.name,
+                                  name: widget.username,
+                                )));
                   },
                   textInput: 'Đăng ký',
                 ))));
@@ -101,7 +115,7 @@ class _FormViewState extends State<FormView> {
   Widget getbody() {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

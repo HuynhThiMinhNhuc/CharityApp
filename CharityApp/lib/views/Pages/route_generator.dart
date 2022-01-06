@@ -14,6 +14,7 @@ import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:charityapp/views/bloc/tab_bloc/tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'add_event_page/add_event_page.dart';
 import 'add_event_page/add_post_page.dart';
@@ -33,9 +34,10 @@ class RouteGenerator {
         ),
       );
     } else if (settings.name == AppRoutes.home) {
-      return MaterialPageRoute(
+      return PageTransition(
+        type: PageTransitionType.bottomToTop,
         settings: settings,
-        builder: (BuildContext context) => MultiBlocProvider(
+        child: MultiBlocProvider(
           providers: [
             BlocProvider<TabBloc>(
               create: (context) => TabBloc(),
@@ -56,8 +58,7 @@ class RouteGenerator {
               create: (context) => CalendarBloc(),
             )
           ],
-          child: RootApp(
-          ),
+          child: RootApp(),
         ),
       );
     } else if (settings.name == AppRoutes.addPost) {
@@ -70,7 +71,8 @@ class RouteGenerator {
               if (state is PostUpdated) {
                 await showMyDialog(bloc_context, 'Thêm bài viết thành công');
                 Navigator.of(context).pushNamed(
-                  AppRoutes.eventPage, arguments: state.post.eventId,
+                  AppRoutes.eventPage,
+                  arguments: state.post.eventId,
                 );
               } else if (state is PostLoadFailure) {
                 showMyDialog(bloc_context, 'Thêm bài viết thất bại',
@@ -124,13 +126,32 @@ class RouteGenerator {
       );
     } else if (settings.name == AppRoutes.eventPage) {
       final eventId = settings.arguments as String;
-
       return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => BlocProvider(
-                create: (_) => EventTitleCubit(),
-                child: EventPage(eventId: eventId),
-              ));
+        settings: settings,
+        builder: (context) => BlocProvider(
+          create: (_) => EventTitleCubit(),
+          child: EventPage(eventId: eventId),
+        ),
+      );
+      //  PageRouteBuilder(
+      //     transitionsBuilder: (BuildContext context,
+      //         Animation<double> animation,
+      //         Animation<double> secondaryAnimation,
+      //         child) {
+      //       return child;
+      //     },
+      //     settings: settings,
+      //     pageBuilder: (BuildContext context, Animation<double> animation,
+      //             Animation<double> secondaryAnimation) =>
+      //         Align(
+      //           child: SizeTransition(
+      //             sizeFactor: animation,
+      //             child: BlocProvider(
+      //               create: (_) => EventTitleCubit(),
+      //               child: EventPage(eventId: eventId),
+      //             ),
+      //           ),
+      //         ));
     } else if (settings.name == AppRoutes.comment) {
       final postId = settings.arguments as String;
 

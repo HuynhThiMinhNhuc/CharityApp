@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/edit_profile.dart';
@@ -118,40 +119,40 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         SizedBox(
           width: double.infinity,
           child: widget.modeProfile == mode.My
-              ? ElevatedButton(
-                  onPressed: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                                  create: (context) => EditprofileBloc(),
-                                  child: EditProfile(
-                                    currentUser: new UserProfile(
-                                        name: widget.userProfile.name,
-                                        avatarUri: widget.userProfile.avatarUri,
-                                        phone: widget.userProfile.phone,
-                                        email: widget.userProfile.email,
-                                        birthDayString:
-                                            widget.userProfile.birthDayString,
-                                        gender: widget.userProfile.gender,
-                                        description:
-                                            widget.userProfile.description),
-                                    onEditPro: () => widget.overViewUserBloc
-                                        .add(LoadOverViewUserEvent(
-                                            widget.userProfile.id)),
-                                  ),
-                                )))
-                  },
-                  child: Text(
-                    'Chỉnh sửa hồ sơ',
-                    style: TextStyle(
-                        fontSize: 13,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold),
+              ? OpenContainer(
+                  transitionDuration: Duration(seconds: 1),
+                  transitionType: ContainerTransitionType.fade,
+                  closedBuilder:
+                      (BuildContext context, VoidCallback opencontainer) =>
+                          ElevatedButton(
+                    onPressed: opencontainer,
+                    child: Text(
+                      'Chỉnh sửa hồ sơ',
+                      style: TextStyle(
+                          fontSize: 13,
+                          decoration: TextDecoration.none,
+                          fontFamily: 'Roboto_Regular',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(maincolor)),
                   ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(maincolor)),
+                  openBuilder: (BuildContext context, _) => BlocProvider(
+                    create: (context) => EditprofileBloc(),
+                    child: EditProfile(
+                      currentUser: new UserProfile(
+                          name: widget.userProfile.name,
+                          avatarUri: widget.userProfile.avatarUri,
+                          phone: widget.userProfile.phone,
+                          email: widget.userProfile.email,
+                          birthDayString: widget.userProfile.birthDayString,
+                          gender: widget.userProfile.gender,
+                          description: widget.userProfile.description,
+                          id: widget.userProfile.id),
+                      onEditPro: () => widget.overViewUserBloc
+                          .add(LoadOverViewUserEvent(widget.userProfile.id)),
+                    ),
+                  ),
                 )
               : widget.modeProfile == mode.Friend
                   ? ElevatedButton(

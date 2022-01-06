@@ -88,7 +88,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                                       child: Profile(email: widget.email),
                                     )))
                       },
-                  textInput: 'GET STARTED'),
+                  textInput: 'BẮT ĐẦU'),
             )
           ],
         ),

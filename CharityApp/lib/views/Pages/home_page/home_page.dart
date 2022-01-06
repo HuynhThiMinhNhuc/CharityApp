@@ -32,18 +32,7 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
         if (state is PostsLoadSuccess) {
-          return PageTransitionSwitcher(
-              duration: Duration(microseconds: 3000),
-              transitionBuilder: (Widget child,
-                      Animation<double> primaryAnimation,
-                      Animation<double> secondaryAnimation) =>
-                  SharedAxisTransition(
-                    animation: primaryAnimation,
-                    secondaryAnimation: secondaryAnimation,
-                    transitionType: SharedAxisTransitionType.horizontal,
-                    child: LoadSuccessHomeView(state.posts),
-                  ),
-              child: LoadSuccessHomeView(state.posts));
+          return  LoadSuccessHomeView(state.posts);
         }
         if (state is PostLoadInProgress) {
           return SkeletonEvent();

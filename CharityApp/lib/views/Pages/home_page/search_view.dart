@@ -19,6 +19,18 @@ class SearchEvent extends StatefulWidget {
     false,
     false,
     false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
     false
   ];
   String _query = "";
@@ -241,7 +253,7 @@ class _SearchEventState extends State<SearchEvent> {
                                 child: ListTile(
                                   leading: CircleAvatar(
                                     backgroundImage:
-                                        state.listEvent[index].avatarUri == null
+                                       ( state.listEvent[index].avatarUri == "" ||  state.listEvent[index].avatarUri == null)
                                             ? AssetImage('asset/avatar.png')
                                             : NetworkImage(state
                                                 .listEvent[index]

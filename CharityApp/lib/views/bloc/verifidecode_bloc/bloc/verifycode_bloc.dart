@@ -17,9 +17,9 @@ class VerifycodeBloc extends Bloc<VerifycodeEvent, VerifycodeState> {
   FutureOr<void> _onVerifycodeVerifyEvent(
       VerifycodeVerifyEvent event, Emitter<VerifycodeState> emit) async {
     emit(VerifycodeSucessState());
-    // verify(event.email, event.otp)
-    //     ? emit(VerifycodeSucessState())
-    //     : emit(VerifycodeFailState());
+     verify(event.email, event.otp)
+         ? emit(VerifycodeSucessState())
+         : emit(VerifycodeFailState());
     emit(VerifycodeLoadState());
   }
 

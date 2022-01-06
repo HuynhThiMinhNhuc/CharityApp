@@ -49,15 +49,15 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<void> close() async {
     await editprofileBloc.add(EditprofileEditEvent(widget.currentUser));
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) => MyAlertDialog(
-            content: "Nhấn đồng ý đề quay lại Hồ sơ của bạn",
-            pathImage: "asset/imagesample/ImageAlerDIalog/updateprofile.png",
-            title: "Cập nhật hồ sơ thành công"));
-    await widget.onEditPro.call();
+    // await showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) => MyAlertDialog(
+    //         content: "Nhấn đồng ý đề quay lại Hồ sơ của bạn",
+    //         pathImage: "asset/imagesample/ImageAlerDIalog/updateprofile.png",
+    //         title: "Cập nhật hồ sơ thành công"));
+    // await widget.onEditPro.call();
 
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   @override
@@ -126,8 +126,7 @@ class _EditProfileState extends State<EditProfile> {
                   if (state is EditprofilePhoneWrongFormatFail) {
                     showDialog(
                         context: context,
-                        builder: (BuildContext buildercontext) =>
-                            MyAlertDialog(
+                        builder: (BuildContext buildercontext) => MyAlertDialog(
                               content:
                                   "Số điện thoại phải có 10 chữ số, bắt đầu bằng 0",
                               pathImage:

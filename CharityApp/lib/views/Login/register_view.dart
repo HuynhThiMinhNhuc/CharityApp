@@ -188,7 +188,7 @@ class _RegisterViewState extends State<RegisterView> {
                         builder: (BuildContext context) => MyAlertDialog(
                           content:
                               'Mật khẩu xác nhận phải trùng với mật khẩu vừa đặt',
-                          title: "Mật khẩu xác nhận không trùng khớp",
+                          title: "Mật khẩu không trùng khớp",
                           pathImage:
                               'asset/imagesample/ImageAlerDIalog/wrong.png',
                         ),

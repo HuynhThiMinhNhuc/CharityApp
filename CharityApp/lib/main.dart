@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/route_generator.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
@@ -52,6 +53,16 @@ class MeerApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.green,
+        ),
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.scaled,
+            ),
+            TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+          },
         ),
       ),
       localizationsDelegates: [

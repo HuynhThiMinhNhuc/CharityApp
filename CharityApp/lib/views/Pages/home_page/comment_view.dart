@@ -171,14 +171,13 @@ class _CommentViewElementState extends State<CommentViewElement> {
                 } else {
                   final listComment = snapshot.data!.docs;
 
-                  if (listComment.isEmpty) return Text('no comments');
+                  if (listComment.isEmpty) return NoComment();
 
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: listComment.length,
                     itemBuilder: (BuildContext context, int index) {
-
                       return FutureBuilder<UserComment>(
                         future: _bloc.getComment(
                             listComment[index].data() as Map<String, dynamic>),

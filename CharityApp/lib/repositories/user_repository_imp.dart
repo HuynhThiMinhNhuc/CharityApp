@@ -36,14 +36,15 @@ class UserRepositoryImp implements IUserRepository {
   Future<List<UserOverview>> loadFriends(String id, int number) async {
     List<UserOverview> friends = [];
     UserOverview useroverview;
-
     try {
-      await userCollection.doc(id).get().then((value) {
-        List.from(value.data()!['friends']).forEach((element) async {
-          useroverview = await getUserOverView(element);
-          useroverview.id = element;
-          friends.add(useroverview);
-        });
+      await userCollection.doc(id).get().then((value) async {
+        for (var element in List.from(value.data()!['friends'])) {
+          if (element != id) {
+            useroverview = await getUserOverView(element);
+            friends.add(useroverview);
+          }
+        }
+        ;
       });
       return friends;
     } catch (e) {
@@ -154,8 +155,9 @@ class UserRepositoryImp implements IUserRepository {
     UserOverview userOverview;
     try {
       await userCollection.get().then((value) => value.docs.forEach((user) {
-            if (search == "" || TiengViet.parse(user['name'].toString().toLowerCase())
-                .contains(TiengViet.parse(search.toLowerCase()))) {
+            if (search == "" ||
+                TiengViet.parse(user['name'].toString().toLowerCase())
+                    .contains(TiengViet.parse(search.toLowerCase()))) {
               userOverview = new UserOverview(
                   name: user['name'],
                   avatarUri: user['avatarUri'],
@@ -280,7 +282,7 @@ class UserRepositoryImp implements IUserRepository {
       });
     } else
       return [];
-}
+  }
 
   Future<void> updateNumberFollowing(bool isincrease, String id) async {
     int number = 0;
