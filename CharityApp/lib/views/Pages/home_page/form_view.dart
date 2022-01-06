@@ -85,12 +85,11 @@ class _FormViewState extends State<FormView> {
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
                 child: CustomButton(
                   onPressed: () {
-                    String myId = '';
                     final form = FormRegister(
                         name: _nameController.text,
                         phone: _phoneController.text,
                         email: _emailController.text,
-                        creatorId: myId,
+                        creatorId: Authenticator.Id,
                         eventId: widget.event.id!,
                         timeCreate: DateTime.now());
 

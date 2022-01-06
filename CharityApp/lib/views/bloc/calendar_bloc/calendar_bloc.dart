@@ -24,18 +24,17 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     Emitter<CalendarState> emit,
   ) async {
     emit(CalendarLoadInProccess());
-    String myId = GetIt.instance.get<Authenticator>().userProfile.id!;
     List<EventOverviewPaticipants> events;
     try {
       switch (event.tab) {
         case CalendarTabs.attended:
           {
-            events = await eventRepository.loadEventsAttending(myId, timeStart: event.timeStart);
+            events = await eventRepository.loadEventsAttending(Authenticator.Id, timeStart: event.timeStart);
             break;
           }
         case CalendarTabs.organizer:
           {
-            events = await eventRepository.loadEventsPaticipant(myId, timeStart: event.timeStart);
+            events = await eventRepository.loadEventsPaticipant(Authenticator.Id, timeStart: event.timeStart);
             break;
           }
         default:
@@ -52,10 +51,9 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     Emitter<CalendarState> emit,
   ) async {
     emit(CalendarLoadInProccess());
-    String myId = GetIt.instance.get<Authenticator>().userProfile.id!;
 
     try {
-      final listId = await formRepository.loadEventPendingFrom(myId);
+      final listId = await formRepository.loadEventPendingFrom(Authenticator.Id);
       final events = await eventRepository.loadEventsPaticipantFromList(listId);
 
       emit(CalendarLoadEventsSuccess(eventPaticipants: events));

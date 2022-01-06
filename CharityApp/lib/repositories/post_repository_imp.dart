@@ -53,7 +53,6 @@ class PostRepositoryImp implements IPostRepository {
         final postJson = docPost.data() as Map<String, dynamic>;
         final post = Post.fromJson(postJson);
         post.id = docPost.id; //Set doc id
-        // post.creator = UserOverview(name: 'test', avatarUri: Uri(path: "avatarUri"));
 
         //Load UserOverview
         tasks.add(userCollection.doc(postJson['creatorId']).get().then(
