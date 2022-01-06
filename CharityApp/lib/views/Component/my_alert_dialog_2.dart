@@ -59,41 +59,41 @@ class MyAlertDialog2 extends StatelessWidget {
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
+          padding: const EdgeInsets.fromLTRB(0, 0, 5, 5),
           child: OutlinedButton(
             onPressed: onTabNo,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
               child: const Text(
                 'Hủy',
-                style: TextStyle(color: maincolor, fontSize: 20),
+                style: TextStyle(color: maincolor, fontSize: 15),
               ),
             ),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.white),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: BorderSide(width: 2, color: maincolor),
+                borderRadius: BorderRadius.circular(20.0),
+                side: BorderSide(width: 1, color: maincolor),
               )),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
           child: OutlinedButton(
             onPressed: onTabYes,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
               child: const Text(
                 'Đồng ý',
-                style: TextStyle(color: maincolor, fontSize: 20),
+                style: TextStyle(color: maincolor, fontSize: 15),
               ),
             ),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.white),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: BorderSide(width: 2, color: maincolor),
+                borderRadius: BorderRadius.circular(20.0),
+                side: BorderSide(width: 1, color: maincolor),
               )),
             ),
           ),

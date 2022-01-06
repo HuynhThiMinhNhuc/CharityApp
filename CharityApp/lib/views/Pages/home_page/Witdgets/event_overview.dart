@@ -135,37 +135,14 @@ class EventOverviewCard extends StatelessWidget {
                                   context, AppRoutes.formRegister,
                                   arguments: state.event);
                             } else {
-                              showDialog(
-                                context: context,
-                                builder: (builder) => MyAlertDialog2(
-                                  content: 'Bạn có chắc hủy đăng ký form?',
-                                  title: 'Thông báo',
-                                  onTabYes: () {
-                                    //Unregist form
-                                    BlocProvider.of<FormBloc>(context)
-                                        .add(UnRegisterForm(eventId: eventId));
-
-                                    BlocProvider.of<EventTitleCubit>(context).load(eventId);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              );
+                              //Unregist form
+                              showUnRegisterForm(context,
+                                  'Bạn có chắc hủy đăng ký form?');
                             }
                           } else {
                             //Out event
-                            showDialog(
-                              context: context,
-                              builder: (builder) => MyAlertDialog2(
-                                content: 'Bạn có chắc thoát khỏi sự kiện này?',
-                                title: 'Thông báo',
-                                onTabYes: () {
-                                  //Unregist form
-                                  BlocProvider.of<FormBloc>(context)
-                                      .add(UnRegisterForm(eventId: eventId));
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            );
+                            showUnRegisterForm(context,
+                                'Bạn có chắc thoát khỏi sự kiện này?');
                           }
                         },
                         child: Text(
@@ -202,6 +179,25 @@ class EventOverviewCard extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  dynamic showUnRegisterForm(BuildContext context, String content) {
+    return showDialog(
+      context: context,
+      builder: (builder) => MyAlertDialog2(
+        content: content,
+        title: 'Thông báo',
+        onTabYes: () {
+          //Unregist form
+          BlocProvider.of<FormBloc>(context)
+              .add(UnRegisterForm(eventId: eventId));
+
+          BlocProvider.of<EventTitleCubit>(context).load(eventId);
+          Navigator.of(context).pop();
+        },
+        onTabNo: () => Navigator.of(context).pop(),
+      ),
     );
   }
 
