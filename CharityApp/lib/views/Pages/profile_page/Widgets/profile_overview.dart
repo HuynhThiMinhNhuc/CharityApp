@@ -50,7 +50,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                   border: Border.all(color: Colors.white, width: 5),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: widget.userProfile.avatarUri != null
+                    image: widget.userProfile.avatarUri != ""
                         ? NetworkImage(widget.userProfile.avatarUri!)
                             as ImageProvider
                         : AssetImage('asset/avatar.png'),

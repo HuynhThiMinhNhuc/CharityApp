@@ -97,7 +97,7 @@ class TabSelector extends StatelessWidget {
                                   .get<Authenticator>()
                                   .userProfile
                                   .avatarUri ==
-                              null
+                              ""
                           ? AssetImage('asset/avatar.png') as ImageProvider
                           : NetworkImage(GetIt.instance
                               .get<Authenticator>()

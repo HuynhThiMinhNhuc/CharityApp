@@ -126,7 +126,7 @@ class _CalendarPageState extends State<CalendarPage>
           focusedDay: DateTime.now(),
           firstDay: DateTime.utc(2021, 1, 1),
           lastDay: DateTime.utc(2023, 12, 31),
-          startingDayOfWeek: StartingDayOfWeek.monday,
+          //startingDayOfWeek: StartingDayOfWeek.monday,
           calendarFormat: _calendarFormat,
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
@@ -134,20 +134,20 @@ class _CalendarPageState extends State<CalendarPage>
           onDaySelected: (selectedDay, focusedDay) {
             if (!isSameDay(_selectedDay, selectedDay)) {
               setState(() {
-                _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
+                _selectedDay = selectedDay;
               });
               tabChanged(_tabController.index);
             }
           },
-          // onFormatChanged: (format) {
-          //   if (_calendarFormat != format) {
-          //     setState(() {
-          //       _calendarFormat = format;
-          //     });
-          //   }
-          // },
-          onPageChanged: (focusedDay) {
+          onFormatChanged: (format) {
+            if (_calendarFormat != format) {
+              setState(() {
+                _calendarFormat = format;
+              });
+            }
+          },
+            onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
         ),
