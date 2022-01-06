@@ -201,9 +201,11 @@ class PostOverviewCard extends StatelessWidget {
                         children: <Widget>[
                           IconButton(
                             onPressed: () async {
-                              await Navigator.of(context).pushNamed(AppRoutes.comment,
+                              await Navigator.of(context).pushNamed(
+                                  AppRoutes.comment,
                                   arguments: post.id);
-                                  BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: post.id!));
+                              BlocProvider.of<LikePostBloc>(context)
+                                  .add(GetNumberLike(postId: post.id!));
                             },
                             icon: FaIcon(FontAwesomeIcons.comment),
                             splashRadius: 20,

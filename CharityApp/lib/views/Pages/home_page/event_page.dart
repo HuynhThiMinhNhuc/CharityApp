@@ -145,23 +145,6 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                     );
                   } else
                     return Text('Error tab');
-                  // return TabBarView(controller: _tabController, children: [
-                  //   Container(
-                  //     child: SingleChildScrollView(
-                  //       child: ListView.builder(
-                  //         shrinkWrap: true,
-                  //         physics: NeverScrollableScrollPhysics(),
-                  //         itemCount: (state as EventPostViewSuccess).posts.length,
-                  //         itemBuilder: (BuildContext context, int index) {
-                  //           return PostOverviewCard(post: state.posts[index]);
-                  //         },
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   IntroductionEventView(
-                  //       detail: (state as EventDetailViewSuccess).detail),
-                  //   if (state is EventImagesViewSuccess) Text('Hình ảnh'),
-                  // ]);
                 },
               ),
             ),
