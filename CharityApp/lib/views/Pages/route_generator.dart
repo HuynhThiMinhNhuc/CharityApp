@@ -1,3 +1,4 @@
+import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/views/Login/login_view.dart';
@@ -133,25 +134,7 @@ class RouteGenerator {
           child: EventPage(eventId: eventId),
         ),
       );
-      //  PageRouteBuilder(
-      //     transitionsBuilder: (BuildContext context,
-      //         Animation<double> animation,
-      //         Animation<double> secondaryAnimation,
-      //         child) {
-      //       return child;
-      //     },
-      //     settings: settings,
-      //     pageBuilder: (BuildContext context, Animation<double> animation,
-      //             Animation<double> secondaryAnimation) =>
-      //         Align(
-      //           child: SizeTransition(
-      //             sizeFactor: animation,
-      //             child: BlocProvider(
-      //               create: (_) => EventTitleCubit(),
-      //               child: EventPage(eventId: eventId),
-      //             ),
-      //           ),
-      //         ));
+
     } else if (settings.name == AppRoutes.comment) {
       final postId = settings.arguments as String;
 

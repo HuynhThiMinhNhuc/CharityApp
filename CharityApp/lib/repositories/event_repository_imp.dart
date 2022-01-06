@@ -9,8 +9,10 @@ import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiengviet/tiengviet.dart';
 
 class EventRepositoryImp implements IEventRepository {
@@ -325,5 +327,64 @@ class EventRepositoryImp implements IEventRepository {
       if (!l1.contains(i)) return false;
     }
     return true;
+  }
+
+  @override
+  Future<int> getNumberPaticipant(String eventId) {
+    return paticipantCollection
+        .where('eventId', isEqualTo: eventId)
+        .get()
+        .then((snapshot) => snapshot.docs.length);
+  }
+
+  @override
+  Future<void> dismiss(String eventId, String userId) {
+    return paticipantCollection
+        .where('eventId', isEqualTo: eventId)
+        .where('userId', isEqualTo: userId)
+        .get()
+        .then((snapshot) {
+      final docs = snapshot.docs;
+      if (docs.length > 1)
+        return Future.error('Number of docs not larger than 1');
+
+      if (docs.length == 1) {
+        return docs[0].reference.delete();
+      }
+    });
+  }
+
+  Future<EventPermission> checkPermission(String eventId, String userId) async {
+    //Check admin
+    final eventDoc = await eventCollection.doc(eventId).get();
+    if (eventDoc.exists) {
+      final id =
+          (eventDoc.data() as Map<String, dynamic>)['creatorId'] as String;
+      if (id == userId) return EventPermission.admin;
+    }
+
+    //Check join
+    final paticipantDoc =
+        await paticipantCollection.where('eventId', isEqualTo: eventId).get();
+    if (paticipantDoc.docs.isNotEmpty) {
+      final jsons = paticipantDoc.docs.map((doc) => doc.data()).toList();
+
+      for (var json in jsons) {
+        if ((json as Map<String, dynamic>)['userId'] == userId)
+          return EventPermission.joined;
+      }
+    }
+
+    //Check pending
+    final formCollection =
+        FirebaseFirestore.instance.collection('form_registers');
+    final formDoc = await formCollection
+        .where('userId', isEqualTo: userId)
+        .where('eventId', isEqualTo: eventId)
+        .get();
+    if (formDoc.docs.isNotEmpty) return EventPermission.pending;
+
+    //Return not paticipant
+    return EventPermission.notPaticipant;
   }
 }

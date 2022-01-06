@@ -5,8 +5,10 @@ import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
 import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
+import 'package:charityapp/domain/repositories/form_repository.dart';
 import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:charityapp/repositories/event_repository_imp.dart';
+import 'package:charityapp/repositories/form_repository_imp.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'event.dart';
@@ -14,6 +16,7 @@ import 'event.dart';
 class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
   final IEventRepository eventRepository = EventRepositoryImp();
   final IPostRepository postRepository = PostRepositoryImp();
+  final IFormRepository formRepository = FormRepositoryImp();
 
   EventTabBloc() : super(EventViewLoadInProgress()) {
     on<LoadEventView>(_onLoadEventView);
@@ -42,10 +45,14 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
           emit(EventDetailViewSuccess(detail: await detail));
         }
         break;
-      case EventTab.image:
+      case EventTab.paticipants:
         {
-          final images = eventRepository.loadImages(event.eventId);
-          emit(EventImagesViewSuccess(images: await images));
+          final task1 = formRepository.getNumberForm(event.eventId);
+          final task2 = eventRepository.getNumberPaticipant(event.eventId);
+
+          final complete = await Future.wait<int>([task1, task2]);
+
+          emit(EventPaticipantsViewSuccess(numberFormRegister: complete[0], numberPaticipants: complete[1]));
         }
         break;
       default:

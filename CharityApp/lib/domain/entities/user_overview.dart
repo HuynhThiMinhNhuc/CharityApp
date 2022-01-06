@@ -11,10 +11,10 @@ class UserOverview extends BaseUser {
   String? address;
   
   UserOverview({
-    required name,
-    required this.avatarUri,
+    required String name,
+    this.avatarUri,
     String? id,
-    String? address
+    this.address,
   }) : super(name: name, id: id);
 
   // factory UserOverview.fromJson(Map<String, dynamic> json) => _$UserOverviewFromJson(json);

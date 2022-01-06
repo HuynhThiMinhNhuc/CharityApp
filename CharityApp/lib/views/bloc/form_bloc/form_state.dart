@@ -7,7 +7,13 @@ abstract class FormState extends Equatable {
   List<Object> get props => [];
 }
 
-class FormLoadInProccess extends FormState {}
-class FormLoadFail extends FormState{}
-class FormLoadSuccess extends FormState {
+class FormFail extends FormState{
+  final String errorId;
+  final String error;
+  const FormFail({required this.error, required this.errorId});
+
+    @override
+  List<Object> get props => [error, errorId];
+}
+class FormSuccess extends FormState {
 }

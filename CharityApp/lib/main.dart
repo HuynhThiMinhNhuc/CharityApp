@@ -1,7 +1,10 @@
+
 import 'package:animations/animations.dart';
+import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/route_generator.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
+import 'package:charityapp/views/bloc/form_bloc/form.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +29,9 @@ void main() async {
       BlocProvider<LikePostBloc>(
         create: (context) => LikePostBloc(),
       ),
+      BlocProvider<FormBloc>(
+        create: (context) => FormBloc(),
+      )
     ],
     child: MeerApp(),
   ));
