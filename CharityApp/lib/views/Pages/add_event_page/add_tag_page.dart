@@ -29,7 +29,7 @@ class _AddTagState extends State<AddTag> {
           style: TextStyle(
               color: textcolor,
               fontFamily: 'Roboto_Regular',
-              fontSize: 25,
+              fontSize: 18,
               fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -41,6 +41,7 @@ class _AddTagState extends State<AddTag> {
               "Hoàn thành ",
               style: TextStyle(
                   color: maincolor,
+                  fontSize: 18,
                   fontFamily: 'Roboto_Regular',
                   fontWeight: FontWeight.bold),
             ),

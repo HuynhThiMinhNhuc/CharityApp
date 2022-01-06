@@ -82,7 +82,10 @@ class _ImageCardState extends State<ImageCard> {
                     top: 0,
                     right: 0,
                     child: IconButton(
-                      icon: Icon(Icons.cancel_outlined),
+                      icon: Icon(
+                        Icons.cancel_outlined,
+                        color: Color(0xff455154),
+                      ),
                       onPressed: _deleteImage,
                     ))
               ])

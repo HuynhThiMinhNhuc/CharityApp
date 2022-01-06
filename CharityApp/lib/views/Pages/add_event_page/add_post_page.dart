@@ -106,10 +106,10 @@ class _AddPostPageState extends State<AddPostPage> {
                 Text(
                   "Thêm ảnh",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0x50262626),
                     fontFamily: 'Roboto_Regular',
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
@@ -209,9 +209,7 @@ class _AddPostPageState extends State<AddPostPage> {
               description: _descriptionTextControlelr.text,
               eventId: chooseEvent!.id!,
               creator: UserOverview(
-                  name: 'khong co',
-                  avatarUri: null,
-                  id: Authenticator.Id),
+                  name: 'khong co', avatarUri: null, id: Authenticator.Id),
             );
 
             widget.onClickSubmit?.call(post, images);

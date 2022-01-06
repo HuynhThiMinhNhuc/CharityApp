@@ -140,50 +140,62 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: backgroundbottomtab,
-          title: buildSearch(onSearch: searchComplete),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.check),
-            onPressed: () {
-              var args = [
-                namePlace,
-                LatLng(locationMarker!.position.latitude,
-                    locationMarker!.position.longitude)
-              ];
-              Navigator.of(context).pop(args);
-            }),
-        body: Column(
-            // height: MediaQuery.of(context).size.height,
-            // width: MediaQuery.of(context).size.width,
+      home: SafeArea(
+        child: Scaffold(
+          // appBar: AppBar(
+          //   backgroundColor: backgroundbottomtab,
+          //   title: buildSearch(onSearch: searchComplete),
+          // ),
+          floatingActionButton: FloatingActionButton(
+              backgroundColor: maincolor,
+              child: const Icon(Icons.check),
+              onPressed: () {
+                var args = [
+                  namePlace,
+                  LatLng(locationMarker!.position.latitude,
+                      locationMarker!.position.longitude)
+                ];
+                Navigator.of(context).pop(args);
+              }),
+          body: Stack(
             children: [
-              Expanded(
-                child: GoogleMap(
-                  initialCameraPosition: initialCameraPosition,
-                  myLocationEnabled: false,
-                  zoomControlsEnabled: false,
-                  onMapCreated: (controller) {
-                    _googleMapController.complete(controller);
-                    googleMapController = controller;
+              Column(
+                  // height: MediaQuery.of(context).size.height,
+                  // width: MediaQuery.of(context).size.width,
+                  children: [
+                    Expanded(
+                      child: GoogleMap(
+                        initialCameraPosition: initialCameraPosition,
+                        myLocationEnabled: false,
+                        zoomControlsEnabled: false,
+                        onMapCreated: (controller) {
+                          _googleMapController.complete(controller);
+                          googleMapController = controller;
 
-                    getCurrentLocation();
-                  },
-                  markers: {
-                    if (locationMarker != null) locationMarker!,
-                  },
-                  onTap: (LatLng latlng) async {
-                    googlePlace = (await placemarkFromCoordinates(
-                            latlng.latitude, latlng.longitude))
-                        .first;
-                    print(googlePlace);
-                    detailPlace = null;
-                    setMarker(latlng.latitude, latlng.longitude);
-                  },
-                ),
-              ),
-            ]),
+                          getCurrentLocation();
+                        },
+                        markers: {
+                          if (locationMarker != null) locationMarker!,
+                        },
+                        onTap: (LatLng latlng) async {
+                          googlePlace = (await placemarkFromCoordinates(
+                                  latlng.latitude, latlng.longitude))
+                              .first;
+                          print(googlePlace);
+                          detailPlace = null;
+                          setMarker(latlng.latitude, latlng.longitude);
+                        },
+                      ),
+                    ),
+                  ]),
+              Positioned(
+                  top: 50,
+                  left: 30,
+                  right: 30,
+                  child: buildSearch(onSearch: searchComplete))
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -202,43 +214,52 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   }
 
   Widget buildSearch({Function()? onSearch}) {
-    return TypeAheadField(
-        textFieldConfiguration: TextFieldConfiguration(
-          controller: locationTextController,
-          decoration: InputDecoration(
-            hintText: 'Nhập địa chỉ...',
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-            suffixIcon: IconButton(
-              onPressed: null,
-              icon: Icon(Icons.search),
-            ),
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          ),
-        ),
-        suggestionsCallback: (keyword) async {
-          if (keyword.isEmpty) return [];
-          final result =
-              await widget.googlePlace.autocomplete.get(keyword, region: 'vn');
-
-          if (result != null && result.predictions != null) {
-            return result.predictions!;
-          }
-          return [];
-        },
-        itemBuilder: (context, suggestion) => Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-              child: Text(
-                (suggestion as AutocompletePrediction).description!,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(
-                    fontFamily: 'Roboto_Regular',
-                    fontWeight: FontWeight.normal),
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), color: Colors.white),
+      child: TypeAheadField(
+          textFieldConfiguration: TextFieldConfiguration(
+            controller: locationTextController,
+            decoration: InputDecoration(
+              hintText: 'Nhập địa chỉ...',
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(color: maincolor)),
+              suffixIcon: IconButton(
+                onPressed: null,
+                icon: Icon(Icons.search),
               ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             ),
-        onSuggestionSelected: (place) {
-          detailPlace = (place as AutocompletePrediction);
-          onSearch?.call();
-        });
+          ),
+          suggestionsCallback: (keyword) async {
+            if (keyword.isEmpty) return [];
+            final result = await widget.googlePlace.autocomplete
+                .get(keyword, region: 'vn');
+
+            if (result != null && result.predictions != null) {
+              return result.predictions!;
+            }
+            return [];
+          },
+          itemBuilder: (context, suggestion) => Padding(
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Text(
+                  (suggestion as AutocompletePrediction).description!,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontFamily: 'Roboto_Regular',
+                      fontWeight: FontWeight.normal),
+                ),
+              ),
+          onSuggestionSelected: (place) {
+            detailPlace = (place as AutocompletePrediction);
+            onSearch?.call();
+          }),
+    );
   }
 }

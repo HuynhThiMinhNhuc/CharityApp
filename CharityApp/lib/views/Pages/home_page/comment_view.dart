@@ -13,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 class CommentView extends StatelessWidget {
   final String postId;
@@ -178,6 +179,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: listComment.length,
                     itemBuilder: (BuildContext context, int index) {
+                      //return SketonComment();
                       return FutureBuilder<UserComment>(
                         future: _bloc.getComment(
                             listComment[index].data() as Map<String, dynamic>),
@@ -190,21 +192,94 @@ class _CommentViewElementState extends State<CommentViewElement> {
                               comment: user.data!,
                             );
                           }
-                          return Text('loading user');
+                          return SketonComment();
                         },
                       );
                     },
                   );
                 }
-              }) // Column(
-          //     children: List.generate(cmts.length, (index) {
-          //   return CommentItem(
-          //       avatar: cmts[index]['avatar'],
-          //       name: cmts[index]['name'],
-          //       time: cmts[index]['timeago'],
-          //       cmt: cmts[index]['comment']);
-          // })),
+              })),
+    );
+  }
+}
+
+class SketonComment extends StatelessWidget {
+  const SketonComment({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: SkeletonLoader(
+        builder: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        )),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    height: 15,
+                    width: 50,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    height: 15,
+                    width: 100,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Container(
+                  height: 15,
+                  width: 300,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Container(
+                    height: 15,
+                    width: 200,
+                    color: Colors.white,
+                  )),
+              SizedBox(
+                height: 10,
+              )
+            ],
           ),
+        ),
+        items: 6,
+        period: Duration(seconds: 2),
+        highlightColor: Color(0x505AA469),
+        direction: SkeletonDirection.ltr,
+      ),
     );
   }
 }
