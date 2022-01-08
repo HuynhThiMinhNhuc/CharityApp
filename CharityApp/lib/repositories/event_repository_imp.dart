@@ -8,6 +8,7 @@ import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/domain/repositories/event_repository.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
+import 'package:charityapp/repositories/tag_event_repository_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,8 +24,9 @@ class EventRepositoryImp implements IEventRepository {
 
   @override
   Future<void> add(EventInfor entity) async {
-    final docref = await eventCollection
-        .add(entity.toJson()..addAll({'numberMember': 0, 'numberPost': 0, 'timeCreate':DateTime.now()}));
+    final docref = await eventCollection.add(entity.toJson()
+      ..addAll(
+          {'numberMember': 0, 'numberPost': 0, 'timeCreate': DateTime.now()}));
     entity.id = docref.id;
     print('Add ${entity.toString()} success');
   }
@@ -38,19 +40,26 @@ class EventRepositoryImp implements IEventRepository {
   }
 
   @override
-  Future<List<EventInfor>> load(String creatorId, int startIndex, int number) {
-    return eventCollection
+  Future<List<EventInfor>> load(
+      String creatorId, int startIndex, int number) async {
+    final listEvent = await eventCollection
         .where('creatorId', isEqualTo: creatorId)
         .orderBy('timeCreate', descending: true)
         .get()
         .then((snapshot) {
-      return snapshot.docs.map((doc) {
+      return snapshot.docs.map((doc) async {
         final json = doc.data() as Map<String, dynamic>;
-        final event = EventInfor.fromJson(json);
-        event.id = doc.id;
+        final event = EventInfor.fromJson(json)..id = doc.id;
+
+        //Load tag
+        final tagRepo = TagEventRepositoryImp();
+        event.tags = await tagRepo.loadFrom(doc.id);
+
         return event;
       }).toList();
     });
+
+    return await Future.wait(listEvent);
   }
 
   // @override
@@ -94,32 +103,6 @@ class EventRepositoryImp implements IEventRepository {
     }
 
     final events = _getEventsPaticipant(query.get(), paticipantsTask);
-
-    // final events = await collection
-    //     .where('creatorId', isEqualTo: creatorId)
-    //     .get()
-    //     .then((snapshot) {
-    //   return snapshot.docs.map((eventDoc) {
-    //     final json = eventDoc.data() as Map<String, dynamic>;
-    //     final event = EventOverviewPaticipants.fromJson(json);
-
-    //     //Load paticipants
-    //     paticipantsTask.add(paticipantCollection
-    //         .where('eventId', isEqualTo: eventDoc.id)
-    //         .get()
-    //         .then((snapshot) {
-    //       final paticipants = snapshot.docs.map((paticipantsDoc) {
-    //         return (paticipantsDoc.data() as Map<String, dynamic>)['avatarUri']
-    //             as String?;
-    //       }).toList();
-    //       event.paticipantsUri = paticipants;
-    //     }));
-
-    //     event.id = eventDoc.id;
-
-    //     return event;
-    //   }).toList();
-    // });
 
     await Future.wait(paticipantsTask);
 
@@ -223,9 +206,13 @@ class EventRepositoryImp implements IEventRepository {
 
   @override
   Future<EventOverview> loadEventOverview(String eventId) {
-    return eventCollection.doc(eventId).get().then((doc) {
+    return eventCollection.doc(eventId).get().then((doc) async {
       final json = doc.data() as Map<String, dynamic>;
       final event = EventOverview.fromJson(json)..id = doc.id;
+
+      //Load tag
+      final tagRepo = TagEventRepositoryImp();
+      event.tags = await tagRepo.loadFrom(doc.id);
 
       return event;
     });
@@ -252,11 +239,17 @@ class EventRepositoryImp implements IEventRepository {
     final event = await eventCollection.doc(eventId).get().then((doc) async {
       final json = doc.data() as Map<String, dynamic>;
       final element = EventDetail.fromJson(json)..id = doc.id;
+      element.numberMember = await getNumberPaticipant(eventId);
+      
       await userCollection.doc(json['creatorId']).get().then((userDoc) {
         element.creator =
             BaseUser.fromJson(userDoc.data() as Map<String, dynamic>)
               ..id = userDoc.id;
       });
+
+              //Load tag
+        final tagRepo = TagEventRepositoryImp();
+        element.tags = await tagRepo.loadFrom(doc.id);
 
       return element;
     });
@@ -296,37 +289,45 @@ class EventRepositoryImp implements IEventRepository {
 
   @override
   Future<List<EventOverview>> searchevent(
-      String query, List<String> tags) async {
+      String query, List<TagEvent> tags) async {
     List<EventOverview> listEvent = [];
     try {
       var unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
-      await eventCollection.get().then((value) => value.docs.forEach((element) {
-            if ((query == "" && (CheckListContain(element['tags'], tags))) ||
-                ((CheckListContain(element['tags'], tags)) &&
-                    TiengViet.parse(element['name'].toString().toLowerCase())
+      await eventCollection.get().then((snapshot) => snapshot.docs.forEach((doc) {
+            final json = doc.data() as Map<String, dynamic>;
+
+            if ((query == "" && (_checkTagsContain(json['tags'], tags))) ||
+                ((_checkTagsContain(json['tags'], tags)) &&
+                    TiengViet.parse(json['name'].toString().toLowerCase())
                         .contains(TiengViet.parse(query.toLowerCase())))) {
-              EventOverview eventOverview = new EventOverview(
-                  name: element['name'],
-                  avatarUri: element['avatarUri'],
-                  id: element.id,
-                  creatorId: element['creatorId']);
+
+              // EventOverview eventOverview = EventOverview(
+              //     name: json['name'],
+              //     avatarUri: json['avatarUri'],
+              //     id: doc.id,
+              //     creatorId: json['creatorId']);
+
+              final eventOverview = EventOverview.fromJson(json);
+
               listEvent.add(eventOverview);
             }
           }));
       return listEvent;
     } catch (e) {
-      print("Erro search event reposity");
-      return listEvent;
+      print("Error search event");
+      return [];
     }
   }
 
-  bool CheckListContain(List<dynamic> l1, List<String> l2) {
-    if (l2.length == 0) return true;
-    if (l1.length < l2.length) return false;
+  bool _checkTagsContain(List<dynamic> l1, List<TagEvent> l2) {
+    if (l2.isEmpty) return true;
+
+    if (l1.length < l2.length) return false;    
     for (var i in l2) {
-      if (!l1.contains(i)) return false;
+      if (l1.any((item) => item == i)) return true;
+      //if (!l1.contains(i)) return false;
     }
-    return true;
+    return false;
   }
 
   @override

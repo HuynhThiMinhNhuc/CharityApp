@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/repositories/event_repository_imp.dart';
 import 'package:charityapp/repositories/tag_event_repository_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
@@ -15,7 +16,7 @@ part 'searchevent_state.dart';
 class SearcheventBloc extends Bloc<SearcheventEvent, SearcheventState> {
   TagEventRepositoryImp _tagEventRepositoryImp = new TagEventRepositoryImp();
   EventRepositoryImp _eventrepositoryImp = new EventRepositoryImp();
-  List<String> tags = [];
+  List<TagEvent> tags = [];
   SearcheventBloc() : super(SearcheventInitial()) {
     on<SearcheventLoadTags>(_onSearcheventLoadTags);
     on<SearcheventSearch>(_onSearcheventSearch);
@@ -37,7 +38,7 @@ class SearcheventBloc extends Bloc<SearcheventEvent, SearcheventState> {
     try {
       emit(SearcheventEventLoading());
       List<EventOverview> events = [];
-      List<String> tagsevent = [];
+      List<TagEvent> tagsevent = [];
       int i = 0;
       for (var tag in tags) {
         if (event.tags[i]) tagsevent.add(tag);

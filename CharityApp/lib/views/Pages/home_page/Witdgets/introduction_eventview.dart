@@ -2,6 +2,7 @@ import 'package:charityapp/Constant/user_json.dart';
 import 'package:charityapp/domain/entities/event_detail.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -94,7 +95,7 @@ class IntroductionEventView extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  " Ngày tổ chức: ${DateFormat('dd/MM/yyyy').format(detail.timeStart!)}",
+                  " Ngày tổ chức: ${DateFormat('dd/MM/yyyy').format(detail.timeCreate!)}",
                   style: TextStyle(
                       fontFamily: 'Roboto_Regular',
                       fontSize: 15,
@@ -110,10 +111,10 @@ class IntroductionEventView extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(
-                  3,
+                  detail.tags.length,
                   (index) => Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    child: Chip(label: Text("Neo sown")),
+                    child: Chip(label: Text(detail.tags[index].name)),
                   ),
                 ),
               ),
@@ -161,11 +162,11 @@ class IntroductionEventView extends StatelessWidget {
                       color: textcolor),
                   children: [
                     TextSpan(
-                        text: '',
+                        text: detail.timeStart != null ? DateFormat('dd/MM/yyyy').format(detail.timeStart!) : 'Chưa xác định',
                         style: TextStyle(
                             fontFamily: 'Roboto_Regular',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
                             color: textcolor))
                   ]),
             ),
@@ -182,33 +183,33 @@ class IntroductionEventView extends StatelessWidget {
                       color: textcolor),
                   children: [
                     TextSpan(
-                        text: '',
+                        text: detail.location ?? 'Không có địa điểm',
                         style: TextStyle(
                             fontFamily: 'Roboto_Regular',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
                             color: textcolor))
                   ]),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Yêu cầu",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              detail.description ?? 'Không có câu chuyện',
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular', fontSize: 15, color: textcolor),
-            ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // Text(
+            //   "Yêu cầu",
+            //   style: TextStyle(
+            //       fontFamily: 'Roboto_Regular',
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.bold,
+            //       color: textcolor),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // Text(
+            //   detail.description ?? 'Không có câu chuyện',
+            //   style: TextStyle(
+            //       fontFamily: 'Roboto_Regular', fontSize: 15, color: textcolor),
+            // ),
             SizedBox(
               height: 10,
             ),
@@ -233,11 +234,11 @@ class IntroductionEventView extends StatelessWidget {
                       color: textcolor),
                   children: [
                     TextSpan(
-                        text: '',
+                        text: Authenticator.profile.email,
                         style: TextStyle(
                             fontFamily: 'Roboto_Regular',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
                             color: textcolor))
                   ]),
             ),
@@ -254,38 +255,38 @@ class IntroductionEventView extends StatelessWidget {
                       color: textcolor),
                   children: [
                     TextSpan(
-                        text: '',
+                        text: Authenticator.profile.phone,
                         style: TextStyle(
                             fontFamily: 'Roboto_Regular',
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             color: textcolor))
                   ]),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Text.rich(
-              TextSpan(
-                  text: 'Facebook: ',
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: textcolor),
-                  children: [
-                    TextSpan(
-                        text: '',
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: textcolor))
-                  ]),
-            ),
-            SizedBox(
-              height: 5,
-            ),
+            // SizedBox(
+            //   height: 5,
+            // ),
+            // Text.rich(
+            //   TextSpan(
+            //       text: 'Facebook: ',
+            //       style: TextStyle(
+            //           fontFamily: 'Roboto_Regular',
+            //           fontSize: 15,
+            //           fontWeight: FontWeight.bold,
+            //           color: textcolor),
+            //       children: [
+            //         TextSpan(
+            //             text: '',
+            //             style: TextStyle(
+            //                 fontFamily: 'Roboto_Regular',
+            //                 fontSize: 18,
+            //                 fontWeight: FontWeight.bold,
+            //                 color: textcolor))
+            //       ]),
+            // ),
+            // SizedBox(
+            //   height: 5,
+            // ),
           ],
         ),
       ),

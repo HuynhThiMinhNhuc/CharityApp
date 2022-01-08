@@ -21,7 +21,7 @@ abstract class IEventRepository implements CRUDableRepository<EventInfor>{
   Future<EventDetail> loadDetail(String eventId);
   Future<EventPageState> loadStatePage(String eventId, String creatorId);
   Future<void> follow(String eventId, String userId, bool isTrue);
-  Future<List<EventOverview>> searchevent(String query, List<String> tags);
+  Future<List<EventOverview>> searchevent(String query, List<TagEvent> tags);
 
   Future<EventPermission> checkPermission(String eventId, String userId);
 }

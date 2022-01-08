@@ -1,3 +1,4 @@
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,17 +7,24 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddTag extends StatefulWidget {
-  final List<Tags> tags;
-  AddTag({Key? key, required this.tags}) : super(key: key);
+  final Iterable<TagItemInUI> initTags;
+  AddTag({Key? key, required this.initTags}) : super(key: key);
 
   @override
   _AddTagState createState() => _AddTagState();
 }
 
 class _AddTagState extends State<AddTag> {
+  late Iterable<TagItemInUI> tags;
+
+  @override
+  void initState() {
+    super.initState();
+    tags = widget.initTags;
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool _isSelect = false;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -35,13 +43,14 @@ class _AddTagState extends State<AddTag> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context)
+                  .pop(tags.where((tag) => tag.isSelected == true).map((tagUI) => tagUI.tag).toList());
             },
             child: Text(
               "Hoàn thành ",
               style: TextStyle(
                   color: maincolor,
-                  fontSize: 18,
+                  fontSize: 15,
                   fontFamily: 'Roboto_Regular',
                   fontWeight: FontWeight.bold),
             ),
@@ -60,21 +69,21 @@ class _AddTagState extends State<AddTag> {
         child: Wrap(
           spacing: 8.0, // gap between adjacent chips
           runSpacing: 4.0, // gap between lines
-          children: <Widget>[...generate_tags()],
+          children: generate_tags(),
         ),
       ),
     );
   }
 
-  generate_tags() {
+  List<Widget> generate_tags() {
     List<FilterChip> chips = [];
-    for (var tag in widget.tags) {
+    for (var tag in tags) {
       chips.add(FilterChip(
         checkmarkColor: tag.isSelected ? Colors.white : Colors.black,
         selectedColor: maincolor,
         selected: tag.isSelected,
         label: Text(
-          tag.tag,
+          tag.tag.name,
           style: TextStyle(
               fontFamily: 'Roboto_Regular',
               fontSize: 15,
@@ -91,8 +100,8 @@ class _AddTagState extends State<AddTag> {
   }
 }
 
-class Tags {
-  String tag;
+class TagItemInUI {
+  final TagEvent tag;
   bool isSelected;
-  Tags({Key? key, required this.tag, required this.isSelected});
+  TagItemInUI({Key? key, required this.tag, this.isSelected = false});
 }

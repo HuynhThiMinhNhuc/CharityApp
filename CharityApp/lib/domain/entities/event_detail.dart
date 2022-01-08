@@ -14,9 +14,10 @@ class EventDetail extends BaseObject {
   late BaseUser creator;
   final DateTime? timeCreate;
   final DateTime? timeStart;
-  final int numberMember;
+  late int numberMember;
   final String? description;
-  final List<TagEvent> tags;
+  final String? location;
+  List<TagEvent> tags;
 
   EventDetail({
     BaseUser? creator,
@@ -26,6 +27,7 @@ class EventDetail extends BaseObject {
     required this.timeCreate,
     required this.timeStart,
     this.numberMember = 0,
+    this.location,
   }) : super(id: id) {
     if (creator != null) this.creator = creator;
   }
@@ -42,16 +44,17 @@ class EventDetail extends BaseObject {
         timeStart: json['timeStart'] == null
             ? null
             : (json['timeStart'] as Timestamp).toDate(),
+        location: json['location'],
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'creatorId': this.creator.id,
-        'tags': this.tags.map((tag) => tag.id).toList(),
+        'tags': this.tags.map((tag) => tag.id!).toList(),
         'timeCreate': this.timeCreate == null
             ? null
             : Timestamp.fromDate(this.timeCreate!),
         'description': this.description,
-        'timeStart': this.timeStart == null
-            ? null
-            : Timestamp.fromDate(this.timeStart!),
+        'timeStart':
+            this.timeStart == null ? null : Timestamp.fromDate(this.timeStart!),
+            'location': this.location,
       };
 }

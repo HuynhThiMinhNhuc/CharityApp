@@ -1,8 +1,12 @@
 import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
+import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Login/login_view.dart';
+import 'package:charityapp/views/Pages/add_event_page/add_tag_page.dart';
+import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/Root_App.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/calendar_bloc/calendar.dart';
@@ -97,25 +101,43 @@ class RouteGenerator {
         settings: settings,
         builder: (context) {
           print("create add_event route");
+
           return BlocConsumer<EventTabBloc, EventTabState>(
             listener: (context, state) async {
               if (state is EventUpdateSuccess) {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => MyAlertDialog(
-                      content: "Nhấn đồng ý để quay lại màn hình chính",
-                      pathImage: "asset/imageInpage/success.png",
-                      title: "Thêm sự kiện thành công"),
-                );
+                // showDialog<String>(
+                //   context: context,
+                //   builder: (BuildContext context) => MyAlertDialog(
+                //       content: "Quay lại màn hình chính",
+                //       pathImage: "asset/imageInpage/success.png",
+                //       title: "Thêm sự kiện thành công"),
+                // );
+                showDialog(
+                    context: context,
+                    builder: (context) => MyAlertDialog2(
+                          content: 'Quay về màn hình chính',
+                          title: 'Thêm sự kiện thành công',
+                          pathImage: "asset/imageInpage/success.png",
+                          onTabYes: () => Navigator.of(context)
+                              .popUntil(ModalRoute.withName(AppRoutes.home)),
+                        ));
               } else if (state is EventLoadFailure) {
-                showMyDialog(context, "Thêm sự kiện thất bại",
-                    closeWhenClick: false);
+                showDialog(
+                    context: context,
+                    builder: (context) => MyAlertDialog2(
+                          content: 'Thêm sự kiện thất bại',
+                          title: 'Lỗi',
+                          isTwoActions: false,
+                        ));
+
+                // showMyDialog(context, "Thêm sự kiện thất bại",
+                //     closeWhenClick: false);
               }
             },
             builder: (context, state) {
               return AddEventPage(
                 onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
-                  print("add new Event");
+                  print("on AddEvent");
                   BlocProvider.of<EventTabBloc>(context).add(
                     AddEvent(
                         event: newEvent,
@@ -174,6 +196,28 @@ class RouteGenerator {
             return Text('error');
         }),
       );
+    } else if (settings.name == AppRoutes.chooseTags) {
+      final tagsEvent = settings.arguments as List<TagEvent>;
+
+      return MaterialPageRoute(builder: (context) {
+        BlocProvider.of<TagCubit>(context).load();
+        return BlocBuilder<TagCubit, List<TagEvent>?>(
+          builder: (context, alltag) {
+            if (alltag == null) {
+              return SketonEvent();
+            }
+
+            for(var tag in tagsEvent) {
+              if (alltag.contains(tag)) alltag.remove(tag);
+            }
+
+            List<TagItemInUI> tagsUi = tagsEvent.map((tag) => TagItemInUI(tag: tag, isSelected: true)).toList()..addAll(
+                alltag.map((tag) => TagItemInUI(tag: tag, isSelected: false)));
+
+            return AddTag(initTags: tagsUi);
+          },
+        );
+      });
     }
     return MaterialPageRoute(builder: (context) {
       return Text('fail page');

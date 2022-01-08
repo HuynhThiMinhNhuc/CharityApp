@@ -31,6 +31,9 @@ void main() async {
       ),
       BlocProvider<FormBloc>(
         create: (context) => FormBloc(),
+      ),
+      BlocProvider<TagCubit>(
+        create: (context) => TagCubit(),
       )
     ],
     child: MeerApp(),

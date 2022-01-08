@@ -13,7 +13,7 @@ part 'event_overview.g.dart';
 class EventOverview extends BaseEvent {
   final String? avatarUri;
   final String? backgroundUri;
-  final List<TagEvent> tags;
+  List<TagEvent> tags;
   final int numberMember;
   final int numberPost;
 
@@ -53,7 +53,7 @@ class EventOverview extends BaseEvent {
         'creatorId': this.creatorId,
         'avatarUri': this.avatarUri,
         'backgroundUri': this.backgroundUri,
-        'tags': this.tags.map((tag) => tag.id).toList(),
+        'tags': this.tags.map((tag) => tag.id!).toList(),
         'timeCreate': this.timeCreate == null
             ? null
             : Timestamp.fromDate(this.timeCreate!),

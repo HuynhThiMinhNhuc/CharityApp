@@ -12,7 +12,7 @@ class SearcheventInitial extends SearcheventState {}
 class SearcheventTagLoading extends SearcheventState {}
 
 class SearcheventTagLoaded extends SearcheventState {
-  final List<String> listTags;
+  final List<TagEvent> listTags;
   SearcheventTagLoaded({Key? key, required this.listTags}) : super(key: key);
 }
 

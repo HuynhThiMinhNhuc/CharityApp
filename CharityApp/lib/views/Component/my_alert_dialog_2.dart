@@ -7,6 +7,8 @@ class MyAlertDialog2 extends StatelessWidget {
   final void Function()? onTabNo;
   final String title;
   final String content;
+  final bool isTwoActions;
+
   const MyAlertDialog2({
     Key? key,
     required this.content,
@@ -14,6 +16,7 @@ class MyAlertDialog2 extends StatelessWidget {
     required this.title,
     this.onTabYes,
     this.onTabNo,
+    this.isTwoActions = true,
   }) : super(key: key);
 
   @override
@@ -58,47 +61,37 @@ class MyAlertDialog2 extends StatelessWidget {
       ),
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
-        Padding(
+
+        if (isTwoActions) Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 5, 5),
-          child: OutlinedButton(
-            onPressed: onTabNo ?? () => Navigator.of(context).pop(),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-              child: const Text(
-                'Hủy',
-                style: TextStyle(color: maincolor, fontSize: 15),
-              ),
-            ),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                side: BorderSide(width: 1, color: maincolor),
-              )),
-            ),
-          ),
+          child: _getButton(context, 'Hủy', onTabNo),
         ),
+
         Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
-          child: OutlinedButton(
-            onPressed: onTabYes ?? () => Navigator.of(context).pop(),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
-              child: const Text(
-                'Đồng ý',
-                style: TextStyle(color: maincolor, fontSize: 15),
-              ),
-            ),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                side: BorderSide(width: 1, color: maincolor),
-              )),
-            ),
-          ),
+          child: _getButton(context, 'Đồng ý', onTabYes)
         ),
       ],
     );
+  }
+
+  OutlinedButton _getButton(BuildContext context, String name, Function()? onClick) {
+    return OutlinedButton(
+          onPressed: onClick ?? () => Navigator.of(context).pop(),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+            child: Text(
+              name,
+              style: const TextStyle(color: maincolor, fontSize: 15),
+            ),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(width: 1, color: maincolor),
+            )),
+          ),
+        );
   }
 }

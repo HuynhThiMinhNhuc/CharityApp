@@ -8,4 +8,5 @@ class AppRoutes {
   static final comment = '/comment';
   static final formRegister = eventPage + '/formRegister';
   static final detailFormRegister = eventPage + '/detailFormRegisger';
+  static final chooseTags = addEvent + '/tags';
 }

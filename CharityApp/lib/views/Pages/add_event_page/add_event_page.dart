@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:charityapp/core/model/keys.dart';
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
+import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
+import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Login/register_view.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_tag_page.dart';
@@ -39,6 +42,7 @@ class _AddEventPageState extends State<AddEventPage> {
   File? backgroundImage;
   DateTime? startDate;
   LatLng? latLng;
+  List<TagEvent> _tags = [];
 
   @override
   void initState() {
@@ -58,14 +62,23 @@ class _AddEventPageState extends State<AddEventPage> {
     super.dispose();
   }
 
+  bool isValidation() {
+    if (_nameTextController.text.trim().isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog2(
+                content: 'Vui lòng nhập tên cho sự kiện',
+                title: 'Thông báo',
+                isTwoActions: false,
+              ));
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> _tags = <String>[
-      "Mồ côi",
-      "Người già",
-      "Trẻ em",
-      "Môi trường"
-    ];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -85,24 +98,23 @@ class _AddEventPageState extends State<AddEventPage> {
         actions: [
           TextButton(
             onPressed: () {
+              if (!isValidation()) return;
+
               final _event = EventInfor(
                 name: _nameTextController.text,
                 creatorId: Authenticator.Id,
-                description: _descriptionTextController.text == ""
-                    ? null
-                    : _descriptionTextController.text,
+                description: _descriptionTextController.text,
                 timeStart: startDate,
-                locationText: _locationTextController.text == ""
-                    ? null
-                    : _locationTextController.text,
+                locationText: _locationTextController.text,
                 locationGeo: latLng,
+                tags: _tags,
               );
               widget.onClickSubmit?.call(
                 _event,
                 avatarImage: avatarImage,
                 backgroundImage: backgroundImage,
               );
-              Navigator.pop(context);
+              // Navigator.pop(context);
             },
             child: Text(
               "Đăng",
@@ -274,65 +286,28 @@ class _AddEventPageState extends State<AddEventPage> {
                     child: Row(
                       children: [
                         IconButton(
-                            onPressed: () => {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddTag(tags: <Tags>[
-                                                new Tags(
-                                                    tag: "love",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "instagood",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "photooftheday",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "beautiful",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "fashion",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "happy",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "tbt",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "cute",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "summer",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "love",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "instadaily",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "followme",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "selfie",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "followme",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "love",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "picoftheday",
-                                                    isSelected: false),
-                                                new Tags(
-                                                    tag: "love",
-                                                    isSelected: false),
-                                              ])))
-                                },
+                            onPressed: () async {
+                              List<TagEvent>? tagsChoose =
+                                  await Navigator.of(context)
+                                          .pushNamed(AppRoutes.chooseTags,arguments: _tags)
+                                      as List<TagEvent>?;
+
+                              setState(() {
+                                _tags = tagsChoose ?? _tags;
+                              });
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             AddTag(tags: <TagItemInUI>[
+                              //               TagItemInUI(
+                              //                   tag: "love",
+                              //                   isSelected: false),
+                              //               TagItemInUI(
+                              //                   tag: "instagood",
+                              //                   isSelected: false),
+                              //             ])));
+                            },
                             icon: Icon(
                               FontAwesomeIcons.tags,
                               color: maincolor,
@@ -349,13 +324,17 @@ class _AddEventPageState extends State<AddEventPage> {
                                   color: notetextcolor,
                                 ),
                                 label: Text(
-                                  _tags[index],
+                                  _tags[index].name,
                                   style: TextStyle(
                                       fontFamily: 'Roboto_Regular',
                                       fontSize: 12,
                                       color: Color(0xFF455154)),
                                 ),
-                                onDeleted: () => {},
+                                onDeleted: () {
+                                  setState(() {
+                                    _tags.removeAt(index);
+                                  });
+                                },
                               ),
                             ),
                           ),

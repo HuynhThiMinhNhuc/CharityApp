@@ -62,10 +62,6 @@ class EventInfor extends EventOverview {
             ? LatLng((json['geometry'] as List<dynamic>)[0],
                 (json['geometry'] as List<dynamic>)[1])
             : null,
-        // tags: (json['tags'] as List<dynamic>?)
-        //         ?.map((e) => e as String)
-        //         .toList() ??
-        //     const [],
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
@@ -75,10 +71,9 @@ class EventInfor extends EventOverview {
         'description': this.description,
         'timeStart':
             this.timeStart == null ? null : Timestamp.fromDate(this.timeStart!),
-
         // 'numberMember': this.numberMember,
         // 'numberPost': this.numberPost,
-        'tags': this.tags.map((tag) => tag.id).toList(),
+        'tags': this.tags.map((tag) => tag.id!).toList(),
         'timeCreate': this.timeCreate == null
             ? null
             : Timestamp.fromDate(this.timeCreate!),

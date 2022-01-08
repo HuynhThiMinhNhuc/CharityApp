@@ -9,7 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 
 class GoogleMapPage extends StatefulWidget {
-  final googlePlace = GooglePlace("AIzaSyC1GPiRhUr2xSsz801IdinRlINbBkJAXKU");
+  final googlePlace = GooglePlace("AIzaSyB7ovsLc6Bkw_tM52v50w6m7UbbAqkCYgU");
 
   final LatLng initLatlng;
   GoogleMapPage(
@@ -236,16 +236,16 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             ),
           ),
           suggestionsCallback: (keyword) async {
-            if (keyword.isEmpty) return [];
+            if (keyword.isEmpty) return ['Vui lòng nhập địa chỉ'];
             final result = await widget.googlePlace.autocomplete
                 .get(keyword, region: 'vn');
 
             if (result != null && result.predictions != null) {
-              return result.predictions!;
+              return result.predictions!.isEmpty ? ['Không tìm thấy địa chỉ'] : result.predictions!;
             }
-            return [];
+            return ['Lỗi'];
           },
-          itemBuilder: (context, suggestion) => Padding(
+          itemBuilder: (context, suggestion) => suggestion is String? Text(suggestion) : Padding(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Text(
                   (suggestion as AutocompletePrediction).description!,
@@ -257,6 +257,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 ),
               ),
           onSuggestionSelected: (place) {
+            if (place is String) return;
             detailPlace = (place as AutocompletePrediction);
             onSearch?.call();
           }),

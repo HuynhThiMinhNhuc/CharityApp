@@ -148,7 +148,7 @@ class _SearchEventState extends State<SearchEvent> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 7, 0, 7),
                                             child: Text(
-                                              state.listTags[index],
+                                              state.listTags[index].name,
                                               style: TextStyle(
                                                   color: widget._ischoice[index]
                                                       ? Colors.white
