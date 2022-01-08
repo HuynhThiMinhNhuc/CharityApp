@@ -8,6 +8,7 @@ abstract class SigninState extends Equatable {
 }
 
 class SigninInitState extends SigninState {}
+class SignInLoadInProccess extends SigninState{}
 class SigninSussessState extends SigninState {}
 class SigninfailEmailState extends SigninState {}
 class SigninfailPassState extends SigninState {}

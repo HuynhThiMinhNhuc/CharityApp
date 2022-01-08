@@ -2,7 +2,7 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
-class IndicatorLoginToHome extends StatelessWidget {
+class IndicatorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +51,7 @@ class _AnimatedLiquidCustomProgressIndicatorState
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 5),
     );
 
     _animationController.addListener(() => setState(() {}));

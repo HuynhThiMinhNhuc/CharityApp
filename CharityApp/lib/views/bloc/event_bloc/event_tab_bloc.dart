@@ -65,6 +65,7 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
 
   FutureOr<void> _onAddEvent(
       AddEvent event, Emitter<EventTabState> emit) async {
+        emit(EventViewLoadInProgress());
     try {
       print("Add event to reporistory");
       final rootPath = "images/events";

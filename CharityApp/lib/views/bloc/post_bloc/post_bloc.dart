@@ -57,6 +57,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) async {
+    emit(PostLoadInProgress());
     //Add image to fire storage
     event.post.imagesUri = <String>[];
     final imagesTask = <Future<String?>>[];
@@ -83,8 +84,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     }
   }
 
-  void _onDeletePost(DeletePost event, Emitter<PostState> emit) {
-    this.postRepository.delete(event.post.id!);
+  Future<void> _onDeletePost(DeletePost event, Emitter<PostState> emit) async {
+    await this.postRepository.delete(event.post.id!);
   }
 
   FutureOr<void> _onLoadOverviewPosts(

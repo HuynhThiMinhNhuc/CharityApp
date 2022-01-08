@@ -68,6 +68,7 @@ dependencies:
   spincircle_bottom_bar: ^2.0.0
   flutter_spinkit: ^5.1.0
   liquid_progress_indicator: ^0.4.0
+  flutter_image_compress: ^1.1.0
   
 dev_dependencies:
   flutter_test:

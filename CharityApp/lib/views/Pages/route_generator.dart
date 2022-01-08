@@ -1,9 +1,7 @@
-import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
-import 'package:charityapp/views/Component/indicater_logintohome.dart';
-import 'package:charityapp/views/Component/my_alert_dialog.dart';
+import 'package:charityapp/views/Component/loading_circular_indicator.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_tag_page.dart';
@@ -31,7 +29,11 @@ import 'home_page/comment_view.dart';
 import 'home_page/event_page.dart';
 import 'home_page/form_view.dart';
 
+import 'package:async/async.dart';
+
 class RouteGenerator {
+  CancelableOperation? isLoading;
+
   Route generateRoute(RouteSettings settings) {
     if (settings.name == AppRoutes.login) {
       return MaterialPageRoute(
@@ -78,18 +80,27 @@ class RouteGenerator {
           return BlocListener<PostBloc, PostState>(
             listener: (bloc_context, state) async {
               if (state is PostUpdated) {
+                if (isLoading != null && !isLoading!.isCompleted) {
+                  isLoading!.cancel();
+                }
                 await showMyDialog(bloc_context, 'Thêm bài viết thành công');
                 Navigator.of(context).pushNamed(
                   AppRoutes.eventPage,
                   arguments: state.post.eventId,
                 );
               } else if (state is PostLoadFailure) {
+                if (isLoading != null && !isLoading!.isCompleted) {
+                  isLoading!.cancel();
+                }
+
                 showMyDialog(bloc_context, 'Thêm bài viết thất bại',
                     closeWhenClick: false);
               }
             },
             child: AddPostPage(
               onClickSubmit: (post, images) {
+                showLoading(context);
+
                 BlocProvider.of<PostBloc>(context).add(
                   AddPost(post: post, images: images),
                 );
@@ -107,13 +118,10 @@ class RouteGenerator {
           return BlocConsumer<EventTabBloc, EventTabState>(
             listener: (context, state) async {
               if (state is EventUpdateSuccess) {
-                // showDialog<String>(
-                //   context: context,
-                //   builder: (BuildContext context) => MyAlertDialog(
-                //       content: "Quay lại màn hình chính",
-                //       pathImage: "asset/imageInpage/success.png",
-                //       title: "Thêm sự kiện thành công"),
-                // );
+                if (isLoading != null && !isLoading!.isCompleted) {
+                  isLoading!.cancel();
+                }
+
                 showDialog(
                     context: context,
                     builder: (context) => MyAlertDialog2(
@@ -124,6 +132,10 @@ class RouteGenerator {
                               .popUntil(ModalRoute.withName(AppRoutes.home)),
                         ));
               } else if (state is EventLoadFailure) {
+                if (isLoading != null && !isLoading!.isCompleted) {
+                  isLoading!.cancel();
+                }
+
                 showDialog(
                     context: context,
                     builder: (context) => MyAlertDialog2(
@@ -139,6 +151,8 @@ class RouteGenerator {
             builder: (context, state) {
               return AddEventPage(
                 onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
+                  showLoading(context);
+
                   print("on AddEvent");
                   BlocProvider.of<EventTabBloc>(context).add(
                     AddEvent(
@@ -270,5 +284,13 @@ class RouteGenerator {
         );
       },
     );
+  }
+
+  void showLoading(BuildContext context) {
+    // if (isLoading != null && !isLoading!.isCompleted) return;
+    isLoading = CancelableOperation.fromFuture(showDialog(
+        context: context,
+        builder: (context) => Container(
+            width: 100, height: 80, child: LoaddingCircularIndicator())));
   }
 }

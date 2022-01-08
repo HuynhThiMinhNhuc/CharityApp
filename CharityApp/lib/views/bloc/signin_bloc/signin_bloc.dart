@@ -31,6 +31,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       emit(SigninfailEmailState());
     } else
       try {
+        emit(SignInLoadInProccess());
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: event.email, password: event.password);
         await GetIt.instance.get<Authenticator>().login(event.email);

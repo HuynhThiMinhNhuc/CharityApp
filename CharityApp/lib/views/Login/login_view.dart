@@ -1,25 +1,17 @@
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/main.dart';
+import 'package:charityapp/views/Component/indicater_logintohome.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
-import 'package:charityapp/views/Login/verification_otp_view.dart';
-import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
-import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
-import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
-import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
-import 'package:charityapp/views/bloc/searchevent_bloc/bloc/searchevent_bloc.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
-import 'package:charityapp/views/bloc/tab_bloc/tab_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:animations/animations.dart';
 
-import '../Root_App.dart';
+import 'package:async/async.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -31,6 +23,7 @@ class _LoginState extends State<Login> {
   final IconData eye = Icons.remove_red_eye_outlined;
   final TextEditingController passwordcontroller = new TextEditingController();
   final TextEditingController emailcontroller = new TextEditingController();
+  CancelableOperation? isLoading;
 
   var signinBloc;
 
@@ -197,7 +190,23 @@ class _LoginState extends State<Login> {
                             AppRoutes.home, (route) => false);
                       }
                     },
-                    child: BlocBuilder<SigninBloc, SigninState>(
+                    child: BlocConsumer<SigninBloc, SigninState>(
+                      listener: (context, state) {
+                        if (state is SignInLoadInProccess) {
+                          if (isLoading != null && !isLoading!.isCompleted)
+                            return;
+                            
+                          isLoading = CancelableOperation.fromFuture(showDialog(
+                              context: context,
+                              builder: (context) {
+                                return IndicatorDialog();
+                              }));
+                        } else {
+                          if (isLoading != null && !isLoading!.isCompleted) {
+                            isLoading!.cancel();
+                          }
+                        }
+                      },
                       builder: (context, state) {
                         return ElevatedButton(
                           onPressed: () => {
