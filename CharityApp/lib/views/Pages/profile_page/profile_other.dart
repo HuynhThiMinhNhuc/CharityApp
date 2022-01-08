@@ -1,3 +1,4 @@
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
@@ -6,6 +7,7 @@ import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dar
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_state.dart';
+import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +18,9 @@ import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'Widgets/profile_overview.dart';
 
 class ProfileOtherPage extends StatefulWidget {
-  final id;
-  final Function onClose;
-  ProfileOtherPage(this.id, this.onClose);
+  final UserOverview creator;
+  final Function? onClose;
+  ProfileOtherPage({required this.creator, this.onClose});
 
   @override
   _ProfileOtherPageState createState() => _ProfileOtherPageState();
@@ -32,8 +34,8 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
     super.initState();
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
-    overViewUserBloc.add(LoadOverViewUserEvent(widget.id));
-    //poverViewUserBlocostBloc.add(LoadPostEvent());
+    overViewUserBloc.add(LoadOverViewUserEvent(widget.creator.id));
+    BlocProvider.of<PostBloc>(context).add(LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
   }
 
   @override
@@ -46,7 +48,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () async {
-            await widget.onClose.call();
+            await widget.onClose?.call();
             Navigator.pop(context);
           },
         ),
@@ -100,17 +102,17 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
               },
               buildWhen: (context, state) {
                 return state is PostLoadInProgress ||
-                    state is LoadedPostState ||
+                    state is PostsLoadSuccess ||
                     state is PostLoadFailure;
               },
               builder: (context, state) {
-                if (state is LoadedPostState) {
+                if (state is PostsLoadSuccess) {
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: state.listPost.length,
+                    itemCount: state.posts.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return PostOverviewCard(post: state.listPost[index]);
+                      return PostOverviewCard(post: state.posts[index]);
                     },
                   );
                 } else

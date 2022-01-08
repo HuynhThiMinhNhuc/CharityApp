@@ -32,7 +32,7 @@ class InformationCreatorPostView extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     image:
-                        (creator.avatarUri != "" || creator.avatarUri != null)
+                        (creator.avatarUri != null || creator.avatarUri != "")
                             ? NetworkImage(creator.avatarUri!)
                             : AssetImage('asset/avatar.png') as ImageProvider,
                     fit: BoxFit.cover),
@@ -51,7 +51,7 @@ class InformationCreatorPostView extends StatelessWidget {
                               create: (context) => PostBloc(),
                             ),
                           ],
-                          child: ProfileOtherPage(creator.id, () => {}),
+                          child: ProfileOtherPage(creator: creator),
                         )),
               )
             },

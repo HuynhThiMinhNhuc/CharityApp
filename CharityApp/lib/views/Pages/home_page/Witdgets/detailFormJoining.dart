@@ -150,7 +150,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                         builder: (context) => BlocProvider(
                               create: (context) => OverViewUserBloc(),
                               child:
-                                  ProfileOtherPage(joinerProfile.id, () => {}),
+                                  ProfileOtherPage(creator: joinerProfile),
                             )))
               },
             ),

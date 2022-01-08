@@ -2,6 +2,7 @@ import 'package:charityapp/Constant/cmt_json.dart';
 import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/core/helper/get_time_compare_present.dart';
 import 'package:charityapp/domain/entities/user_comment.dart';
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
@@ -351,7 +352,11 @@ class CommentItem extends StatelessWidget {
                                   create: (context) => PostBloc(),
                                 ),
                               ],
-                              child: ProfileOtherPage(comment.id, () => {}),
+                              child: ProfileOtherPage(
+                                  creator: UserOverview(
+                                      name: comment.name,
+                                      avatarUri: comment.avatarUri,
+                                      id: comment.id)),
                             )),
                   )
                 },

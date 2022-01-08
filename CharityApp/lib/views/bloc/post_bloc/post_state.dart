@@ -38,16 +38,3 @@ class PostUpdated extends PostState {
 class PostUpdateFail extends PostState {
   
 }
-
-class LoadedPostState extends PostState {
-  List<Post> listPost = [];
-
-  LoadedPostState(this.listPost);
-}
-
-
-class LoadingDetailPostState extends PostState {}
-
-class LoadedDetailPostState extends PostState {}
-
-class LoadingFailDetailState extends PostState {}

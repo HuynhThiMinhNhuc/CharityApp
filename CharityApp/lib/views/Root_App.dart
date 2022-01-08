@@ -20,7 +20,6 @@ import 'Pages/profile_page/profile_page.dart';
 import 'bloc/signin_bloc/signin_bloc.dart';
 import 'bloc/tab_bloc/tab.dart';
 
-
 typedef onAddPostCallback = Function(Post post);
 
 class RootApp extends StatelessWidget {
@@ -247,9 +246,10 @@ class RootApp extends StatelessWidget {
     //   return AddEventPage();
     else if (activateTab == AppTab.friend)
       return FriendPage();
-    else if (activateTab == AppTab.profile)
-      return ProfilePage();
-    else {
+    else if (activateTab == AppTab.profile) {
+      final creator = Authenticator.profile;
+      return ProfilePage(creator: creator);
+    } else {
       return Text("Fail tab");
     }
   }
