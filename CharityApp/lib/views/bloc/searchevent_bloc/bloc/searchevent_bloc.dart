@@ -45,7 +45,7 @@ class SearcheventBloc extends Bloc<SearcheventEvent, SearcheventState> {
         ++i;
       }
       events =
-          await _eventrepositoryImp.searchevent(event.query, tagsevent) ?? [];
+          await _eventrepositoryImp.searchevent(event.query, tagsevent);
       if (events.length == 0)
         emit(SearcheventNoResult());
       else
