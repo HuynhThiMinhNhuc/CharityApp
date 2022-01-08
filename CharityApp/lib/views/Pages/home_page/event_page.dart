@@ -3,6 +3,7 @@ import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Component/loading_circular_indicator.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
@@ -15,6 +16,7 @@ import 'package:charityapp/views/bloc/form_bloc/form.dart' as bloc;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 class EventPage extends StatefulWidget {
   final String eventId;
@@ -229,7 +231,7 @@ class _JoinerState extends State<Joiner> {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             children: listUser == null
-                ? [Skeletonloaderfriend()]
+                ? [LoaddingCircularIndicator()]
                 : listUser
                     .map((user) => FormRegisterCard(
                         user: user,

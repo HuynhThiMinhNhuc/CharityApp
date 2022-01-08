@@ -19,6 +19,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc() : super(PostLoadInProgress()) {
     on<LoadEventPosts>(_onLoadPosts);
     on<LoadRandomPosts>(_onLoadRandomPosts);
+    on<LoadProfilePosts>(_onLoadProfilePosts);
     on<AddPost>(_onAddPost);
     on<DeletePost>(_onDeletePost);
     on<LoadOverViewEventsPaticipant>(_onLoadOverviewPosts);
@@ -92,5 +93,22 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     final events =
         await this.eventRepository.loadEventsPaticipant(event.creatorId);
     emit(PostsLoadOverviewSuccess(eventsOverview: events));
+  }
+
+  FutureOr<void> _onLoadProfilePosts(
+      LoadProfilePosts event, Emitter<PostState> emit) async {
+    emit(PostLoadInProgress());
+    if (loadPostOperation != null && !loadPostOperation!.isCompleted)
+      loadPostOperation!.cancel();
+
+    final task = postRepository.loadPostsFromCreator(
+      event.creator,
+      event.startIndex,
+      event.number,
+    );
+    loadPostOperation = CancelableOperation.fromFuture(task);
+
+    final posts = await task;
+    emit(PostsLoadSuccess(posts: posts));
   }
 }

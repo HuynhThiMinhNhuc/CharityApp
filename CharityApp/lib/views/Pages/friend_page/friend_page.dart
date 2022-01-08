@@ -146,8 +146,8 @@ class _FriendPageState extends State<FriendPage> {
                                                   ),
                                                 ],
                                                 child: ProfileOtherPage(
-                                                    state.suggestion[index].id,
-                                                    () => {
+                                                    creator: state.suggestion[index],
+                                                    onClose: () => {
                                                           friendBloc.add(
                                                               FriendLoadEvent(GetIt
                                                                   .instance
@@ -302,8 +302,8 @@ class friends extends StatelessWidget {
                                     ),
                                   ],
                                   child: ProfileOtherPage(
-                                      listFriend![index].id,
-                                      () => {
+                                      creator: listFriend![index],
+                                      onClose: () => {
                                             friendBloc.add(FriendLoadEvent(GetIt
                                                 .instance
                                                 .get<Authenticator>()

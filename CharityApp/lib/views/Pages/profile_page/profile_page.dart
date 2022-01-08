@@ -1,3 +1,4 @@
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
@@ -5,6 +6,7 @@ import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dar
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_state.dart';
+import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,8 @@ import 'Widgets/profile_overview.dart';
 enum mode { My, Friend, Stranger, Joiner, Pending_approval }
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage();
+  final UserOverview creator;
+  ProfilePage({required this.creator});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -33,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
     overViewUserBloc.add(LoadOverViewUserEvent(
         GetIt.instance.get<Authenticator>().userProfile.id));
-    //poverViewUserBlocostBloc.add(LoadPostEvent());
+    BlocProvider.of<PostBloc>(context).add(LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
   }
 
   @override
@@ -62,28 +65,15 @@ class _ProfilePageState extends State<ProfilePage> {
               )),
           Divider(thickness: 1.0),
           Center(
-              child: BlocConsumer<PostBloc, PostState>(
-            //      listenWhen: (context, state){
-            //        return state is ClickPostEvent;
-            // },
-            listener: (context, state) {
-              if (state is PostLoadInProgress) {
-                //push DetailPost with post ID
-              }
-            },
-            buildWhen: (context, state) {
-              return state is PostLoadInProgress ||
-                  state is LoadedPostState ||
-                  state is PostLoadFailure;
-            },
+              child: BlocBuilder<PostBloc, PostState>(
             builder: (context, state) {
-              if (state is LoadedPostState) {
+              if (state is PostsLoadSuccess) {
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: state.listPost.length,
+                  itemCount: state.posts.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return PostOverviewCard(post: state.listPost[index]);
+                    return PostOverviewCard(post: state.posts[index]);
                   },
                 );
               } else

@@ -7,6 +7,7 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
+import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class _AddPostPageState extends State<AddPostPage> {
                   onPressed: () async {
                     BlocProvider.of<PostBloc>(context).add(
                       LoadOverViewEventsPaticipant(
-                          creatorId: '1G0aTSj46pSsvP8eBYb5'),
+                          creatorId: Authenticator.Id, startIndex: 0, number: 10),
                     );
                     chooseEvent = await Navigator.of(context).pushNamed(
                       AppRoutes.chooseEvent,
@@ -203,13 +204,12 @@ class _AddPostPageState extends State<AddPostPage> {
       actions: [
         TextButton(
           onPressed: () {
-            //TODO: fix creator here
+            if (!onValidation()) return;
             final post = Post(
               title: _titleTextController.text,
               description: _descriptionTextControlelr.text,
               eventId: chooseEvent!.id!,
-              creator: UserOverview(
-                  name: 'khong co', avatarUri: null, id: Authenticator.Id),
+              creator: Authenticator.profile,
             );
 
             widget.onClickSubmit?.call(post, images);
@@ -225,5 +225,18 @@ class _AddPostPageState extends State<AddPostPage> {
         ),
       ],
     );
+  }
+
+  bool onValidation() {
+    if (chooseEvent == null) {
+      showDialog(context: context, builder: (context) => MyAlertDialog2(content: 'Vui lòng chọn sự kiện', title: 'Thông báo'));
+      return false;
+    }
+    if (_titleTextController.text.isEmpty) {
+      showDialog(context: context, builder: (context) => MyAlertDialog2(content: 'Vui lòng nhập tiêu đề', title: 'Thông báo'));
+      return false;
+    }
+
+    return true;
   }
 }

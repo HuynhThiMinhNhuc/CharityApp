@@ -167,9 +167,8 @@ class PostRepositoryImp implements IPostRepository {
         .then((snapshot) {
       return snapshot.docs.map((doc) {
         final json = doc.data() as Map<String, dynamic>;
-        final post = Post.fromJson(json);
+        final post = Post.fromJson(json)..id=doc.id;
         post.creator = creator;
-        post.id = doc.id;
         return post;
       }).toList();
     });

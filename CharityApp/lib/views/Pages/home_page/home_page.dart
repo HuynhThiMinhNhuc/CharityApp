@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
         if (state is PostsLoadSuccess) {
-          return  LoadSuccessHomeView(state.posts);
+          return LoadSuccessHomeView(state.posts);
         }
         if (state is PostLoadInProgress) {
           return SkeletonEvent();
@@ -96,7 +96,7 @@ class HomePage extends StatelessWidget {
                                             ),
                                           ],
                                           child: ProfileOtherPage(
-                                              state.users[index].id, () => {}),
+                                              creator: state.users[index]),
                                         )),
                               )
                             },
@@ -128,7 +128,8 @@ class HomePage extends StatelessWidget {
               itemCount: posts.length,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                BlocProvider.of<LikePostBloc>(context).add(GetNumberLike(postId: posts[index].id!));
+                BlocProvider.of<LikePostBloc>(context)
+                    .add(GetNumberLike(postId: posts[index].id!));
                 return PostOverviewCard(post: posts[index]);
               },
             ),

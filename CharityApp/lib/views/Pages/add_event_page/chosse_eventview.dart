@@ -31,11 +31,9 @@ class ChossesEventView extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             child: EventCardView(
-                              eventOverviewPaticipants: events[index],
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop(events[index]);
-                            },
+                                eventOverviewPaticipants: events[index]),
+                            onTap: () =>
+                                Navigator.of(context).pop(events[index]),
                           );
                         },
                       )

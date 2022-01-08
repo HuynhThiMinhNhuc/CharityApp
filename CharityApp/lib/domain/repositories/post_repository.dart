@@ -7,6 +7,7 @@ abstract class IPostRepository implements CRUDableRepository<Post>{
   Future<List<Post>> loadRandomPosts(int startIndex, int number);
   Future<List<Post>> loadPostsFromCreator(UserOverview creator, int startIndex, int number);
 
+
   Future<void> likePost(String postId, bool isLike);
 
   Future<List> loadNumberLike(String postId);

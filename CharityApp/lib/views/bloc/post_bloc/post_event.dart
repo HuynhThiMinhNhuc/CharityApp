@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:charityapp/domain/entities/base_post.dart';
 import 'package:charityapp/domain/entities/post.dart';
+import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class PostEvent extends Equatable {
@@ -33,10 +34,22 @@ class LoadRandomPosts extends PostEvent {
 
 class LoadOverViewEventsPaticipant extends PostEvent {
   final String creatorId;
-  const LoadOverViewEventsPaticipant({required this.creatorId});
+  final int number;
+  final int startIndex;
+  const LoadOverViewEventsPaticipant({required this.creatorId, required this.startIndex, required this.number});
 
   @override
-  List<Object> get props => [creatorId];
+  List<Object> get props => [creatorId, startIndex, number];
+}
+
+class LoadProfilePosts extends PostEvent {
+  final UserOverview creator;
+  final int startIndex;
+  final int number;
+  const LoadProfilePosts({required this.creator, required this.startIndex, required this.number});
+
+    @override
+  List<Object> get props => [creator, startIndex, number];
 }
 
 class DeletePost extends PostEvent {
