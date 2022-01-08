@@ -2,6 +2,7 @@ import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
+import 'package:charityapp/views/Component/indicater_logintohome.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Login/login_view.dart';
@@ -37,7 +38,8 @@ class RouteGenerator {
         settings: settings,
         builder: (context) => BlocProvider(
           create: (_) => SigninBloc(),
-          child: Login(),
+          child: IndicatorLoginToHome(),
+          //child: Login(),
         ),
       );
     } else if (settings.name == AppRoutes.home) {
@@ -207,12 +209,15 @@ class RouteGenerator {
               return SketonEvent();
             }
 
-            for(var tag in tagsEvent) {
+            for (var tag in tagsEvent) {
               if (alltag.contains(tag)) alltag.remove(tag);
             }
 
-            List<TagItemInUI> tagsUi = tagsEvent.map((tag) => TagItemInUI(tag: tag, isSelected: true)).toList()..addAll(
-                alltag.map((tag) => TagItemInUI(tag: tag, isSelected: false)));
+            List<TagItemInUI> tagsUi = tagsEvent
+                .map((tag) => TagItemInUI(tag: tag, isSelected: true))
+                .toList()
+              ..addAll(alltag
+                  .map((tag) => TagItemInUI(tag: tag, isSelected: false)));
 
             return AddTag(initTags: tagsUi);
           },
