@@ -135,7 +135,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                     border: Border.all(color: Colors.white, width: 5),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: joinerProfile.avatarUri != ""
+                      image: (joinerProfile.avatarUri != ""&& joinerProfile.avatarUri != null)
                           ? NetworkImage(joinerProfile.avatarUri!)
                               as ImageProvider
                           : AssetImage('asset/avatar.png'),

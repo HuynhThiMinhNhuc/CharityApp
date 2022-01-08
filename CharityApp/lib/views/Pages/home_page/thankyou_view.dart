@@ -114,7 +114,7 @@ class _ThanhYouPage extends State<ThanhYouPage>
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 3),
                               image: DecorationImage(
-                                  image: widget.avataruri == ""
+                                  image: (widget.avataruri == "")
                                       ? AssetImage('asset/avatar.png')
                                           as ImageProvider
                                       : NetworkImage(widget.avataruri),

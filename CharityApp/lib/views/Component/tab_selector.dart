@@ -93,11 +93,16 @@ class TabSelector extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 1),
                   image: DecorationImage(
-                      image: GetIt.instance
-                                  .get<Authenticator>()
-                                  .userProfile
-                                  .avatarUri ==
-                              ""
+                      image: (GetIt.instance
+                                      .get<Authenticator>()
+                                      .userProfile
+                                      .avatarUri ==
+                                  "" ||
+                              GetIt.instance
+                                      .get<Authenticator>()
+                                      .userProfile
+                                      .avatarUri ==
+                                  null)
                           ? AssetImage('asset/avatar.png') as ImageProvider
                           : NetworkImage(GetIt.instance
                               .get<Authenticator>()
