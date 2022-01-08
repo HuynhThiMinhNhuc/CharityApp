@@ -38,8 +38,8 @@ class RouteGenerator {
         settings: settings,
         builder: (context) => BlocProvider(
           create: (_) => SigninBloc(),
-          child: IndicatorLoginToHome(),
-          //child: Login(),
+          //child: IndicatorLoginToHome(),
+          child: Login(),
         ),
       );
     } else if (settings.name == AppRoutes.home) {
