@@ -334,7 +334,8 @@ class CommentItem extends StatelessWidget {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: comment.avatarUri != ""
+                            image: (comment.avatarUri != "" &&
+                                    comment.avatarUri != null)
                                 ? NetworkImage(comment.avatarUri!)
                                 : AssetImage("asset/avatar.png")
                                     as ImageProvider,

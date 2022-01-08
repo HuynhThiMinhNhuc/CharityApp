@@ -120,9 +120,12 @@ class _FriendPageState extends State<FriendPage> {
                                 return ListTile(
                                   leading: CircleAvatar(
                                       radius: 18,
-                                      backgroundImage: state.suggestion[index]
-                                                  .avatarUri ==
-                                              ""
+                                      backgroundImage: (state.suggestion[index]
+                                                      .avatarUri ==
+                                                  "" ||
+                                              state.suggestion[index]
+                                                      .avatarUri ==
+                                                  null)
                                           ? AssetImage('asset/avatar.png')
                                           : NetworkImage(state.suggestion[index]
                                               .avatarUri!) as ImageProvider),
@@ -146,7 +149,8 @@ class _FriendPageState extends State<FriendPage> {
                                                   ),
                                                 ],
                                                 child: ProfileOtherPage(
-                                                    creator: state.suggestion[index],
+                                                    creator:
+                                                        state.suggestion[index],
                                                     onClose: () => {
                                                           friendBloc.add(
                                                               FriendLoadEvent(GetIt

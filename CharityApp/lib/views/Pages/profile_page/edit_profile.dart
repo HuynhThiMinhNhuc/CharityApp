@@ -40,7 +40,7 @@ class _EditProfileState extends State<EditProfile> {
       imageFile: imagetemporary,
       rootPath: 'images/users',
     );
-    if (widget.currentUser.avatarUri != "")
+    if (widget.currentUser.avatarUri != "" && widget.currentUser.avatarUri != null)
       FirebaseStorage.instance
           .refFromURL(widget.currentUser.avatarUri!)
           .delete();
@@ -196,7 +196,7 @@ class _EditProfileState extends State<EditProfile> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
-                                image: widget.currentUser.avatarUri != ""
+                                image:( widget.currentUser.avatarUri != "" &&  widget.currentUser.avatarUri != null)
                                     ? NetworkImage(
                                             widget.currentUser.avatarUri!)
                                         as ImageProvider
