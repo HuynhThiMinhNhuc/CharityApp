@@ -240,16 +240,16 @@ class EventRepositoryImp implements IEventRepository {
       final json = doc.data() as Map<String, dynamic>;
       final element = EventDetail.fromJson(json)..id = doc.id;
       element.numberMember = await getNumberPaticipant(eventId);
-      
+
       await userCollection.doc(json['creatorId']).get().then((userDoc) {
         element.creator =
             BaseUser.fromJson(userDoc.data() as Map<String, dynamic>)
               ..id = userDoc.id;
       });
 
-              //Load tag
-        final tagRepo = TagEventRepositoryImp();
-        element.tags = await tagRepo.loadFrom(doc.id);
+      //Load tag
+      final tagRepo = TagEventRepositoryImp();
+      element.tags = await tagRepo.loadFrom(doc.id);
 
       return element;
     });
@@ -293,28 +293,29 @@ class EventRepositoryImp implements IEventRepository {
     List<EventOverview> listEvent = [];
     try {
       var unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
-      await eventCollection.get().then((snapshot) => snapshot.docs.forEach((doc) {
-            final json = doc.data() as Map<String, dynamic>;
+      await eventCollection
+          .get()
+          .then((snapshot) => snapshot.docs.forEach((doc) {
+                final json = doc.data() as Map<String, dynamic>;
 
-            if ((query == "" && (_checkTagsContain(json['tags'], tags))) ||
-                ((_checkTagsContain(json['tags'], tags)) &&
-                    TiengViet.parse(json['name'].toString().toLowerCase())
-                        .contains(TiengViet.parse(query.toLowerCase())))) {
+                if ((query == "" && (_checkTagsContain(json['tags'], tags))) ||
+                    ((_checkTagsContain(json['tags'], tags)) &&
+                        TiengViet.parse(json['name'].toString().toLowerCase())
+                            .contains(TiengViet.parse(query.toLowerCase())))) {
+                  EventOverview eventOverview = EventOverview(
+                      name: json['name'],
+                      avatarUri: json['avatarUri'],
+                      id: doc.id,
+                      creatorId: json['creatorId']);
 
-              // EventOverview eventOverview = EventOverview(
-              //     name: json['name'],
-              //     avatarUri: json['avatarUri'],
-              //     id: doc.id,
-              //     creatorId: json['creatorId']);
+                  //  final eventOverview = EventOverview.fromJson(json);
 
-              final eventOverview = EventOverview.fromJson(json);
-
-              listEvent.add(eventOverview);
-            }
-          }));
+                  listEvent.add(eventOverview);
+                }
+              }));
       return listEvent;
     } catch (e) {
-      print("Error search event");
+      print("Error search event" + e.toString());
       return [];
     }
   }
@@ -322,9 +323,9 @@ class EventRepositoryImp implements IEventRepository {
   bool _checkTagsContain(List<dynamic> l1, List<TagEvent> l2) {
     if (l2.isEmpty) return true;
 
-    if (l1.length < l2.length) return false;    
+    if (l1.length < l2.length) return false;
     for (var i in l2) {
-      if (l1.any((item) => item == i)) return true;
+      if (l1.any((item) => item == i.id)) return true;
       //if (!l1.contains(i)) return false;
     }
     return false;
