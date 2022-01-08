@@ -137,6 +137,8 @@ class _AddEventPageState extends State<AddEventPage> {
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
               child: SingleChildScrollView(
@@ -277,69 +279,74 @@ class _AddEventPageState extends State<AddEventPage> {
             ),
             Container(
               height: 65,
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Divider(color: Colors.grey[600]),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () async {
-                              List<TagEvent>? tagsChoose =
-                                  await Navigator.of(context)
-                                          .pushNamed(AppRoutes.chooseTags,arguments: _tags)
-                                      as List<TagEvent>?;
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                              onPressed: () async {
+                                List<TagEvent>? tagsChoose =
+                                    await Navigator.of(context).pushNamed(
+                                        AppRoutes.chooseTags,
+                                        arguments: _tags) as List<TagEvent>?;
 
-                              setState(() {
-                                _tags = tagsChoose ?? _tags;
-                              });
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             AddTag(tags: <TagItemInUI>[
-                              //               TagItemInUI(
-                              //                   tag: "love",
-                              //                   isSelected: false),
-                              //               TagItemInUI(
-                              //                   tag: "instagood",
-                              //                   isSelected: false),
-                              //             ])));
-                            },
-                            icon: Icon(
-                              FontAwesomeIcons.tags,
-                              color: maincolor,
-                              size: 25,
-                            )),
-                        Row(
-                          children: List.generate(
-                            _tags.length,
-                            (index) => Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                              child: Chip(
-                                deleteIcon: Icon(
-                                  FontAwesomeIcons.timesCircle,
-                                  color: notetextcolor,
+                                setState(() {
+                                  _tags = tagsChoose ?? _tags;
+                                });
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             AddTag(tags: <TagItemInUI>[
+                                //               TagItemInUI(
+                                //                   tag: "love",
+                                //                   isSelected: false),
+                                //               TagItemInUI(
+                                //                   tag: "instagood",
+                                //                   isSelected: false),
+                                //             ])));
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.tags,
+                                color: maincolor,
+                                size: 25,
+                              )),
+                          Row(
+                            children: List.generate(
+                              _tags.length,
+                              (index) => Padding(
+                                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                child: Chip(
+                                  deleteIcon: Icon(
+                                    FontAwesomeIcons.timesCircle,
+                                    color: notetextcolor,
+                                  ),
+                                  label: Text(
+                                    _tags[index].name,
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto_Regular',
+                                        fontSize: 12,
+                                        color: Color(0xFF455154)),
+                                  ),
+                                  onDeleted: () {
+                                    setState(() {
+                                      _tags.removeAt(index);
+                                    });
+                                  },
                                 ),
-                                label: Text(
-                                  _tags[index].name,
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto_Regular',
-                                      fontSize: 12,
-                                      color: Color(0xFF455154)),
-                                ),
-                                onDeleted: () {
-                                  setState(() {
-                                    _tags.removeAt(index);
-                                  });
-                                },
                               ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
