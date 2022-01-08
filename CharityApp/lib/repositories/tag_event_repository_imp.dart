@@ -26,10 +26,11 @@ class TagEventRepositoryImp implements ITagEventRepository {
     
     final tagsId = await eventCollection.doc(eventId).get().then((doc) {
       final json = doc.data() as Map<String, dynamic>;
+      print(eventId + ' ' + json['tags'].toString());
       return (json['tags'] as List<dynamic>?)
               ?.map((tag) => tag as String)
               .toList() ??
-          [];
+          <String>[];
     });
 
     if (tagsId.isNotEmpty) {

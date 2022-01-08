@@ -1,3 +1,4 @@
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/Witgets/event_card_view.dart';
 import 'package:charityapp/views/bloc/calendar_bloc/calendar.dart';
@@ -5,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -54,8 +56,13 @@ class _CalendarPageState extends State<CalendarPage>
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: state.eventPaticipants.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return EventCardView(
-                    eventOverviewPaticipants: state.eventPaticipants[index],
+                  return InkWell(
+                    child: EventCardView(
+                      eventOverviewPaticipants: state.eventPaticipants[index],
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed(
+                        AppRoutes.eventPage,
+                        arguments: state.eventPaticipants[index].id),
                   );
                 },
               ),
@@ -147,7 +154,7 @@ class _CalendarPageState extends State<CalendarPage>
               });
             }
           },
-            onPageChanged: (focusedDay) {
+          onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
         ),

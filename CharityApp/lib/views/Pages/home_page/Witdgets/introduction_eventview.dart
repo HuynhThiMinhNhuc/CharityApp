@@ -95,7 +95,10 @@ class IntroductionEventView extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  " Ngày tổ chức: ${DateFormat('dd/MM/yyyy').format(detail.timeCreate!)}",
+                  " Ngày tổ chức: " +
+                      (detail.timeCreate != null
+                          ? 'Không có'
+                          : '${DateFormat('dd/MM/yyyy').format(detail.timeCreate!)}'),
                   style: TextStyle(
                       fontFamily: 'Roboto_Regular',
                       fontSize: 15,
@@ -162,7 +165,9 @@ class IntroductionEventView extends StatelessWidget {
                       color: textcolor),
                   children: [
                     TextSpan(
-                        text: detail.timeStart != null ? DateFormat('dd/MM/yyyy').format(detail.timeStart!) : 'Chưa xác định',
+                        text: detail.timeStart != null
+                            ? DateFormat('dd/MM/yyyy').format(detail.timeStart!)
+                            : 'Chưa xác định',
                         style: TextStyle(
                             fontFamily: 'Roboto_Regular',
                             fontSize: 15,

@@ -2,6 +2,7 @@ import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/repositories/post_repository.dart';
+import 'package:charityapp/repositories/tag_event_repository_imp.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
@@ -49,26 +50,30 @@ class PostRepositoryImp implements IPostRepository {
         // .orderBy('timeCreate', descending: true)
         .get()
         .then((snapshot) {
-      return snapshot.docs.map((docPost) {
+      return snapshot.docs.map((docPost) async {
         final postJson = docPost.data() as Map<String, dynamic>;
         final post = Post.fromJson(postJson);
         post.id = docPost.id; //Set doc id
 
+        final tagRepo = TagEventRepositoryImp();
+        final tags = (await tagRepo.loadFrom(post.eventId!));
+        post.tags = tags.map((tag) => tag.name).toList();
+
         //Load UserOverview
-        tasks.add(userCollection.doc(postJson['creatorId']).get().then(
+        await userCollection.doc(postJson['creatorId']).get().then(
           (docUser) {
             post.creator =
                 UserOverview.fromJson(docUser.data() as Map<String, dynamic>);
             post.id = docUser.id; //Set doc id
           },
-        ));
+        );
 
         return post;
       }).toList();
     });
 
-    await Future.wait(tasks);
-    return posts;
+    // await Future.wait(tasks);
+    return await Future.wait(posts);
   }
 
   @override
@@ -82,18 +87,22 @@ class PostRepositoryImp implements IPostRepository {
         .then((snapshot) {
       return snapshot.docs.map((docPost) async {
         final postJson = docPost.data() as Map<String, dynamic>;
-        final post = Post.fromJson(postJson)..id=docPost.id;
+        final post = Post.fromJson(postJson)..id = docPost.id;
         // final list = await loadNumberLike(docPost.id);
 
         // post.numberLike = list[0]; //(postJson['like'] as List<dynamic>?)?.length ?? 0;
         // post.isLike = list[1];
         // post.numberComment = list[2];
-            // (postJson['like'] as List<dynamic>?)?.contains(Authenticator.Id) ??
-            //     false;
+        // (postJson['like'] as List<dynamic>?)?.contains(Authenticator.Id) ??
+        //     false;
         // post.numberComment = await _getNumberComment(docPost);
         // docPost.reference.collection('comments').get().then((commentSnapshot) {
         //   post.numberComment = commentSnapshot.docs.length;
         // });
+
+        final tagRepo = TagEventRepositoryImp();
+        final tags = (await tagRepo.loadFrom(post.eventId!));
+        post.tags = tags.map((tag) => tag.name).toList();
 
         //Load UserOverview
         await userCollection.doc(postJson['creatorId']).get().then(
@@ -160,18 +169,25 @@ class PostRepositoryImp implements IPostRepository {
 
   @override
   Future<List<Post>> loadPostsFromCreator(
-      UserOverview creator, int startIndex, int number) {
-    return collection
+      UserOverview creator, int startIndex, int number) async {
+    final listPost = await collection
         .where('creatorId', isEqualTo: creator.id)
         .get()
         .then((snapshot) {
-      return snapshot.docs.map((doc) {
+      return snapshot.docs.map((doc) async {
         final json = doc.data() as Map<String, dynamic>;
-        final post = Post.fromJson(json)..id=doc.id;
+        final post = Post.fromJson(json)..id = doc.id;
         post.creator = creator;
+
+        final tagRepo = TagEventRepositoryImp();
+        final tags = (await tagRepo.loadFrom(post.eventId!));
+        post.tags = tags.map((tag) => tag.name).toList();
+
         return post;
       }).toList();
     });
+
+    return await Future.wait(listPost);
   }
 
   @override

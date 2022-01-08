@@ -14,7 +14,7 @@ class Post extends BasePost {
   int numberComment;
   int numberLike;
   bool isLike;
-  final List<String> tags;
+  List<String> tags;
 
   Post({
     required String title,
@@ -38,10 +38,6 @@ class Post extends BasePost {
         description: json['description'] as String,
         // numberComment: json['numberComment'] as int? ?? 0,
         // numberLike: json['numberLike'] as int? ?? 0,
-        tags: (json['tags'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList() ??
-            const <String>[],
         imagesUri: (json['imagesUri'] as List<dynamic>?)
                 ?.map((e) => e as String)
                 .toList() ??
@@ -55,11 +51,9 @@ class Post extends BasePost {
         'title': this.title,
         'creatorId': this.creator.id,
         'eventId': this.eventId,
-        'timeCreate': DateTime.now(),
         'description': this.description,
         // 'numberComment': this.numberComment,
         // 'numberLike': this.numberLike,
-        'tags': this.tags,
         'imagesUri': this.imagesUri,
         'timeCreate': this.timeCreate == null ? null : Timestamp.fromDate(this.timeCreate!),
       };
