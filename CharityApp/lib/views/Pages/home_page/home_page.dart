@@ -112,7 +112,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(5, 7, 0, 15),
               child: SizedBox(
                 width: double.infinity,
-                child: Text("Sự kiện",
+                child: Text("Bài viết",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         overflow: TextOverflow.ellipsis,

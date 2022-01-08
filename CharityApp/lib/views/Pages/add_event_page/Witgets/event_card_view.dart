@@ -25,8 +25,11 @@ class EventCardView extends StatelessWidget {
                 height: 70,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(
-                          eventOverviewPaticipants.backgroundUri ?? image),
+                      image: (eventOverviewPaticipants.backgroundUri == "" &&
+                              eventOverviewPaticipants.backgroundUri == null)
+                          ? NetworkImage(
+                              eventOverviewPaticipants.backgroundUri ?? image)
+                          : AssetImage("asset/background.png") as ImageProvider,
                       fit: BoxFit.fill),
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -53,33 +56,34 @@ class EventCardView extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   if (eventOverviewPaticipants.timeStart != null)
-                  RichText(
-                      text: TextSpan(children: <TextSpan>[
-                    TextSpan(
-                        text:
-                            eventOverviewPaticipants.timeStart!.hour.toString() +
-                                ":" +
-                                eventOverviewPaticipants.timeStart!.minute
-                                    .toString(),
+                    RichText(
+                        text: TextSpan(children: <TextSpan>[
+                      TextSpan(
+                          text: eventOverviewPaticipants.timeStart!.hour
+                                  .toString() +
+                              ":" +
+                              eventOverviewPaticipants.timeStart!.minute
+                                  .toString(),
+                          style: TextStyle(
+                            fontFamily: 'Roboto-Regular.ttf',
+                            fontSize: 13,
+                            color: Colors.red,
+                          )),
+                      TextSpan(
+                        text: ", " +
+                            eventOverviewPaticipants.timeStart!.day.toString() +
+                            "/" +
+                            eventOverviewPaticipants.timeStart!.month
+                                .toString() +
+                            "/" +
+                            eventOverviewPaticipants.timeStart!.year.toString(),
                         style: TextStyle(
                           fontFamily: 'Roboto-Regular.ttf',
                           fontSize: 13,
-                          color: Colors.red,
-                        )),
-                    TextSpan(
-                      text: ", " +
-                          eventOverviewPaticipants.timeStart!.day.toString() +
-                          "/" +
-                          eventOverviewPaticipants.timeStart!.month.toString() +
-                          "/" +
-                          eventOverviewPaticipants.timeStart!.year.toString(),
-                      style: TextStyle(
-                        fontFamily: 'Roboto-Regular.ttf',
-                        fontSize: 13,
-                        color: Colors.grey,
-                      ),
-                    )
-                  ]))
+                          color: Colors.grey,
+                        ),
+                      )
+                    ]))
                 ],
               ),
             ]),

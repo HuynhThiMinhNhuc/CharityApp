@@ -35,16 +35,19 @@ class _EditProfileState extends State<EditProfile> {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
 
-    final imagetemporary = File(image.path);
+    final _imagetemporary = File(image.path);
+    final imagetemporary = await compressFile(_imagetemporary, 40);
     final copyimage = await UploadImageToFirestorage.call(
       imageFile: imagetemporary,
       rootPath: 'images/users',
     );
-    if (widget.currentUser.avatarUri != "" && widget.currentUser.avatarUri != null)
+    if (widget.currentUser.avatarUri != "" &&
+        widget.currentUser.avatarUri != null)
       FirebaseStorage.instance
           .refFromURL(widget.currentUser.avatarUri!)
           .delete();
     setState(() => {widget.currentUser.avatarUri = copyimage});
+    imagetemporary.delete();
   }
 
   Future<void> close() async {
@@ -196,7 +199,8 @@ class _EditProfileState extends State<EditProfile> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
-                                image:( widget.currentUser.avatarUri != "" &&  widget.currentUser.avatarUri != null)
+                                image: (widget.currentUser.avatarUri != "" &&
+                                        widget.currentUser.avatarUri != null)
                                     ? NetworkImage(
                                             widget.currentUser.avatarUri!)
                                         as ImageProvider

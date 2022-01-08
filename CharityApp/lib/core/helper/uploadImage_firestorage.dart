@@ -11,7 +11,7 @@ class UploadImageToFirestorage {
   }) async {
     File? imageCompressFile;
     try {
-      imageCompressFile = await compressFile(imageFile, 8);
+      imageCompressFile = await compressFile(imageFile, 50);
       String fileName = basename(imageCompressFile.path);
 
       final uploadTask = await FirebaseStorage.instance
