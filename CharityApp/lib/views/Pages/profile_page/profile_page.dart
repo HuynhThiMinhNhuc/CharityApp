@@ -2,17 +2,15 @@ import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_state.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
-import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
-import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Widgets/profile_overview.dart';
 
@@ -36,7 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
     overViewUserBloc.add(LoadOverViewUserEvent(
         GetIt.instance.get<Authenticator>().userProfile.id));
-    BlocProvider.of<PostBloc>(context).add(LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
+    BlocProvider.of<PostBloc>(context).add(
+        LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
   }
 
   @override
@@ -64,8 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               )),
           Divider(thickness: 1.0),
-          Center(
-              child: BlocBuilder<PostBloc, PostState>(
+          Center(child: BlocBuilder<PostBloc, PostState>(
             builder: (context, state) {
               if (state is PostsLoadSuccess) {
                 return ListView.builder(
@@ -98,7 +96,7 @@ class SketonEvent extends StatelessWidget {
         builder: SkeletonLoader(
           builder: Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -109,21 +107,21 @@ class SketonEvent extends StatelessWidget {
                       backgroundColor: Colors.white,
                       radius: 20,
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            width: 100,
-                            height: 10,
+                            width: 100.w,
+                            height: 10.h,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 10.h),
                           Container(
-                            width: 150,
-                            height: 12,
+                            width: 150.w,
+                            height: 12.h,
                             color: Colors.white,
                           ),
                         ],
@@ -131,7 +129,7 @@ class SketonEvent extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -166,7 +164,7 @@ class SketonProfile extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 10.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -185,10 +183,10 @@ class SketonProfile extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             width: MediaQuery.of(context).size.width - 60,
-                            height: 10,
+                            height: 10.h,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 10.h),
                           Container(
                             width: MediaQuery.of(context).size.width - 60,
                             height: 12,
@@ -199,25 +197,25 @@ class SketonProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 150,
-                    height: 10,
+                    width: 150.w,
+                    height: 10.h,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 150,
-                    height: 12,
+                    width: 150.w,
+                    height: 12.h,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
