@@ -222,6 +222,7 @@ class _AddEventPageState extends State<AddEventPage> {
                               : GoogleMapPage();
                         }));
 
+                          FocusScope.of(context).unfocus();
                         if (args != null) {
                           _locationTextController.text =
                               args[0] as String? ?? "";

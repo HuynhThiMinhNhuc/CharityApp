@@ -193,8 +193,6 @@ class _LoginState extends State<Login> {
                     child: BlocConsumer<SigninBloc, SigninState>(
                       listener: (context, state) {
                         if (state is SignInLoadInProccess) {
-                          if (isLoading != null && !isLoading!.isCompleted)
-                            return;
                             
                           isLoading = CancelableOperation.fromFuture(showDialog(
                               context: context,
@@ -202,9 +200,7 @@ class _LoginState extends State<Login> {
                                 return IndicatorDialog();
                               }));
                         } else {
-                          if (isLoading != null && !isLoading!.isCompleted) {
-                            isLoading!.cancel();
-                          }
+                          isLoading?.cancel();
                         }
                       },
                       builder: (context, state) {

@@ -59,6 +59,7 @@ class MeerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.green,
@@ -83,7 +84,6 @@ class MeerApp extends StatelessWidget {
         Locale('en', ''), // English, no country code
         Locale('vi', ''), // VietNam, no country code
       ],
-      debugShowCheckedModeBanner: true,
       onGenerateRoute: _appRoutes.generateRoute,
     );
   }

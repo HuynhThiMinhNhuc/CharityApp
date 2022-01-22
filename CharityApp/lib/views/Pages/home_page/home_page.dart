@@ -169,7 +169,7 @@ class SkeletonEvent extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: List.generate(5, (index) {
+                children: List.generate(3, (index) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                     child: CircleAvatar(
@@ -228,7 +228,7 @@ class SkeletonActiveUser extends StatelessWidget {
           ],
         ),
       ),
-      items: 6,
+      items: 3,
       period: Duration(seconds: 2),
       highlightColor: Color(0x505AA469),
       direction: SkeletonDirection.ltr,

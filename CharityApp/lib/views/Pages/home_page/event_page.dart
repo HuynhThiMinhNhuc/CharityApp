@@ -231,7 +231,7 @@ class _JoinerState extends State<Joiner> {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             children: listUser == null
-                ? [LoaddingCircularIndicator()]
+                ? []
                 : listUser
                     .map((user) => FormRegisterCard(
                         user: user,

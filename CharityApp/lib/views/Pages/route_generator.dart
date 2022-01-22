@@ -32,8 +32,6 @@ import 'home_page/form_view.dart';
 import 'package:async/async.dart';
 
 class RouteGenerator {
-  CancelableOperation? isLoading;
-
   Route generateRoute(RouteSettings settings) {
     if (settings.name == AppRoutes.login) {
       return MaterialPageRoute(
@@ -80,19 +78,20 @@ class RouteGenerator {
           return BlocListener<PostBloc, PostState>(
             listener: (bloc_context, state) async {
               if (state is PostUpdated) {
-                if (isLoading != null && !isLoading!.isCompleted) {
-                  isLoading!.cancel();
-                }
-                await showMyDialog(bloc_context, 'Thêm bài viết thành công');
+                await showDialog(
+                    context: context,
+                    builder: (context) => MyAlertDialog2(
+                          content: 'Quay về màn hình chính',
+                          title: 'Thêm bài viết thành công',
+                          pathImage: "asset/imageInpage/success.png",
+                          onTabYes: () => Navigator.of(context)
+                              .popUntil(ModalRoute.withName(AppRoutes.home)),
+                        ));
                 Navigator.of(context).pushNamed(
                   AppRoutes.eventPage,
                   arguments: state.post.eventId,
                 );
               } else if (state is PostLoadFailure) {
-                if (isLoading != null && !isLoading!.isCompleted) {
-                  isLoading!.cancel();
-                }
-
                 showMyDialog(bloc_context, 'Thêm bài viết thất bại',
                     closeWhenClick: false);
               }
@@ -118,10 +117,6 @@ class RouteGenerator {
           return BlocConsumer<EventTabBloc, EventTabState>(
             listener: (context, state) async {
               if (state is EventUpdateSuccess) {
-                if (isLoading != null && !isLoading!.isCompleted) {
-                  isLoading!.cancel();
-                }
-
                 showDialog(
                     context: context,
                     builder: (context) => MyAlertDialog2(
@@ -132,10 +127,6 @@ class RouteGenerator {
                               .popUntil(ModalRoute.withName(AppRoutes.home)),
                         ));
               } else if (state is EventLoadFailure) {
-                if (isLoading != null && !isLoading!.isCompleted) {
-                  isLoading!.cancel();
-                }
-
                 showDialog(
                     context: context,
                     builder: (context) => MyAlertDialog2(
@@ -209,7 +200,9 @@ class RouteGenerator {
               userProfile: state.user,
             );
           } else
-            return Text('error');
+            return Scaffold(
+              body: Container(),
+            );
         }),
       );
     } else if (settings.name == AppRoutes.chooseTags) {
@@ -288,9 +281,9 @@ class RouteGenerator {
 
   void showLoading(BuildContext context) {
     // if (isLoading != null && !isLoading!.isCompleted) return;
-    isLoading = CancelableOperation.fromFuture(showDialog(
-        context: context,
-        builder: (context) => Container(
-            width: 100, height: 80, child: LoaddingCircularIndicator())));
+    // isLoading = CancelableOperation.fromFuture(showDialog(
+    //     context: context,
+    //     builder: (context) => Container(
+    //         width: 100, height: 80, child: LoaddingCircularIndicator())));
   }
 }
