@@ -62,6 +62,7 @@ class MeerApp extends StatelessWidget {
               ),
             },
           ),
+
         ),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

@@ -27,8 +27,8 @@ class EventCardView extends StatelessWidget {
                 height: 70.h,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: (eventOverviewPaticipants.backgroundUri == "" &&
-                              eventOverviewPaticipants.backgroundUri == null)
+                      image: (eventOverviewPaticipants.backgroundUri != null &&
+                              eventOverviewPaticipants.backgroundUri != "")
                           ? NetworkImage(
                               eventOverviewPaticipants.backgroundUri ?? image)
                           : AssetImage("asset/background.png") as ImageProvider,

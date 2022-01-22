@@ -178,16 +178,13 @@ class _LoginState extends State<Login> {
                         if (state is SignInLoadInProccess) {
                           if (isLoading != null && !isLoading!.isCompleted)
                             return;
-
                           isLoading = CancelableOperation.fromFuture(showDialog(
                               context: context,
                               builder: (context) {
                                 return IndicatorDialog();
                               }));
                         } else {
-                          if (isLoading != null && !isLoading!.isCompleted) {
-                            isLoading!.cancel();
-                          }
+                          isLoading?.cancel();
                         }
                       },
                       builder: (context, state) {
