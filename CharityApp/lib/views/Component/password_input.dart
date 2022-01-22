@@ -1,7 +1,9 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PassWordInput extends StatefulWidget {
   final bool securitytext;
@@ -43,7 +45,7 @@ class _PassWordInputState extends State<PassWordInput> {
           prefixIcon: Icon(
             widget.ispass ? Icons.lock : Icons.cake_rounded,
             color: maincolor,
-            size: 23,
+            size: 23.h,
           ),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -54,17 +56,14 @@ class _PassWordInputState extends State<PassWordInput> {
               borderSide:
                   BorderSide(color: widget.boder.withOpacity(1), width: 1)),
           hintText: widget.hint,
-          hintStyle: TextStyle(
-              color: hinttextcolor,
-              fontSize: 15,
-              fontFamily: 'Roboto-Thin.tff'),
+          hintStyle: kText15BoldGreyHintText,
           fillColor: widget.background.withOpacity(0.2),
           filled: true,
           suffixIcon: IconButton(
             icon: widget.ispass
                 ? securi
-                    ? FaIcon(FontAwesomeIcons.eyeSlash, size: 22)
-                    : Icon(Icons.remove_red_eye_outlined, size: 25)
+                    ? FaIcon(FontAwesomeIcons.eyeSlash, size: 22.h)
+                    : Icon(Icons.remove_red_eye_outlined, size: 25.h)
                 : FaIcon(
                     FontAwesomeIcons.calendar,
                     color: maincolor,
@@ -84,10 +83,10 @@ class _PassWordInputState extends State<PassWordInput> {
                     ).then((value) {
                       if (value != null) {
                         if (widget.textcontroller.text !=
-                            DateFormat('dd/MM/yyyy').format(value!))
+                            DateFormat('dd/MM/yyyy').format(value))
                           setState(() {
                             widget.textcontroller.text =
-                                DateFormat('dd/MM/yyyy').format(value!)!;
+                                DateFormat('dd/MM/yyyy').format(value);
                             print(
                                 "Date selected: $widget.currentUser.birthDayString");
                           });

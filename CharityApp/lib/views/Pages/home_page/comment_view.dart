@@ -1,10 +1,9 @@
-import 'package:charityapp/Constant/cmt_json.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/core/helper/get_time_compare_present.dart';
 import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
 import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
@@ -15,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommentView extends StatelessWidget {
   final String postId;
@@ -44,12 +44,8 @@ class CommentView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                // total.toString(),
                 FormatNumberK.call(postState.numberLike),
-                style: TextStyle(
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 15,
-                    color: textcolor),
+                style: kText15BoldBlack,
               ),
               IconButton(
                   onPressed: () {
@@ -57,10 +53,8 @@ class CommentView extends StatelessWidget {
                         LikePost(isLike: !postState.isLike, postId: postId));
                   },
                   icon: postState.isLike
-                      ? FaIcon(
-                          FontAwesomeIcons.heart,
-                          color: Colors.red[900],
-                        )
+                      ? FaIcon(FontAwesomeIcons.heart,
+                          color: Colors.red[900], size: 20)
                       : FaIcon(FontAwesomeIcons.heart))
             ],
           );
@@ -119,20 +113,23 @@ class _CommentViewElementState extends State<CommentViewElement> {
   _buildTextComment() {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
-        height: 60,
+        height: 60.h,
         color: backgroundbottomtab,
         alignment: Alignment.center,
+        transformAlignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+          padding: EdgeInsets.fromLTRB(20.w, 10.h, 10.w, 10.h),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: TextField(
                   maxLines: null,
                   decoration: InputDecoration(
-                    hintText: "Viết bình luận",
+                    hintText: "Viết bình luận...",
                     border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.fromLTRB(5, 5, 50, 0),
+                    contentPadding: EdgeInsets.fromLTRB(5.w, 5.h, 50.w, 0),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: maincolor),
                     ),
@@ -141,10 +138,11 @@ class _CommentViewElementState extends State<CommentViewElement> {
                 ),
               ),
               SizedBox(
-                width: 10,
+                width: 10.w,
               ),
               IconButton(
-                  iconSize: 25,
+                  padding: EdgeInsets.all(0),
+                  iconSize: 25.w,
                   onPressed: () {
                     if (commentTextController.text.trim() != '') {
                       _bloc.add(AddComment(
@@ -319,7 +317,7 @@ class CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
+      padding: EdgeInsets.fromLTRB(10.w, 8.h, 10.w, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,8 +327,8 @@ class CommentItem extends StatelessWidget {
               InkWell(
                 borderRadius: BorderRadius.circular(30),
                 child: Container(
-                    width: 30,
-                    height: 30,
+                    width: 30.w,
+                    height: 30.w,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
@@ -363,42 +361,34 @@ class CommentItem extends StatelessWidget {
                 },
               ),
               SizedBox(
-                width: 10,
+                width: 10.h,
               ),
               Text(
                 comment.name,
-                style: TextStyle(
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 15,
-                    color: textcolor,
-                    fontWeight: FontWeight.bold),
+                style: kText15BoldBlack,
               ),
               SizedBox(
                 width: 5,
               ),
               Text(
                 ' - ' + GetTimeComparePresent.call(comment.timeComment),
-                style: TextStyle(
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 13,
-                    color: const Color(0xFF838282)),
+                style: kText13RegularGreyText,
               ),
             ],
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 40),
+            padding: EdgeInsets.only(left: 40.w),
             child: Text(
               comment.content,
               textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular', fontSize: 15, color: textcolor),
+              style: kText15RegularBlack,
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 10.h,
           )
         ],
       ),

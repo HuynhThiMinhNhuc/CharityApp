@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/text_input.dart';
@@ -5,7 +6,7 @@ import 'package:charityapp/views/Login/verification_otp_view.dart';
 import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 50, 0, 50),
+              padding: EdgeInsets.fromLTRB(10.w, 50.h, 0, 50.h),
               child: Row(children: [
                 IconButton(
                     onPressed: () => {Navigator.pop(context)},
@@ -32,43 +33,32 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ),
             Text(
               'QUÊN MẬT KHẨU',
-              style: TextStyle(
-                  color: maincolor,
-                  fontSize: 38,
-                  fontFamily: 'Roboto-Regular.ttf',
-                  fontWeight: FontWeight.bold),
+              style: kText38BoldMain,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.h, 10.w),
               child: Text(
                 'Nhập email bạn đã đăng ký và chúng tôi sẽ gửi một mã xác thực để bạn tiến hành việc đổi mật khẩu',
-                style: TextStyle(
-                    color: notetextcolor,
-                    fontSize: 16,
-                    fontFamily: 'Roboto_Regular'),
+                style: kText18RegularGreyNoteText,
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 40.h,
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
+                padding: EdgeInsets.fromLTRB(30.w, 0, 0, 10.h),
                 child: Text(
                   'Email',
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto-Regular.tff',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
+                  style: kText15RegularGreyText,
                 ),
               ),
             ]),
             Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                padding: EdgeInsets.fromLTRB(30.w, 0, 30.w, 0),
                 child: TextInput(
                   icon: Icons.mail,
                   background: Colors.white,
@@ -79,7 +69,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   textInputType: TextInputType.text,
                 )),
             Padding(
-                padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                padding: EdgeInsets.fromLTRB(20.w, 40.h, 20.w, 0),
                 child: CustomButton(
                     onPressed: () => {
                           Navigator.push(

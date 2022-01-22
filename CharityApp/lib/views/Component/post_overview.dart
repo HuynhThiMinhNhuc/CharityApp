@@ -1,17 +1,14 @@
-import 'package:animations/animations.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/helper/format_number_k.dart';
 import 'package:charityapp/core/model/routes.dart';
-import 'package:charityapp/core/model/routes.dart';
-import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/post.dart';
-import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Pages/home_page/event_page.dart';
-import 'package:charityapp/views/bloc/comment_bloc/comment.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'information_creator_post_view.dart';
 
@@ -29,7 +26,7 @@ class PostOverviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,11 +60,11 @@ class PostOverviewCard extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             if (post.imagesUri.length > 0)
               Container(
-                height: 400,
+                height: 400.h,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(post.imagesUri[0]),
@@ -76,22 +73,7 @@ class PostOverviewCard extends StatelessWidget {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-              // child: OpenContainer(
-              //   transitionDuration: Duration(seconds: 2),
-              //   openBuilder: ((context, AppRoutes.eventPage, arguments: post.eventId!), _) => ,
-              //   closedBuilder: (context, VoidCallback openContainer) =>
-              //       GestureDetector(
-              //     onTap: openContainer,
-              //     child: Text(
-              //       post.title,
-              //       style: TextStyle(
-              //           fontWeight: FontWeight.bold,
-              //           fontSize: 15,
-              //           fontFamily: 'Roboto_Regular'),
-              //     ),
-              //   ),
-
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 5.w, 5.h),
               child: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.eventPage,
@@ -99,27 +81,24 @@ class PostOverviewCard extends StatelessWidget {
                 },
                 child: Text(
                   post.title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      fontFamily: 'Roboto_Regular'),
+                  style: kText15BoldBlack,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 5, 10),
+              padding: EdgeInsets.fromLTRB(10.w, 5.h, 5.w, 10.h),
               child: Text(
                 post.description,
-                style: TextStyle(fontSize: 13, fontFamily: 'Roboto_Regular'),
+                style: TextStyle(fontSize: 13.sp, fontFamily: 'Roboto_Regular'),
               ),
             ),
             if (post.tags.length > 0)
               SizedBox(
-                height: 30,
+                height: 30.h,
                 child: ListView.builder(
                   itemBuilder: (_, index) {
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
                       child: OutlinedButton(
                         onPressed: null,
                         style: ButtonStyle(
@@ -131,10 +110,7 @@ class PostOverviewCard extends StatelessWidget {
                         ),
                         child: Text(
                           post.tags[index],
-                          style: TextStyle(
-                              fontFamily: 'Roboto_Regular',
-                              fontSize: 12,
-                              color: Color(0xFF455154)),
+                          style: kText12RegularBlack,
                         ),
                       ),
                     );
@@ -155,7 +131,7 @@ class PostOverviewCard extends StatelessWidget {
               },
               builder: (context, state) {
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 10, 0),
+                  padding: EdgeInsets.fromLTRB(8.w, 0, 10.w, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -163,7 +139,7 @@ class PostOverviewCard extends StatelessWidget {
                         'Xem bình luận',
                         style: TextStyle(
                           fontFamily: 'Roboto_Regular',
-                          fontSize: 11,
+                          fontSize: 13.sp,
                           color: Colors.black45,
                         ),
                       ),
@@ -182,22 +158,21 @@ class PostOverviewCard extends StatelessWidget {
                                 ? FaIcon(
                                     FontAwesomeIcons.heart,
                                     color: Colors.red,
+                                    size: 18.w,
                                   )
                                 : FaIcon(FontAwesomeIcons.heart),
-                            splashRadius: 20,
+                            splashRadius: 20.w,
                           ),
                           Text(
                             FormatNumberK.call(post.numberLike),
-                            style: TextStyle(
-                                fontFamily: 'Roboto_Regular',
-                                fontSize: 13,
-                                color: textcolor,
-                                fontWeight: FontWeight.bold),
+                            style: kText13BoldBlack,
                           )
                         ],
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 10.w),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           IconButton(
                             onPressed: () async {
@@ -207,16 +182,15 @@ class PostOverviewCard extends StatelessWidget {
                               BlocProvider.of<LikePostBloc>(context)
                                   .add(GetNumberLike(postId: post.id!));
                             },
-                            icon: FaIcon(FontAwesomeIcons.comment),
-                            splashRadius: 20,
+                            icon: FaIcon(
+                              FontAwesomeIcons.comment,
+                              size: 18.w,
+                            ),
+                            splashRadius: 20.w,
                           ),
                           Text(
                             FormatNumberK.call(post.numberComment),
-                            style: TextStyle(
-                                fontFamily: 'Roboto_Regular',
-                                fontSize: 13,
-                                color: textcolor,
-                                fontWeight: FontWeight.bold),
+                            style: kText13BoldBlack,
                           )
                         ],
                       )

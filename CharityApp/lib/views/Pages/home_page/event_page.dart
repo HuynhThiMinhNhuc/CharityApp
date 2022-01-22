@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/event_tab.dart';
 import 'package:charityapp/core/model/routes.dart';
@@ -6,8 +7,6 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/loading_circular_indicator.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/Pages/friend_page/friend_page.dart';
-import 'package:charityapp/views/Pages/home_page/Witdgets/detailFormJoining.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/event_overview.dart';
 import 'package:charityapp/views/Pages/home_page/Witdgets/introduction_eventview.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
@@ -15,8 +14,7 @@ import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart' as bloc;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventPage extends StatefulWidget {
   final String eventId;
@@ -83,6 +81,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                     unselectedLabelColor: Color(0xFF757070),
                     controller: _tabController,
                     labelColor: maincolor,
+                    labelStyle: kText15BoldMain,
                     tabs: [
                       Tab(text: "Trang chủ"),
                       Tab(text: "Giới thiệu"),
@@ -185,7 +184,8 @@ class _JoinerState extends State<Joiner> {
           child: Column(
             children: [
               if (widget.permission == EventPermission.admin)
-                buildExpansion(context, _registerCubit, true, widget.numberRegister),
+                buildExpansion(
+                    context, _registerCubit, true, widget.numberRegister),
               buildExpansion(
                   context, _paticipantsCubit, false, widget.numberPaticipant),
             ],
@@ -214,8 +214,7 @@ class _JoinerState extends State<Joiner> {
         return BlocListener<bloc.FormBloc, bloc.FormState>(
           listener: (context, state) {
             if (state is bloc.FormSuccess) {
-              if (listUser?.any((user) => user.id! == state.userId) ??
-                  false) {
+              if (listUser?.any((user) => user.id! == state.userId) ?? false) {
                 if (isRegister)
                   cubit.loadRegisters(widget.eventId);
                 else
@@ -228,7 +227,7 @@ class _JoinerState extends State<Joiner> {
               isRegister
                   ? '$valueNumber người đang chờ duyệt'
                   : '$valueNumber người đã tham gia',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: kText16BoldBlack,
             ),
             children: listUser == null
                 ? []
@@ -280,29 +279,33 @@ class FormRegisterCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Container(
-        width: 61,
-        height: 61,
+        width: 61.h,
+        height: 61.h,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: LinearGradient(colors: activecolor)),
         child: Padding(
           padding: const EdgeInsets.all(3),
           child: Container(
-            width: 60,
-            height: 60,
+            width: 60.h,
+            height: 60.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white, width: 3),
               image: DecorationImage(
-                  image: (user.avatarUri == "" || user.avatarUri  == null)
-                      ? AssetImage("asset/avatar.png") as ImageProvider
-                      : NetworkImage(user.avatarUri!),
-                  fit: BoxFit.cover),
+                image: (user.avatarUri == "" || user.avatarUri == null)
+                    ? AssetImage("asset/avatar.png") as ImageProvider
+                    : NetworkImage(user.avatarUri!),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
       ),
-      title: Text(user.name),
+      title: Text(
+        user.name,
+        style: kText15RegularBlack,
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: permission != EventPermission.admin

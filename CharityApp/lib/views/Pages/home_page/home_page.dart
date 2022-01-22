@@ -1,22 +1,19 @@
-import 'package:animations/animations.dart';
-import 'package:charityapp/Constant/active_json.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
-import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post_bloc.dart';
 import 'package:charityapp/views/bloc/like_post_bloc/like_post_event.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -53,14 +50,7 @@ class HomePage extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: Text("Đang hoạt động",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: textcolor,
-                        fontSize: 18,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold)),
+                    textAlign: TextAlign.start, style: kText18BoldBlack),
               ),
             ),
             BlocBuilder<ActiveuserBloc, ActiveuserState>(
@@ -109,18 +99,11 @@ class HomePage extends StatelessWidget {
             ),
             Divider(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(5, 7, 0, 15),
+              padding: EdgeInsets.fromLTRB(5.w, 7.h, 0, 0),
               child: SizedBox(
                 width: double.infinity,
                 child: Text("Bài viết",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: textcolor,
-                        fontSize: 18,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.bold)),
+                    textAlign: TextAlign.start, style: kText18BoldBlack),
               ),
             ),
             ListView.builder(
@@ -150,34 +133,29 @@ class SkeletonEvent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           SizedBox(
             width: double.infinity,
             child: Text(" Đang hoạt động",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: textcolor,
-                    fontSize: 18,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'Roboto_Regular',
-                    fontWeight: FontWeight.bold)),
+                textAlign: TextAlign.start, style: kText18BoldBlack),
           ),
           SkeletonLoader(
-            builder: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: List.generate(3, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 30,
-                    ),
-                  );
-                }),
+            builder: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: List.generate(5, (index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 30.h,
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
             items: 1,
@@ -186,19 +164,12 @@ class SkeletonEvent extends StatelessWidget {
             direction: SkeletonDirection.ltr,
           ),
           SizedBox(
-            height: 30,
+            height: 30.h,
           ),
           SizedBox(
             width: double.infinity,
-            child: Text(" Sự kiện",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: textcolor,
-                    fontSize: 18,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'Roboto_Regular',
-                    fontWeight: FontWeight.bold)),
+            child: Text(" Bài viết",
+                textAlign: TextAlign.start, style: kText18BoldBlack),
           ),
           SketonEvent()
         ],
@@ -207,31 +178,3 @@ class SkeletonEvent extends StatelessWidget {
   }
 }
 
-class SkeletonActiveUser extends StatelessWidget {
-  const SkeletonActiveUser({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SkeletonLoader(
-      builder: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 30,
-            ),
-            SizedBox(width: 10),
-          ],
-        ),
-      ),
-      items: 3,
-      period: Duration(seconds: 2),
-      highlightColor: Color(0x505AA469),
-      direction: SkeletonDirection.ltr,
-    );
-  }
-}
