@@ -1,16 +1,15 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
-import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Login/verification_otp_view.dart';
 import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -40,7 +39,7 @@ class _RegisterViewState extends State<RegisterView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 30, 0, 30),
+                padding: EdgeInsets.fromLTRB(10.w, 30.h, 0, 30.h),
                 child: Row(children: [
                   IconButton(
                       onPressed: () => {Navigator.pop(context)},
@@ -49,27 +48,20 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               Text(
                 'Đăng ký',
-                style: TextStyle(
-                    color: maincolor,
-                    fontSize: 38,
-                    fontFamily: 'Roboto-Regular.ttf',
-                    fontWeight: FontWeight.bold),
+                style: kText38BoldMain,
               ),
               SizedBox(
-                height: 5,
+                height: 5.h,
               ),
               Text(
                 'Tạo tài khoản mới',
-                style: TextStyle(
-                    color: notetextcolor,
-                    fontSize: 18,
-                    fontFamily: 'Roboto_Regular'),
+                style: kText18RegularGreyNoteText,
               ),
               SizedBox(
-                height: 60,
+                height: 60.h,
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
                   child: TextInput(
                     icon: Icons.people,
                     background: backgrountbutton.withOpacity(0.2),
@@ -80,10 +72,10 @@ class _RegisterViewState extends State<RegisterView> {
                     textInputType: TextInputType.emailAddress,
                   )),
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
                 child: PassWordInput(
                   hint: 'Mật khẩu',
                   background: backgrountbutton,
@@ -95,10 +87,10 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
                 child: PassWordInput(
                   hint: 'Xác nhận mật khẩu',
                   background: backgrountbutton,
@@ -110,7 +102,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 10.h,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -119,26 +111,26 @@ class _RegisterViewState extends State<RegisterView> {
                     text: TextSpan(children: <TextSpan>[
                       TextSpan(
                         text: 'Bằng cách đăng ký, bạn đã đồng ý với',
-                        style: TextStyle(color: icon, fontSize: 14),
+                        style: TextStyle(color: icon, fontSize: 14.sp),
                       ),
                       TextSpan(
                           text: ' điều khoản sử dụng',
                           style: TextStyle(color: maincolor)),
                       TextSpan(
                         text: ' và',
-                        style: TextStyle(color: icon, fontSize: 14),
+                        style: TextStyle(color: icon, fontSize: 14.sp),
                       ),
                       TextSpan(
-                        text: ' chế độ riêng tư',
-                        style: TextStyle(color: maincolor, fontSize: 14),
+                        text: ' quyền riêng tư',
+                        style: TextStyle(color: maincolor, fontSize: 14.sp),
                       ),
                     ])),
               ),
               SizedBox(
-                height: 50,
+                height: 40.h,
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
                 child: BlocListener<SignupBloc, SignupState>(
                   listener: (context, state) {
                     if (state is SignupSussesState) {
@@ -227,27 +219,18 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Bạn đã có tài khoản?',
-                      style: TextStyle(
-                        color: icon,
-                        fontSize: 16,
-                      )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextButton(
-                    child: Text(' Đăng nhập!',
-                        style: TextStyle(
-                            color: redcolor,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600)),
-                    onPressed: () => {Navigator.pop(context)},
-                  )
-                ],
-              )
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: RichText(
+                    text: TextSpan(children: <TextSpan>[
+                  TextSpan(
+                      text: "Bạn đã có tài khoản?",
+                      style: kText16RegularGreyText),
+                  TextSpan(text: " Đăng nhập!", style: kText17RegularRed)
+                ])),
+              ),
             ],
           ),
         ),

@@ -1,5 +1,7 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   CustomButton({required this.onPressed, required this.textInput});
@@ -12,13 +14,12 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         textInput,
-        style: TextStyle(
-            color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        style: kText18BoldWhite,
       ),
       style: ElevatedButton.styleFrom(
           alignment: Alignment.center,
           primary: maincolor,
-          fixedSize: Size(MediaQuery.of(context).size.width, 60),
+          fixedSize: Size(MediaQuery.of(context).size.width, 60.h),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
     );

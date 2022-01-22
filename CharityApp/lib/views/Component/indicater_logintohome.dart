@@ -11,23 +11,23 @@ class IndicatorDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Text(
-              'Cùng nạp đầy năng lượng xanh với Meer',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: 'DancingScript_Regular',
-                decoration: TextDecoration.none,
-                fontWeight: FontWeight.w100,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          //   child: Text(
+          //     'Cùng nạp đầy năng lượng xanh với Meer',
+          //     style: TextStyle(
+          //       color: Colors.white,
+          //       fontSize: 30,
+          //       fontFamily: 'DancingScript_Regular',
+          //       decoration: TextDecoration.none,
+          //       fontWeight: FontWeight.w100,
+          //     ),
+          //     textAlign: TextAlign.center,
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           _AnimatedLiquidCustomProgressIndicator(),
         ],
       ),

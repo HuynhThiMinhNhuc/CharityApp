@@ -1,11 +1,9 @@
-import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/event_detail.dart';
-import 'package:charityapp/domain/entities/event_infor.dart';
-import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IntroductionEventView extends StatelessWidget {
   final EventDetail detail;
@@ -13,10 +11,9 @@ class IntroductionEventView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isReadonly = true;
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+        padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,67 +23,55 @@ class IntroductionEventView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width - 80,
+                  width: MediaQuery.of(context).size.width - 80.w,
                   child: Text(
                     "Thông tin chung",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: textcolor),
+                    style: kText18BoldBlack,
                   ),
                 ),
-                IconButton(onPressed: () => {}, icon: Icon(Icons.edit))
+                IconButton(
+                    onPressed: () => {}, icon: Icon(Icons.edit, size: 17.w))
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Row(
               children: [
                 Icon(Icons.people_outline),
                 SizedBox(
-                  width: 5,
+                  width: 5.w,
                 ),
                 Text.rich(TextSpan(
                     text: " " + '${detail.creator.name}',
-                    style: TextStyle(
-                        color: Color(0xFF124ADA),
-                        decoration: TextDecoration.underline,
-                        fontSize: 15),
+                    style: kText15RegularBlue,
                     children: [
                       TextSpan(
                           text: " đã tạo sự kiện này",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: textcolor,
-                              decoration: TextDecoration.none)),
+                          style: kText15RegularBlack),
                     ]))
               ],
             ),
             SizedBox(
-              height: 5,
+              height: 5.h,
             ),
             Row(
               children: [
                 Icon(Icons.add_task_outlined),
                 SizedBox(
-                  width: 5,
+                  width: 5.h,
                 ),
                 Text(
                   " " +
                       "${detail.numberMember.toString()} người đã tham gia sự kiện này",
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      color: textcolor),
+                  style: kText15RegularBlack,
                 )
               ],
             ),
             SizedBox(
-              height: 5,
+              height: 5.h,
             ),
             Row(
               children: [
@@ -99,15 +84,12 @@ class IntroductionEventView extends StatelessWidget {
                       (detail.timeCreate != null
                           ? 'Không có'
                           : '${DateFormat('dd/MM/yyyy').format(detail.timeCreate!)}'),
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      color: textcolor),
+                  style: kText15RegularBlack,
                 )
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -116,85 +98,54 @@ class IntroductionEventView extends StatelessWidget {
                 children: List.generate(
                   detail.tags.length,
                   (index) => Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
                     child: Chip(label: Text(detail.tags[index].name)),
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Text(
               "Câu chuyện",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
+              style: kText18BoldBlack,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Text(
               detail.description ?? 'Không có câu chuyện',
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular', fontSize: 15, color: textcolor),
+              style: kText15RegularBlack,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Text(
               "Thời gian, địa điểm",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
+              style: kText18BoldBlack,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Text.rich(
-              TextSpan(
-                  text: 'Thời gian: ',
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: textcolor),
-                  children: [
-                    TextSpan(
-                        text: detail.timeStart != null
-                            ? DateFormat('dd/MM/yyyy').format(detail.timeStart!)
-                            : 'Chưa xác định',
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: textcolor))
-                  ]),
+              TextSpan(text: 'Thời gian: ', style: kText15BoldBlack, children: [
+                TextSpan(
+                    text: detail.timeStart != null
+                        ? DateFormat('dd/MM/yyyy').format(detail.timeStart!)
+                        : 'Chưa xác định',
+                    style: kText15RegularBlack)
+              ]),
             ),
             SizedBox(
-              height: 5,
+              height: 5.h,
             ),
             Text.rich(
-              TextSpan(
-                  text: 'Địa điểm: ',
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: textcolor),
-                  children: [
-                    TextSpan(
-                        text: detail.location ?? 'Không có địa điểm',
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: textcolor))
-                  ]),
+              TextSpan(text: 'Địa điểm: ', style: kText15BoldBlack, children: [
+                TextSpan(
+                    text: detail.location ?? 'Không có địa điểm',
+                    style: kText15RegularBlack)
+              ]),
             ),
             // SizedBox(
             //   height: 10,
@@ -220,52 +171,29 @@ class IntroductionEventView extends StatelessWidget {
             ),
             Text(
               "Thông tin liên hệ",
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
+              style: kText18BoldBlack,
             ),
             SizedBox(
               height: 10,
             ),
             Text.rich(
-              TextSpan(
-                  text: 'Email: ',
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: textcolor),
-                  children: [
-                    TextSpan(
-                        text: Authenticator.profile.email,
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: textcolor))
-                  ]),
+              TextSpan(text: 'Email: ', style: kText15BoldBlack, children: [
+                TextSpan(
+                    text: Authenticator.profile.email,
+                    style: kText15RegularBlack)
+              ]),
             ),
             SizedBox(
-              height: 5,
+              height: 5.h,
             ),
             Text.rich(
               TextSpan(
                   text: 'Số điện thoại: ',
-                  style: TextStyle(
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: textcolor),
+                  style: kText15BoldBlack,
                   children: [
                     TextSpan(
                         text: Authenticator.profile.phone,
-                        style: TextStyle(
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: textcolor))
+                        style: kText15RegularBlack)
                   ]),
             ),
             // SizedBox(

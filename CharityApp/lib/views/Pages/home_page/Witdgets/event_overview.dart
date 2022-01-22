@@ -1,22 +1,14 @@
-import 'package:charityapp/Constant/post_jason.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
-import 'package:charityapp/views/Pages/home_page/event_page.dart';
-import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
-import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart';
-import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
-import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
-import 'package:charityapp/views/bloc/tab_bloc/tab_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../Root_App.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventOverviewCard extends StatelessWidget {
   final String eventId;
@@ -39,7 +31,7 @@ class EventOverviewCard extends StatelessWidget {
             children: [
               Stack(clipBehavior: Clip.none, children: [
                 Container(
-                  height: 210,
+                  height: 210.h,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: (state.event.backgroundUri == "" ||
@@ -58,32 +50,32 @@ class EventOverviewCard extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  left: 10,
-                  top: 30,
+                  left: 10.w,
+                  top: 30.h,
                 ),
                 Positioned(
-                  bottom: -65,
-                  left: 5,
+                  bottom: -65.h,
+                  left: 5.w,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        width: 90,
-                        height: 90,
+                        width: 90.h,
+                        height: 90.h,
                         padding: const EdgeInsets.all(3),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: LinearGradient(colors: activecolor),
                         ),
                         child: Container(
-                          width: 86,
-                          height: 86,
+                          width: 86.h,
+                          height: 86.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
                             image: DecorationImage(
-                                alignment: Alignment(0, -0.8),
+                                alignment: Alignment(0, -0.8.h),
                                 image: (state.event.avatarUri != "" &&
                                         state.event.avatarUri != null)
                                     ? NetworkImage(state.event.avatarUri!)
@@ -94,15 +86,15 @@ class EventOverviewCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 10.w,
                       ),
                       SizedBox(
-                        width: c_width - 110,
+                        width: c_width - 110.w,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             SizedBox(
-                              height: 35,
+                              height: 35.h,
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -111,11 +103,7 @@ class EventOverviewCard extends StatelessWidget {
                                 textAlign: TextAlign.start,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontFamily: 'Roboto_Regular',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: textcolor),
+                                style: kText20BoldBlack,
                               ),
                             )
                           ],
@@ -125,13 +113,13 @@ class EventOverviewCard extends StatelessWidget {
                   ),
                 )
               ]),
-              SizedBox(height: 65),
+              SizedBox(height: 65.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconOverview(Icons.people, state.event.numberMember),
                   IconOverview(Icons.post_add, state.event.numberPost),
-                  SizedBox(width: 10),
+                  SizedBox(width: 10.w),
 
                   //If not a admin, show button register
                   if (state.permission != EventPermission.admin) ...[
@@ -161,26 +149,22 @@ class EventOverviewCard extends StatelessWidget {
                               : state.permission == EventPermission.pending
                                   ? "Đang đợi"
                                   : "Tham gia",
-                          style: TextStyle(
-                              fontFamily: 'Roboto_Regular',
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: kText13BoldWhite,
                         ),
                         style: ElevatedButton.styleFrom(
                           alignment: Alignment.center,
-                          fixedSize: Size(150, 30),
+                          fixedSize: Size(130.w, 30.h),
                           primary: !isJoin() ? maincolor : Colors.red,
                         )),
                     SizedBox(
-                      width: 20,
+                      width: 20.w,
                     )
                   ]
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 0, bottom: 0),
+                padding:
+                    EdgeInsets.only(left: 20.w, right: 20.w, top: 0, bottom: 0),
                 child: Divider(
                   color: const Color(0xFFDDDDDD),
                 ),
@@ -216,8 +200,8 @@ class EventOverviewCard extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.center,
-          width: 30,
-          height: 30,
+          width: 30.h,
+          height: 30.h,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: maincolor,
@@ -230,14 +214,10 @@ class EventOverviewCard extends StatelessWidget {
         SizedBox(width: 5),
         Text(
           number.toString(),
-          style: TextStyle(
-              fontFamily: 'Roboto_Regular',
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: textcolor),
+          style: kText13BoldBlack,
         ),
         SizedBox(
-          width: 15,
+          width: 15.w,
         ),
       ],
     );

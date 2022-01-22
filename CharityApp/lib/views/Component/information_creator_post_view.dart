@@ -1,4 +1,4 @@
-import 'package:charityapp/Constant/user_json.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
@@ -6,6 +6,7 @@ import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InformationCreatorPostView extends StatelessWidget {
   final UserOverview creator;
@@ -26,8 +27,8 @@ class InformationCreatorPostView extends StatelessWidget {
           InkWell(
             borderRadius: BorderRadius.circular(30),
             child: Container(
-              width: 40,
-              height: 40,
+              width: 40.h,
+              height: 40.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -57,7 +58,7 @@ class InformationCreatorPostView extends StatelessWidget {
             },
           ),
           SizedBox(
-            width: 10,
+            width: 10.w,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,21 +68,12 @@ class InformationCreatorPostView extends StatelessWidget {
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => ProfilePage(userprofile: , posts: null)));
                 },
-                child: Text(this.creator.name,
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto_Regular',
-                        color: textcolor)),
+                child: Text(this.creator.name, style: kText15BoldBlack),
               ),
               SizedBox(
-                height: 2,
+                height: 2.h,
               ),
-              Text(this.location,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'Roboto_Regular',
-                      color: textcolor)),
+              Text(this.location, style: kText12RegularBlack),
             ],
           )
         ],

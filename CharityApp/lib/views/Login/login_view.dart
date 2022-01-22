@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/indicater_logintohome.dart';
@@ -10,6 +11,7 @@ import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:async/async.dart';
 
@@ -48,37 +50,25 @@ class _LoginState extends State<Login> {
                   image: AssetImage('asset/login.png'),
                   width: MediaQuery.of(context).size.width,
                 ),
-                // Text(
-                //   'MEER',
-                //   style: TextStyle(
-                //     color: maincolor,
-                //     fontSize: 70,
-                //     fontFamily: 'Redressed_Regular',
-                //     //fontWeight: FontWeight.bold
-                //   ),
-                // ),
                 SizedBox(
-                  height: 20,
+                  height: 20.h,
                 ),
                 Text(
                   'Đăng nhập vào tài khoản của bạn',
-                  style: TextStyle(
-                      color: notetextcolor,
-                      fontSize: 18,
-                      fontFamily: 'Roboto_Regular'),
+                  style: kText18RegularGreyNoteText,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 50.h,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
                   child: TextFormField(
                     controller: emailcontroller,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.people,
                         color: maincolor,
-                        size: 23,
+                        size: 23.h,
                       ),
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -97,10 +87,7 @@ class _LoginState extends State<Login> {
                           borderSide: BorderSide(
                               color: maincolor.withOpacity(1), width: 1)),
                       hintText: 'Email',
-                      hintStyle: TextStyle(
-                          color: hinttextcolor,
-                          fontSize: 15,
-                          fontFamily: 'Roboto-Thin.tff'),
+                      hintStyle: kText15BoldGreyHintText,
                       fillColor:
                           backgrountbutton.withOpacity(0.2).withOpacity(0.2),
                       filled: true,
@@ -108,10 +95,10 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 20.h,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
                   child: PassWordInput(
                     textInputType: TextInputType.text,
                     hint: 'Mật khẩu',
@@ -123,7 +110,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -132,7 +119,7 @@ class _LoginState extends State<Login> {
                           icon: Icon(
                             Icons.check_circle,
                             color: maincolor,
-                            size: 20,
+                            size: 20.h,
                           ),
                           label: Text(
                             'Nhớ tài khoản',
@@ -147,18 +134,14 @@ class _LoginState extends State<Login> {
                         },
                         child: Text(
                           'Quên mật khẩu?',
-                          style: TextStyle(
-                              color: maincolor,
-                              fontFamily: 'Roboto-Regular.ttf',
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold),
+                          style: kText14BoldMainColor,
                         ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  padding: EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
                   child: BlocListener<SigninBloc, SigninState>(
                     listenWhen: (context, state) {
                       return state is SigninfailEmailState ||
@@ -195,7 +178,7 @@ class _LoginState extends State<Login> {
                         if (state is SignInLoadInProccess) {
                           if (isLoading != null && !isLoading!.isCompleted)
                             return;
-                            
+
                           isLoading = CancelableOperation.fromFuture(showDialog(
                               context: context,
                               builder: (context) {
@@ -216,16 +199,13 @@ class _LoginState extends State<Login> {
                           },
                           child: Text(
                             'Đăng nhập',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: kText18BoldWhite,
                           ),
                           style: ElevatedButton.styleFrom(
                               alignment: Alignment.center,
                               primary: maincolor,
                               fixedSize:
-                                  Size(MediaQuery.of(context).size.width, 60),
+                                  Size(MediaQuery.of(context).size.width, 60.h),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30))),
                         );
@@ -234,57 +214,43 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 20.h,
                 ),
-                Text(
-                  'Hoặc sử dụng',
-                  style: TextStyle(
-                      color: notetextcolor,
-                      fontSize: 15,
-                      fontFamily: 'Roboto-Regular.ttf'),
-                ),
+                Text('Hoặc sử dụng', style: kText15RegularGreyText),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       onPressed: () => {},
                       icon: FaIcon(FontAwesomeIcons.google),
-                      iconSize: 35,
+                      iconSize: 35.h,
                     ),
                     IconButton(
                       onPressed: () => {},
                       icon: FaIcon(FontAwesomeIcons.facebookF),
-                      iconSize: 35,
+                      iconSize: 35.h,
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Bạn chưa có tài khoản?',
-                        style: TextStyle(
-                          color: icon,
-                          fontSize: 16,
-                        )),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BlocProvider(
-                                    create: (context) => SignupBloc(),
-                                    child: RegisterView(),
-                                  )),
-                        );
-                      },
-                      child: Text('Đăng ký!',
-                          style: TextStyle(
-                              color: redcolor,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600)),
-                    )
-                  ],
-                )
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                                create: (context) => SignupBloc(),
+                                child: RegisterView(),
+                              )),
+                    );
+                  },
+                  child: RichText(
+                      text: TextSpan(
+                          text: "Bạn chưa có tài khoản?",
+                          style: kText16RegularGreyText,
+                          children: <TextSpan>[
+                        TextSpan(text: ' Đăng ký!', style: kText17RegularRed),
+                      ])),
+                ),
               ],
             ),
           ),

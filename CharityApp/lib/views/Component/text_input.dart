@@ -1,5 +1,7 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextInput extends StatelessWidget {
   final IconData icon;
@@ -23,13 +25,13 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: textInputType ,
+      keyboardType: textInputType,
       controller: textEditingController,
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
           color: maincolor,
-          size: 23,
+          size: 23.h,
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -38,8 +40,7 @@ class TextInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: boder.withOpacity(1), width: 1)),
         hintText: hint,
-        hintStyle: TextStyle(
-            color: hinttextcolor, fontSize: 15, fontFamily: 'Roboto-Thin.tff'),
+        hintStyle: kText15BoldGreyHintText,
         fillColor: background.withOpacity(0.2),
         filled: true,
       ),

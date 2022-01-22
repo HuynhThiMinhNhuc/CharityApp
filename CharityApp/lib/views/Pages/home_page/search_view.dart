@@ -1,13 +1,14 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/bloc/searchevent_bloc/bloc/searchevent_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchEvent extends StatefulWidget {
-  List<bool> _ischoice = [
+  final List<bool> _ischoice = [
     false,
     false,
     false,
@@ -54,12 +55,12 @@ class _SearchEventState extends State<SearchEvent> {
               children: [
                 Card(
                   child: Container(
-                    height: 140,
+                    height: 135.h,
                     color: backgroundbottomtab,
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 10,
+                          height: 10.h,
                         ),
                         Row(
                           children: [
@@ -69,14 +70,15 @@ class _SearchEventState extends State<SearchEvent> {
                                   Icons.arrow_back,
                                   color: Colors.black,
                                 )),
-                            SizedBox(
-                              width: 10,
-                            ),
+                            // SizedBox(
+                            //   width: 10.w,
+                            // ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                              padding: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
                               child: Container(
-                                  height: 45,
-                                  width: MediaQuery.of(context).size.width - 80,
+                                  height: 45.h,
+                                  width:
+                                      MediaQuery.of(context).size.width - 80.h,
                                   color: Colors.white,
                                   child: TextField(
                                     textAlignVertical: TextAlignVertical.center,
@@ -84,7 +86,7 @@ class _SearchEventState extends State<SearchEvent> {
                                     cursorColor: maincolor,
                                     decoration: InputDecoration(
                                         contentPadding:
-                                            EdgeInsets.only(left: 15),
+                                            EdgeInsets.only(left: 15.w),
                                         border: const OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 color: Colors.grey, width: 0.0),
@@ -97,8 +99,8 @@ class _SearchEventState extends State<SearchEvent> {
                                                 Radius.circular(20))),
                                         hintText: "Tìm kiếm",
                                         hintStyle: TextStyle(
-                                          color: Colors.black.withAlpha(120),
-                                        ),
+                                            color: Colors.black.withAlpha(120),
+                                            fontSize: 16.sp),
                                         suffixIcon: Icon(Icons.search),
                                         suffixIconColor: maincolor,
                                         focusColor: maincolor),
@@ -137,23 +139,23 @@ class _SearchEventState extends State<SearchEvent> {
                                           .listTags
                                           .length, (index) {
                                     return Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            5, 5, 5, 5),
+                                        padding: EdgeInsets.fromLTRB(
+                                            5.w, 0, 3.w, 5.h),
                                         child: FilterChip(
                                           checkmarkColor:
                                               widget._ischoice[index]
                                                   ? Colors.white
                                                   : Colors.black,
                                           label: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 7, 0, 7),
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 7.h, 0, 7.h),
                                             child: Text(
                                               state.listTags[index].name,
                                               style: TextStyle(
                                                   color: widget._ischoice[index]
                                                       ? Colors.white
                                                       : Colors.black,
-                                                  fontSize: 14),
+                                                  fontSize: 14.sp),
                                             ),
                                           ),
                                           backgroundColor: Colors.white,
@@ -196,11 +198,11 @@ class _SearchEventState extends State<SearchEvent> {
                       return Column(
                         children: [
                           SizedBox(
-                            height: 30,
+                            height: 30.h,
                           ),
                           Container(
-                            width: 170,
-                            height: 170,
+                            width: 170.w,
+                            height: 170.w,
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage(
@@ -208,14 +210,11 @@ class _SearchEventState extends State<SearchEvent> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 10.h,
                           ),
                           Text(
                             "Không có kết quả tìm kiếm",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFF979797),
-                                fontWeight: FontWeight.w600),
+                            style: kText15RegularGreyText,
                           )
                         ],
                       );
@@ -224,21 +223,16 @@ class _SearchEventState extends State<SearchEvent> {
                       return Column(
                         children: [
                           Container(
-                            width: 200,
-                            height: 200,
+                            width: 170.w,
+                            height: 170.w,
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage(
                                       "asset/imageInpage/no_result.png")),
                             ),
                           ),
-                          Text(
-                            "Không có kết quả tìm kiếm",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFF979797),
-                                fontWeight: FontWeight.w600),
-                          )
+                          Text("Không có kết quả tìm kiếm",
+                              style: kText15RegularGreyText)
                         ],
                       );
                     if (state is SearcheventResult)
@@ -252,23 +246,22 @@ class _SearchEventState extends State<SearchEvent> {
                               return InkWell(
                                 child: ListTile(
                                   leading: CircleAvatar(
-                                    backgroundImage:
-                                       ( state.listEvent[index].avatarUri == "" ||  state.listEvent[index].avatarUri == null)
-                                            ? AssetImage('asset/avatar.png')
-                                            : NetworkImage(state
-                                                .listEvent[index]
-                                                .avatarUri!) as ImageProvider,
-                                    radius: 30,
+                                    backgroundImage: (state.listEvent[index]
+                                                    .avatarUri ==
+                                                "" ||
+                                            state.listEvent[index].avatarUri ==
+                                                null)
+                                        ? AssetImage('asset/avatar.png')
+                                        : NetworkImage(state.listEvent[index]
+                                            .avatarUri!) as ImageProvider,
+                                    radius: 30.h,
                                   ),
                                   title: Text(state.listEvent[index].name,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      )),
+                                      style: kText16BoldBlack),
                                   subtitle: Text(
                                     "tp. Hồ Chí Minh, quận Thủ Đức",
                                     style: TextStyle(
-                                        color: textcolor, fontSize: 14),
+                                        color: textcolor, fontSize: 14.sp),
                                   ),
                                 ),
                                 onTap: () {
@@ -301,26 +294,26 @@ class SkeletonLoaderSearchfriend extends StatelessWidget {
   Widget build(BuildContext context) {
     return SkeletonLoader(
       builder: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8.w),
         child: Row(
           children: <Widget>[
             CircleAvatar(
               backgroundColor: Colors.white,
-              radius: 30,
+              radius: 30.h,
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 10.h),
             Expanded(
               child: Column(
                 children: <Widget>[
                   Container(
                     width: double.infinity,
-                    height: 10,
+                    height: 10.h,
                     color: Colors.white,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Container(
                     width: double.infinity,
-                    height: 12,
+                    height: 12.h,
                     color: Colors.white,
                   ),
                 ],

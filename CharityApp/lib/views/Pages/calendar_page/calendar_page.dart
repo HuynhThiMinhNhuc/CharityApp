@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/Witgets/event_card_view.dart';
@@ -83,10 +84,7 @@ class _CalendarPageState extends State<CalendarPage>
               unselectedLabelColor: Color(0xFF757070),
               controller: _tabController,
               labelColor: maincolor,
-              labelStyle: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-              ),
+              labelStyle: kText20BoldBlack,
               tabs: [
                 Tab(text: "Tham gia"),
                 Tab(text: "Tổ chức"),
@@ -114,10 +112,9 @@ class _CalendarPageState extends State<CalendarPage>
       child: Container(
         child: TableCalendar(
           locale: "vi",
-          rowHeight: 42,
+          rowHeight: 40.h,
           headerStyle: HeaderStyle(
-            titleTextStyle:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            titleTextStyle: kText17RegularBlack,
             formatButtonVisible: false,
             titleCentered: true,
           ),
@@ -176,13 +173,13 @@ class SketonCalendar extends StatelessWidget {
           children: <Widget>[
             Row(children: [
               Container(
-                width: 90,
-                height: 70,
+                width: 90.w,
+                height: 70.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: maincolor,
                 ),
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,17 +187,17 @@ class SketonCalendar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.only(right: 10.w),
                     child: Container(
-                      width: MediaQuery.of(context).size.width - 150,
-                      height: 20,
+                      width: MediaQuery.of(context).size.width - 150.w,
+                      height: 20.h,
                       color: maincolor,
                     ),
                   ),
                   SizedBox(height: 5),
                   Container(
-                    height: 20,
-                    width: 100,
+                    height: 20.h,
+                    width: 100.w,
                     color: maincolor,
                   )
                 ],
@@ -215,25 +212,22 @@ class SketonCalendar extends StatelessWidget {
                     "Người tham gia ",
                     softWrap: false,
                     overflow: TextOverflow.fade,
-                    style: TextStyle(
-                        fontFamily: 'Roboto-Regular.ttf',
-                        fontSize: 13,
-                        color: Color(0xFFA6A6AA)),
+                    style: kText13RegularGreyText,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
+                  padding: EdgeInsets.fromLTRB(10.w, 0, 0, 8.h),
                   child: Stack(children: [
                     SizedBox(
-                      width: 60,
-                      child: CircleAvatar(radius: 15),
+                      width: 60.w,
+                      child: CircleAvatar(radius: 15.w),
                     ),
-                    Positioned(right: 10, child: CircleAvatar(radius: 15)),
-                    Positioned(right: 20, child: CircleAvatar(radius: 15)),
+                    Positioned(right: 10.w, child: CircleAvatar(radius: 15.w)),
+                    Positioned(right: 20.w, child: CircleAvatar(radius: 15.w)),
                     Positioned(
-                        right: 30,
+                        right: 30.w,
                         child: CircleAvatar(
-                          radius: 15,
+                          radius: 15.w,
                           backgroundColor: maincolor,
                         )),
                   ]),

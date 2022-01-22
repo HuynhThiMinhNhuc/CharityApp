@@ -45,7 +45,7 @@ class MeerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(360, 780),
+      designSize: Size(270, 585),
       minTextAdapt: true,
       builder: () => MaterialApp(
         theme: ThemeData(

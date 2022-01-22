@@ -1,6 +1,8 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventCardView extends StatelessWidget {
   final EventOverviewPaticipants eventOverviewPaticipants;
@@ -21,8 +23,8 @@ class EventCardView extends StatelessWidget {
           children: <Widget>[
             Row(children: [
               Container(
-                width: 90,
-                height: 70,
+                width: 90.w,
+                height: 70.h,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: (eventOverviewPaticipants.backgroundUri == "" &&
@@ -33,7 +35,7 @@ class EventCardView extends StatelessWidget {
                       fit: BoxFit.fill),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,20 +43,16 @@ class EventCardView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.only(right: 10.w),
                     child: SizedBox(
-                      width: _width - 150,
+                      width: _width - 150.w,
                       child: Text(eventOverviewPaticipants.name,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: 'Roboto-Regular.ttf',
-                              fontSize: 15,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600)),
+                          style: kText15BoldBlack),
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   if (eventOverviewPaticipants.timeStart != null)
                     RichText(
                         text: TextSpan(children: <TextSpan>[
@@ -64,11 +62,7 @@ class EventCardView extends StatelessWidget {
                               ":" +
                               eventOverviewPaticipants.timeStart!.minute
                                   .toString(),
-                          style: TextStyle(
-                            fontFamily: 'Roboto-Regular.ttf',
-                            fontSize: 13,
-                            color: Colors.red,
-                          )),
+                          style: kText13RegularRed),
                       TextSpan(
                         text: ", " +
                             eventOverviewPaticipants.timeStart!.day.toString() +
@@ -77,11 +71,7 @@ class EventCardView extends StatelessWidget {
                                 .toString() +
                             "/" +
                             eventOverviewPaticipants.timeStart!.year.toString(),
-                        style: TextStyle(
-                          fontFamily: 'Roboto-Regular.ttf',
-                          fontSize: 13,
-                          color: Colors.grey,
-                        ),
+                        style: kText13RegularGreyText,
                       )
                     ]))
                 ],
@@ -96,38 +86,35 @@ class EventCardView extends StatelessWidget {
                     "Người tham gia ",
                     softWrap: false,
                     overflow: TextOverflow.fade,
-                    style: TextStyle(
-                        fontFamily: 'Roboto-Regular.ttf',
-                        fontSize: 13,
-                        color: Color(0xFFA6A6AA)),
+                    style: kText13RegularGreyText,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
                   child: Stack(children: [
                     SizedBox(
-                      width: 60,
+                      width: 60.w,
                       child: CircleAvatar(
-                          backgroundImage: NetworkImage(image), radius: 15),
+                          backgroundImage: NetworkImage(image), radius: 15.h),
                     ),
                     Positioned(
-                        right: 10,
+                        right: 10.w,
                         child: CircleAvatar(
-                            backgroundImage: NetworkImage(image), radius: 15)),
+                            backgroundImage: NetworkImage(image),
+                            radius: 15.h)),
                     Positioned(
-                        right: 20,
+                        right: 20.w,
                         child: CircleAvatar(
-                            backgroundImage: NetworkImage(image), radius: 15)),
+                            backgroundImage: NetworkImage(image),
+                            radius: 15.h)),
                     Positioned(
-                        right: 30,
+                        right: 30.w,
                         child: CircleAvatar(
-                            radius: 15,
+                            radius: 15.h,
                             backgroundColor: maincolor,
                             child: Text(
                               "+" + eventOverviewPaticipants.number.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
+                              style: kText13BoldWhite,
                             ))),
                   ]),
                 )

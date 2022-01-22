@@ -1,21 +1,17 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
-import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/Pages/friend_page/widgets/short_infor_card.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
-import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FriendPage extends StatefulWidget {
   const FriendPage({Key? key}) : super(key: key);
@@ -50,18 +46,6 @@ class _FriendPageState extends State<FriendPage> {
   Widget getSearchbar() {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
-    final actions = [
-      FloatingSearchBarAction(
-        showIfOpened: true,
-        child: CircularButton(
-          icon: const Icon(Icons.place),
-          onPressed: () {},
-        ),
-      ),
-      FloatingSearchBarAction.searchToClear(
-        showIfClosed: false,
-      ),
-    ];
 
     return FloatingSearchBar(
       backdropColor: Colors.white,
@@ -69,7 +53,7 @@ class _FriendPageState extends State<FriendPage> {
       border: BorderSide(width: 1, color: Color(0xFFA6A6AA)),
       hint: 'Tìm kiếm',
       clearQueryOnClose: true,
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+      scrollPadding: EdgeInsets.only(top: 16.h, bottom: 56.h),
       transitionDuration: const Duration(milliseconds: 800),
       transitionCurve: Curves.easeInOut,
       physics: const BouncingScrollPhysics(),
@@ -119,7 +103,7 @@ class _FriendPageState extends State<FriendPage> {
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
                                   leading: CircleAvatar(
-                                      radius: 18,
+                                      radius: 18.h,
                                       backgroundImage: (state.suggestion[index]
                                                       .avatarUri ==
                                                   "" ||
@@ -225,13 +209,13 @@ class Skeletonloaderfriend extends StatelessWidget {
   Widget build(BuildContext context) {
     return SkeletonLoader(
       builder: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 10.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             CircleAvatar(
               backgroundColor: Colors.white,
-              radius: 30,
+              radius: 30.h,
             ),
             SizedBox(width: 10),
             Expanded(
@@ -239,13 +223,13 @@ class Skeletonloaderfriend extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     width: double.infinity,
-                    height: 10,
+                    height: 10.h,
                     color: Colors.white,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Container(
                     width: double.infinity,
-                    height: 12,
+                    height: 12.h,
                     color: Colors.white,
                   ),
                 ],
@@ -282,7 +266,7 @@ class friends extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             "Bạn đang theo dõi " + this.totalfriend.toString() + " người",
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+            style: kText17BoldBlack,
           ),
         ),
         this.listFriend != null

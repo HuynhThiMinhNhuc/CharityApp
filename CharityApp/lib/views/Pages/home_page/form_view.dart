@@ -1,4 +1,4 @@
-import 'package:charityapp/Constant/post_jason.dart';
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/global_variable/color.dart';
@@ -9,6 +9,7 @@ import 'package:charityapp/views/bloc/form_bloc/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FormView extends StatefulWidget {
   final BaseEvent event;
@@ -47,21 +48,17 @@ class _FormViewState extends State<FormView> {
           iconTheme: IconThemeData(color: textcolor),
           title: Text(
             "Form đăng kí",
-            style: TextStyle(
-                fontFamily: 'Roboto_Regular',
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: textcolor),
+            style: kText24BoldBlack,
           ),
           backgroundColor: backgroundbottomtab,
         ),
         body: getbody(),
         bottomNavigationBar: Container(
-            height: 60,
+            height: 60.h,
             color: backgroundbottomtab,
             alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
+                padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 5.h),
                 child: CustomButton(
                   onPressed: () {
                     final form = FormRegister(
@@ -97,21 +94,17 @@ class _FormViewState extends State<FormView> {
   Widget getbody() {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+        padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               widget.event.name,
-              style: TextStyle(
-                  fontFamily: 'Roboto_Regular',
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: textcolor),
+              style: kText24RegularBlack,
             ),
             SizedBox(
-              height: 15,
+              height: 15.h,
             ),
             FormBody(
               listController: _listController,
@@ -188,11 +181,7 @@ class _FormBodyState extends State<FormBody> {
           alignment: Alignment.centerLeft,
           child: Text(
             "Tên",
-            style: TextStyle(
-                fontFamily: 'Roboto_Regular',
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: textcolor),
+            style: kText15BoldBlack,
           ),
         ),
         SizedBox(
@@ -205,25 +194,21 @@ class _FormBodyState extends State<FormBody> {
             filled: true,
             hintText: 'Nhập tên bạn tại đây',
             enabled: false,
-            contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            contentPadding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 20.h,
         ),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
             "Số điện thoại",
-            style: TextStyle(
-                fontFamily: 'Roboto_Regular',
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: textcolor),
+            style: kText15BoldBlack,
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 10.h,
         ),
         TextField(
           controller: _phoneController,
@@ -232,10 +217,10 @@ class _FormBodyState extends State<FormBody> {
               filled: true,
               hintText: 'Nhập số điện thoại của bạn tại đây',
               enabled: false,
-              contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
+              contentPadding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0)),
         ),
         SizedBox(
-          height: 20,
+          height: 20.h,
         ),
         Column(
             children: List.generate(items.length, (index) {
@@ -271,14 +256,10 @@ class TextInput extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(
-              fontFamily: 'Roboto_Regular',
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: textcolor),
+          style: kText15BoldBlack,
         ),
         SizedBox(
-          height: 10,
+          height: 10.h,
         ),
         Theme(
           data: ThemeData(
@@ -293,7 +274,7 @@ class TextInput extends StatelessWidget {
               border: InputBorder.none,
               fillColor: Color(0xFFF4F4F4),
               filled: true,
-              contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+              contentPadding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: maincolor),
               ),
@@ -301,7 +282,7 @@ class TextInput extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 20.h,
         ),
       ],
     );
