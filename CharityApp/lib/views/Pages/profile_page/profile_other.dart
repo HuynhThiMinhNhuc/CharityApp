@@ -1,19 +1,16 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
-import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_state.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
-import 'package:charityapp/views/bloc/post_bloc/post_bloc.dart';
-import 'package:charityapp/views/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Widgets/profile_overview.dart';
 
@@ -35,7 +32,8 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
     overViewUserBloc.add(LoadOverViewUserEvent(widget.creator.id));
-    BlocProvider.of<PostBloc>(context).add(LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
+    BlocProvider.of<PostBloc>(context).add(
+        LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
   }
 
   @override
@@ -56,8 +54,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
         centerTitle: true,
         title: Text(
           "Hồ sơ người dùng",
-          style: TextStyle(
-              color: textcolor, fontSize: 20, fontWeight: FontWeight.w600),
+          style: kText20BoldBlack,
         ),
       ),
       body: SingleChildScrollView(

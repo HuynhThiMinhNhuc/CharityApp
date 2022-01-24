@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
@@ -7,6 +8,7 @@ import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bl
 import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChangePasswordEditprofile extends StatefulWidget {
   final String email;
@@ -33,7 +35,7 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 50, 0, 50),
+              padding: EdgeInsets.fromLTRB(20.w, 50.h, 0, 50.h),
               child: Row(children: [
                 IconButton(
                     onPressed: () => {Navigator.pop(context)},
@@ -42,40 +44,26 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
             ),
             Text(
               'Đổi mật khẩu',
-              style: TextStyle(
-                  color: maincolor,
-                  fontSize: 38,
-                  fontFamily: 'Roboto-Regular.ttf',
-                  fontWeight: FontWeight.bold),
+              style: kText38BoldMain,
             ),
             SizedBox(
               height: 5,
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 40),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 40.h),
               child: Text(
                 'Mật khẩu mới cần khác với mật khẩu trước đó',
-                style: TextStyle(
-                    color: notetextcolor,
-                    fontSize: 16,
-                    fontFamily: 'Roboto_Regular'),
+                style: kText16RegularGreyText,
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
-                child: Text(
-                  'Mật khẩu cũ',
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto-Regular.tff',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
-                ),
+                padding: EdgeInsets.fromLTRB(30.w, 0, 0, 10.h),
+                child: Text('Mật khẩu cũ', style: kText15BoldMain),
               ),
             ]),
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
               child: PassWordInput(
                 textInputType: TextInputType.text,
                 securitytext: false,
@@ -88,14 +76,10 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
+                padding: EdgeInsets.fromLTRB(30.w, 0, 0, 10.h),
                 child: Text(
                   'Mật khẩu mới',
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto-Regular.tff',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
+                  style: kText15BoldMain,
                 ),
               ),
             ]),
@@ -113,19 +97,15 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 0, 10),
+                padding: EdgeInsets.fromLTRB(30.w, 0, 0, 10.h),
                 child: Text(
                   'Xác nhận mật khẩu mới',
-                  style: TextStyle(
-                      color: maincolor,
-                      fontFamily: 'Roboto-Regular.tff',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
+                  style: kText15BoldMain,
                 ),
               ),
             ]),
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
               child: PassWordInput(
                 securitytext: true,
                 background: Colors.white,
@@ -144,19 +124,18 @@ class _ChangePasswordEditprofileState extends State<ChangePasswordEditprofile> {
                               builder: (context) => BlocProvider(
                                     create: (context) => VerifycodeBloc(),
                                     child: VerificationOtpView(
-                                        email: widget.email, ischangepass: true,),
+                                      email: widget.email,
+                                      ischangepass: true,
+                                    ),
                                   )))
                     },
                 child: Text(
                   "Quên mật khẩu?",
                   textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: redcolor,
-                    fontSize: 15,
-                  ),
+                  style: kText15BoldRed,
                 )),
             Padding(
-                padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                padding: EdgeInsets.fromLTRB(20.w, 40.h, 20.w, 0),
                 child: BlocListener<ChangepasswordBloc, ChangepasswordState>(
                   listener: (context, state) {
                     if (state is ChangepasswordSuccess) {

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditProfile extends StatefulWidget {
   final UserProfile currentUser;
@@ -106,22 +108,14 @@ class _EditProfileState extends State<EditProfile> {
                 onPressed: null,
                 child: Text(
                   "",
-                  style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal),
+                  style: kText15BoldBlack,
                 ),
               ),
               TextButton(
                 onPressed: null,
                 child: Text(
                   "Chỉnh sửa",
-                  style: TextStyle(
-                      color: textcolor,
-                      fontFamily: 'Roboto_Regular',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                  style: kText15BoldBlack,
                 ),
               ),
               BlocListener<EditprofileBloc, EditprofileState>(
@@ -156,11 +150,7 @@ class _EditProfileState extends State<EditProfile> {
                   onPressed: close,
                   child: Text(
                     "Hoàn thành",
-                    style: TextStyle(
-                        color: maincolor,
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal),
+                    style: kText15BoldMain,
                   ),
                 ),
               ),
@@ -178,11 +168,11 @@ class _EditProfileState extends State<EditProfile> {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: 30,
+                height: 30.h,
               ),
               Container(
-                width: 106,
-                height: 106,
+                width: 106.h,
+                height: 106.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: activecolor),
@@ -193,8 +183,8 @@ class _EditProfileState extends State<EditProfile> {
                     children: <Widget>[
                       Stack(alignment: Alignment.center, children: <Widget>[
                         Container(
-                          width: 100,
-                          height: 100,
+                          width: 100.h,
+                          height: 100.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3),
@@ -213,8 +203,8 @@ class _EditProfileState extends State<EditProfile> {
                             right: 5,
                             child: Container(
                               alignment: Alignment.center,
-                              width: 30,
-                              height: 30,
+                              width: 30.h,
+                              height: 30.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -233,21 +223,17 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: [
                     Container(
-                      width: 110,
+                      width: 110.w,
                       child: Text(
                         "Tên",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -265,18 +251,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: [
                     Container(
-                      width: 110,
+                      width: 110.w,
                       child: Text(
                         "Ngày sinh",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -327,18 +309,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: [
                     Container(
-                      width: 110,
+                      width: 110.w,
                       child: Text(
                         "Giới tính",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -372,18 +350,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: [
                     Container(
                       width: 110,
                       child: Text(
                         "Mô tả",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Container(
@@ -405,33 +379,25 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 0, 15),
+                padding: EdgeInsets.fromLTRB(10.w, 20.h, 0, 15.h),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     "Thông tin mật",
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: textcolor,
-                        fontFamily: 'Roboto_Regular',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    style: kText16BoldBlack,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: [
                     Container(
-                      width: 110,
+                      width: 110.w,
                       child: Text(
                         "Email",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -446,18 +412,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: [
                     Container(
-                      width: 110,
+                      width: 110.w,
                       child: Text(
                         "Số điện thoại",
-                        style: TextStyle(
-                            color: textcolor,
-                            fontFamily: 'Roboto_Regular',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -481,7 +443,7 @@ class _EditProfileState extends State<EditProfile> {
                 color: const Color(0xff3C3C43),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -504,11 +466,7 @@ class _EditProfileState extends State<EditProfile> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Đổi mật khẩu",
-                            style: TextStyle(
-                                color: textcolor,
-                                fontFamily: 'Roboto_Regular',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
+                            style: kText15BoldBlack,
                           ),
                         ),
                       ),

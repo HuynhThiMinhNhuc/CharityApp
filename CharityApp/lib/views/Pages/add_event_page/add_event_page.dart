@@ -1,23 +1,21 @@
 import 'dart:io';
 
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/core/model/routes.dart';
-import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_infor.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
-import 'package:charityapp/views/Login/login_view.dart';
-import 'package:charityapp/views/Login/register_view.dart';
-import 'package:charityapp/views/Pages/add_event_page/add_tag_page.dart';
 import 'package:charityapp/views/Pages/google_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddEventPage extends StatefulWidget {
   final Function(
@@ -89,11 +87,7 @@ class _AddEventPageState extends State<AddEventPage> {
         backgroundColor: backgroundbottomtab,
         title: Text(
           "Tạo sự kiện",
-          style: TextStyle(
-              color: textcolor,
-              fontFamily: 'Roboto_Regular',
-              fontSize: 18,
-              fontWeight: FontWeight.bold),
+          style: kText18BoldBlack,
         ),
         actions: [
           TextButton(
@@ -135,7 +129,7 @@ class _AddEventPageState extends State<AddEventPage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -157,7 +151,7 @@ class _AddEventPageState extends State<AddEventPage> {
                       iconData: Icon(
                         FontAwesomeIcons.calendarAlt,
                         color: maincolor,
-                        size: 25,
+                        size: 20.h,
                       ),
                       text: '',
                       title: 'Thời gian bắt đầu',
@@ -193,7 +187,7 @@ class _AddEventPageState extends State<AddEventPage> {
                       iconData: Icon(
                         FontAwesomeIcons.mapMarkerAlt,
                         color: Colors.red[400],
-                        size: 25,
+                        size: 20.h,
                       ),
                       text: '',
                       title: 'Địa điểm',
@@ -222,7 +216,7 @@ class _AddEventPageState extends State<AddEventPage> {
                               : GoogleMapPage();
                         }));
 
-                          FocusScope.of(context).unfocus();
+                        FocusScope.of(context).unfocus();
                         if (args != null) {
                           _locationTextController.text =
                               args[0] as String? ?? "";
@@ -233,15 +227,11 @@ class _AddEventPageState extends State<AddEventPage> {
                       },
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 10.h,
                     ),
                     Text(
                       " Thêm ảnh",
-                      style: TextStyle(
-                          fontFamily: 'Roboto-Regular.ttf',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          color: Color(0x80262626)),
+                      style: kText15Bold80Black,
                     ),
                     Row(
                       children: [
@@ -266,7 +256,7 @@ class _AddEventPageState extends State<AddEventPage> {
                         maxLines: 3,
                         style: TextStyle(
                             fontFamily: 'Roboto-Regular.ttf',
-                            fontSize: 15,
+                            fontSize: 15.sp,
                             color: Colors.grey[600]),
                         decoration: InputDecoration(
                             hintText: "Viết nội dung ở đây...",
@@ -279,7 +269,7 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
             ),
             Container(
-              height: 65,
+              height: 65.h,
               alignment: Alignment.centerLeft,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -318,13 +308,13 @@ class _AddEventPageState extends State<AddEventPage> {
                               icon: Icon(
                                 FontAwesomeIcons.tags,
                                 color: maincolor,
-                                size: 25,
+                                size: 20.h,
                               )),
                           Row(
                             children: List.generate(
                               _tags.length,
                               (index) => Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
                                 child: Chip(
                                   deleteIcon: Icon(
                                     FontAwesomeIcons.timesCircle,
@@ -334,7 +324,7 @@ class _AddEventPageState extends State<AddEventPage> {
                                     _tags[index].name,
                                     style: TextStyle(
                                         fontFamily: 'Roboto_Regular',
-                                        fontSize: 12,
+                                        fontSize: 12.sp,
                                         color: Color(0xFF455154)),
                                   ),
                                   onDeleted: () {
@@ -407,26 +397,19 @@ class textFormFieldWithTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+      padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: TextStyle(
-                fontFamily: 'Roboto-Regular.ttf',
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                color: Color(0x80262626)),
+            style: kText15Bold80Black,
           ),
           TextFormField(
             controller: controller,
             cursorColor: maincolor,
-            style: TextStyle(
-                fontFamily: 'Roboto-Regular.ttf',
-                fontSize: 15,
-                color: Colors.black),
+            style: kText15RegularBlack,
             keyboardType: type,
             decoration: new InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -439,7 +422,10 @@ class textFormFieldWithTitle extends StatelessWidget {
                 ),
                 suffixIcon: iconData != null
                     ? IconButton(
-                        onPressed: () => onClickIcon?.call(), icon: iconData!)
+                        onPressed: () => onClickIcon?.call(),
+                        icon: iconData!,
+                        iconSize: 20.w,
+                      )
                     : null,
                 label: null),
           ),
