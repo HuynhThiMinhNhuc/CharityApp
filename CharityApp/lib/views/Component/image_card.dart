@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageCard extends StatefulWidget {
   final double width;
@@ -93,14 +95,9 @@ class _ImageCardState extends State<ImageCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (widget.hintTitle != null)
-                    Text(
-                      widget.hintTitle!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'Roboto-Regular.ttf',
-                          fontSize: 13,
-                          color: Colors.black),
-                    ),
+                    Text(widget.hintTitle!,
+                        textAlign: TextAlign.center,
+                        style: kText13RegularBlack),
                   if (widget.icon != null)
                     Icon(widget.icon, color: maincolor, size: 25),
                 ],
@@ -114,7 +111,7 @@ class _ImageCardState extends State<ImageCard> {
         color: backgroundbottomtab,
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
+      margin: EdgeInsets.fromLTRB(10.h, 10.w, 5.h, 10.h),
     );
   }
 }

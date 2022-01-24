@@ -20,6 +20,7 @@ final cwColorGreyText = Color(0xFF757070);
 final cwColorGreyNoteText = Color(0xFFB2B2B2);
 
 final cwColorBlack = Color(0xFF262626);
+final cwColor80Black = Color(0x80262626);
 
 final cwColorBackground = Color(0xFFF4F4F4);
 final cwColorBlue = Color(0xFF1713EC);

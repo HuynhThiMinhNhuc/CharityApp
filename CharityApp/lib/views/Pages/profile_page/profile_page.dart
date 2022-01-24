@@ -175,7 +175,7 @@ class SketonProfile extends StatelessWidget {
                       backgroundColor: Colors.white,
                       radius: 30,
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -189,7 +189,7 @@ class SketonProfile extends StatelessWidget {
                           SizedBox(height: 10.h),
                           Container(
                             width: MediaQuery.of(context).size.width - 60,
-                            height: 12,
+                            height: 12.h,
                             color: Colors.white,
                           ),
                         ],
@@ -220,7 +220,7 @@ class SketonProfile extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Container(
                     width: MediaQuery.of(context).size.width - 60,
-                    height: 12,
+                    height: 12.h,
                     color: Colors.white,
                   ),
                 ),

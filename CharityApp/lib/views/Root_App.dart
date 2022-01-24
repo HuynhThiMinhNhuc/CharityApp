@@ -1,4 +1,6 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/app_tab.dart';
+import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
@@ -11,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 
 import 'Pages/calendar_page/calendar_page.dart';
@@ -19,6 +22,7 @@ import 'Pages/home_page/search_view.dart';
 import 'Pages/profile_page/profile_page.dart';
 import 'bloc/signin_bloc/signin_bloc.dart';
 import 'bloc/tab_bloc/tab.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef onAddPostCallback = Function(Post post);
 
@@ -48,6 +52,41 @@ class RootApp extends StatelessWidget {
               }
             },
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            child: SpeedDial(
+              backgroundColor: Colors.black,
+              animatedIcon: AnimatedIcons.add_event,
+              animatedIconTheme: IconThemeData(size: 25.h),
+              closeManually: false,
+              shape: CircleBorder(),
+              children: [
+                SpeedDialChild(
+                    child: Icon(Icons.post_add_rounded, color: Colors.white),
+                    backgroundColor: maincolor,
+                    label: "Bài đăng",
+                    onTap: () => {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.addPost,
+                          )
+                        }),
+                SpeedDialChild(
+                    child: Icon(Icons.event_available_outlined,
+                        color: Colors.white),
+                    backgroundColor: Colors.red[400],
+                    label: "Sự kiện",
+                    onTap: () => {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.addEvent,
+                          )
+                        }),
+              ],
+            ),
+            onPressed: null,
+          ),
         );
       },
     );
@@ -61,8 +100,6 @@ class RootApp extends StatelessWidget {
           homeAppBar()
         else if (activateTab == AppTab.calendar)
           calendarAppbar()
-        // else if (activateTab == AppTab.addpost)
-        //   createPostAppbar()
         else if (activateTab == AppTab.friend)
           friendAppbar()
         else if (activateTab == AppTab.profile)
@@ -89,11 +126,7 @@ class RootApp extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: backgroundbottomtab,
-      title: Text("Bạn bè",
-          style: TextStyle(
-              color: textcolor,
-              fontFamily: 'Roboto_Regular',
-              fontWeight: FontWeight.bold)),
+      title: Text("Bạn bè", style: kText24BoldBlack),
     );
   }
 
@@ -110,20 +143,14 @@ class RootApp extends StatelessWidget {
       ),
       title: Text(
         "Tạo sự kiện",
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
+        style: kText24BoldBlack,
       ),
       actions: [
         TextButton(
           onPressed: onClickSubmit?.call(),
           child: Text(
             "Đăng",
-            style: TextStyle(
-                color: textcolor,
-                fontFamily: 'Roboto_Regular',
-                fontWeight: FontWeight.bold),
+            style: kText24BoldBlack,
           ),
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -143,10 +170,7 @@ class RootApp extends StatelessWidget {
       backgroundColor: backgroundbottomtab,
       title: Text(
         "Sự kiện",
-        style: TextStyle(
-            color: textcolor,
-            fontFamily: 'Roboto_Regular',
-            fontWeight: FontWeight.bold),
+        style: kText24BoldBlack,
       ),
     );
   }

@@ -142,6 +142,7 @@ class SkeletonEvent extends StatelessWidget {
           ),
           SkeletonLoader(
             builder: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Row(
@@ -177,4 +178,3 @@ class SkeletonEvent extends StatelessWidget {
     );
   }
 }
-

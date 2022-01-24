@@ -48,6 +48,13 @@ var kText18BoldBlack = kTextConfig.copyWith(
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
 );
+var kText18BoldMain = kTextConfig.copyWith(
+  fontSize: 18.sp,
+  color: cwColorMain,
+  decoration: TextDecoration.none,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+);
 var kText28BoldGreyNoteText = kTextConfig.copyWith(
   fontSize: 24.sp,
   color: cwColorGreyNoteText,
@@ -73,6 +80,12 @@ var kText15BoldGreyHintText = kTextConfig.copyWith(
   decoration: TextDecoration.none,
   fontWeight: FontWeight.w400,
 );
+var kText15Bold80Black = kTextConfig.copyWith(
+  fontSize: 15.sp,
+  color: cwColor80Black,
+  decoration: TextDecoration.none,
+  fontWeight: FontWeight.w600,
+);
 var kText40BoldMain = kTextConfig.copyWith(
   fontSize: 40.sp,
   color: cwColorMain,
@@ -83,6 +96,8 @@ var kText15BoldMain = kTextConfig.copyWith(
     color: cwColorMain, fontSize: 15.sp, fontWeight: FontWeight.w500);
 var kText15BoldBlack = kTextConfig.copyWith(
     color: cwColorBlack, fontSize: 15.sp, fontWeight: FontWeight.w500);
+var kText15BoldRed = kTextConfig.copyWith(
+    color: cwColorRed, fontSize: 15.sp, fontWeight: FontWeight.w500);
 var kText16BoldBlack = kTextConfig.copyWith(
     color: cwColorBlack, fontSize: 16.sp, fontWeight: FontWeight.w600);
 var kText13BoldBlack = kTextConfig.copyWith(

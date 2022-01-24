@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/post.dart';
-import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
@@ -12,6 +12,7 @@ import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddPostPage extends StatefulWidget {
   final Function(Post post, List<File> images)? onClickSubmit;
@@ -47,7 +48,7 @@ class _AddPostPageState extends State<AddPostPage> {
       backgroundColor: Colors.white,
       appBar: getAppBar(),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
         child: SingleChildScrollView(
           child: Column(
             // mainAxisSize: MainAxisSize.min,
@@ -56,7 +57,9 @@ class _AddPostPageState extends State<AddPostPage> {
                   onPressed: () async {
                     BlocProvider.of<PostBloc>(context).add(
                       LoadOverViewEventsPaticipant(
-                          creatorId: Authenticator.Id, startIndex: 0, number: 10),
+                          creatorId: Authenticator.Id,
+                          startIndex: 0,
+                          number: 10),
                     );
                     chooseEvent = await Navigator.of(context).pushNamed(
                       AppRoutes.chooseEvent,
@@ -70,30 +73,19 @@ class _AddPostPageState extends State<AddPostPage> {
                         chooseEvent == null
                             ? "Chọn sự kiện"
                             : chooseEvent!.name,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Roboto_Regular',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: kText15BoldBlack,
                       ),
                       IconButton(
                         icon: Icon(Icons.navigate_next,
                             size: 20, color: textcolor),
                         splashRadius: 20,
-                        // onPressed: () {
-                        //   Navigator.pushNamed(
-                        //     context,
-                        //     AppRoutes.chooseEvent,
-                        //   );
-                        // },
                         onPressed: null,
                       )
                     ],
                   )),
               Divider(color: Colors.grey[800], height: 1),
               SizedBox(
-                height: 10,
+                height: 10.h,
               ),
               textFormFieldWithTitle(
                 title: "Tiêu đề",
@@ -102,28 +94,19 @@ class _AddPostPageState extends State<AddPostPage> {
                 type: TextInputType.text,
                 controller: _titleTextController,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
                   "Thêm ảnh",
-                  style: TextStyle(
-                    color: Color(0x80262626),
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: kText15Bold80Black,
                 ),
                 Text(
                   "Tối đa 10 ảnh",
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontFamily: 'Roboto_Regular',
-                    fontSize: 13,
-                  ),
+                  style: kText13RegularGreyText,
                 )
               ]),
               SizedBox(
-                height: 200,
+                height: 200.h,
                 child: ListView.builder(
                   shrinkWrap: false,
                   scrollDirection: Axis.horizontal,
@@ -160,7 +143,7 @@ class _AddPostPageState extends State<AddPostPage> {
                             });
                           },
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: 5.w),
                       ],
                     );
                   },
@@ -170,9 +153,8 @@ class _AddPostPageState extends State<AddPostPage> {
                 cursorColor: maincolor,
                 keyboardType: TextInputType.name,
                 minLines: 3,
-                maxLines: 5,
-                style:
-                    TextStyle(fontFamily: 'Roboto-Regular.ttf', fontSize: 15),
+                maxLines: 10,
+                style: kText15RegularBlack,
                 decoration: InputDecoration(
                     hintText: "Viết nội dung ở đây...",
                     errorBorder: InputBorder.none,
@@ -195,12 +177,7 @@ class _AddPostPageState extends State<AddPostPage> {
       ),
       backgroundColor: backgroundbottomtab,
       centerTitle: true,
-      title: Text("Tạo bài viết",
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Roboto_Regular',
-              fontSize: 18,
-              fontWeight: FontWeight.bold)),
+      title: Text("Tạo bài viết", style: kText18BoldBlack),
       actions: [
         TextButton(
           onPressed: () {
@@ -216,11 +193,7 @@ class _AddPostPageState extends State<AddPostPage> {
           },
           child: Text(
             "Đăng ",
-            style: TextStyle(
-                color: maincolor,
-                fontFamily: 'Roboto_Regular',
-                fontSize: 18,
-                fontWeight: FontWeight.bold),
+            style: kText18BoldMain,
           ),
         ),
       ],
@@ -229,11 +202,17 @@ class _AddPostPageState extends State<AddPostPage> {
 
   bool onValidation() {
     if (chooseEvent == null) {
-      showDialog(context: context, builder: (context) => MyAlertDialog2(content: 'Vui lòng chọn sự kiện', title: 'Thông báo'));
+      showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog2(
+              content: 'Vui lòng chọn sự kiện', title: 'Thông báo'));
       return false;
     }
     if (_titleTextController.text.isEmpty) {
-      showDialog(context: context, builder: (context) => MyAlertDialog2(content: 'Vui lòng nhập tiêu đề', title: 'Thông báo'));
+      showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog2(
+              content: 'Vui lòng nhập tiêu đề', title: 'Thông báo'));
       return false;
     }
 

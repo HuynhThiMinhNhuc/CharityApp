@@ -1,11 +1,10 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
-import 'package:charityapp/views/Component/loading_circular_indicator.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
 import 'package:charityapp/views/Login/login_view.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_tag_page.dart';
-import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/Root_App.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
 import 'package:charityapp/views/bloc/calendar_bloc/calendar.dart';
@@ -20,6 +19,7 @@ import 'package:charityapp/views/bloc/tab_bloc/tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 import 'add_event_page/add_event_page.dart';
 import 'add_event_page/add_post_page.dart';
@@ -29,7 +29,7 @@ import 'home_page/comment_view.dart';
 import 'home_page/event_page.dart';
 import 'home_page/form_view.dart';
 
-import 'package:async/async.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RouteGenerator {
   Route generateRoute(RouteSettings settings) {
@@ -213,7 +213,8 @@ class RouteGenerator {
         return BlocBuilder<TagCubit, List<TagEvent>?>(
           builder: (context, alltag) {
             if (alltag == null) {
-              return SketonEvent();
+              return Container();
+              // SketonAddTags();
             }
 
             for (var tag in tagsEvent) {
@@ -285,5 +286,69 @@ class RouteGenerator {
     //     context: context,
     //     builder: (context) => Container(
     //         width: 100, height: 80, child: LoaddingCircularIndicator())));
+  }
+}
+
+class SketonAddTags extends StatelessWidget {
+  const SketonAddTags({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: SkeletonLoader(
+        builder: SkeletonLoader(
+          builder: Padding(
+            padding: EdgeInsets.fromLTRB(15.w, 10.h, 10.w, 0),
+            child: Wrap(
+              spacing: 8.0.h, // gap between adjacent chips
+              runSpacing: 2.0.w, // gap between lines
+              children: <FilterChip>[
+                FilterChip(
+                  label: Text(
+                    "Tre em",
+                    style: kText15Bold80Black,
+                  ),
+                  onSelected: null,
+                ),
+                FilterChip(
+                  label: Text(
+                    "Bao ve moi truong",
+                    style: kText15Bold80Black,
+                  ),
+                  onSelected: null,
+                ),
+                FilterChip(
+                  label: Text(
+                    "Nguoi gia neo don",
+                    style: kText15Bold80Black,
+                  ),
+                  onSelected: null,
+                ),
+                FilterChip(
+                  label: Text(
+                    "Mo coi",
+                    style: kText15Bold80Black,
+                  ),
+                  onSelected: null,
+                ),
+                FilterChip(
+                  label: Text(
+                    "Xa hoi",
+                    style: kText15Bold80Black,
+                  ),
+                  onSelected: null,
+                )
+              ],
+            ),
+          ),
+          items: 2,
+          period: Duration(seconds: 2),
+          highlightColor: Color(0x505AA469),
+          direction: SkeletonDirection.ltr,
+        ),
+      ),
+    );
   }
 }

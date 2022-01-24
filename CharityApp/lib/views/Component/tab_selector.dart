@@ -1,16 +1,12 @@
+import 'package:charityapp/Config/colorconfig.dart';
 import 'package:charityapp/core/model/app_tab.dart';
-import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
-import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
-import 'package:charityapp/views/Pages/add_event_page/add_post_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
-//ignore: import_of_legacy_library_into_null_safe
-// import 'package:flat_icons_flutter/flat_icons_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TabSelector extends StatelessWidget {
+class TabSelector extends StatefulWidget {
   final AppTab activeTab;
   final Function(AppTab) onTabSelected;
 
@@ -21,100 +17,164 @@ class TabSelector extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<TabSelector> createState() => _TabSelectorState();
+}
+
+class _TabSelectorState extends State<TabSelector> {
+  int _selectedTab = 0;
+  @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
-      selectedItemColor: maincolor,
-      unselectedItemColor: Colors.black,
-      selectedFontSize: 14,
-      unselectedFontSize: 14,
-      iconSize: 27,
-      currentIndex: AppTab.values.indexOf(activeTab),
-      onTap: (index) => onTabSelected(AppTab.values[index]),
-      items: [
-        BottomNavigationBarItem(
-          label: 'Trang chủ',
-          icon: Icon(Icons.home),
-        ),
-        BottomNavigationBarItem(
-            label: 'Lịch', icon: Icon(Icons.calendar_today_rounded)),
-        BottomNavigationBarItem(
-          label: '',
-          icon: SpeedDial(
-            backgroundColor: Colors.black,
-            animatedIcon: AnimatedIcons.add_event,
-            animatedIconTheme: IconThemeData(size: 25),
-            closeManually: false,
-            shape: CircleBorder(),
-            children: [
-              SpeedDialChild(
-                  child: Icon(Icons.post_add_rounded, color: Colors.white),
-                  backgroundColor: maincolor,
-                  label: "Bài đăng",
-                  onTap: () => {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.addPost,
-                        )
-                      }),
-              SpeedDialChild(
-                  child:
-                      Icon(Icons.event_available_outlined, color: Colors.white),
-                  backgroundColor: Colors.red[400],
-                  label: "Sự kiện",
-                  onTap: () => {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.addEvent,
-                        )
-                      }),
-            ],
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 4.0,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.home,
+              color: _selectedTab == 0 ? cwColorMain : cwColorBlackIcon,
+              size: 23.w,
+            ),
+            tooltip: "Trang chủ",
+            onPressed: () {
+              widget.onTabSelected(AppTab.values[0]);
+              _selectedTab = 0;
+            },
           ),
-        ),
-        BottomNavigationBarItem(
-          label: 'Bạn bè',
-          icon: Icon(Icons.people),
-        ),
-        BottomNavigationBarItem(
-          label: 'Hồ sơ',
-          icon: Container(
-            width: 31,
-            height: 31,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(colors: activecolor)),
-            child: Padding(
-              padding: const EdgeInsets.all(1),
-              child: Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
+          IconButton(
+            icon: Icon(
+              Icons.calendar_today_rounded,
+              color: _selectedTab == 1 ? cwColorMain : cwColorBlackIcon,
+              size: 22.w,
+            ),
+            tooltip: "Lịch",
+            onPressed: () {
+              widget.onTabSelected(AppTab.values[1]);
+              _selectedTab = 1;
+            },
+          ),
+          SizedBox(width: 24.w),
+          IconButton(
+            icon: Icon(
+              Icons.people,
+              color: _selectedTab == 3 ? cwColorMain : cwColorBlackIcon,
+              size: 23.w,
+            ),
+            tooltip: "Bạn bè",
+            onPressed: () {
+              widget.onTabSelected(AppTab.values[3]);
+              _selectedTab = 3;
+            },
+          ),
+          IconButton(
+            icon: Container(
+              width: 33.w,
+              height: 33.w,
+              decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1),
-                  image: DecorationImage(
-                      image: (GetIt.instance
-                                      .get<Authenticator>()
-                                      .userProfile
-                                      .avatarUri ==
-                                  "" ||
-                              GetIt.instance
-                                      .get<Authenticator>()
-                                      .userProfile
-                                      .avatarUri ==
-                                  null)
-                          ? AssetImage('asset/avatar.png') as ImageProvider
-                          : NetworkImage(GetIt.instance
-                              .get<Authenticator>()
-                              .userProfile
-                              .avatarUri!),
-                      fit: BoxFit.cover),
+                  gradient: LinearGradient(colors: activecolor)),
+              child: Padding(
+                padding: const EdgeInsets.all(1),
+                child: Container(
+                  width: 32.w,
+                  height: 32.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 1),
+                    image: DecorationImage(
+                        image: (GetIt.instance
+                                        .get<Authenticator>()
+                                        .userProfile
+                                        .avatarUri ==
+                                    "" ||
+                                GetIt.instance
+                                        .get<Authenticator>()
+                                        .userProfile
+                                        .avatarUri ==
+                                    null)
+                            ? AssetImage('asset/avatar.png') as ImageProvider
+                            : NetworkImage(GetIt.instance
+                                .get<Authenticator>()
+                                .userProfile
+                                .avatarUri!),
+                        fit: BoxFit.cover),
+                  ),
                 ),
               ),
             ),
+            tooltip: "Hồ sơ",
+            onPressed: () {
+              widget.onTabSelected(AppTab.values[4]);
+              setState(() {
+                _selectedTab = 4;
+              });
+            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
+    //     BottomNavigationBar(
+    //   type: BottomNavigationBarType.fixed,
+    //   backgroundColor: Colors.white,
+    //   selectedItemColor: maincolor,
+    //   unselectedItemColor: Colors.black,
+    //   selectedFontSize: 14,
+    //   unselectedFontSize: 14,
+    //   iconSize: 27,
+    //   currentIndex: AppTab.values.indexOf(activeTab),
+    //   onTap: (index) => onTabSelected(AppTab.values[index]),
+    //   items: [
+    //     BottomNavigationBarItem(
+    //       label: "Trang chur",
+    //       icon: Icon(Icons.home),
+    //     ),
+    //     BottomNavigationBarItem(
+    //         label: 'Lịch', icon: Icon(Icons.calendar_today_rounded)),
+    //     BottomNavigationBarItem(
+    //       label: 'Bạn bè',
+    //       icon: Icon(Icons.people),
+    //     ),
+    //     BottomNavigationBarItem(
+    //       label: 'Hồ sơ',
+    //       icon: Container(
+    //         width: 31,
+    //         height: 31,
+    //         decoration: BoxDecoration(
+    //             shape: BoxShape.circle,
+    //             gradient: LinearGradient(colors: activecolor)),
+    //         child: Padding(
+    //           padding: const EdgeInsets.all(1),
+    //           child: Container(
+    //             width: 30,
+    //             height: 30,
+    //             decoration: BoxDecoration(
+    //               shape: BoxShape.circle,
+    //               border: Border.all(color: Colors.white, width: 1),
+    //               image: DecorationImage(
+    //                   image: (GetIt.instance
+    //                                   .get<Authenticator>()
+    //                                   .userProfile
+    //                                   .avatarUri ==
+    //                               "" ||
+    //                           GetIt.instance
+    //                                   .get<Authenticator>()
+    //                                   .userProfile
+    //                                   .avatarUri ==
+    //                               null)
+    //                       ? AssetImage('asset/avatar.png') as ImageProvider
+    //                       : NetworkImage(GetIt.instance
+    //                           .get<Authenticator>()
+    //                           .userProfile
+    //                           .avatarUri!),
+    //                   fit: BoxFit.cover),
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 }
