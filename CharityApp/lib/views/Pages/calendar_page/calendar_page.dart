@@ -84,11 +84,11 @@ class _CalendarPageState extends State<CalendarPage>
               unselectedLabelColor: Color(0xFF757070),
               controller: _tabController,
               labelColor: maincolor,
-              labelStyle: kText20BoldBlack,
+              labelStyle: kText15BoldBlack,
               tabs: [
                 Tab(text: "Tham gia"),
                 Tab(text: "Tổ chức"),
-                Tab(text: "Chờ duyệt"),
+                Tab(text: "Đang chờ"),
               ],
               onTap: tabChanged),
         ),
@@ -112,9 +112,9 @@ class _CalendarPageState extends State<CalendarPage>
       child: Container(
         child: TableCalendar(
           locale: "vi",
-          rowHeight: 40.h,
+          rowHeight: 30.h,
           headerStyle: HeaderStyle(
-            titleTextStyle: kText17RegularBlack,
+            titleTextStyle: kText17BoldBlack,
             formatButtonVisible: false,
             titleCentered: true,
           ),
