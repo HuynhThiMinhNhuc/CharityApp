@@ -6,9 +6,9 @@ import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dar
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_even.dart';
 import 'package:flutter/material.dart';
-import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../profile_page.dart';
 import 'information_profile_view.dart';
@@ -30,24 +30,24 @@ class _ProfileOverViewState extends State<ProfileOverView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 10,
+          height: 10.h,
         ),
         Row(
           children: [
             //Avatar widget
             Container(
-              width: 80,
-              height: 80,
+              width: 80.h,
+              height: 80.h,
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: activecolor)),
               child: Container(
-                width: 60,
-                height: 60,
+                width: 60.h,
+                height: 60.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 5),
+                  border: Border.all(color: Colors.white, width: 5.h),
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: (widget.userProfile.avatarUri != "" &&
@@ -75,10 +75,10 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           ],
         ),
         SizedBox(
-          height: 5,
+          height: 5.h,
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
           child: RichText(
             text: TextSpan(style: myStyle(), children: <TextSpan>[
               TextSpan(
@@ -92,7 +92,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
           child: RichText(
             text: TextSpan(style: myStyle(), children: <TextSpan>[
               TextSpan(
@@ -107,15 +107,20 @@ class _ProfileOverViewState extends State<ProfileOverView> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
-          child: Text(
-            widget.userProfile.description as String,
-            style: TextStyle(
-                fontSize: 13,
-                decoration: TextDecoration.none,
-                fontFamily: 'Roboto_Regular',
-                color: textcolor),
-          ),
+          margin: EdgeInsets.fromLTRB(0, 5.h, 0, 10.h),
+          child: (widget.userProfile.description != null &&
+                  widget.userProfile.description?.length != 0)
+              ? Text(
+                  widget.userProfile.description as String,
+                  style: TextStyle(
+                      fontSize: 13,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'Roboto_Regular',
+                      color: textcolor),
+                )
+              : Container(
+                  width: 0,
+                ),
         ),
         SizedBox(
           width: double.infinity,
@@ -167,7 +172,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                       child: Text(
                         'Bỏ theo dõi',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 13.sp,
                             decoration: TextDecoration.none,
                             fontFamily: 'Roboto_Regular',
                             fontWeight: FontWeight.bold),
@@ -187,7 +192,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                           child: Text(
                             'Theo dõi',
                             style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 13.sp,
                                 decoration: TextDecoration.none,
                                 fontFamily: 'Roboto_Regular',
                                 fontWeight: FontWeight.bold),
@@ -208,7 +213,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                               child: Text(
                                 'Loại khỏi sự kiện',
                                 style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 13.sp,
                                     decoration: TextDecoration.none,
                                     fontFamily: 'Roboto_Regular',
                                     fontWeight: FontWeight.bold),
@@ -225,7 +230,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                                   child: Text(
                                     'Chấp nhận',
                                     style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 13.sp,
                                         decoration: TextDecoration.none,
                                         fontFamily: 'Roboto_Regular',
                                         fontWeight: FontWeight.bold),
@@ -260,7 +265,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
   TextStyle myStyle({bool isBold = false}) {
     return TextStyle(
         color: textcolor,
-        fontSize: 15,
+        fontSize: 15.sp,
         decoration: TextDecoration.none,
         fontFamily: 'Roboto_Regular',
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal);

@@ -21,7 +21,7 @@ class FriendPage extends StatefulWidget {
 }
 
 class _FriendPageState extends State<FriendPage> {
-  List<String> history = ["Anna", "William", "Janne", "JoneCena", "Alam"];
+  List<UserOverview> history = [];
   var friendBloc;
 
   @override
@@ -152,19 +152,21 @@ class _FriendPageState extends State<FriendPage> {
                             ),
                           ],
                         )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: history.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              leading: Icon(Icons.history),
-                              title: Text(history[index]),
-                              selectedColor: Color(0x10F4F4F4),
-                              onTap: () => {},
-                            );
-                          },
-                        );
+                      : history != null
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: history.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  leading: Icon(Icons.history),
+                                  title: Text(history[index].name),
+                                  selectedColor: Color(0x10F4F4F4),
+                                  onTap: () => {},
+                                );
+                              },
+                            )
+                          : Container();
                 },
               ),
             ));
@@ -185,13 +187,14 @@ class _FriendPageState extends State<FriendPage> {
           builder: (context, state) {
             if (state is FriendLoadingPageState)
               return Skeletonloaderfriend();
-            else if (state is FriendLoadedPageState)
+            else if (state is FriendLoadedPageState) {
+              history = state.histories == null ? [] : state.histories;
               return friends(
                 listFriend: state.friends,
                 totalfriend: state.totalfriend,
                 friendBloc: this.friendBloc,
               );
-            else
+            } else
               return Text("");
           },
         ),

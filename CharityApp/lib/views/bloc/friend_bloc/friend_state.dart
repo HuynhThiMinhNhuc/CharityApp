@@ -8,12 +8,16 @@ abstract class FriendState extends Equatable {
 }
 
 class FriendInitateState extends FriendState {}
+
 class FriendLoadingPageState extends FriendState {}
+
 class FriendLoadPageFailState extends FriendState {}
+
 class FriendLoadedPageState extends FriendState {
   final List<UserOverview> friends;
   final totalfriend;
-  FriendLoadedPageState(this.friends, this.totalfriend);
+  final histories;
+  FriendLoadedPageState(this.friends, this.totalfriend, this.histories);
 }
 
 class FriendSearchWithResultState extends FriendState {
@@ -22,5 +26,5 @@ class FriendSearchWithResultState extends FriendState {
 }
 
 class FriendSearchNoResultState extends FriendState {}
-class FriendSearchLoadingState extends FriendState {}
 
+class FriendSearchLoadingState extends FriendState {}

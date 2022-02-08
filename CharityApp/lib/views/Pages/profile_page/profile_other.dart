@@ -61,7 +61,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
         child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
                 child: BlocBuilder<OverViewUserBloc, OverViewUserState>(
                   buildWhen: (context, state) {
                     return state is LoadingOverViewUserState ||
