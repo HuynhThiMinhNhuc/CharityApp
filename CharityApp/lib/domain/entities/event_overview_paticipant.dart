@@ -28,8 +28,9 @@ class EventOverviewPaticipants extends BaseEvent {
         name: json['name'] as String,
         creatorId: json['creatorId'] as String,
         number: json['numberMember'] as int? ?? 0,
-        timeStart:  json['timeStart'] == null
-            ? null : (json['timeStart'] as Timestamp).toDate(),
+        timeStart: json['timeStart'] == null
+            ? null
+            : (json['timeStart'] as Timestamp).toDate(),
         backgroundUri: json['backgroundUri'] as String?,
         timeCreate: json['timeCreate'] == null
             ? null

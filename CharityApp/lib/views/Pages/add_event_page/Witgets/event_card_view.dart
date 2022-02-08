@@ -82,42 +82,157 @@ class EventCardView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
-                  child: Text(
-                    "Người tham gia ",
-                    softWrap: false,
-                    overflow: TextOverflow.fade,
-                    style: kText13RegularGreyText,
-                  ),
+                  child: eventOverviewPaticipants.paticipantsUri.length == 1
+                      ? Text(
+                          "Người tham gia ",
+                          softWrap: false,
+                          overflow: TextOverflow.fade,
+                          style: kText13RegularGreyText,
+                        )
+                      : Container(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
-                  child: Stack(children: [
-                    SizedBox(
-                      width: 60.w,
-                      child: CircleAvatar(
-                          backgroundImage: NetworkImage(image), radius: 15.h),
-                    ),
-                    Positioned(
-                        right: 10.w,
-                        child: CircleAvatar(
-                            backgroundImage: NetworkImage(image),
-                            radius: 15.h)),
-                    Positioned(
-                        right: 20.w,
-                        child: CircleAvatar(
-                            backgroundImage: NetworkImage(image),
-                            radius: 15.h)),
-                    Positioned(
-                        right: 30.w,
-                        child: CircleAvatar(
-                            radius: 15.h,
-                            backgroundColor: maincolor,
-                            child: Text(
-                              "+" + eventOverviewPaticipants.number.toString(),
-                              style: kText13BoldWhite,
-                            ))),
-                  ]),
-                )
+                eventOverviewPaticipants.paticipantsUri.length == 0
+                    ? Container(
+                        width: 0,
+                        height: 10,
+                      )
+                    : eventOverviewPaticipants.paticipantsUri.length == 1
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 8),
+                            child: CircleAvatar(
+                                backgroundColor: Colors.black,
+                                backgroundImage: NetworkImage(
+                                    eventOverviewPaticipants
+                                        .paticipantsUri[0]!),
+                                radius: 15.h),
+                          )
+                        : eventOverviewPaticipants.paticipantsUri.length == 2
+                            ? Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
+                                child: Stack(children: [
+                                  SizedBox(
+                                    width: 150.w,
+                                    height: 30.h,
+                                  ),
+                                  Positioned(
+                                      right: 50.w,
+                                      top: 5.h,
+                                      child: Text(
+                                        "Người tham gia ",
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: kText13RegularGreyText,
+                                      )),
+                                  Positioned(
+                                      left: 115.w,
+                                      child: CircleAvatar(
+                                          backgroundColor: Colors.black,
+                                          backgroundImage: NetworkImage(
+                                              eventOverviewPaticipants
+                                                  .paticipantsUri[0]!),
+                                          radius: 15.h)),
+                                  Positioned(
+                                      left: 105.w,
+                                      child: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              eventOverviewPaticipants
+                                                  .paticipantsUri[1]!),
+                                          radius: 15.h)),
+                                ]),
+                              )
+                            : eventOverviewPaticipants.paticipantsUri.length ==
+                                    3
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 0, 0, 8),
+                                    child: Stack(children: [
+                                      SizedBox(
+                                        width: 70.w,
+                                        height: 30.h,
+                                      ),
+                                      Positioned(
+                                          right: 50.w,
+                                          top: 5.h,
+                                          child: Text(
+                                            "Người tham gia ",
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                            style: kText13RegularGreyText,
+                                          )),
+                                      Positioned(
+                                          left: 40.w,
+                                          child: CircleAvatar(
+                                              backgroundColor: Colors.black,
+                                              backgroundImage: NetworkImage(
+                                                  eventOverviewPaticipants
+                                                      .paticipantsUri[0]!),
+                                              radius: 15.h)),
+                                      Positioned(
+                                          left: 30.w,
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  eventOverviewPaticipants
+                                                      .paticipantsUri[1]!),
+                                              radius: 15.h)),
+                                      Positioned(
+                                          left: 20.w,
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  eventOverviewPaticipants
+                                                      .paticipantsUri[2]!),
+                                              radius: 15.h)),
+                                    ]),
+                                  )
+                                : Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 0, 0, 8),
+                                    child: Stack(children: [
+                                      SizedBox(
+                                        width: 70.w,
+                                        height: 30.h,
+                                        child: Text(
+                                          "Người tham gia ",
+                                          softWrap: false,
+                                          overflow: TextOverflow.fade,
+                                          style: kText13RegularGreyText,
+                                        ),
+                                      ),
+                                      Positioned(
+                                          left: 40.w,
+                                          child: CircleAvatar(
+                                              backgroundColor: Colors.black,
+                                              backgroundImage: NetworkImage(
+                                                  eventOverviewPaticipants
+                                                      .paticipantsUri[0]!),
+                                              radius: 15.h)),
+                                      Positioned(
+                                          left: 30.w,
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  eventOverviewPaticipants
+                                                      .paticipantsUri[1]!),
+                                              radius: 15.h)),
+                                      Positioned(
+                                          left: 20.w,
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  eventOverviewPaticipants
+                                                      .paticipantsUri[2]!),
+                                              radius: 15.h)),
+                                      Positioned(
+                                          left: 10.w,
+                                          child: CircleAvatar(
+                                              radius: 15.h,
+                                              backgroundColor: maincolor,
+                                              child: Text(
+                                                "+" +
+                                                    eventOverviewPaticipants
+                                                        .number
+                                                        .toString(),
+                                                style: kText13BoldWhite,
+                                              )))
+                                    ]),
+                                  )
               ],
             )
           ],

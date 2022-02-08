@@ -36,7 +36,7 @@ class RootApp extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(80),
+              preferredSize: Size.fromHeight(70.h),
               child: getappbar(activateTab)),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
