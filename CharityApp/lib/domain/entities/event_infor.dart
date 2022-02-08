@@ -1,4 +1,3 @@
-import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
