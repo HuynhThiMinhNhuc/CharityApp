@@ -6,8 +6,6 @@ import 'package:charityapp/domain/repositories/user_repository.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tiengviet/tiengviet.dart';
 
@@ -251,7 +249,7 @@ class UserRepositoryImp implements IUserRepository {
         .get()
         .then((snapshot) {
       return snapshot.docs.map((doc) {
-        return (doc.data() as Map<String, dynamic>)['userId'];
+        return (doc.data())['userId'];
       }).toList();
     });
 
@@ -261,8 +259,7 @@ class UserRepositoryImp implements IUserRepository {
           .get()
           .then((snapshot) {
         return snapshot.docs
-            .map((doc) =>
-                (doc.data() as Map<String, dynamic>)['avatarUri'] as String?)
+            .map((doc) => (doc.data())['avatarUri'] as String?)
             .toList();
       });
     } else
@@ -316,10 +313,29 @@ class UserRepositoryImp implements IUserRepository {
         return snapshot.docs.map((doc) {
           final json = doc.data() as Map<String, dynamic>;
 
-          return UserOverview.fromJson(json)..id=doc.id;
+          return UserOverview.fromJson(json)..id = doc.id;
         }).toList();
       });
     } else
       return [];
+  }
+
+  @override
+  Future<List<UserOverview>>? getHistory(String id) {
+    List<UserOverview> historyfriend = [];
+    userCollection.doc(id).get().then((value) async {
+      if (value.exists) {
+        List<String> history = [];
+        history = List.from(value.data()!['history']);
+        for (int i = 0; i < history.length; ++i) {
+          var user = await getUserOverView(history[i]);
+          historyfriend.add(user);
+        }
+        return historyfriend;
+      } else {
+        return null;
+      }
+    });
+    return null;
   }
 }

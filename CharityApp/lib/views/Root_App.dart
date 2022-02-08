@@ -30,6 +30,7 @@ class RootApp extends StatelessWidget {
   var context;
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     this.context = context;
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activateTab) {
@@ -54,39 +55,42 @@ class RootApp extends StatelessWidget {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
-            child: SpeedDial(
-              backgroundColor: Colors.black,
-              animatedIcon: AnimatedIcons.add_event,
-              animatedIconTheme: IconThemeData(size: 25.h),
-              closeManually: false,
-              shape: CircleBorder(),
-              children: [
-                SpeedDialChild(
-                    child: Icon(Icons.post_add_rounded, color: Colors.white),
-                    backgroundColor: maincolor,
-                    label: "Bài đăng",
-                    onTap: () => {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.addPost,
-                          )
-                        }),
-                SpeedDialChild(
-                    child: Icon(Icons.event_available_outlined,
-                        color: Colors.white),
-                    backgroundColor: Colors.red[400],
-                    label: "Sự kiện",
-                    onTap: () => {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.addEvent,
-                          )
-                        }),
-              ],
-            ),
-            onPressed: null,
-          ),
+          floatingActionButton: !keyboardIsOpen
+              ? FloatingActionButton(
+                  child: SpeedDial(
+                    backgroundColor: Colors.black,
+                    animatedIcon: AnimatedIcons.add_event,
+                    animatedIconTheme: IconThemeData(size: 25.h),
+                    closeManually: false,
+                    shape: CircleBorder(),
+                    children: [
+                      SpeedDialChild(
+                          child:
+                              Icon(Icons.post_add_rounded, color: Colors.white),
+                          backgroundColor: maincolor,
+                          label: "Bài đăng",
+                          onTap: () => {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.addPost,
+                                )
+                              }),
+                      SpeedDialChild(
+                          child: Icon(Icons.event_available_outlined,
+                              color: Colors.white),
+                          backgroundColor: Colors.red[400],
+                          label: "Sự kiện",
+                          onTap: () => {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.addEvent,
+                                )
+                              }),
+                    ],
+                  ),
+                  onPressed: null,
+                )
+              : null,
         );
       },
     );
