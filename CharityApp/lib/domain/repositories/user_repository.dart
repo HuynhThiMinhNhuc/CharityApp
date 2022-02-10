@@ -19,4 +19,5 @@ abstract class IUserRepository {
   Future<List<String?>> loadAvatarUriPaticipant(String eventId);
   Future<void> updateNumberFollowing(bool isincrease, String id);
   Future<List<UserOverview>>? getHistory(String id);
+  Future<void> updateHistory(String id, String idSearch);
 }

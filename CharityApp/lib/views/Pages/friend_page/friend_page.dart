@@ -115,7 +115,13 @@ class _FriendPageState extends State<FriendPage> {
                                               .avatarUri!) as ImageProvider),
                                   title: Text(state.suggestion[index].name),
                                   selectedColor: Color(0x10F4F4F4),
-                                  onTap: () => {
+                                  onTap: () {
+                                    friendBloc.add(FriendUpdateHistoryEvent(
+                                        GetIt.instance
+                                            .get<Authenticator>()
+                                            .userProfile
+                                            .id!,
+                                        state.suggestion[index].id!));
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -145,7 +151,7 @@ class _FriendPageState extends State<FriendPage> {
                                                                   .id!))
                                                         }),
                                               )),
-                                    )
+                                    );
                                   },
                                 );
                               },
@@ -162,7 +168,37 @@ class _FriendPageState extends State<FriendPage> {
                                   leading: Icon(Icons.history),
                                   title: Text(history[index].name),
                                   selectedColor: Color(0x10F4F4F4),
-                                  onTap: () => {},
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider<
+                                                      OverViewUserBloc>(
+                                                    create: (context) =>
+                                                        OverViewUserBloc(),
+                                                  ),
+                                                  BlocProvider<PostBloc>(
+                                                    create: (context) =>
+                                                        PostBloc(),
+                                                  ),
+                                                ],
+                                                child: ProfileOtherPage(
+                                                    creator: history[index],
+                                                    onClose: () => {
+                                                          friendBloc.add(
+                                                              FriendLoadEvent(GetIt
+                                                                  .instance
+                                                                  .get<
+                                                                      Authenticator>()
+                                                                  .userProfile
+                                                                  .id!))
+                                                        }),
+                                              )),
+                                    )
+                                  },
                                 );
                               },
                             )

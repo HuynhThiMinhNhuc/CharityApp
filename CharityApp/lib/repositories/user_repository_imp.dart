@@ -11,6 +11,7 @@ import 'package:tiengviet/tiengviet.dart';
 
 class UserRepositoryImp implements IUserRepository {
   final userCollection = FirebaseFirestore.instance.collection("users");
+  final historyCollection = FirebaseFirestore.instance.collection("history");
 
   @override
   Future<List<UserOverview>> loadFriends(String id, int number) async {
@@ -321,21 +322,51 @@ class UserRepositoryImp implements IUserRepository {
   }
 
   @override
-  Future<List<UserOverview>>? getHistory(String id) {
+  Future<List<UserOverview>>? getHistory(String id) async {
     List<UserOverview> historyfriend = [];
-    userCollection.doc(id).get().then((value) async {
-      if (value.exists) {
-        List<String> history = [];
-        history = List.from(value.data()!['history']);
-        for (int i = 0; i < history.length; ++i) {
-          var user = await getUserOverView(history[i]);
-          historyfriend.add(user);
+    try {
+      await historyCollection.doc(id).get().then((value) async {
+        if (value.exists && value.data()!.isNotEmpty) {
+          List<String> history = [];
+          history = List.from(value.data()!['history']);
+          for (int i = 0; i < history.length; ++i) {
+            var user = await getUserOverView(history[i]);
+            historyfriend.add(user);
+          }
+          return historyfriend;
+        } else {
+          await historyCollection
+              .doc(id)
+              .set({'history': FieldValue.arrayUnion([])});
+          return null;
         }
-        return historyfriend;
-      } else {
-        return null;
-      }
-    });
-    return null;
+      });
+    } catch (e) {
+      print("Error get HISTORY: " + e.toString());
+    }
+
+    return historyfriend;
+  }
+
+  @override
+  Future<void> updateHistory(String id, String idSearch) async {
+    try {
+      await historyCollection.doc(id).update({
+        'history': FieldValue.arrayUnion([idSearch])
+      }).then((value) async {
+        print("Them lich su thanh cong");
+        await historyCollection.doc(id).get().then((value) async {
+          List<String> history = [];
+          history = List.from(value.data()!['history']);
+          if (history.length > 5) {
+            await historyCollection.doc(id).update({
+              'history': FieldValue.arrayRemove([history[0]])
+            });
+          }
+        });
+      }).catchError((onError) => print("Loi :" + onError.toString()));
+    } catch (e) {
+      print("Cập nhật database: lỗi kết nối database" + e.toString());
+    }
   }
 }
