@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:charityapp/Config/colorconfig.dart';
 import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/keys.dart';
 import 'package:charityapp/core/model/routes.dart';
@@ -36,6 +37,7 @@ class _AddEventPageState extends State<AddEventPage> {
   late TextEditingController _dateTextController;
   late TextEditingController _locationTextController;
   late TextEditingController _descriptionTextController;
+  late TextEditingController _requireTextController;
   File? avatarImage;
   File? backgroundImage;
   DateTime? startDate;
@@ -45,10 +47,11 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   void initState() {
     super.initState();
-    _nameTextController = TextEditingController();
+    _nameTextController = TextEditingController(text: "Tiêu đề");
     _dateTextController = TextEditingController();
     _locationTextController = TextEditingController();
     _descriptionTextController = TextEditingController();
+    _requireTextController = TextEditingController();
   }
 
   @override
@@ -57,6 +60,7 @@ class _AddEventPageState extends State<AddEventPage> {
     _dateTextController.dispose();
     _locationTextController.dispose();
     _descriptionTextController.dispose();
+    _requireTextController.dispose();
     super.dispose();
   }
 
@@ -78,7 +82,7 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cwColorBackground,
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: textcolor, //change your color here
@@ -115,7 +119,7 @@ class _AddEventPageState extends State<AddEventPage> {
               style: TextStyle(
                   color: maincolor,
                   fontFamily: 'Roboto_Regular',
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold),
             ),
             style: ButtonStyle(
@@ -130,70 +134,23 @@ class _AddEventPageState extends State<AddEventPage> {
       ),
       body: Padding(
         padding: EdgeInsets.all(10.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: cwColorWhite,
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    textFormFieldWithTitle(
-                      iconData: null,
-                      text: '',
-                      title: 'Tên sự kiện',
-                      type: TextInputType.text,
-                      controller: _nameTextController,
-                    ),
-                    textFormFieldWithTitle(
-                      iconData: Icon(
-                        FontAwesomeIcons.calendarAlt,
-                        color: maincolor,
-                        size: 20.h,
-                      ),
-                      text: '',
-                      title: 'Thời gian bắt đầu',
-                      type: TextInputType.datetime,
-                      controller: _dateTextController,
-                      onClickIcon: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(DateTime.now().year - 1,
-                              DateTime.now().month, DateTime.now().day),
-                          lastDate: DateTime(DateTime.now().year + 2),
-                        ).then((value) {
-                          startDate = value;
-
-                          if (startDate != null) {
-                            final formattedDate =
-                                DateFormat('dd/MM/yyyy').format(startDate!);
-                            if (formattedDate != _dateTextController.text)
-                              setState(() {
-                                _dateTextController.text = formattedDate;
-                                print("Date selected: $formattedDate");
-                              });
-                          } else {
-                            setState(() {
-                              _dateTextController.text = '';
-                            });
-                          }
-                        });
-                      },
-                    ),
-                    textFormFieldWithTitle(
-                      iconData: Icon(
-                        FontAwesomeIcons.mapMarkerAlt,
-                        color: Colors.red[400],
-                        size: 20.h,
-                      ),
-                      text: '',
-                      title: 'Địa điểm',
-                      type: TextInputType.text,
+                    ChoiceField(
                       controller: _locationTextController,
-                      onClickIcon: () async {
+                      icon: Icons.keyboard_arrow_right_outlined,
+                      title: 'Chọn địa điểm',
+                      onPress: () async {
                         if (!await isPermissionMap()) {
                           AlertDialog(
                             title: Text('Thông báo'),
@@ -226,63 +183,85 @@ class _AddEventPageState extends State<AddEventPage> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Text(
-                      " Thêm ảnh",
-                      style: kText15Bold80Black,
-                    ),
-                    Row(
-                      children: [
-                        ImageCard(
-                          hintTitle: "+ Ảnh bìa",
-                          onImageChanged: (file) {
-                            backgroundImage = file;
-                          },
-                        ),
-                        ImageCard(
-                          hintTitle: "+ Ảnh đại diện",
-                          onImageChanged: (file) {
-                            avatarImage = file;
-                          },
-                        ),
-                      ],
-                    ),
-                    TextFormField(
-                        keyboardType: TextInputType.name,
-                        controller: _descriptionTextController,
-                        minLines: 3,
-                        maxLines: 3,
-                        style: TextStyle(
-                            fontFamily: 'Roboto-Regular.ttf',
-                            fontSize: 15.sp,
-                            color: Colors.grey[600]),
-                        decoration: InputDecoration(
-                            hintText: "Viết nội dung ở đây...",
-                            errorBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none)),
+                    ChoiceField(
+                      controller: _dateTextController,
+                      icon: Icons.keyboard_arrow_right_outlined,
+                      title: 'Chọn thời gian',
+                      onPress: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(DateTime.now().year - 1,
+                              DateTime.now().month, DateTime.now().day),
+                          lastDate: DateTime(DateTime.now().year + 2),
+                        ).then((value) {
+                          startDate = value;
+
+                          if (startDate != null) {
+                            final formattedDate =
+                                DateFormat('dd/MM/yyyy').format(startDate!);
+                            if (formattedDate != _dateTextController.text)
+                              setState(() {
+                                _dateTextController.text = formattedDate;
+                                print("Date selected: $formattedDate");
+                              });
+                          } else {
+                            setState(() {
+                              _dateTextController.text = '';
+                            });
+                          }
+                        });
+                      },
+                    )
                   ],
                 ),
               ),
-            ),
-            Container(
-              height: 65.h,
-              alignment: Alignment.centerLeft,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Divider(color: Colors.grey[600]),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+              SizedBox(
+                height: 10.h,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: cwColorWhite,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    children: [
+                      ImageCard(
+                        hintTitle: "+ Ảnh bìa",
+                        onImageChanged: (file) {
+                          backgroundImage = file;
+                        },
+                      ),
+                      ImageCard(
+                        hintTitle: "+ Ảnh đại diện",
+                        onImageChanged: (file) {
+                          avatarImage = file;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: cwColorWhite,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
+                          Text(
+                            "Tag",
+                            style: kText15BoldBlack,
+                          ),
+                          TextButton(
                               onPressed: () async {
                                 List<TagEvent>? tagsChoose =
                                     await Navigator.of(context).pushNamed(
@@ -292,58 +271,133 @@ class _AddEventPageState extends State<AddEventPage> {
                                 setState(() {
                                   _tags = tagsChoose ?? _tags;
                                 });
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             AddTag(tags: <TagItemInUI>[
-                                //               TagItemInUI(
-                                //                   tag: "love",
-                                //                   isSelected: false),
-                                //               TagItemInUI(
-                                //                   tag: "instagood",
-                                //                   isSelected: false),
-                                //             ])));
                               },
-                              icon: Icon(
-                                FontAwesomeIcons.tags,
-                                color: maincolor,
-                                size: 20.h,
-                              )),
-                          Row(
-                            children: List.generate(
-                              _tags.length,
-                              (index) => Padding(
-                                padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
-                                child: Chip(
-                                  deleteIcon: Icon(
-                                    FontAwesomeIcons.timesCircle,
-                                    color: notetextcolor,
-                                  ),
-                                  label: Text(
-                                    _tags[index].name,
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto_Regular',
-                                        fontSize: 12.sp,
-                                        color: Color(0xFF455154)),
-                                  ),
-                                  onDeleted: () {
-                                    setState(() {
-                                      _tags.removeAt(index);
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          )
+                              child: Text(
+                                "Tìm tag",
+                                style: kText14BoldMainColor,
+                              ))
                         ],
                       ),
-                    ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                            _tags.length,
+                            (index) => Padding(
+                              padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
+                              child: Chip(
+                                backgroundColor: cwColorMain,
+                                deleteIcon: Icon(
+                                  FontAwesomeIcons.timesCircle,
+                                  color: cwColorWhite,
+                                ),
+                                label: Text(
+                                  _tags[index].name,
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto_Regular',
+                                      fontSize: 13.sp,
+                                      color: cwColorWhite),
+                                ),
+                                onDeleted: () {
+                                  setState(() {
+                                    _tags.removeAt(index);
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ],
+                ),
               ),
-            )
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: cwColorWhite,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        style: kText17BoldBlack,
+                        controller: _nameTextController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                      TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: _descriptionTextController,
+                          minLines: 8,
+                          maxLines: 15,
+                          style: TextStyle(
+                              fontFamily: 'Roboto-Regular.ttf',
+                              fontSize: 15.sp,
+                              color: Colors.grey[600]),
+                          decoration: InputDecoration(
+                              hintText: "Viết nội dung ở đây...",
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none)),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: cwColorWhite,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 20.w,
+                        //  alignment: ,
+                        child: Text(
+                          "Yêu cầu",
+                          style: kText17BoldBlack,
+                        ),
+                      ),
+                      Container(
+                        height: 10,
+                      ),
+                      TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          controller: _requireTextController,
+                          minLines: 8,
+                          maxLines: 10,
+                          style: TextStyle(
+                              fontFamily: 'Roboto-Regular.ttf',
+                              fontSize: 15.sp,
+                              color: Colors.grey[600]),
+                          decoration: InputDecoration(
+                              hintText: "Viết yêu cầu ở đây...",
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -377,59 +431,61 @@ class _AddEventPageState extends State<AddEventPage> {
   }
 }
 
-class textFormFieldWithTitle extends StatelessWidget {
+class ChoiceField extends StatefulWidget {
   final String title;
-  final String text;
-  final Icon? iconData;
-  final TextInputType type;
+  final IconData icon;
+  final Function()? onPress;
   final TextEditingController controller;
-  final Function()? onClickIcon;
-  const textFormFieldWithTitle({
-    Key? key,
-    required this.title,
-    required this.text,
-    required this.iconData,
-    required this.type,
-    required this.controller,
-    this.onClickIcon,
-  }) : super(key: key);
+  const ChoiceField(
+      {Key? key,
+      required this.title,
+      required this.icon,
+      this.onPress,
+      required this.controller})
+      : super(key: key);
 
+  @override
+  State<ChoiceField> createState() => _ChoiceFieldState();
+}
+
+class _ChoiceFieldState extends State<ChoiceField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      padding: const EdgeInsets.only(left: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
           Text(
-            title,
-            style: kText15Bold80Black,
+            widget.title,
+            style: kText15BoldBlack,
           ),
-          TextFormField(
-            controller: controller,
-            cursorColor: maincolor,
-            style: kText15RegularBlack,
-            keyboardType: type,
-            decoration: new InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: maincolor),
-                ),
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: maincolor,
+          SizedBox(
+            width: 10.w,
+          ),
+          Flexible(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    textAlign: TextAlign.end,
+                    style: kText15RegularMain,
+                    controller: widget.controller,
+                    decoration: new InputDecoration(border: InputBorder.none),
                   ),
                 ),
-                suffixIcon: iconData != null
-                    ? IconButton(
-                        onPressed: () => onClickIcon?.call(),
-                        icon: iconData!,
-                        iconSize: 20.w,
-                      )
-                    : null,
-                label: null),
+                IconButton(
+                    iconSize: 20.w,
+                    padding: EdgeInsets.all(1.0),
+                    onPressed: widget.onPress,
+                    icon: Icon(
+                      widget.icon,
+                      color: maincolor,
+                    ))
+              ],
+            ),
           ),
-          SizedBox(height: 7)
         ],
       ),
     );

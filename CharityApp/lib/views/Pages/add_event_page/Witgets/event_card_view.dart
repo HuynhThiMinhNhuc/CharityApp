@@ -82,7 +82,7 @@ class EventCardView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
-                  child: eventOverviewPaticipants.paticipantsUri.length == 1
+                  child: (eventOverviewPaticipants.paticipantsUri.length == 1)
                       ? Text(
                           "Người tham gia ",
                           softWrap: false,
@@ -91,7 +91,7 @@ class EventCardView extends StatelessWidget {
                         )
                       : Container(),
                 ),
-                eventOverviewPaticipants.paticipantsUri.length == 0
+                (eventOverviewPaticipants.paticipantsUri.length == 0)
                     ? Container(
                         width: 0,
                         height: 10,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:charityapp/Config/colorconfig.dart';
 import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _ImageCardState extends State<ImageCard> {
                   if (widget.hintTitle != null)
                     Text(widget.hintTitle!,
                         textAlign: TextAlign.center,
-                        style: kText13RegularBlack),
+                        style: kText13RegularGreyText),
                   if (widget.icon != null)
                     Icon(widget.icon, color: maincolor, size: 25),
                 ],
@@ -108,7 +109,7 @@ class _ImageCardState extends State<ImageCard> {
       height: 150,
       width: 120,
       decoration: BoxDecoration(
-        color: backgroundbottomtab,
+        color: cwColorBackground,
         borderRadius: BorderRadius.circular(10),
       ),
       margin: EdgeInsets.fromLTRB(10.h, 10.w, 5.h, 10.h),
