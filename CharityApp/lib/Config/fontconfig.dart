@@ -33,6 +33,8 @@ var kText15RegularGreyText =
     kTextConfig.copyWith(color: cwColorGreyText, fontSize: 15.sp);
 var kText15RegularBlack =
     kTextConfig.copyWith(color: cwColorBlack, fontSize: 15.sp);
+var kText15RegularMain =
+    kTextConfig.copyWith(color: cwColorMain, fontSize: 15.sp);
 var kText16RegularGreyText =
     kTextConfig.copyWith(color: cwColorGreyText, fontSize: 16.sp);
 var kText17RegularRed =

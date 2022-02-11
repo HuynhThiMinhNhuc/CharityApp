@@ -1,6 +1,5 @@
 import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/post.dart';
-import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';

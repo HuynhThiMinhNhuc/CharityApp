@@ -20,7 +20,10 @@ class EventOverviewPaticipants extends BaseEvent {
     required this.backgroundUri,
     DateTime? timeCreate,
   }) : super(name: name, timeCreate: timeCreate, creatorId: creatorId) {
-    if (paticipantsUri != null) this.paticipantsUri = paticipantsUri;
+    if (paticipantsUri != null)
+      this.paticipantsUri = paticipantsUri;
+    else
+      this.paticipantsUri = [];
   }
 
   factory EventOverviewPaticipants.fromJson(Map<String, dynamic> json) =>
