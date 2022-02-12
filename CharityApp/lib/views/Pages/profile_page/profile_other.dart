@@ -39,85 +39,108 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: textcolor, //change your color here
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () async {
-            await widget.onClose?.call();
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: backgroundbottomtab,
-        centerTitle: true,
-        title: Text(
-          "Hồ sơ người dùng",
-          style: kText20BoldBlack,
-        ),
+      appBar: getAppbar(context),
+      body: getBody(),
+    );
+  }
+
+  SingleChildScrollView getBody() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
+              child: BlocBuilder<OverViewUserBloc, OverViewUserState>(
+                buildWhen: (context, state) {
+                  return state is LoadingOverViewUserState ||
+                      state is LoadFailOverViewUserState ||
+                      state is FollowOverViewUserState ||
+                      state is UnfollowOverViewUserState ||
+                      state is LoadedOverViewUserState;
+                },
+                builder: (context, state) {
+                  if (state is LoadedOverViewUserState) {
+                    return ProfileOverView(state.userProfile as UserProfile,
+                        state.isfriend, overViewUserBloc);
+                  } else if (state is FollowOverViewUserState) {
+                    return ProfileOverView(state.userProfile as UserProfile,
+                        state.isfriend, overViewUserBloc);
+                  } else if (state is UnfollowOverViewUserState) {
+                    return ProfileOverView(state.userProfile as UserProfile,
+                        state.isfriend, overViewUserBloc);
+                  } else if (state is PostLoadInProgress)
+                    return SketonProfile();
+                  else
+                    return SketonProfile();
+                },
+              )),
+          Divider(thickness: 1.0),
+          Center(
+              child: BlocConsumer<PostBloc, PostState>(
+            //      listenWhen: (context, state){
+            //        return state is ClickPostEvent;
+            // },
+            listener: (context, state) {
+              if (state is PostLoadInProgress) {
+                //push DetailPost with post ID
+              }
+            },
+            buildWhen: (context, state) {
+              return state is PostLoadInProgress ||
+                  state is PostsLoadSuccess ||
+                  state is PostLoadFailure;
+            },
+            builder: (context, state) {
+              if (state is PostsLoadSuccess) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width - 20.w,
+                      child: Text(
+                        "Bài viết",
+                        style: kText18BoldBlack,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: state.posts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return PostOverviewCard(post: state.posts[index]);
+                      },
+                    ),
+                  ],
+                );
+              } else
+                return SketonEvent();
+            },
+          )),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
-                child: BlocBuilder<OverViewUserBloc, OverViewUserState>(
-                  buildWhen: (context, state) {
-                    return state is LoadingOverViewUserState ||
-                        state is LoadFailOverViewUserState ||
-                        state is FollowOverViewUserState ||
-                        state is UnfollowOverViewUserState ||
-                        state is LoadedOverViewUserState;
-                  },
-                  builder: (context, state) {
-                    if (state is LoadedOverViewUserState) {
-                      return ProfileOverView(state.userProfile as UserProfile,
-                          state.isfriend, overViewUserBloc);
-                    } else if (state is FollowOverViewUserState) {
-                      return ProfileOverView(state.userProfile as UserProfile,
-                          state.isfriend, overViewUserBloc);
-                    } else if (state is UnfollowOverViewUserState) {
-                      return ProfileOverView(state.userProfile as UserProfile,
-                          state.isfriend, overViewUserBloc);
-                    } else if (state is PostLoadInProgress)
-                      return SketonProfile();
-                    else
-                      return SketonProfile();
-                  },
-                )),
-            Divider(thickness: 1.0),
-            Center(
-                child: BlocConsumer<PostBloc, PostState>(
-              //      listenWhen: (context, state){
-              //        return state is ClickPostEvent;
-              // },
-              listener: (context, state) {
-                if (state is PostLoadInProgress) {
-                  //push DetailPost with post ID
-                }
-              },
-              buildWhen: (context, state) {
-                return state is PostLoadInProgress ||
-                    state is PostsLoadSuccess ||
-                    state is PostLoadFailure;
-              },
-              builder: (context, state) {
-                if (state is PostsLoadSuccess) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: state.posts.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return PostOverviewCard(post: state.posts[index]);
-                    },
-                  );
-                } else
-                  return SketonEvent();
-              },
-            )),
-          ],
-        ),
+    );
+  }
+
+  AppBar getAppbar(BuildContext context) {
+    return AppBar(
+      iconTheme: IconThemeData(
+        color: textcolor, //change your color here
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () async {
+          await widget.onClose?.call();
+          Navigator.pop(context);
+        },
+      ),
+      backgroundColor: backgroundbottomtab,
+      centerTitle: true,
+      title: Text(
+        "Hồ sơ người dùng",
+        style: kText20BoldBlack,
       ),
     );
   }

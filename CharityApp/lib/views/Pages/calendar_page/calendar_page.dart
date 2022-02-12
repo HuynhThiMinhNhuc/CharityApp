@@ -111,7 +111,7 @@ class _CalendarPageState extends State<CalendarPage>
       child: Container(
         child: TableCalendar(
           locale: "vi",
-          rowHeight: 30.h,
+          rowHeight: 40.h,
           headerStyle: HeaderStyle(
             titleTextStyle: kText17BoldBlack,
             formatButtonVisible: false,

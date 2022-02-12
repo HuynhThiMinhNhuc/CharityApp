@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
@@ -62,7 +63,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     return SketonProfile();
                 },
               )),
-          Divider(thickness: 1.0),
+          Container(
+            width: MediaQuery.of(context).size.width - 20.w,
+            child: Text(
+              "Bài viết",
+              style: kText18BoldBlack,
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
           Center(child: BlocBuilder<PostBloc, PostState>(
             builder: (context, state) {
               if (state is PostsLoadSuccess) {

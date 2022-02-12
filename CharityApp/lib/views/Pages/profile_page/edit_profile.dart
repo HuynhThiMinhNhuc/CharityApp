@@ -5,6 +5,7 @@ import 'package:charityapp/core/helper/uploadImage_firestorage.dart';
 import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
+import 'package:charityapp/views/Component/dialog_with_circle_above.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Pages/profile_page/changepassword.dart';
 import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bloc.dart';
@@ -108,14 +109,16 @@ class _EditProfileState extends State<EditProfile> {
                 onPressed: null,
                 child: Text(
                   "",
-                  style: kText15BoldBlack,
+                  style: TextStyle(fontSize: 24),
                 ),
               ),
-              TextButton(
-                onPressed: null,
-                child: Text(
-                  "Chỉnh sửa",
-                  style: kText15BoldBlack,
+              Flexible(
+                child: TextButton(
+                  onPressed: null,
+                  child: Text(
+                    "Chỉnh sửa",
+                    style: kText20BoldBlack,
+                  ),
                 ),
               ),
               BlocListener<EditprofileBloc, EditprofileState>(
@@ -123,24 +126,36 @@ class _EditProfileState extends State<EditProfile> {
                   if (state is EditprofilePhoneWrongFormatFail) {
                     showDialog(
                         context: context,
-                        builder: (BuildContext buildercontext) => MyAlertDialog(
-                              content:
-                                  "Số điện thoại phải có 10 chữ số, bắt đầu bằng 0",
-                              pathImage:
-                                  'asset/imagesample/ImageAlerDIalog/lostconnect.png',
-                              title: "Số điện thoại không hợp lệ",
-                            ));
+                        builder: (BuildContext buildercontext) =>
+                            DialogWithCircleAbove(
+                                title: "Số điện thoại không hợp lệ",
+                                content:
+                                    "Số điện thoại phải có 10 chữ số, bắt đầu bằng 0",
+                                mode: ModeDialog.warning)
+                        // => MyAlertDialog(
+                        //       content:
+                        //           "Số điện thoại phải có 10 chữ số, bắt đầu bằng 0",
+                        //       pathImage:
+                        //           'asset/imagesample/ImageAlerDIalog/lostconnect.png',
+                        //       title: "Số điện thoại không hợp lệ",
+                        //     )
+                        );
                   } else if (state is EditprofileSucess) {
                     await showDialog(
                         context: context,
                         builder: (BuildContext buildercontext) {
-                          return MyAlertDialog(
-                            content:
-                                "Vui lòng nhấn Đồng ý để quay về màn hình Hồ sơ của bạn",
-                            pathImage:
-                                'asset/imagesample/ImageAlerDIalog/updateprofile.png',
-                            title: "Cập nhật hồ sơ thành công",
-                          );
+                          return DialogWithCircleAbove(
+                              title: "Cập nhật hồ sơ thành công",
+                              content:
+                                  "Vui lòng nhấn Đồng ý để quay về màn hình Hồ sơ của bạn",
+                              mode: ModeDialog.anounce);
+                          //  MyAlertDialog(
+                          //   content:
+                          //       "Vui lòng nhấn Đồng ý để quay về màn hình Hồ sơ của bạn",
+                          //   pathImage:
+                          //       'asset/imagesample/ImageAlerDIalog/updateprofile.png',
+                          //   title: "Cập nhật hồ sơ thành công",
+                          // );
                         });
                     widget.onEditPro.call();
                     Navigator.pop(context);
@@ -149,8 +164,8 @@ class _EditProfileState extends State<EditProfile> {
                 child: TextButton(
                   onPressed: close,
                   child: Text(
-                    "Hoàn thành",
-                    style: kText15BoldMain,
+                    "Xong",
+                    style: kText20BoldMain,
                   ),
                 ),
               ),
@@ -178,7 +193,7 @@ class _EditProfileState extends State<EditProfile> {
                   gradient: LinearGradient(colors: activecolor),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(3),
+                  padding: EdgeInsets.all(3.h),
                   child: Column(
                     children: <Widget>[
                       Stack(alignment: Alignment.center, children: <Widget>[
@@ -187,7 +202,7 @@ class _EditProfileState extends State<EditProfile> {
                           height: 100.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3),
+                            border: Border.all(color: Colors.white, width: 3.w),
                             image: DecorationImage(
                                 image: (widget.currentUser.avatarUri != "" &&
                                         widget.currentUser.avatarUri != null)
@@ -199,8 +214,8 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ),
                         Positioned(
-                            bottom: 5,
-                            right: 5,
+                            bottom: 5.h,
+                            right: 5.h,
                             child: Container(
                               alignment: Alignment.center,
                               width: 30.h,
@@ -233,7 +248,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Tên",
-                        style: kText15BoldBlack,
+                        style: kText20BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -258,7 +273,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Ngày sinh",
-                        style: kText15BoldBlack,
+                        style: kText20BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -316,7 +331,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Giới tính",
-                        style: kText15BoldBlack,
+                        style: kText20BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -357,7 +372,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110,
                       child: Text(
                         "Mô tả",
-                        style: kText15BoldBlack,
+                        style: kText20BoldBlack,
                       ),
                     ),
                     Container(
@@ -385,7 +400,7 @@ class _EditProfileState extends State<EditProfile> {
                   child: Text(
                     "Thông tin mật",
                     textAlign: TextAlign.left,
-                    style: kText16BoldBlack,
+                    style: kText20BoldBlack,
                   ),
                 ),
               ),
@@ -397,7 +412,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Email",
-                        style: kText15BoldBlack,
+                        style: kText20BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -419,7 +434,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Số điện thoại",
-                        style: kText15BoldBlack,
+                        style: kText20BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -466,7 +481,7 @@ class _EditProfileState extends State<EditProfile> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Đổi mật khẩu",
-                            style: kText15BoldBlack,
+                            style: kText20BoldBlack,
                           ),
                         ),
                       ),

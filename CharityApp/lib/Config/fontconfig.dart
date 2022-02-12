@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,10 +13,9 @@ var kTextConfig = TextStyle(
     color: cwColorBlack,
     fontFamily: fontFamily);
 
-var kText24BoldBlack = kTextConfig.copyWith(
-  fontWeight: FontWeight.bold,
-  fontSize: ScreenUtil().setSp(24.sp),
-);
+var kText24BoldBlack =
+    kTextConfig.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w500);
+
 var kText24RegularBlack = kTextConfig.copyWith(
   fontSize: ScreenUtil().setSp(24.sp),
 );
@@ -58,7 +56,7 @@ var kText18BoldMain = kTextConfig.copyWith(
   overflow: TextOverflow.ellipsis,
 );
 var kText28BoldGreyNoteText = kTextConfig.copyWith(
-  fontSize: 24.sp,
+  fontSize: 28.sp,
   color: cwColorGreyNoteText,
   decoration: TextDecoration.none,
   overflow: TextOverflow.ellipsis,
@@ -120,3 +118,5 @@ var kText15RegularBlue = kTextConfig.copyWith(
     color: Color(0xFF124ADA),
     decoration: TextDecoration.underline,
     fontSize: 15);
+var kText20BoldMain = kTextConfig.copyWith(
+    color: cwColorMain, fontSize: 20.sp, fontWeight: FontWeight.w500);

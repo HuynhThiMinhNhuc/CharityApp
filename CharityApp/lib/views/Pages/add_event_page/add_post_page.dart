@@ -188,8 +188,8 @@ class _AddPostPageState extends State<AddPostPage> {
                       TextFormField(
                         cursorColor: maincolor,
                         keyboardType: TextInputType.name,
-                        minLines: 10,
-                        maxLines: 20,
+                        minLines: 20,
+                        maxLines: 30,
                         style: kText15RegularBlack,
                         decoration: InputDecoration(
                             hintText: "Viết nội dung ở đây...",

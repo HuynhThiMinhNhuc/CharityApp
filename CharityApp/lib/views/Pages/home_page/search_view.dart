@@ -55,7 +55,7 @@ class _SearchEventState extends State<SearchEvent> {
               children: [
                 Card(
                   child: Container(
-                    height: 135.h,
+                    height: 140.h,
                     color: backgroundbottomtab,
                     child: Column(
                       children: [
@@ -148,7 +148,7 @@ class _SearchEventState extends State<SearchEvent> {
                                                   : Colors.black,
                                           label: Padding(
                                             padding: EdgeInsets.fromLTRB(
-                                                0, 7.h, 0, 7.h),
+                                                0, 5.h, 0, 5.h),
                                             child: Text(
                                               state.listTags[index].name,
                                               style: TextStyle(
