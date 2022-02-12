@@ -77,7 +77,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       AppRoutes.chooseEvent,
                     ) as BaseEvent?;
                     setState(() =>
-                        {_eventNameTextController.text = chooseEvent!.name});
+                        {_eventNameTextController.text = chooseEvent == null ? "" : chooseEvent!.name});
                   },
                 ),
               ),

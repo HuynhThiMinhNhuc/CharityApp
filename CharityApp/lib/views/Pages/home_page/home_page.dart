@@ -29,11 +29,11 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is PostsLoadSuccess) {
           return LoadSuccessHomeView(state.posts);
-        }
-        if (state is PostLoadInProgress) {
-          return SkeletonEvent();
-        } else
+        } else if (state is PostLoadFailure)
           return Text("Load fail");
+        else {
+          return SkeletonEvent();
+        }
       },
     );
   }
