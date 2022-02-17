@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'information_creator_post_view.dart';
 
@@ -66,15 +66,35 @@ class PostOverviewCard extends StatelessWidget {
               height: 10.h,
             ),
             if (post.imagesUri.length > 0)
-              Container(
-                height: 400.h,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(post.imagesUri[0]),
-                    fit: BoxFit.cover,
+              Stack(children: <Widget>[
+                Container(
+                  height: 400.h,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(post.imagesUri[0]),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
+                if (post.imagesUri.length > 1)
+                  Positioned(
+                    child: IconButton(
+                      icon: FaIcon(FontAwesomeIcons.angleRight),
+                      onPressed: null,
+                    ),
+                    right: -10.w,
+                    top: 150.h,
+                  ),
+                if (post.imagesUri.length > 1)
+                  Positioned(
+                    child: IconButton(
+                      icon: FaIcon(FontAwesomeIcons.angleLeft),
+                      onPressed: null,
+                    ),
+                    left: -10.w,
+                    top: 150.h,
+                  )
+              ]),
             Padding(
               padding: EdgeInsets.fromLTRB(10.w, 10.h, 5.w, 5.h),
               child: GestureDetector(

@@ -9,10 +9,8 @@ import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:charityapp/views/Component/image_card.dart';
 import 'package:charityapp/views/Component/my_alert_dialog_2.dart';
-import 'package:charityapp/views/Component/textFormFeildWithTitle.dart';
 import 'package:charityapp/views/Pages/add_event_page/add_event_page.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,7 +33,7 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   void initState() {
     super.initState();
-    _titleTextController = TextEditingController(text: "Tiêu đề");
+    _titleTextController = TextEditingController();
     _descriptionTextControlelr = TextEditingController();
     _eventNameTextController = TextEditingController();
   }
@@ -76,8 +74,10 @@ class _AddPostPageState extends State<AddPostPage> {
                     chooseEvent = await Navigator.of(context).pushNamed(
                       AppRoutes.chooseEvent,
                     ) as BaseEvent?;
-                    setState(() =>
-                        {_eventNameTextController.text = chooseEvent == null ? "" : chooseEvent!.name});
+                    setState(() => {
+                          _eventNameTextController.text =
+                              chooseEvent == null ? "" : chooseEvent!.name
+                        });
                   },
                 ),
               ),
@@ -183,7 +183,9 @@ class _AddPostPageState extends State<AddPostPage> {
                       TextFormField(
                         controller: _titleTextController,
                         style: kText17BoldBlack,
-                        decoration: InputDecoration(border: InputBorder.none),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Thêm tiêu đề tại đây"),
                       ),
                       TextFormField(
                         cursorColor: maincolor,
@@ -203,82 +205,6 @@ class _AddPostPageState extends State<AddPostPage> {
                   ),
                 ),
               ),
-              // textFormFieldWithTitle(
-              //   title: "Tiêu đề",
-              //   text: "",
-              //   iconData: null,
-              //   type: TextInputType.text,
-              //   controller: _titleTextController,
-              // ),
-              // SizedBox(height: 10.h),
-              // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              //   Text(
-              //     "Thêm ảnh",
-              //     style: kText15Bold80Black,
-              //   ),
-              //   Text(
-              //     "Tối đa 10 ảnh",
-              //     style: kText13RegularGreyText,
-              //   )
-              // ]),
-              // SizedBox(
-              //   height: 200.h,
-              //   child: ListView.builder(
-              //     shrinkWrap: false,
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: images.length + 1,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Row(
-              //         children: [
-              //           // Container(
-              //           //   height: 150,
-              //           //   width: 120,
-              //           //   child: IconButton(
-              //           //       onPressed: () => {
-
-              //           //       },
-              //           //       icon: Icon(Icons.add_photo_alternate_outlined,
-              //           //           color: maincolor, size: 25)),
-              //           //   decoration: BoxDecoration(
-              //           //       color: backgroundbottomtab,
-              //           //       borderRadius: BorderRadius.circular(10)),
-              //           //   margin: EdgeInsets.fromLTRB(10, 10, 5, 10),
-              //           // ),
-              //           ImageCard(
-              //             icon: Icons.add_photo_alternate_outlined,
-              //             onImageChanged: (imageFile) {
-              //               setState(() {
-              //                 images.length == index
-              //                     ? images.add(imageFile)
-              //                     : images[index] = imageFile;
-              //               });
-              //             },
-              //             onImageDeleted: () {
-              //               setState(() {
-              //                 images.removeAt(index);
-              //               });
-              //             },
-              //           ),
-              //           SizedBox(width: 5.w),
-              //         ],
-              //       );
-              //     },
-              //   ),
-              // ),
-              // TextFormField(
-              //   cursorColor: maincolor,
-              //   keyboardType: TextInputType.name,
-              //   minLines: 3,
-              //   maxLines: 10,
-              //   style: kText15RegularBlack,
-              //   decoration: InputDecoration(
-              //       hintText: "Viết nội dung ở đây...",
-              //       errorBorder: InputBorder.none,
-              //       focusedBorder: InputBorder.none,
-              //       border: InputBorder.none,
-              //       enabledBorder: InputBorder.none),
-              //   controller: _descriptionTextControlelr,
-              // ),
             ],
           ),
         ),

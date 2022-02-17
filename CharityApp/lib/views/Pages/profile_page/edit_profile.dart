@@ -248,7 +248,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Tên",
-                        style: kText20BoldBlack,
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -273,7 +273,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Ngày sinh",
-                        style: kText20BoldBlack,
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -331,7 +331,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Giới tính",
-                        style: kText20BoldBlack,
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -372,7 +372,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110,
                       child: Text(
                         "Mô tả",
-                        style: kText20BoldBlack,
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Container(
@@ -400,7 +400,7 @@ class _EditProfileState extends State<EditProfile> {
                   child: Text(
                     "Thông tin mật",
                     textAlign: TextAlign.left,
-                    style: kText20BoldBlack,
+                    style: kText15BoldBlack,
                   ),
                 ),
               ),
@@ -412,7 +412,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Email",
-                        style: kText20BoldBlack,
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -434,7 +434,7 @@ class _EditProfileState extends State<EditProfile> {
                       width: 110.w,
                       child: Text(
                         "Số điện thoại",
-                        style: kText20BoldBlack,
+                        style: kText15BoldBlack,
                       ),
                     ),
                     Flexible(
@@ -481,7 +481,7 @@ class _EditProfileState extends State<EditProfile> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Đổi mật khẩu",
-                            style: kText20BoldBlack,
+                            style: kText15BoldBlack,
                           ),
                         ),
                       ),

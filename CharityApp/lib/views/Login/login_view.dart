@@ -185,12 +185,6 @@ class _LoginState extends State<Login> {
                             mode: ModeDialog.warning,
                             title: 'Sai mật khẩu',
                           ),
-                          // => MyAlertDialog(
-                          //     content:
-                          //         "Vui lòng nhập đúng mật khẩu đã đăng ký!",
-                          //     pathImage:
-                          //         "asset/imagesample/ImageAlerDIalog/wrong.png",
-                          //     title: "Sai mật khẩu"),
                         );
                       } else if (state is SigninSuccessState) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -266,57 +260,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
-// class AlertFailPassword extends StatelessWidget {
-//   const AlertFailPassword({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: Column(
-//         children: [
-//           Icon(Icons.ac_unit_outlined),
-//           const Text('Sai mật khẩu'),
-//         ],
-//       ),
-//       content: const Text('Vui lòng nhập đúng mật khẩu đã đăng ký'),
-//       actions: <Widget>[
-//         TextButton(
-//           onPressed: () => Navigator.pop(context, 'Đồng ý'),
-//           child: const Text('Đồng ý'),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// class AlerDialogFailEmail extends StatelessWidget {
-//   const AlerDialogFailEmail({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: const Text('Sai Email'),
-//       content: SingleChildScrollView(
-//         child: ListBody(
-//           children: const <Widget>[
-//             Text('Nhập email sai'),
-//             Text('Vui lòng nhập lại email mà bạn đã đăng ký'),
-//           ],
-//         ),
-//       ),
-//       actions: <Widget>[
-//         TextButton(
-//           child: const Text('Đồng ý'),
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }
