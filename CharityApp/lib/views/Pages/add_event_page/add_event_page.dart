@@ -47,7 +47,7 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   void initState() {
     super.initState();
-    _nameTextController = TextEditingController(text: "Tiêu đề");
+    _nameTextController = TextEditingController();
     _dateTextController = TextEditingController();
     _locationTextController = TextEditingController();
     _descriptionTextController = TextEditingController();
@@ -328,8 +328,8 @@ class _AddEventPageState extends State<AddEventPage> {
                         style: kText17BoldBlack,
                         controller: _nameTextController,
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
+                            border: InputBorder.none,
+                            hintText: "Thêm tiêu đề tại đây"),
                       ),
                       TextFormField(
                           keyboardType: TextInputType.name,
@@ -469,6 +469,7 @@ class _ChoiceFieldState extends State<ChoiceField> {
               children: [
                 Flexible(
                   child: TextFormField(
+                    readOnly: true,
                     textAlign: TextAlign.end,
                     style: kText15RegularMain,
                     controller: widget.controller,

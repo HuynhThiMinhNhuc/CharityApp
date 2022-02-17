@@ -3,7 +3,6 @@ import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/dialog_with_circle_above.dart';
 import 'package:charityapp/views/Component/indicater_logintohome.dart';
-import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
@@ -159,11 +158,6 @@ class _LoginState extends State<Login> {
                             mode: ModeDialog.warning,
                             title: 'Sai Email',
                           ),
-                          //  => MyAlertDialog(
-                          //     content: "Vui lòng nhập đúng email đã đăng ký!",
-                          //     pathImage:
-                          //         "asset/imagesample/ImageAlerDIalog/wrong.png",
-                          //     title: "Sai Email"),
                         );
                       } else if (state is SigninfailPassState) {
                         showDialog<String>(
@@ -174,12 +168,6 @@ class _LoginState extends State<Login> {
                             mode: ModeDialog.warning,
                             title: 'Sai mật khẩu',
                           ),
-                          // => MyAlertDialog(
-                          //     content:
-                          //         "Vui lòng nhập đúng mật khẩu đã đăng ký!",
-                          //     pathImage:
-                          //         "asset/imagesample/ImageAlerDIalog/wrong.png",
-                          //     title: "Sai mật khẩu"),
                         );
                       } else if (state is SigninSussessState) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -269,57 +257,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
-// class AlertFailPassword extends StatelessWidget {
-//   const AlertFailPassword({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: Column(
-//         children: [
-//           Icon(Icons.ac_unit_outlined),
-//           const Text('Sai mật khẩu'),
-//         ],
-//       ),
-//       content: const Text('Vui lòng nhập đúng mật khẩu đã đăng ký'),
-//       actions: <Widget>[
-//         TextButton(
-//           onPressed: () => Navigator.pop(context, 'Đồng ý'),
-//           child: const Text('Đồng ý'),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// class AlerDialogFailEmail extends StatelessWidget {
-//   const AlerDialogFailEmail({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: const Text('Sai Email'),
-//       content: SingleChildScrollView(
-//         child: ListBody(
-//           children: const <Widget>[
-//             Text('Nhập email sai'),
-//             Text('Vui lòng nhập lại email mà bạn đã đăng ký'),
-//           ],
-//         ),
-//       ),
-//       actions: <Widget>[
-//         TextButton(
-//           child: const Text('Đồng ý'),
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }
