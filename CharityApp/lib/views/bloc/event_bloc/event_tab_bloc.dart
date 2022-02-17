@@ -20,7 +20,6 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
 
   EventTabBloc() : super(EventViewLoadInProgress()) {
     on<LoadEventView>(_onLoadEventView);
-    // on<LoadImagesView>(_onLoadImagesView);
     on<UpdateEvent>(_onUpdateEvent);
     on<AddEvent>(_onAddEvent);
     on<DeleteEvent>(_onDeleteEvent);

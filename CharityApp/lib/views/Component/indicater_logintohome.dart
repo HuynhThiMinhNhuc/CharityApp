@@ -1,6 +1,7 @@
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:path/path.dart';
 
 class IndicatorDialog extends StatelessWidget {
   @override

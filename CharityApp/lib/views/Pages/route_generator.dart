@@ -34,258 +34,252 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class RouteGenerator {
   Route generateRoute(RouteSettings settings) {
     if (settings.name == AppRoutes.login) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) => BlocProvider(
-          create: (_) => SigninBloc(),
-          //child: IndicatorLoginToHome(),
-          child: Login(),
-        ),
-      );
+      return LoginRoute(settings);
     } else if (settings.name == AppRoutes.home) {
-      return PageTransition(
-        type: PageTransitionType.bottomToTop,
-        settings: settings,
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<TabBloc>(
-              create: (context) => TabBloc(),
-            ),
-            BlocProvider<FriendBloc>(
-              create: (context) => FriendBloc(),
-            ),
-            BlocProvider<EditprofileBloc>(
-              create: (context) => EditprofileBloc(),
-            ),
-            BlocProvider<OverViewUserBloc>(
-              create: (context) => OverViewUserBloc(),
-            ),
-            BlocProvider<ActiveuserBloc>(
-              create: (context) => ActiveuserBloc(),
-            ),
-            BlocProvider(
-              create: (context) => CalendarBloc(),
-            )
-          ],
-          child: RootApp(),
-        ),
-      );
+      return HomeRoute(settings);
     } else if (settings.name == AppRoutes.addPost) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) {
-          print("create add_post route");
-          return BlocListener<PostBloc, PostState>(
-            listener: (bloc_context, state) async {
-              if (state is PostUpdated) {
-                await showDialog(
-                    context: context,
-                    builder: (context) => MyAlertDialog2(
-                          content: 'Quay về màn hình chính',
-                          title: 'Thêm bài viết thành công',
-                          pathImage: "asset/imageInpage/success.png",
-                          onTabYes: () => Navigator.of(context)
-                              .popUntil(ModalRoute.withName(AppRoutes.home)),
-                        ));
-                Navigator.of(context).pushNamed(
-                  AppRoutes.eventPage,
-                  arguments: state.post.eventId,
-                );
-              } else if (state is PostLoadFailure) {
-                showMyDialog(bloc_context, 'Thêm bài viết thất bại',
-                    closeWhenClick: false);
-              }
-            },
-            child: AddPostPage(
-              onClickSubmit: (post, images) {
-                showLoading(context);
-
-                BlocProvider.of<PostBloc>(context).add(
-                  AddPost(post: post, images: images),
-                );
-              },
-            ),
-          );
-        },
-      );
+      return AddPostRoute(settings);
     } else if (settings.name == AppRoutes.addEvent) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) {
-          print("create add_event route");
-
-          return BlocConsumer<EventTabBloc, EventTabState>(
-            listener: (context, state) async {
-              if (state is EventUpdateSuccess) {
-                showDialog(
-                    context: context,
-                    builder: (context) => MyAlertDialog2(
-                          content: 'Quay về màn hình chính',
-                          title: 'Thêm sự kiện thành công',
-                          pathImage: "asset/imageInpage/success.png",
-                          onTabYes: () => Navigator.of(context)
-                              .popUntil(ModalRoute.withName(AppRoutes.home)),
-                        ));
-              } else if (state is EventLoadFailure) {
-                showDialog(
-                    context: context,
-                    builder: (context) => MyAlertDialog2(
-                          content: 'Thêm sự kiện thất bại',
-                          title: 'Lỗi',
-                          isTwoActions: false,
-                        ));
-
-                // showMyDialog(context, "Thêm sự kiện thất bại",
-                //     closeWhenClick: false);
-              }
-            },
-            builder: (context, state) {
-              return AddEventPage(
-                onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
-                  showLoading(context);
-
-                  print("on AddEvent");
-                  BlocProvider.of<EventTabBloc>(context).add(
-                    AddEvent(
-                        event: newEvent,
-                        avartarFile: avatarImage,
-                        backgroundFile: backgroundImage),
-                  );
-                },
-              );
-            },
-          );
-        },
-      );
+      return AddEventRoute(settings);
     } else if (settings.name == AppRoutes.chooseEvent) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) => ChossesEventView(),
-      );
+      return ChooseEventRoute(settings);
     } else if (settings.name == AppRoutes.eventPage) {
-      final eventId = settings.arguments as String;
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) => BlocProvider(
-          create: (_) => EventTitleCubit(),
-          child: EventPage(eventId: eventId),
-        ),
-      );
+      return EventPageRoute(settings);
     } else if (settings.name == AppRoutes.comment) {
-      final postId = settings.arguments as String;
-
-      return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => CommentView(postId: postId));
+      return CommentRoute(settings);
     } else if (settings.name == AppRoutes.formRegister) {
-      final event = settings.arguments as BaseEvent;
-
-      return MaterialPageRoute(
-          settings: settings,
-          builder: (context) {
-            return BlocProvider(
-              create: (_) => formBLoc.FormBloc(),
-              child: FormView(event: event),
-            );
-          });
+      return FormRegisterRoute(settings);
     } else if (settings.name == AppRoutes.detailFormRegister) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) =>
-            BlocBuilder<formBLoc.FormBloc, formBLoc.FormState>(
-                builder: (_, state) {
-          if (state is formBLoc.FormLoadSuccess) {
-            return DetailFormJoinings(
-              formDetail: state.form,
-              userProfile: state.user,
-            );
-          } else
-            return Scaffold(
-              body: Container(),
-            );
-        }),
-      );
+      return DetailFormRegisterRoute(settings);
     } else if (settings.name == AppRoutes.chooseTags) {
-      final tagsEvent = settings.arguments as List<TagEvent>;
-
-      return MaterialPageRoute(builder: (context) {
-        BlocProvider.of<TagCubit>(context).load();
-        return BlocBuilder<TagCubit, List<TagEvent>?>(
-          builder: (context, alltag) {
-            if (alltag == null) {
-              return Container();
-              // SketonAddTags();
-            }
-
-            for (var tag in tagsEvent) {
-              if (alltag.contains(tag)) alltag.remove(tag);
-            }
-
-            List<TagItemInUI> tagsUi = tagsEvent
-                .map((tag) => TagItemInUI(tag: tag, isSelected: true))
-                .toList()
-              ..addAll(alltag
-                  .map((tag) => TagItemInUI(tag: tag, isSelected: false)));
-
-            return AddTag(initTags: tagsUi);
-          },
-        );
-      });
+      return ChooseTagRoute(settings);
     }
+
     return MaterialPageRoute(builder: (context) {
-      return Text('fail page');
+      return Text('Fail page');
     });
   }
 
-  Future<void> showMyDialog(BuildContext context, String text,
-      {bool closeWhenClick = true}) async {
-    return showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          // shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          contentPadding: EdgeInsets.only(top: 30.0),
-          content: Container(
-            width: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: Text(text, textAlign: TextAlign.center),
+  MaterialPageRoute<dynamic> ChooseTagRoute(RouteSettings settings) {
+    final tagsEvent = settings.arguments as List<TagEvent>;
+
+    return MaterialPageRoute(builder: (context) {
+      BlocProvider.of<TagCubit>(context).load();
+      return BlocBuilder<TagCubit, List<TagEvent>?>(
+        builder: (context, alltag) {
+          if (alltag == null) {
+            return Container();
+            // SketonAddTags();
+          }
+
+          for (var tag in tagsEvent) {
+            if (alltag.contains(tag)) alltag.remove(tag);
+          }
+
+          List<TagItemInUI> tagsUi = tagsEvent
+              .map((tag) => TagItemInUI(tag: tag, isSelected: true))
+              .toList()
+            ..addAll(
+                alltag.map((tag) => TagItemInUI(tag: tag, isSelected: false)));
+
+          return AddTag(initTags: tagsUi);
+        },
+      );
+    });
+  }
+
+  MaterialPageRoute<dynamic> DetailFormRegisterRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) => BlocBuilder<formBLoc.FormBloc, formBLoc.FormState>(
+          builder: (_, state) {
+        if (state is formBLoc.FormLoadSuccess) {
+          return DetailFormJoinings(
+            formDetail: state.form,
+            userProfile: state.user,
+          );
+        } else
+          return Scaffold(
+            body: Container(),
+          );
+      }),
+    );
+  }
+
+  MaterialPageRoute<dynamic> FormRegisterRoute(RouteSettings settings) {
+    final event = settings.arguments as BaseEvent;
+
+    return MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return BlocProvider(
+            create: (_) => formBLoc.FormBloc(),
+            child: FormView(event: event),
+          );
+        });
+  }
+
+  MaterialPageRoute<dynamic> CommentRoute(RouteSettings settings) {
+    final postId = settings.arguments as String;
+
+    return MaterialPageRoute(
+        settings: settings, builder: (context) => CommentView(postId: postId));
+  }
+
+  MaterialPageRoute<dynamic> EventPageRoute(RouteSettings settings) {
+    final eventId = settings.arguments as String;
+
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) => BlocProvider(
+        create: (_) => EventTitleCubit(),
+        child: EventPage(eventId: eventId),
+      ),
+    );
+  }
+
+  MaterialPageRoute<dynamic> ChooseEventRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) => ChossesEventView(),
+    );
+  }
+
+  MaterialPageRoute<dynamic> AddEventRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) {
+        print("create add_event route");
+
+        return BlocConsumer<EventTabBloc, EventTabState>(
+          listener: (context, state) async {
+            if (state is EventUpdateSuccess) {
+              showDialog(
+                  context: context,
+                  builder: (context) => MyAlertDialog2(
+                        content: 'Quay về màn hình chính',
+                        title: 'Thêm sự kiện thành công',
+                        pathImage: "asset/imageInpage/success.png",
+                        onTabYes: () => Navigator.of(context)
+                            .popUntil(ModalRoute.withName(AppRoutes.home)),
+                      ));
+            } else if (state is EventLoadFailure) {
+              showDialog(
+                  context: context,
+                  builder: (context) => MyAlertDialog2(
+                        content: 'Thêm sự kiện thất bại',
+                        title: 'Lỗi',
+                        isTwoActions: false,
+                      ));
+            }
+          },
+          builder: (context, state) {
+            return AddEventPage(
+              onClickSubmit: (newEvent, {avatarImage, backgroundImage}) {
+                print("on AddEvent");
+                BlocProvider.of<EventTabBloc>(context).add(
+                  AddEvent(
+                      event: newEvent,
+                      avartarFile: avatarImage,
+                      backgroundFile: backgroundImage),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  MaterialPageRoute<dynamic> AddPostRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) {
+        print("create add_post route");
+        return BlocListener<PostBloc, PostState>(
+          listener: (bloc_context, state) async {
+            if (state is PostUpdated) {
+              showDialog(
+                  context: context,
+                  builder: (context) => MyAlertDialog2(
+                        content: 'Quay về màn hình chính',
+                        title: 'Thêm bài viết thành công',
+                        pathImage: "asset/imageInpage/success.png",
+                        onTabYes: () => Navigator.of(context)
+                            .popUntil(ModalRoute.withName(AppRoutes.home)),
+                        onTabNo: () => Navigator.of(context).pushNamed(
+                          AppRoutes.eventPage,
+                          arguments: state.post.eventId,
+                        ),
+                      ));
+            } else if (state is PostLoadFailure) {
+              showDialog(
+                context: context,
+                builder: (context) => MyAlertDialog2(
+                  content: 'Thêm bài viết thất bại',
+                  title: 'Thông báo',
+                  isTwoActions: false,
                 ),
-                SizedBox(height: 30),
-                InkWell(
-                    child: Container(
-                      padding: EdgeInsets.only(top: 15, bottom: 15),
-                      decoration: BoxDecoration(color: Colors.grey),
-                      child: Text("Đồng ý", textAlign: TextAlign.center),
-                    ),
-                    onTap: () {
-                      if (closeWhenClick) {
-                        Navigator.of(context)
-                            .popUntil(ModalRoute.withName(AppRoutes.home));
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    })
-              ],
-            ),
+              );
+            }
+          },
+          child: AddPostPage(
+            onClickSubmit: (post, images) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Text('');
+                  });
+
+              BlocProvider.of<PostBloc>(context).add(
+                AddPost(post: post, images: images),
+              );
+            },
           ),
         );
       },
     );
   }
 
-  void showLoading(BuildContext context) {
-    // if (isLoading != null && !isLoading!.isCompleted) return;
-    // isLoading = CancelableOperation.fromFuture(showDialog(
-    //     context: context,
-    //     builder: (context) => Container(
-    //         width: 100, height: 80, child: LoaddingCircularIndicator())));
+  PageTransition<dynamic> HomeRoute(RouteSettings settings) {
+    return PageTransition(
+      type: PageTransitionType.bottomToTop,
+      settings: settings,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<TabBloc>(
+            create: (context) => TabBloc(),
+          ),
+          BlocProvider<FriendBloc>(
+            create: (context) => FriendBloc(),
+          ),
+          BlocProvider<EditprofileBloc>(
+            create: (context) => EditprofileBloc(),
+          ),
+          BlocProvider<OverViewUserBloc>(
+            create: (context) => OverViewUserBloc(),
+          ),
+          BlocProvider<ActiveuserBloc>(
+            create: (context) => ActiveuserBloc(),
+          ),
+          BlocProvider(
+            create: (context) => CalendarBloc(),
+          )
+        ],
+        child: RootApp(),
+      ),
+    );
+  }
+
+  MaterialPageRoute<dynamic> LoginRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) => BlocProvider(
+        create: (_) => SigninBloc(),
+        //child: IndicatorLoginToHome(),
+        child: Login(),
+      ),
+    );
   }
 }
 
