@@ -57,6 +57,7 @@ class RootApp extends StatelessWidget {
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: !keyboardIsOpen
               ? FloatingActionButton(
+                  heroTag: 'MainTag',
                   child: SpeedDial(
                     backgroundColor: Colors.black,
                     animatedIcon: AnimatedIcons.add_event,

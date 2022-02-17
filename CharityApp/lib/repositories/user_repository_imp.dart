@@ -98,7 +98,7 @@ class UserRepositoryImp implements IUserRepository {
             ? Genders.Female
             : userinfo['gender'] == 1
                 ? Genders.Male
-                : Genders.Undefined ?? Genders.Undefined,
+                : Genders.Undefined,
         birthDayString: userinfo['birthday'],
         avatarUri: userinfo['avatarUri'],
         email: userinfo['email'],

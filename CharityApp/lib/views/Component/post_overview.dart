@@ -41,7 +41,10 @@ class PostOverviewCard extends StatelessWidget {
                     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                       PopupMenuItem(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed(AppRoutes.addPost);
+                            
+                          },
                           child: ListTile(
                             title: Text('Chỉnh sửa'),
                           ),

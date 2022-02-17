@@ -304,7 +304,7 @@ class _EditProfileState extends State<EditProfile> {
                                     if (value != null) {
                                       widget.currentUser.birthDayString =
                                           DateFormat('dd/MM/yyyy')
-                                              .format(value!);
+                                              .format(value);
                                       if (widget.currentUser.birthDayString !=
                                           _datetextcontroler.text)
                                         setState(() {

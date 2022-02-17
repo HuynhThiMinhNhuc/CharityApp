@@ -3,6 +3,7 @@ import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/dialog_with_circle_above.dart';
 import 'package:charityapp/views/Component/indicater_logintohome.dart';
+import 'package:charityapp/views/Component/loading_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
@@ -21,11 +22,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool securtytext = false;
-  final IconData eye = Icons.remove_red_eye_outlined;
-  final TextEditingController passwordcontroller = new TextEditingController();
-  final TextEditingController emailcontroller = new TextEditingController();
+  final IconData eyeIcon = Icons.remove_red_eye_outlined;
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   CancelableOperation? isLoading;
+  late LoadingDialog loadingDialog;
 
   var signinBloc;
 
@@ -33,6 +34,14 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     signinBloc = BlocProvider.of<SigninBloc>(context);
+    loadingDialog = LoadingDialog(context);
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,7 +72,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
                   child: TextFormField(
-                    controller: emailcontroller,
+                    controller: emailController,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.people,
@@ -106,7 +115,7 @@ class _LoginState extends State<Login> {
                     boder: maincolor,
                     securitytext: true,
                     ispass: true,
-                    textcontroller: passwordcontroller,
+                    textcontroller: passwordController,
                   ),
                 ),
                 Padding(
@@ -142,14 +151,22 @@ class _LoginState extends State<Login> {
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
-                  child: BlocListener<SigninBloc, SigninState>(
-                    listenWhen: (context, state) {
-                      return state is SigninfailEmailState ||
-                          state is SigninfailPassState ||
-                          state is SigninSussessState;
-                    },
+                  child: BlocConsumer<SigninBloc, SigninState>(
                     listener: (context, state) {
-                      if (state is SigninfailEmailState) {
+                      if (state is SignInLoadInProccess) {
+                        // if (isLoading != null && !isLoading!.isCompleted)
+                        //   return;
+                        // isLoading = CancelableOperation.fromFuture(showDialog(
+                        //     context: context,
+                        //     builder: (context) {
+                        //       return IndicatorDialog();
+                        //     }));
+                        loadingDialog.load(IndicatorDialog());
+                      } else {
+                        // isLoading?.cancel();
+                        loadingDialog.cancel();
+                        
+                        if (state is SigninfailEmailState) {
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) =>
@@ -169,46 +186,32 @@ class _LoginState extends State<Login> {
                             title: 'Sai mật khẩu',
                           ),
                         );
-                      } else if (state is SigninSussessState) {
+                      } else if (state is SigninSuccessState) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             AppRoutes.home, (route) => false);
                       }
+                      }
                     },
-                    child: BlocConsumer<SigninBloc, SigninState>(
-                      listener: (context, state) {
-                        if (state is SignInLoadInProccess) {
-                          if (isLoading != null && !isLoading!.isCompleted)
-                            return;
-                          isLoading = CancelableOperation.fromFuture(showDialog(
-                              context: context,
-                              builder: (context) {
-                                return IndicatorDialog();
-                              }));
-                        } else {
-                          isLoading?.cancel();
-                        }
-                      },
-                      builder: (context, state) {
-                        return ElevatedButton(
-                          onPressed: () => {
-                            signinBloc.add(SigninWithEmailAndPassEvent(
-                                emailcontroller.text.trim(),
-                                passwordcontroller.text.trim()))
-                          },
-                          child: Text(
-                            'Đăng nhập',
-                            style: kText18BoldWhite,
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              alignment: Alignment.center,
-                              primary: maincolor,
-                              fixedSize:
-                                  Size(MediaQuery.of(context).size.width, 60.h),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30))),
-                        );
-                      },
-                    ),
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: () => {
+                          signinBloc.add(SigninWithEmailAndPassEvent(
+                              emailController.text.trim(),
+                              passwordController.text.trim()))
+                        },
+                        child: Text(
+                          'Đăng nhập',
+                          style: kText18BoldWhite,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            alignment: Alignment.center,
+                            primary: maincolor,
+                            fixedSize:
+                                Size(MediaQuery.of(context).size.width, 60.h),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(

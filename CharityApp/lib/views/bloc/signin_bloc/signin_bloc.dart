@@ -32,12 +32,14 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
     } else
       try {
         emit(SignInLoadInProccess());
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        var userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: event.email, password: event.password);
+
         await GetIt.instance.get<Authenticator>().login(event.email);
-        await _activeUserRepositoryImp
+        _activeUserRepositoryImp
             .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id!);
-        emit(SigninSussessState());
+
+        emit(SigninSuccessState());
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found' || e.code == 'invalid-email') {
           print('No user found for that email.');
@@ -50,6 +52,6 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
           emit(SigninManyRequestPassState());
         }
       }
-    emit(SigninInitState());
+    // emit(SigninInitState());
   }
 }
