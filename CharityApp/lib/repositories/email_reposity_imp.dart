@@ -1,7 +1,7 @@
 import 'package:charityapp/domain/repositories/email_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EmailReposity extends IEmailReposity {
+class EmailReposityImp extends IEmailReposity {
   final collection = FirebaseFirestore.instance.collection("emails");
 
   @override

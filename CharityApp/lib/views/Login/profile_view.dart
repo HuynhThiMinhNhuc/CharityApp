@@ -2,6 +2,7 @@ import 'package:charityapp/domain/entities/user_infor.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/dialog_with_circle_above.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
@@ -241,30 +242,36 @@ class _ProfileState extends State<Profile> {
                       );
                     } else if (state is ProfileFailState) {
                       showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => MyAlertDialog(
-                              content:
-                                  "Xin lỗi vì sự bất tiện này. Vui lòng thử lại sau",
-                              pathImage:
-                                  "asset/imagesample/ImageAlerDIalog/lostconnect.png",
-                              title: "Lỗi kết nối"));
+                        context: context,
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
+                          content:
+                              'Xin lỗi vì sự bất tiện này. Vui lòng thử lại sau',
+                          mode: ModeDialog.warning,
+                          title: 'Lỗi kết nối',
+                        ),
+                      );
                     } else if (state is ProfileEmptyFeldState) {
                       showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => MyAlertDialog(
-                              content: "Vui lòng nhập đầy đủ thông tin",
-                              pathImage:
-                                  "asset/imagesample/ImageAlerDIalog/lostconnect.png",
-                              title: "Thông tin bị bỏ trống"));
+                        context: context,
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
+                          content: 'Vui lòng nhập đầy đủ thông tin!',
+                          mode: ModeDialog.warning,
+                          title: 'Thông tin bị bỏ trống',
+                        ),
+                      );
                     } else if (state is ProfileWrongFormatPhoneState) {
                       showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => MyAlertDialog(
-                              content:
-                                  "Số điện thoại cần bắt đầu từ 0 và có 10 chữ số. Ví dụ: 0348774510",
-                              pathImage:
-                                  "asset/imagesample/ImageAlerDIalog/lostconnect.png",
-                              title: "Sai định dạng số điện thoại"));
+                        context: context,
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
+                          content:
+                              'Số điện thoại cần bắt đầu từ 0 và có 10 chữ số. Ví dụ: 0348774510',
+                          mode: ModeDialog.warning,
+                          title: 'Sai định dạng số điện thoại',
+                        ),
+                      );
                     }
                   },
                   child: CustomButton(

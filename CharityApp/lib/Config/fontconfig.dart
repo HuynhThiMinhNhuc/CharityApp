@@ -61,6 +61,12 @@ var kText28BoldGreyNoteText = kTextConfig.copyWith(
   decoration: TextDecoration.none,
   overflow: TextOverflow.ellipsis,
 );
+var kText28BoldBlackText = kTextConfig.copyWith(
+  fontSize: 28.sp,
+  color: cwColorBlack,
+  decoration: TextDecoration.none,
+  overflow: TextOverflow.ellipsis,
+);
 var kText12RegularBlack = kTextConfig.copyWith(
   fontSize: 12.sp,
   color: cwColorBlack,

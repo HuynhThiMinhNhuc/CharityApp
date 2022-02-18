@@ -1,6 +1,7 @@
 import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
+import 'package:charityapp/views/Component/dialog_with_circle_above.dart';
 import 'package:charityapp/views/Component/my_alert_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Component/text_input.dart';
@@ -146,64 +147,64 @@ class _RegisterViewState extends State<RegisterView> {
                     } else if (state is SignupFailEmailFomatState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => MyAlertDialog(
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
                           content: 'Vui lòng nhập email hợp lệ',
-                          title: "Email không hợp lệ",
-                          pathImage:
-                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                          mode: ModeDialog.warning,
+                          title: 'Email không hợp lệ',
                         ),
                       );
                     } else if (state is SignupFailMutilAccountState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => MyAlertDialog(
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
                           content:
                               'Vui lòng nhập địa chỉ email chưa từng tạo tài khoản bao giờ',
-                          title: "Email đã được sử dụng",
-                          pathImage:
-                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                          mode: ModeDialog.warning,
+                          title: 'Email đã được sử dụng',
                         ),
                       );
                     } else if (state is SignupFailPassweakState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => MyAlertDialog(
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
                           content: 'Mật khẩu phải chứa ít nhất 6 kí tự',
-                          title: "Mật khẩu không hợp lệ",
-                          pathImage:
-                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                          mode: ModeDialog.warning,
+                          title: 'Mật khẩu không hợp lệ',
                         ),
                       );
                     } else if (state is SignupIncorrectPassConfirmState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => MyAlertDialog(
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
                           content:
                               'Mật khẩu xác nhận phải trùng với mật khẩu vừa đặt',
-                          title: "Mật khẩu không trùng khớp",
-                          pathImage:
-                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                          mode: ModeDialog.warning,
+                          title: 'Mật khẩu không trùng khớp',
                         ),
                       );
                     } else if (state is SignupEmptyFeldmState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => MyAlertDialog(
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
                           content: 'Vui lòng điền đầy đủ thông tin',
-                          title: "Không được để trống",
-                          pathImage:
-                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                          mode: ModeDialog.warning,
+                          title: 'Không được để trống',
                         ),
                       );
                     } else if (state is SignupNoReasonState) {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => MyAlertDialog(
+                        builder: (BuildContext context) =>
+                            DialogWithCircleAbove(
                           content:
                               'Hệ thống đang gặp lỗi, chúng tôi sẽ cố gắng sửa lỗi sớm. Vui lòng thử lại sau',
-                          title: "Lỗi không xác định",
-                          pathImage:
-                              'asset/imagesample/ImageAlerDIalog/wrong.png',
+                          mode: ModeDialog.warning,
+                          title: 'Lỗi không xác định',
                         ),
                       );
                     }

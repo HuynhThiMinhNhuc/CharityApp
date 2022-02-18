@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:charityapp/repositories/email_reposity_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +10,7 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final UserRepositoryImp _userRepositoryImp = new UserRepositoryImp();
+  final EmailReposityImp _emailReposityImp = EmailReposityImp();
 
   SignupBloc() : super(SignupLoadingState()) {
     on<SignupWithEmailAndPassEvent>(_onSignupWithEmailAndPass);
@@ -26,6 +28,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       emit(SignupFailEmailFomatState());
     } else if (event.confirmPassword != event.password || event.password == "")
       emit(SignupIncorrectPassConfirmState());
+    else if (await _emailReposityImp.emailAlreadyExist(event.email))
+      emit(SignupFailMutilAccountState());
     else
       try {
         emit(SignupInitState());
