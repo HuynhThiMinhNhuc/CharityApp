@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/repositories/active_user_repository_imp.dart';
-import 'package:charityapp/repositories/email_reposity.dart';
+import 'package:charityapp/repositories/email_reposity_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:equatable/equatable.dart';
@@ -18,7 +18,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
   final ActiveUserRepositoryImp _activeUserRepositoryImp =
       new ActiveUserRepositoryImp();
   final UserRepositoryImp _userRespositoryImp = new UserRepositoryImp();
-  final EmailReposity _emailReposity = new EmailReposity();
+  final EmailReposityImp _emailReposity = new EmailReposityImp();
 
   SigninBloc() : super(SigninInitState()) {
     on<SigninWithEmailAndPassEvent>(_signinWithEmailandPassEvent);

@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/colorconfig.dart';
 import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/global_variable/color.dart';
@@ -219,22 +220,41 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                Text('Hoặc sử dụng', style: kText15RegularGreyText),
+                Text('Hoặc ', style: kText15RegularGreyText),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(
-                      onPressed: () => {signinBloc.add(SignInWithGoogle())},
-                      icon: FaIcon(FontAwesomeIcons.google),
-                      iconSize: 35.h,
-                    ),
-                    IconButton(
-                      onPressed: () => {},
-                      icon: FaIcon(FontAwesomeIcons.facebookF),
-                      iconSize: 35.h,
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: cwColorMain),
+                          borderRadius: BorderRadius.circular(30)),
+                      width: MediaQuery.of(context).size.width - 60.w,
+                      height: 60.h,
+                      child: TextButton.icon(
+                        onPressed: () => {signinBloc.add(SignInWithGoogle())},
+                        icon: FaIcon(FontAwesomeIcons.google),
+                        label: Text(
+                          "Đăng nhập với google",
+                          style: TextStyle(color: cwColorBlack),
+                        ),
+                        style: ButtonStyle(),
+                      ),
                     )
+                    // IconButton(
+                    //   onPressed: () => {signinBloc.add(SignInWithGoogle())},
+                    //   icon: FaIcon(FontAwesomeIcons.google),
+                    //   iconSize: 35.h,
+                    // ),
+                    // IconButton(
+                    //   onPressed: () => {},
+                    //   icon: FaIcon(FontAwesomeIcons.facebookF),
+                    //   iconSize: 35.h,
+                    // )
                   ],
                 ),
                 TextButton(

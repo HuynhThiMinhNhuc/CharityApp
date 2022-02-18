@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
-import 'package:charityapp/repositories/email_reposity.dart';
+import 'package:charityapp/repositories/email_reposity_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +12,7 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
-  EmailReposity emailReposity = new EmailReposity();
+  EmailReposityImp emailReposity = new EmailReposityImp();
   ProfileBloc() : super(ProfileInitialState()) {
     on<ProfileSaveEvent>(_onProfileSaveEvent);
   }
