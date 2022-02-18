@@ -100,8 +100,10 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                 style: myStyle(isBold: true),
               ),
               TextSpan(
-                text: DateFormat("dd/MM/yyyy")
-                    .format(widget.userProfile.birthDay as DateTime),
+                text: widget.userProfile.birthDay != null
+                    ? DateFormat("dd/MM/yyyy")
+                        .format(widget.userProfile.birthDay as DateTime)
+                    : "",
               )
             ]),
           ),

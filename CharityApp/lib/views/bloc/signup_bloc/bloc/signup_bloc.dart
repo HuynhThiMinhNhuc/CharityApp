@@ -4,8 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:email_auth/email_auth.dart';
-
 part 'signup_event.dart';
 part 'signup_state.dart';
 

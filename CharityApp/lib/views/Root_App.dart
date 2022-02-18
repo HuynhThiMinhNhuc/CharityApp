@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
@@ -37,7 +38,7 @@ class RootApp extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-              preferredSize: Size.fromHeight(70.h),
+              preferredSize: Size.fromHeight(85.h),
               child: getappbar(activateTab)),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -119,11 +120,7 @@ class RootApp extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: backgroundbottomtab,
-      title: Text("Hồ sơ của bạn",
-          style: TextStyle(
-              color: textcolor,
-              fontFamily: 'Roboto_Regular',
-              fontWeight: FontWeight.bold)),
+      title: Text("Hồ sơ của bạn", style: kText24BoldBlack),
     );
   }
 
@@ -191,7 +188,7 @@ class RootApp extends StatelessWidget {
         style: TextStyle(
             color: maincolor,
             fontFamily: 'Redressed_Regular',
-            fontSize: 35,
+            fontSize: 35.sp,
             fontWeight: FontWeight.normal,
             decoration: TextDecoration.none),
       ),
@@ -241,6 +238,7 @@ class RootApp extends StatelessWidget {
                       .doc(id)
                       .delete();
                   await FirebaseAuth.instance.signOut();
+                  await GoogleSignIn().disconnect();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

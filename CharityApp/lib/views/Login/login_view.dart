@@ -154,42 +154,46 @@ class _LoginState extends State<Login> {
                   child: BlocConsumer<SigninBloc, SigninState>(
                     listener: (context, state) {
                       if (state is SignInLoadInProccess) {
-                        // if (isLoading != null && !isLoading!.isCompleted)
-                        //   return;
-                        // isLoading = CancelableOperation.fromFuture(showDialog(
-                        //     context: context,
-                        //     builder: (context) {
-                        //       return IndicatorDialog();
-                        //     }));
                         loadingDialog.load(IndicatorDialog());
                       } else {
-                        // isLoading?.cancel();
                         loadingDialog.cancel();
-                        
+
                         if (state is SigninfailEmailState) {
-                        showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              DialogWithCircleAbove(
-                            content: 'Vui lòng nhập đúng email đã đăng ký!',
-                            mode: ModeDialog.warning,
-                            title: 'Sai Email',
-                          ),
-                        );
-                      } else if (state is SigninfailPassState) {
-                        showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              DialogWithCircleAbove(
-                            content: 'Vui lòng nhập đúng mật khẩu đã đăng ký!',
-                            mode: ModeDialog.warning,
-                            title: 'Sai mật khẩu',
-                          ),
-                        );
-                      } else if (state is SigninSuccessState) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.home, (route) => false);
-                      }
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                DialogWithCircleAbove(
+                              content: 'Vui lòng nhập đúng email đã đăng ký!',
+                              mode: ModeDialog.warning,
+                              title: 'Sai Email',
+                            ),
+                          );
+                        } else if (state is SigninfailPassState) {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                DialogWithCircleAbove(
+                              content:
+                                  'Vui lòng nhập đúng mật khẩu đã đăng ký!',
+                              mode: ModeDialog.warning,
+                              title: 'Sai mật khẩu',
+                            ),
+                          );
+                        } else if (state is SigninSuccessState) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              AppRoutes.home, (route) => false);
+                        } else if (state is SigninWithGoogleEmailAlreadyExist) {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                DialogWithCircleAbove(
+                              content:
+                                  'Vui lòng đăng nhập bằng tài khoản khác!',
+                              mode: ModeDialog.warning,
+                              title: 'Email đã đăng kí tài khoản',
+                            ),
+                          );
+                        }
                       }
                     },
                     builder: (context, state) {
@@ -222,7 +226,7 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
-                      onPressed: () => {},
+                      onPressed: () => {signinBloc.add(SignInWithGoogle())},
                       icon: FaIcon(FontAwesomeIcons.google),
                       iconSize: 35.h,
                     ),
