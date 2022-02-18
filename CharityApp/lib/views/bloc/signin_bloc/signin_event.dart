@@ -14,3 +14,7 @@ class SigninWithEmailAndPassEvent extends SigninEvent {
   final String password;
   SigninWithEmailAndPassEvent(this.email, this.password);
 }
+
+class SignInWithGoogle extends SigninEvent {
+  SignInWithGoogle();
+}
