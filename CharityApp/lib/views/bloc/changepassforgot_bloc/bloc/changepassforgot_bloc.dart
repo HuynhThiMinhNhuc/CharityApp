@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
-import 'package:charityapp/views/bloc/changepassword_bloc/bloc/changepassword_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 

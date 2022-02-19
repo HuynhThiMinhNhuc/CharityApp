@@ -10,7 +10,6 @@ import 'package:charityapp/domain/repositories/post_repository.dart';
 import 'package:charityapp/repositories/event_repository_imp.dart';
 import 'package:charityapp/repositories/form_repository_imp.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'event.dart';
 
 class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
@@ -27,7 +26,7 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
 
   FutureOr<void> _onLoadEventView(
       LoadEventView event, Emitter<EventTabState> emit) async {
-        emit(EventViewLoadInProgress());
+    emit(EventViewLoadInProgress());
     switch (event.tab) {
       case EventTab.posts:
         {
@@ -51,7 +50,8 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
 
           final complete = await Future.wait<int>([task1, task2]);
 
-          emit(EventPaticipantsViewSuccess(numberFormRegister: complete[0], numberPaticipants: complete[1]));
+          emit(EventPaticipantsViewSuccess(
+              numberFormRegister: complete[0], numberPaticipants: complete[1]));
         }
         break;
       default:
@@ -64,7 +64,7 @@ class EventTabBloc extends Bloc<EventTabEvent, EventTabState> {
 
   FutureOr<void> _onAddEvent(
       AddEvent event, Emitter<EventTabState> emit) async {
-        emit(EventViewLoadInProgress());
+    emit(EventViewLoadInProgress());
     try {
       print("Add event to reporistory");
       final rootPath = "images/events";

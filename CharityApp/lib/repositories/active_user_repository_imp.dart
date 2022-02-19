@@ -39,7 +39,7 @@ class ActiveUserRepositoryImp extends IActiveUserRepository {
         }
         await user
             .add({'id': id})
-            .then((value) => print("User Added"))
+            .then((value) => print("Active user Added"))
             .catchError((error) => print("Failed to add user: $error"));
       });
     } catch (e) {

@@ -6,16 +6,17 @@ class EmailReposityImp extends IEmailReposity {
 
   @override
   Future<bool> emailAlreadyExist(String email) async {
+    bool exist = true;
     try {
       await collection.doc('1').get().then((value) {
         List<String> emails = [];
         emails = List.from(value.data()!['emails']);
-        if (emails.contains(email)) return true;
+        exist = emails.contains(email);
       });
     } catch (e) {
       print(" ERROR check if email already exists:" + e.toString());
     }
-    return false;
+    return exist;
   }
 
   @override

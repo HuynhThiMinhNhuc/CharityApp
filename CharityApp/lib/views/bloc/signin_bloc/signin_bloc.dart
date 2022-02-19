@@ -69,7 +69,9 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
           accessToken: ggAuth.accessToken, idToken: ggAuth.idToken);
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      if (!await EmailAlreadyExits(user.email)) {
+      final emailAlreadyExist =
+          await _emailReposity.emailAlreadyExist(user.email);
+      if (!emailAlreadyExist) {
         UserProfile userInfo = new UserProfile(
             name: user.displayName,
             avatarUri: user.photoUrl,
@@ -82,17 +84,11 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
             .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id!);
         emit(SigninSuccessState());
       } else {
-        emit(SigninWithGoogleEmailAlreadyExist());
-        emit(SigninInitState());
+        await GetIt.instance.get<Authenticator>().login(user.email);
+        _activeUserRepositoryImp
+            .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id!);
+        emit(SigninSuccessState());
       }
     }
-  }
-
-  // ignore: non_constant_identifier_names
-  Future<bool> EmailAlreadyExits(String email) async {
-    List<String> check =
-        await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-    if (check.contains(email)) return true;
-    return false;
   }
 }

@@ -369,4 +369,14 @@ class UserRepositoryImp implements IUserRepository {
       print("Cập nhật database: lỗi kết nối database" + e.toString());
     }
   }
+
+  @override
+  Future<void> resetpassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      print(e.message);
+    }
+  }
 }
