@@ -16,6 +16,7 @@ abstract class IUserRepository {
   Future<void> follow(String? id);
   Future<void> unfollow(String? id);
   Future<void> changepassword(String newpass);
+  Future<void> resetpassword(String newpass);
   Future<List<String?>> loadAvatarUriPaticipant(String eventId);
   Future<void> updateNumberFollowing(bool isincrease, String id);
   Future<List<UserOverview>>? getHistory(String id);

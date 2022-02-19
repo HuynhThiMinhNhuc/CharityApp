@@ -24,7 +24,7 @@ class DialogWithCircleAbove extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Container(
-              height: 200,
+              height: 240.h,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(10.w, 70.h, 10.w, 10.h),
                 child: Column(
@@ -43,7 +43,7 @@ class DialogWithCircleAbove extends StatelessWidget {
                       style: TextStyle(fontSize: 20.sp),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 20.h,
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -65,7 +65,7 @@ class DialogWithCircleAbove extends StatelessWidget {
               ),
             ),
             Positioned(
-                top: -50,
+                top: -50.h,
                 child: CircleAvatar(
                   backgroundColor: this.mode == ModeDialog.warning
                       ? cwColorRed

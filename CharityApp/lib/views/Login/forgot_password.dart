@@ -2,7 +2,9 @@ import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/Component/text_input.dart';
+import 'package:charityapp/views/Login/send_link_resetpassword.dart';
 import 'package:charityapp/views/Login/verification_otp_view.dart';
+import 'package:charityapp/views/bloc/forgotpass/forotpass_bloc.dart';
 import 'package:charityapp/views/bloc/verifidecode_bloc/bloc/verifycode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,13 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController emailcontroller = new TextEditingController();
+  var forgotpassBloc;
+  @override
+  void initState() {
+    super.initState();
+    forgotpassBloc = BlocProvider.of<ForotpassBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,17 +80,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Padding(
                 padding: EdgeInsets.fromLTRB(20.w, 40.h, 20.w, 0),
                 child: CustomButton(
-                    onPressed: () => {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BlocProvider(
-                                        create: (context) => VerifycodeBloc(),
-                                        child: VerificationOtpView(
-                                            email: emailcontroller.text.trim(),
-                                            ischangepass: true),
-                                      )))
-                        },
+                    onPressed: () {
+                      forgotpassBloc
+                          .add(SentOtp(email: emailcontroller.text.trim()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SenLinkResetPassView(),
+                          ));
+                    },
                     textInput: 'GỬI MÃ OTP'))
           ],
         ),

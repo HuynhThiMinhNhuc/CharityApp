@@ -8,6 +8,7 @@ import 'package:charityapp/views/Component/loading_dialog.dart';
 import 'package:charityapp/views/Component/password_input.dart';
 import 'package:charityapp/views/Login/forgot_password.dart';
 import 'package:charityapp/views/Login/register_view.dart';
+import 'package:charityapp/views/bloc/forgotpass/forotpass_bloc.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
 import 'package:charityapp/views/bloc/signup_bloc/bloc/signup_bloc.dart';
 import 'package:flutter/material.dart';
@@ -140,7 +141,10 @@ class _LoginState extends State<Login> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ForgotPassword()));
+                                  builder: (context) => BlocProvider(
+                                        create: (context) => ForotpassBloc(),
+                                        child: ForgotPassword(),
+                                      )));
                         },
                         child: Text(
                           'Quên mật khẩu?',

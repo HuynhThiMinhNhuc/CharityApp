@@ -34,6 +34,7 @@ class _VerificationOtpViewState extends State<VerificationOtpView> {
   void initState() {
     super.initState();
     verifyCodeBloc = BlocProvider.of<VerifycodeBloc>(context);
+
     verifyCodeBloc.add(VerifycodeInitEvent(widget.email));
   }
 
