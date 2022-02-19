@@ -56,7 +56,7 @@ class _SearchEventState extends State<SearchEvent> {
                 Card(
                   child: Container(
                     height: 140.h,
-                    color: backgroundbottomtab,
+                    color: backgroundBottomTab,
                     child: Column(
                       children: [
                         SizedBox(
@@ -261,7 +261,7 @@ class _SearchEventState extends State<SearchEvent> {
                                   subtitle: Text(
                                     "tp. Hồ Chí Minh, quận Thủ Đức",
                                     style: TextStyle(
-                                        color: textcolor, fontSize: 14.sp),
+                                        color: textColor, fontSize: 14.sp),
                                   ),
                                 ),
                                 onTap: () {

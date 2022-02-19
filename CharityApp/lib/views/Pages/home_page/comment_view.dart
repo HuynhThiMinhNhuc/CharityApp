@@ -35,8 +35,8 @@ class CommentView extends StatelessWidget {
 
   AppBar getAppbar(BuildContext context, String postId) {
     return AppBar(
-      iconTheme: IconThemeData(color: textcolor),
-      backgroundColor: backgroundbottomtab,
+      iconTheme: IconThemeData(color: textColor),
+      backgroundColor: backgroundBottomTab,
       title: BlocBuilder<LikePostBloc, LikePostState>(
         builder: (likeContext, state) {
           final postState = (state as PostNumberLike);
@@ -114,7 +114,7 @@ class _CommentViewElementState extends State<CommentViewElement> {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
         height: 60.h,
-        color: backgroundbottomtab,
+        color: backgroundBottomTab,
         alignment: Alignment.center,
         transformAlignment: Alignment.center,
         child: Padding(

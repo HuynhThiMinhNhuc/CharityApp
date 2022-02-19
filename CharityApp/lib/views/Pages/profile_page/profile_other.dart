@@ -127,7 +127,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
   AppBar getAppbar(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(
-        color: textcolor, //change your color here
+        color: textColor, //change your color here
       ),
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
@@ -136,7 +136,7 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
           Navigator.pop(context);
         },
       ),
-      backgroundColor: backgroundbottomtab,
+      backgroundColor: backgroundBottomTab,
       centerTitle: true,
       title: Text(
         "Hồ sơ người dùng",

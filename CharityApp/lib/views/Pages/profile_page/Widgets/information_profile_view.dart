@@ -13,7 +13,7 @@ class InformationProfileView extends StatelessWidget {
       children: [
         Text(this.number.toString(),
             style: TextStyle(
-                color: textcolor,
+                color: textColor,
                 fontSize: 15,
                 decoration: TextDecoration.none,
                 fontFamily: 'Roboto_Regular',
@@ -23,7 +23,7 @@ class InformationProfileView extends StatelessWidget {
             softWrap: false,
             overflow: TextOverflow.fade,
             style: TextStyle(
-                color: textcolor,
+                color: textColor,
                 fontSize: 14,
                 decoration: TextDecoration.none,
                 fontFamily: 'Roboto_Regular',

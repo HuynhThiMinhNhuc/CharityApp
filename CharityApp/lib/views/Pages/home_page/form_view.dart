@@ -45,17 +45,17 @@ class _FormViewState extends State<FormView> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
-          iconTheme: IconThemeData(color: textcolor),
+          iconTheme: IconThemeData(color: textColor),
           title: Text(
             "Form đăng kí",
             style: kText24BoldBlack,
           ),
-          backgroundColor: backgroundbottomtab,
+          backgroundColor: backgroundBottomTab,
         ),
         body: getbody(),
         bottomNavigationBar: Container(
             height: 60.h,
-            color: backgroundbottomtab,
+            color: backgroundBottomTab,
             alignment: Alignment.center,
             child: Padding(
                 padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 5.h),

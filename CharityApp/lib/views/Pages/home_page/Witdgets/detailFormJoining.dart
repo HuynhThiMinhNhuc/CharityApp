@@ -63,7 +63,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: backgroundbottomtab,
+            backgroundColor: backgroundBottomTab,
             centerTitle: true,
             iconTheme: IconThemeData(color: Colors.black),
             title: Text(
@@ -208,7 +208,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                 fontSize: 13,
                 decoration: TextDecoration.none,
                 fontFamily: 'Roboto_Regular',
-                color: textcolor),
+                color: textColor),
           ),
         ),
         SizedBox(
@@ -295,7 +295,7 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
 
   TextStyle myStyle({bool isBold = false}) {
     return TextStyle(
-        color: textcolor,
+        color: textColor,
         fontSize: 15,
         decoration: TextDecoration.none,
         fontFamily: 'Roboto_Regular',

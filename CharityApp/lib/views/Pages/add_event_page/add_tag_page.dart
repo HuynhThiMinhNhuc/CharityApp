@@ -26,10 +26,10 @@ class _AddTagState extends State<AddTag> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: textcolor, //change your color here
+          color: textColor, //change your color here
         ),
         centerTitle: true,
-        backgroundColor: backgroundbottomtab,
+        backgroundColor: backgroundBottomTab,
         title: Text(
           "Thêm tag",
           style: kText18BoldBlack,
@@ -79,7 +79,7 @@ class _AddTagState extends State<AddTag> {
           style: TextStyle(
               fontFamily: 'Roboto_Regular',
               fontSize: 15.sp,
-              color: tag.isSelected ? Colors.white : textcolor),
+              color: tag.isSelected ? Colors.white : textColor),
         ),
         onSelected: (bool value) {
           setState(() {

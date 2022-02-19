@@ -118,7 +118,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
                       fontSize: 13,
                       decoration: TextDecoration.none,
                       fontFamily: 'Roboto_Regular',
-                      color: textcolor),
+                      color: textColor),
                 )
               : Container(
                   width: 0,
@@ -266,7 +266,7 @@ class _ProfileOverViewState extends State<ProfileOverView> {
 
   TextStyle myStyle({bool isBold = false}) {
     return TextStyle(
-        color: textcolor,
+        color: textColor,
         fontSize: 15.sp,
         decoration: TextDecoration.none,
         fontFamily: 'Roboto_Regular',

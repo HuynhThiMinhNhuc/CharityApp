@@ -215,9 +215,9 @@ class _AddPostPageState extends State<AddPostPage> {
   AppBar getAppBar() {
     return AppBar(
       iconTheme: IconThemeData(
-        color: textcolor, //change your color here
+        color: textColor, //change your color here
       ),
-      backgroundColor: backgroundbottomtab,
+      backgroundColor: backgroundBottomTab,
       centerTitle: true,
       title: Text("Tạo bài viết", style: kText18BoldBlack),
       actions: [

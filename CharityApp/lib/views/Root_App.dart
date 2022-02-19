@@ -58,7 +58,7 @@ class RootApp extends StatelessWidget {
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: !keyboardIsOpen
               ? FloatingActionButton(
-                  heroTag: 'MainTag',
+                  heroTag: 'addObjectButton',
                   child: SpeedDial(
                     backgroundColor: Colors.black,
                     animatedIcon: AnimatedIcons.add_event,
@@ -67,27 +67,21 @@ class RootApp extends StatelessWidget {
                     shape: CircleBorder(),
                     children: [
                       SpeedDialChild(
-                          child:
-                              Icon(Icons.post_add_rounded, color: Colors.white),
-                          backgroundColor: maincolor,
-                          label: "Bài đăng",
-                          onTap: () => {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.addPost,
-                                )
-                              }),
+                        child:
+                            Icon(Icons.post_add_rounded, color: Colors.white),
+                        backgroundColor: maincolor,
+                        label: "Bài đăng",
+                        onTap: () =>
+                            Navigator.pushNamed(context, AppRoutes.addPost),
+                      ),
                       SpeedDialChild(
-                          child: Icon(Icons.event_available_outlined,
-                              color: Colors.white),
-                          backgroundColor: Colors.red[400],
-                          label: "Sự kiện",
-                          onTap: () => {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.addEvent,
-                                )
-                              }),
+                        child: Icon(Icons.event_available_outlined,
+                            color: Colors.white),
+                        backgroundColor: Colors.red[400],
+                        label: "Sự kiện",
+                        onTap: () =>
+                            Navigator.pushNamed(context, AppRoutes.addEvent),
+                      ),
                     ],
                   ),
                   onPressed: null,
@@ -102,40 +96,52 @@ class RootApp extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (activateTab == AppTab.home)
-          homeAppBar()
-        else if (activateTab == AppTab.calendar)
-          calendarAppbar()
-        else if (activateTab == AppTab.friend)
-          friendAppbar()
-        else if (activateTab == AppTab.profile)
-          profileAppbar()
-        else
-          Text("Fail tab"),
+        getNormalAppbar(activateTab),
+        // if (activateTab == AppTab.home)
+        //   getHomeAppBar()
+        // else if (activateTab == AppTab.calendar)
+        //   getCalendarAppbar()
+        // else if (activateTab == AppTab.friend)
+        //   getFriendAppbar()
+        // else if (activateTab == AppTab.profile)
+        //   getProfileAppbar()
+        // else
+        //   Text("Fail tab"),
       ],
     );
   }
 
-  AppBar profileAppbar() {
-    return AppBar(
-      centerTitle: true,
-      backgroundColor: backgroundbottomtab,
-      title: Text("Hồ sơ của bạn", style: kText24BoldBlack),
-    );
-  }
+  AppBar getNormalAppbar(AppTab activateTab) {
+    final String nameTab;
+    switch (activateTab) {
+      case AppTab.home:
+        //If home tab, have 2 actions
+        return getHomeAppBar();
+      case AppTab.friend:
+        nameTab = "Bạn bè";
+        break;
+      case AppTab.calendar:
+        nameTab = "Sự kiện";
+        break;
+      case AppTab.profile:
+        nameTab = "Hồ sơ của bạn";
+        break;
+      default:
+        nameTab = "fail name";
+    }
+    ;
 
-  AppBar friendAppbar() {
     return AppBar(
       centerTitle: true,
-      backgroundColor: backgroundbottomtab,
-      title: Text("Bạn bè", style: kText24BoldBlack),
+      backgroundColor: backgroundBottomTab,
+      title: Text(nameTab, style: kText24BoldBlack),
     );
   }
 
   AppBar createPostAppbar({Function? onClickSubmit, Function? onClickBack}) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: backgroundbottomtab,
+      backgroundColor: backgroundBottomTab,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back,
@@ -166,51 +172,46 @@ class RootApp extends StatelessWidget {
     );
   }
 
-  AppBar calendarAppbar() {
-    return AppBar(
-      centerTitle: true,
-      backgroundColor: backgroundbottomtab,
-      title: Text(
-        "Sự kiện",
-        style: kText24BoldBlack,
-      ),
-    );
-  }
+  AppBar getHomeAppBar({Function? onClickNotification}) {
+    void onClickSearchEvent() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BlocProvider(
+                    create: (context) => SearcheventBloc(),
+                    child: SearchEvent(),
+                  )));
+      return;
+    }
 
-  AppBar homeAppBar({Function? onClickSearch, Function? onClickNotification}) {
     return AppBar(
       automaticallyImplyLeading: false,
       leadingWidth: 100,
-      backgroundColor: backgroundbottomtab,
+      backgroundColor: backgroundBottomTab,
       titleSpacing: 0,
-      leading: Text(
-        ' Meer',
-        style: TextStyle(
-            color: maincolor,
-            fontFamily: 'Redressed_Regular',
-            fontSize: 35.sp,
-            fontWeight: FontWeight.normal,
-            decoration: TextDecoration.none),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 5.0),
+        child: Text(
+          'Meer',
+          style: TextStyle(
+              color: maincolor,
+              fontFamily: 'Redressed_Regular',
+              fontSize: 35.sp,
+              fontWeight: FontWeight.normal,
+              decoration: TextDecoration.none),
+        ),
       ),
       actions: [
         IconButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                          create: (context) => SearcheventBloc(),
-                          child: SearchEvent(),
-                        )));
-          },
-          icon: const Icon(Icons.search, color: textcolor),
+          onPressed: onClickSearchEvent,
+          icon: const Icon(Icons.search, color: textColor),
           tooltip: "Tìm kiếm",
         ),
         IconButton(
           onPressed: onClickNotification?.call(),
           icon: const Icon(
             Icons.notifications_active,
-            color: textcolor,
+            color: textColor,
           ),
           tooltip: "Xem thông báo",
         ),

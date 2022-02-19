@@ -93,14 +93,14 @@ class _EditProfileState extends State<EditProfile> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AppBar(
-          iconTheme: IconThemeData(color: textcolor),
+          iconTheme: IconThemeData(color: textColor),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: backgroundbottomtab,
+          backgroundColor: backgroundBottomTab,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,

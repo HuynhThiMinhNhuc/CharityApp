@@ -51,10 +51,10 @@ class ChossesEventView extends StatelessWidget {
 
   AppBar getAppBar() {
     return AppBar(
-      backgroundColor: backgroundbottomtab,
+      backgroundColor: backgroundBottomTab,
       centerTitle: true,
       iconTheme: IconThemeData(
-        color: textcolor, //change your color here
+        color: textColor, //change your color here
       ),
       title: Text(
         "Chọn sự kiện",

@@ -85,10 +85,10 @@ class _AddEventPageState extends State<AddEventPage> {
       backgroundColor: cwColorBackground,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: textcolor, //change your color here
+          color: textColor, //change your color here
         ),
         centerTitle: true,
-        backgroundColor: backgroundbottomtab,
+        backgroundColor: backgroundBottomTab,
         title: Text(
           "Tạo sự kiện",
           style: kText18BoldBlack,

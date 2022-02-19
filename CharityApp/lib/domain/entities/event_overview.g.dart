@@ -6,8 +6,19 @@ part of 'event_overview.dart';
 // CopyWithGenerator
 // **************************************************************************
 
-extension EventOverviewCopyWith on EventOverview {
-  EventOverview copyWith({
+/// Proxy class for `CopyWith` functionality. This is a callable class and can be used as follows: `instanceOfEventOverview.copyWith(...)`. Be aware that this kind of usage does not support nullification and all passed `null` values will be ignored. Prefer to copy the instance with a specific field change that handles nullification of fields correctly, e.g. like this:`instanceOfEventOverview.copyWith.fieldName(...)`
+class _EventOverviewCWProxy {
+  final EventOverview _value;
+
+  const _EventOverviewCWProxy(this._value);
+
+  /// This function does not support nullification of optional types, all `null` values passed to this function will be ignored. For nullification, use `EventOverview(...).copyWithNull(...)` to set certain fields to `null`. Prefer `EventOverview(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// EventOverview(...).copyWith(id: 12, name: "My name")
+  /// ````
+  EventOverview call({
     String? avatarUri,
     String? backgroundUri,
     String? creatorId,
@@ -19,15 +30,65 @@ extension EventOverviewCopyWith on EventOverview {
     DateTime? timeCreate,
   }) {
     return EventOverview(
-      avatarUri: avatarUri ?? this.avatarUri,
-      backgroundUri: backgroundUri ?? this.backgroundUri,
-      creatorId: creatorId ?? this.creatorId,
-      id: id ?? this.id,
-      name: name ?? this.name,
-      numberMember: numberMember ?? this.numberMember,
-      numberPost: numberPost ?? this.numberPost,
-      tags: tags ?? this.tags,
-      timeCreate: timeCreate ?? this.timeCreate,
+      avatarUri: avatarUri ?? _value.avatarUri,
+      backgroundUri: backgroundUri ?? _value.backgroundUri,
+      creatorId: creatorId ?? _value.creatorId,
+      id: id ?? _value.id,
+      name: name ?? _value.name,
+      numberMember: numberMember ?? _value.numberMember,
+      numberPost: numberPost ?? _value.numberPost,
+      tags: tags ?? _value.tags,
+      timeCreate: timeCreate ?? _value.timeCreate,
+    );
+  }
+
+  EventOverview avatarUri(String? avatarUri) => avatarUri == null
+      ? _value._copyWithNull(avatarUri: true)
+      : this(avatarUri: avatarUri);
+
+  EventOverview backgroundUri(String? backgroundUri) => backgroundUri == null
+      ? _value._copyWithNull(backgroundUri: true)
+      : this(backgroundUri: backgroundUri);
+
+  EventOverview id(String? id) =>
+      id == null ? _value._copyWithNull(id: true) : this(id: id);
+
+  EventOverview timeCreate(DateTime? timeCreate) => timeCreate == null
+      ? _value._copyWithNull(timeCreate: true)
+      : this(timeCreate: timeCreate);
+
+  EventOverview creatorId(String creatorId) => this(creatorId: creatorId);
+
+  EventOverview name(String name) => this(name: name);
+
+  EventOverview numberMember(int numberMember) =>
+      this(numberMember: numberMember);
+
+  EventOverview numberPost(int numberPost) => this(numberPost: numberPost);
+
+  EventOverview tags(List<TagEvent> tags) => this(tags: tags);
+}
+
+extension EventOverviewCopyWith on EventOverview {
+  /// CopyWith feature provided by `copy_with_extension_gen` library. Returns a callable class and can be used as follows: `instanceOfclass EventOverview extends BaseEvent.name.copyWith(...)`. Be aware that this kind of usage does not support nullification and all passed `null` values will be ignored. Prefer to copy the instance with a specific field change that handles nullification of fields correctly, e.g. like this:`instanceOfclass EventOverview extends BaseEvent.name.copyWith.fieldName(...)`
+  _EventOverviewCWProxy get copyWith => _EventOverviewCWProxy(this);
+
+  EventOverview _copyWithNull({
+    bool avatarUri = false,
+    bool backgroundUri = false,
+    bool id = false,
+    bool timeCreate = false,
+  }) {
+    return EventOverview(
+      avatarUri: avatarUri == true ? null : this.avatarUri,
+      backgroundUri: backgroundUri == true ? null : this.backgroundUri,
+      creatorId: creatorId,
+      id: id == true ? null : this.id,
+      name: name,
+      numberMember: numberMember,
+      numberPost: numberPost,
+      tags: tags,
+      timeCreate: timeCreate == true ? null : this.timeCreate,
     );
   }
 }

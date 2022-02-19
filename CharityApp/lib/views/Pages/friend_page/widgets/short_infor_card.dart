@@ -52,7 +52,7 @@ class _State extends State<ShortInforCard> {
                 Text(
                   widget.userOverview.name,
                   style: TextStyle(
-                    color: textcolor,
+                    color: textColor,
                     fontSize: 15,
                   ),
                 ),

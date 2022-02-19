@@ -21,7 +21,7 @@ class _WelcomeViewState extends State<WelcomeView> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: textcolor, //change your color here
+          color: textColor, //change your color here
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
