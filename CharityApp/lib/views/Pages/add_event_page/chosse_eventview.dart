@@ -1,6 +1,3 @@
-import 'package:charityapp/domain/entities/base_event.dart';
-import 'package:charityapp/domain/entities/event_overview.dart';
-import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/add_event_page/Witgets/event_card_view.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';

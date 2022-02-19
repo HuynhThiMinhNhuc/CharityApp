@@ -1,3 +1,4 @@
+import 'package:charityapp/Config/colorconfig.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Component/custom_btn.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
@@ -20,7 +21,7 @@ class _SenLinkResetPassViewState extends State<SenLinkResetPassView> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: textcolor, //change your color here
+          color: cwColorGreyText, //change your color here
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
