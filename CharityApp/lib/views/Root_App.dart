@@ -238,7 +238,10 @@ class RootApp extends StatelessWidget {
                       .collection("activeusers")
                       .doc(id)
                       .delete();
-                  await GoogleSignIn().disconnect();
+                  // final ggUser = await GoogleSignIn().signIn();
+                  // if (ggUser != null) {
+                  //   await GoogleSignIn().disconnect();
+                  // }
                   await FirebaseAuth.instance.signOut();
 
                   Navigator.pushAndRemoveUntil(

@@ -90,5 +90,6 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         emit(SigninSuccessState());
       }
     }
+    await GoogleSignIn().disconnect();
   }
 }
