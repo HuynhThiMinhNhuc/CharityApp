@@ -2,6 +2,7 @@ import 'package:charityapp/domain/entities/user_comment.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:charityapp/domain/repositories/post_repository.dart';
+import 'package:charityapp/repositories/base_repository_imp.dart';
 import 'package:charityapp/repositories/tag_event_repository_imp.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,13 +77,24 @@ class PostRepositoryImp implements IPostRepository {
     return await Future.wait(posts);
   }
 
+  Future<DocumentSnapshot?> _getDocAt(Query query, int index) {
+    return query.limit(index+1).snapshots().last.then((value) => value.docs.isNotEmpty ? value.docs[0] : null);
+  }
+
   @override
   Future<List<Post>> loadRandomPosts(int startIndex, int number) async {
     final userCollection = FirebaseFirestore.instance.collection('users');
     List<Future> tasks = <Future>[];
 
-    final posts = await collection
-        .orderBy('timeCreate', descending: true)
+    final query = collection
+        .orderBy('timeCreate', descending: true);
+
+    //Get last Doc before the $index 
+    final startDocAfter = await BaseRepositoryImp.GetDocAt(query, startIndex - 1);
+    if (startDocAfter != null) query..startAfterDocument(startDocAfter);
+
+    final posts = await query
+        .limit(number)
         .get()
         .then((snapshot) {
       return snapshot.docs.map((docPost) async {

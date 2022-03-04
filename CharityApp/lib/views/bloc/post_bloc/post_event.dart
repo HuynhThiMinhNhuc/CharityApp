@@ -23,14 +23,14 @@ class LoadEventPosts extends PostEvent {
   List<Object> get props => [startIndex, number, eventId];
 }
 
-class LoadRandomPosts extends PostEvent {
-  final int number;
-  final int startIndex;
-  const LoadRandomPosts({required this.startIndex, required this.number});
+// class LoadRandomPosts extends PostEvent {
+//   final int number;
+//   final int startIndex;
+//   const LoadRandomPosts({required this.startIndex, required this.number});
 
-  @override
-  List<Object> get props => [startIndex, number];
-}
+//   @override
+//   List<Object> get props => [startIndex, number];
+// }
 
 class LoadOverViewEventsPaticipant extends PostEvent {
   final String creatorId;

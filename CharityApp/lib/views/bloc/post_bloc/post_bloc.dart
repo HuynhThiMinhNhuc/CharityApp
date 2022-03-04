@@ -18,7 +18,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   PostBloc() : super(PostLoadInProgress()) {
     on<LoadEventPosts>(_onLoadPosts);
-    on<LoadRandomPosts>(_onLoadRandomPosts);
+    // on<LoadRandomPosts>(_onLoadRandomPosts);
     on<LoadProfilePosts>(_onLoadProfilePosts);
     on<AddPost>(_onAddPost);
     on<DeletePost>(_onDeletePost);
@@ -43,18 +43,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     emit(PostsLoadSuccess(posts: posts));
   }
 
-  FutureOr<void> _onLoadRandomPosts(
-      LoadRandomPosts event, Emitter<PostState> emit) async {
-    emit(PostLoadInProgress());
-    if (loadPostOperation != null && !loadPostOperation!.isCompleted)
-      loadPostOperation!.cancel();
+  // FutureOr<void> _onLoadRandomPosts(
+  //     LoadRandomPosts event, Emitter<PostState> emit) async {
+  //   emit(PostLoadInProgress());
+  //   if (loadPostOperation != null && !loadPostOperation!.isCompleted)
+  //     loadPostOperation!.cancel();
 
-    final task = postRepository.loadRandomPosts(event.startIndex, event.number);
-    loadPostOperation = CancelableOperation.fromFuture(task);
+  //   final task = postRepository.loadRandomPosts(event.startIndex, event.number);
+  //   loadPostOperation = CancelableOperation.fromFuture(task);
 
-    final posts = await task;
-    emit(PostsLoadSuccess(posts: posts));
-  }
+  //   final posts = await task;
+  //   emit(PostsLoadSuccess(posts: posts));
+  // }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) async {
     emit(PostLoadInProgress());

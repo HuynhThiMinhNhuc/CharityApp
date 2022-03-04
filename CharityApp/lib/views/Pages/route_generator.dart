@@ -12,6 +12,7 @@ import 'package:charityapp/views/bloc/editprofile_bloc/bloc/editprofile_bloc.dar
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart' as formBLoc;
 import 'package:charityapp/views/bloc/friend_bloc/friend_bloc.dart';
+import 'package:charityapp/views/bloc/list_post_home_cubit/list_post_home_cubit.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:charityapp/views/bloc/signin_bloc/signin_bloc.dart';
@@ -264,6 +265,9 @@ class RouteGenerator {
           ),
           BlocProvider(
             create: (context) => CalendarBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ListPostHomeCubit(),
           )
         ],
         child: RootApp(),
