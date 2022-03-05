@@ -90,7 +90,7 @@ class _SenLinkResetPassViewState extends State<SenLinkResetPassView> {
                                       )),
                               (Route<dynamic> route) => false)
                         },
-                    textInput: 'TRANG CHỦ'),
+                    textInput: 'ĐĂNG NHẬP'),
               )
             ],
           ),
