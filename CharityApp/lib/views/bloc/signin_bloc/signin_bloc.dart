@@ -31,6 +31,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(event.email)) {
       emit(SigninfailEmailState());
+      emit(SigninInitState());
     } else
       try {
         emit(SignInLoadInProccess());
@@ -46,21 +47,25 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         if (e.code == 'user-not-found' || e.code == 'invalid-email') {
           print('No user found for that email.');
           emit(SigninfailEmailState());
+          emit(SigninInitState());
         } else if (event.password.isEmpty || e.code == 'wrong-password') {
           print('Wrong password provided for that user.');
           emit(SigninfailPassState());
+          emit(SigninInitState());
         } else {
           print('Too many request');
           emit(SigninManyRequestPassState());
+          emit(SigninInitState());
         }
       }
   }
 
   Future<FutureOr<void>> _signInWithGoogle(
       SignInWithGoogle event, Emitter<SigninState> emit) async {
-    final googleSignIn = GoogleSignIn();
+    final googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
     GoogleSignInAccount? user;
     final ggUser = await googleSignIn.signIn();
+    await GoogleSignIn().disconnect();
     if (ggUser != null) {
       user = ggUser;
 
@@ -90,6 +95,5 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         emit(SigninSuccessState());
       }
     }
-    await GoogleSignIn().disconnect();
   }
 }

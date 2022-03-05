@@ -281,6 +281,7 @@ class _AddEventPageState extends State<AddEventPage> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: List.generate(
                             _tags.length,
                             (index) => Padding(

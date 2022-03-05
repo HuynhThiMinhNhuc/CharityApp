@@ -50,7 +50,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Padding(
               padding: EdgeInsets.fromLTRB(20.w, 0, 20.h, 10.w),
               child: Text(
-                'Nhập email bạn đã đăng ký và chúng tôi sẽ gửi một mã xác thực để bạn tiến hành việc đổi mật khẩu',
+                'Nhập email bạn đã đăng ký và chúng tôi sẽ gửi link đến email vừa nhập để bạn tiến hành việc đổi mật khẩu',
                 style: kText18RegularGreyNoteText,
               ),
             ),
@@ -89,7 +89,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             builder: (context) => SenLinkResetPassView(),
                           ));
                     },
-                    textInput: 'GỬI MÃ OTP'))
+                    textInput: 'GỬI MAIL'))
           ],
         ),
       ),
