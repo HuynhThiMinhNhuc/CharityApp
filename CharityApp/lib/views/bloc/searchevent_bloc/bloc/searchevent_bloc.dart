@@ -5,10 +5,8 @@ import 'package:charityapp/domain/entities/event_overview.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:charityapp/repositories/event_repository_imp.dart';
 import 'package:charityapp/repositories/tag_event_repository_imp.dart';
-import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 
 part 'searchevent_event.dart';
 part 'searchevent_state.dart';
@@ -44,8 +42,7 @@ class SearcheventBloc extends Bloc<SearcheventEvent, SearcheventState> {
         if (event.tags[i]) tagsevent.add(tag);
         ++i;
       }
-      events =
-          await _eventrepositoryImp.searchevent(event.query, tagsevent);
+      events = await _eventrepositoryImp.searchevent(event.query, tagsevent);
       if (events.length == 0)
         emit(SearcheventNoResult());
       else
