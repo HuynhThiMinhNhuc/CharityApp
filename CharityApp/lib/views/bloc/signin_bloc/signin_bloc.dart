@@ -32,8 +32,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         .hasMatch(event.email)) {
       emit(SigninfailEmailState());
       emit(SigninInitState());
-    } else
-      try {
+    } else try {
         emit(SignInLoadInProccess());
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: event.email, password: event.password);
@@ -49,7 +48,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
           emit(SigninfailEmailState());
           emit(SigninInitState());
         } else if (event.password.isEmpty || e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
+          print('Wrong password provided for that user.' + e.code);
           emit(SigninfailPassState());
           emit(SigninInitState());
         } else {
