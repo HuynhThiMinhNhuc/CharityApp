@@ -15,6 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../bloc/form_bloc/form_bloc.dart';
+import '../../bloc/form_bloc/form_event.dart';
+
 class EventPage extends StatefulWidget {
   final String eventId;
   EventPage({required this.eventId});
@@ -195,8 +198,8 @@ class _JoinerState extends State<Joiner> {
   }
 
   void onTabUser(BuildContext context, UserOverview user) {
-    BlocProvider.of<bloc.FormBloc>(context)
-        .add(bloc.LoadForm(eventId: widget.eventId, userId: user.id!));
+    BlocProvider.of<FormBloc>(context)
+        .add(LoadForm(eventId: widget.eventId, userId: user.id!));
     Navigator.of(context).pushNamed(AppRoutes.detailFormRegister);
   }
 

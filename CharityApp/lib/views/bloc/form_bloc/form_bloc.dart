@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/domain/repositories/form_repository.dart';
 import 'package:charityapp/domain/repositories/user_repository.dart';
@@ -55,6 +56,7 @@ class FormBloc extends Bloc<FormEvent, FormState> {
   FutureOr<void> _onLoadForm(LoadForm event, Emitter<FormState> emit) async {
     final form = formRepository.load(event.eventId, event.userId);
     final user = userRepository.getUserProfile(event.userId);
-    emit(FormLoadSuccess(form: await form, user: await user));
+    final res = await Future.wait([form,user]);
+    emit(FormLoadSuccess(form: res[0] as FormRegister, user: res[1] as UserProfile));
   }
 }

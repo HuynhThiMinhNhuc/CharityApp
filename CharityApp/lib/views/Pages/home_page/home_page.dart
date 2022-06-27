@@ -1,4 +1,5 @@
 import 'package:charityapp/Config/fontconfig.dart';
+import 'package:charityapp/core/helper/infinity_list_stateless.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/views/Component/active_item.dart';
 import 'package:charityapp/views/Component/post_overview.dart';
@@ -14,13 +15,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   void loadPage(BuildContext context) {
     BlocProvider.of<PostBloc>(context)
-        .add(LoadRandomPosts(startIndex: 0, number: 5));
+        .add(LoadRandomPosts(startIndex: 0, number: 20));
     BlocProvider.of<ActiveuserBloc>(context).add(ActiveuserLoadEvent());
+  }
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -28,7 +48,7 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
         if (state is PostsLoadSuccess) {
-          return LoadSuccessHomeView(state.posts);
+          return LoadSuccessHomeView(context, state.posts);
         } else if (state is PostLoadFailure)
           return Text("Load fail");
         else {
@@ -38,8 +58,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget LoadSuccessHomeView(List<Post> posts) {
+  Widget LoadSuccessHomeView(BuildContext context, List<Post> posts) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,16 +126,27 @@ class HomePage extends StatelessWidget {
                     textAlign: TextAlign.start, style: kText18BoldBlack),
               ),
             ),
-            ListView.builder(
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   itemCount: posts.length,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   itemBuilder: (BuildContext context, int index) {
+            //     BlocProvider.of<LikePostBloc>(context)
+            //         .add(GetNumberLike(postId: posts[index].id!));
+            //     return PostOverviewCard(post: posts[index]);
+            //   },
+            // ),
+            InfinityListStateLess(
               shrinkWrap: true,
-              itemCount: posts.length,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                BlocProvider.of<LikePostBloc>(context)
-                    .add(GetNumberLike(postId: posts[index].id!));
-                return PostOverviewCard(post: posts[index]);
+              physics: ClampingScrollPhysics(),
+              controller: _scrollController,
+              items: posts,
+              child: (index) => PostOverviewCard(post: posts[index]),
+              fetchItemsOnBottom: (items) {
+                BlocProvider.of<PostBloc>(context)
+                    .add(LoadRandomPosts(startIndex: items.length, number: 5));
               },
-            ),
+            )
           ]),
     );
   }

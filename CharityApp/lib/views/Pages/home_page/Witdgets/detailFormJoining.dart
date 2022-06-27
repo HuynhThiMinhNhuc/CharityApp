@@ -194,8 +194,8 @@ class _DetailFormJoiningsState extends State<DetailFormJoinings> {
                 style: myStyle(isBold: true),
               ),
               TextSpan(
-                text: DateFormat("dd/MM/yyyy")
-                    .format(joinerProfile.birthDay as DateTime),
+                text: joinerProfile.birthDay != null ? DateFormat("dd/MM/yyyy")
+                    .format(joinerProfile.birthDay as DateTime) : 'Không có',
               )
             ]),
           ),

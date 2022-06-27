@@ -64,7 +64,7 @@ class PostRepositoryImp implements IPostRepository {
           (docUser) {
             post.creator =
                 UserOverview.fromJson(docUser.data() as Map<String, dynamic>);
-            post.id = docUser.id; //Set doc id
+            // post.id = docUser.id; //Set doc id
           },
         );
 
@@ -81,24 +81,22 @@ class PostRepositoryImp implements IPostRepository {
     final userCollection = FirebaseFirestore.instance.collection('users');
     List<Future> tasks = <Future>[];
 
-    final posts = await collection
-        .orderBy('timeCreate', descending: true)
-        .get()
-        .then((snapshot) {
+    final lastDocSnapshot = startIndex == 0
+        ? null
+        : await collection
+            .orderBy('timeCreate', descending: true)
+            .limit(startIndex)
+            .get();
+    var query =
+        collection.orderBy('timeCreate', descending: true).limit(number);
+    if (lastDocSnapshot != null) {
+      query = query.startAfterDocument(lastDocSnapshot.docs.last);
+    }
+
+    final posts = await query.get().then((snapshot) {
       return snapshot.docs.map((docPost) async {
         final postJson = docPost.data() as Map<String, dynamic>;
         final post = Post.fromJson(postJson)..id = docPost.id;
-        // final list = await loadNumberLike(docPost.id);
-
-        // post.numberLike = list[0]; //(postJson['like'] as List<dynamic>?)?.length ?? 0;
-        // post.isLike = list[1];
-        // post.numberComment = list[2];
-        // (postJson['like'] as List<dynamic>?)?.contains(Authenticator.Id) ??
-        //     false;
-        // post.numberComment = await _getNumberComment(docPost);
-        // docPost.reference.collection('comments').get().then((commentSnapshot) {
-        //   post.numberComment = commentSnapshot.docs.length;
-        // });
 
         final tagRepo = TagEventRepositoryImp();
         final tags = (await tagRepo.loadFrom(post.eventId!));
@@ -152,8 +150,8 @@ class PostRepositoryImp implements IPostRepository {
   }
 
   @override
-  Future<List> loadNumberLike(String postId) {
-    return collection.doc(postId).get().then((doc) async {
+  Future<List> loadNumberLike(String postId) async {
+    return await collection.doc(postId).get().then((doc) async {
       final json = doc.data() as Map<String, dynamic>;
       final list = (json['like'] as List<dynamic>?)
               ?.map((element) => element as String)

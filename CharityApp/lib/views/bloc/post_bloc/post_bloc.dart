@@ -29,8 +29,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       LoadEventPosts event, Emitter<PostState> emit) async {
     emit(PostLoadInProgress());
 
-    if (loadPostOperation != null && !loadPostOperation!.isCompleted)
-      loadPostOperation!.cancel();
+      loadPostOperation?.cancel();
 
     final task = postRepository.load(
       event.eventId,
@@ -45,15 +44,19 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   FutureOr<void> _onLoadRandomPosts(
       LoadRandomPosts event, Emitter<PostState> emit) async {
-    emit(PostLoadInProgress());
-    if (loadPostOperation != null && !loadPostOperation!.isCompleted)
-      loadPostOperation!.cancel();
+    try {
+      emit(PostLoadInProgress());
+      loadPostOperation?.cancel();
 
-    final task = postRepository.loadRandomPosts(event.startIndex, event.number);
-    loadPostOperation = CancelableOperation.fromFuture(task);
+      final task =
+          postRepository.loadRandomPosts(event.startIndex, event.number);
+      loadPostOperation = CancelableOperation.fromFuture(task);
 
-    final posts = await task;
-    emit(PostsLoadSuccess(posts: posts));
+      final posts = await task;
+      emit(PostsLoadSuccess(posts: posts));
+    } catch (e) {
+      emit(PostsLoadSuccess(posts: []));
+    }
   }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) async {
@@ -99,8 +102,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   FutureOr<void> _onLoadProfilePosts(
       LoadProfilePosts event, Emitter<PostState> emit) async {
     emit(PostLoadInProgress());
-    if (loadPostOperation != null && !loadPostOperation!.isCompleted)
-      loadPostOperation!.cancel();
+      loadPostOperation?.cancel();
 
     final task = postRepository.loadPostsFromCreator(
       event.creator,

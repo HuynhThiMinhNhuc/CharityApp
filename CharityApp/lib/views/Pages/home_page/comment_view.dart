@@ -13,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -165,11 +166,13 @@ class _CommentViewElementState extends State<CommentViewElement> {
       child: SingleChildScrollView(
           child: StreamBuilder(
               stream: BlocProvider.of<CommentBloc>(context).commentStream,
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Text('loading or not data');
+              builder: (context, AsyncSnapshot<List<Map<String,dynamic>>> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Không thể tải bình luận');
+                } else if (!snapshot.hasData) {
+                  return Text('Đang tải dữ liệu');
                 } else {
-                  final listComment = snapshot.data!.docs;
+                  final listComment = snapshot.data!;
 
                   if (listComment.isEmpty) return NoComment();
 
@@ -181,12 +184,11 @@ class _CommentViewElementState extends State<CommentViewElement> {
                       //return SketonComment();
                       return FutureBuilder<UserComment>(
                         future: _bloc.getComment(
-                            listComment[index].data() as Map<String, dynamic>),
+                            listComment[index]),
                         builder: (context, user) {
                           if (user.hasError) {
                             return Text('error loading');
-                          }
-                          if (user.hasData) {
+                          } else if (user.hasData) {
                             return CommentItem(
                               comment: user.data!,
                             );
@@ -373,6 +375,18 @@ class CommentItem extends StatelessWidget {
               Text(
                 ' - ' + GetTimeComparePresent.call(comment.timeComment),
                 style: kText13RegularGreyText,
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: CircularPercentIndicator(
+                    radius: 13,
+                    percent: comment.nlp,
+                    center: Text('${(comment.nlp*100).toStringAsFixed(0)}%', style: TextStyle(fontSize: 8)),
+                    lineWidth: 2,
+                    progressColor: comment.nlp >= 0.5 ? Colors.blue : Colors.red,
+                  ),
+                ),
               ),
             ],
           ),

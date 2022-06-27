@@ -71,6 +71,7 @@ dependencies:
   flutter_image_compress: ^1.1.0
   flutter_screenutil: ^5.1.0
   google_sign_in: ^5.2.3
+  percent_indicator: ^4.2.1
   
 dev_dependencies:
   flutter_test:

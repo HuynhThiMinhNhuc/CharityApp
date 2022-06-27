@@ -193,7 +193,7 @@ class _FormBodyState extends State<FormBody> {
             fillColor: Color(0xFFF4F4F4),
             filled: true,
             hintText: 'Nhập tên bạn tại đây',
-            enabled: false,
+            enabled: true,
             contentPadding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
           ),
         ),
@@ -216,7 +216,7 @@ class _FormBodyState extends State<FormBody> {
               fillColor: Color(0xFFF4F4F4),
               filled: true,
               hintText: 'Nhập số điện thoại của bạn tại đây',
-              enabled: false,
+              enabled: true,
               contentPadding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0)),
         ),
         SizedBox(
