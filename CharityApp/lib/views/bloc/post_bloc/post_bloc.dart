@@ -16,7 +16,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   // StreamSubscription? _postsSubscription;
   CancelableOperation? loadPostOperation;
 
-  PostBloc() : super(PostLoadInProgress()) {
+  PostBloc() : super(PostsLoadSuccess(posts: [], isLoading: false)) {
     on<LoadEventPosts>(_onLoadPosts);
     on<LoadRandomPosts>(_onLoadRandomPosts);
     on<LoadProfilePosts>(_onLoadProfilePosts);
@@ -27,25 +27,31 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   FutureOr<void> _onLoadPosts(
       LoadEventPosts event, Emitter<PostState> emit) async {
-    emit(PostLoadInProgress());
+    try {
+      emit(PostsLoadSuccess(posts: event.posts, isLoading: true));
 
       loadPostOperation?.cancel();
 
-    final task = postRepository.load(
-      event.eventId,
-      event.startIndex,
-      event.number,
-    );
-    loadPostOperation = CancelableOperation.fromFuture(task);
+      final task = postRepository.load(
+        event.eventId,
+        event.startIndex,
+        event.number,
+      );
+      loadPostOperation = CancelableOperation.fromFuture(task);
 
-    final posts = await task;
-    emit(PostsLoadSuccess(posts: posts));
+      final posts = await task;
+      emit(PostsLoadSuccess(
+          posts: [...event.posts, ...posts], isLoading: false));
+    } catch (error) {
+      emit(PostsLoadSuccess(
+          posts: event.posts, isLoading: false, error: error.toString()));
+    }
   }
 
   FutureOr<void> _onLoadRandomPosts(
       LoadRandomPosts event, Emitter<PostState> emit) async {
     try {
-      emit(PostLoadInProgress());
+      emit(PostsLoadSuccess(posts: event.posts, isLoading: true));
       loadPostOperation?.cancel();
 
       final task =
@@ -53,14 +59,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       loadPostOperation = CancelableOperation.fromFuture(task);
 
       final posts = await task;
-      emit(PostsLoadSuccess(posts: posts));
-    } catch (e) {
-      emit(PostsLoadSuccess(posts: []));
+      emit(PostsLoadSuccess(
+          posts: [...event.posts, ...posts], isLoading: false));
+    } catch (error) {
+      emit(PostsLoadSuccess(
+          posts: event.posts, isLoading: false, error: error.toString()));
     }
   }
 
   void _onAddPost(AddPost event, Emitter<PostState> emit) async {
-    emit(PostLoadInProgress());
+    emit(PostUpdated(post: event.post, isLoading: true));
     //Add image to fire storage
     event.post.imagesUri = <String>[];
     final imagesTask = <Future<String?>>[];
@@ -72,7 +80,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         event.post.imagesUri.add(uri);
       }).onError((error, stackTrace) {
         print('Fail to upload image to storage');
-        emit(PostLoadFailure());
+        emit(PostUpdated(
+            post: event.post, isLoading: false, error: error.toString()));
         return;
       }));
     });
@@ -81,9 +90,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     //Save to database
     try {
       await this.postRepository.add(event.post);
-      emit(PostUpdated(post: event.post));
-    } catch (_) {
-      emit(PostLoadFailure());
+      emit(PostUpdated(post: event.post, isLoading: false));
+    } catch (error) {
+      emit(PostUpdated(
+          post: event.post, isLoading: false, error: error.toString()));
     }
   }
 
@@ -93,25 +103,40 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   FutureOr<void> _onLoadOverviewPosts(
       LoadOverViewEventsPaticipant event, Emitter<PostState> emit) async {
-    emit(PostLoadInProgress());
-    final events =
-        await this.eventRepository.loadEventsPaticipant(event.creatorId);
-    emit(PostsLoadOverviewSuccess(eventsOverview: events));
+    try {
+      emit(PostsLoadOverviewSuccess(
+          eventsOverview: event.events, isLoading: true));
+      final events =
+          await this.eventRepository.loadEventsPaticipant(event.creatorId);
+      emit(PostsLoadOverviewSuccess(
+          eventsOverview: [...event.events, ...events], isLoading: false));
+    } catch (error) {
+      emit(PostsLoadOverviewSuccess(
+          eventsOverview: event.events,
+          isLoading: false,
+          error: error.toString()));
+    }
   }
 
   FutureOr<void> _onLoadProfilePosts(
       LoadProfilePosts event, Emitter<PostState> emit) async {
-    emit(PostLoadInProgress());
+    try {
+      emit(PostsLoadSuccess(posts: event.posts, isLoading: true));
       loadPostOperation?.cancel();
 
-    final task = postRepository.loadPostsFromCreator(
-      event.creator,
-      event.startIndex,
-      event.number,
-    );
-    loadPostOperation = CancelableOperation.fromFuture(task);
+      final task = postRepository.loadPostsFromCreator(
+        event.creator,
+        event.startIndex,
+        event.number,
+      );
+      loadPostOperation = CancelableOperation.fromFuture(task);
 
-    final posts = await task;
-    emit(PostsLoadSuccess(posts: posts));
+      final posts = await task;
+      emit(PostsLoadSuccess(
+          posts: [...event.posts, ...posts], isLoading: false));
+    } catch (error) {
+      emit(PostsLoadSuccess(
+          posts: event.posts, isLoading: false, error: error.toString()));
+    }
   }
 }

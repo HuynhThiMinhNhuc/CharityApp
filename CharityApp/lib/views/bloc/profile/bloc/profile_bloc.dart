@@ -39,6 +39,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   bool RigntFormatPhone(String phone) {
-    return (phone[0] == '0' && phone.length == 10);
+    return (phone[0] == '0' && phone.length >= 10 && phone.length <= 11);
   }
 }

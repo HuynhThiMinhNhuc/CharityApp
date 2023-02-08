@@ -67,6 +67,7 @@ class _AddPostPageState extends State<AddPostPage> {
                   onPress: () async {
                     BlocProvider.of<PostBloc>(context).add(
                       LoadOverViewEventsPaticipant(
+                          events: [],
                           creatorId: Authenticator.Id,
                           startIndex: 0,
                           number: 10),

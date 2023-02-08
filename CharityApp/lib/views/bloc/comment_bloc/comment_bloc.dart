@@ -22,25 +22,25 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   getComments(postId) {
     final stream = _repository.getComments(postId);
     final customStream = stream.asyncMap((event) async {
-      final listNLP = await http.post(
-          Uri.https('80e1-42-119-147-155.ap.ngrok.io', 'comment'),
-          headers: {'Content-Type': 'application/json; charset=UTF-8'},
-          body: jsonEncode({
-            'comments': event.docs.map((i) => i['content']).toList(),
-          }));
+      // final listNLP = await http.post(
+      //     Uri.https('80e1-42-119-147-155.ap.ngrok.io', 'comment'),
+      //     headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      //     body: jsonEncode({
+      //       'comments': event.docs.map((i) => i['content']).toList(),
+      //     }));
 
       print(event.docs.map((i) => i['content']).toList());
-      print('ListNLP');
+      // print('ListNLP');
 
-      final listNLPJson = jsonDecode(listNLP.body)['probabilities'];
+      // final listNLPJson = jsonDecode(listNLP.body)['probabilities'];
 
       // print(listNLP.body);
       // return event;
       return event.docs.map((e) {
         final index = event.docs.indexWhere((i)=>i.id == e.id);
         final data = e.data();
-        data.addAll(
-            {'nlp': listNLPJson[index][0]});
+        // data.addAll(
+        //     {'nlp': listNLPJson[index][0]});
         return data;
       }).toList();
     });

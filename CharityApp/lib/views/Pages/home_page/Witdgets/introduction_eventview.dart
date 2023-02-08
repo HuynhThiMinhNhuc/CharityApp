@@ -31,8 +31,6 @@ class IntroductionEventView extends StatelessWidget {
                     style: kText18BoldBlack,
                   ),
                 ),
-                IconButton(
-                    onPressed: () => {}, icon: Icon(Icons.edit, size: 17.w))
               ],
             ),
             SizedBox(

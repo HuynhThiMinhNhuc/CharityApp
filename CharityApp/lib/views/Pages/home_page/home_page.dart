@@ -6,8 +6,6 @@ import 'package:charityapp/views/Component/post_overview.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_other.dart';
 import 'package:charityapp/views/Pages/profile_page/profile_page.dart';
 import 'package:charityapp/views/bloc/activeuser_bloc/activeuser_bloc.dart';
-import 'package:charityapp/views/bloc/like_post_bloc/like_post_bloc.dart';
-import 'package:charityapp/views/bloc/like_post_bloc/like_post_event.dart';
 import 'package:charityapp/views/bloc/overviewuse_bloc/overviewuser_bloc.dart';
 import 'package:charityapp/views/bloc/post_bloc/post.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ class HomePage extends StatefulWidget {
 
   void loadPage(BuildContext context) {
     BlocProvider.of<PostBloc>(context)
-        .add(LoadRandomPosts(startIndex: 0, number: 20));
+        .add(LoadRandomPosts(posts: [], startIndex: 0, number: 20));
     BlocProvider.of<ActiveuserBloc>(context).add(ActiveuserLoadEvent());
   }
 
@@ -35,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    widget.loadPage(context);
   }
 
   @override
@@ -47,18 +46,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        if (state is PostsLoadSuccess) {
-          return LoadSuccessHomeView(context, state.posts);
-        } else if (state is PostLoadFailure)
-          return Text("Load fail");
-        else {
-          return SkeletonEvent();
-        }
+        return LoadSuccessHomeView(context, state as PostsLoadSuccess);
       },
     );
   }
 
-  Widget LoadSuccessHomeView(BuildContext context, List<Post> posts) {
+  Widget LoadSuccessHomeView(BuildContext context, PostsLoadSuccess state) {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Column(
@@ -140,13 +133,13 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               controller: _scrollController,
-              items: posts,
-              child: (index) => PostOverviewCard(post: posts[index]),
-              fetchItemsOnBottom: (items) {
-                BlocProvider.of<PostBloc>(context)
-                    .add(LoadRandomPosts(startIndex: items.length, number: 5));
-              },
-            )
+              items: state.posts,
+              child: (index) => PostOverviewCard(post: state.posts[index]),
+              fetchItemsOnBottom: (items) => BlocProvider.of<PostBloc>(context)
+                  .add(LoadRandomPosts(
+                      posts: state.posts, startIndex: items.length, number: 5)),
+            ),
+            if (state.isLoading) SkeletonEvent()
           ]),
     );
   }

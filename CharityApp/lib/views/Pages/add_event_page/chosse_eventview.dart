@@ -14,34 +14,30 @@ class ChossesEventView extends StatelessWidget {
         appBar: getAppBar(),
         body: BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
-            if (state is PostsLoadOverviewSuccess) {
-              final events = state.eventsOverview;
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: events.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            child: EventCardView(
-                                eventOverviewPaticipants: events[index]),
-                            onTap: () =>
-                                Navigator.of(context).pop(events[index]),
-                          );
-                        },
-                      )
-                    ],
-                  ),
+            state as PostsLoadOverviewSuccess;
+            final events = state.eventsOverview;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: events.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          child: EventCardView(
+                              eventOverviewPaticipants: events[index]),
+                          onTap: () => Navigator.of(context).pop(events[index]),
+                        );
+                      },
+                    ),
+                    if (state.isLoading) SketonChosseEvent()
+                  ],
                 ),
-              );
-            } else if (state is PostLoadInProgress) {
-              return SketonChosseEvent();
-            }
-            return SketonChosseEvent();
+              ),
+            );
           },
         ));
   }

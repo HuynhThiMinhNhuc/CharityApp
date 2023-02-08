@@ -376,18 +376,18 @@ class CommentItem extends StatelessWidget {
                 ' - ' + GetTimeComparePresent.call(comment.timeComment),
                 style: kText13RegularGreyText,
               ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: CircularPercentIndicator(
-                    radius: 13,
-                    percent: comment.nlp,
-                    center: Text('${(comment.nlp*100).toStringAsFixed(0)}%', style: TextStyle(fontSize: 8)),
-                    lineWidth: 2,
-                    progressColor: comment.nlp >= 0.5 ? Colors.blue : Colors.red,
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: Align(
+              //     alignment: Alignment.centerRight,
+              //     child: CircularPercentIndicator(
+              //       radius: 13,
+              //       percent: comment.nlp,
+              //       center: Text('${(comment.nlp*100).toStringAsFixed(0)}%', style: TextStyle(fontSize: 8)),
+              //       lineWidth: 2,
+              //       progressColor: comment.nlp >= 0.5 ? Colors.blue : Colors.red,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           SizedBox(

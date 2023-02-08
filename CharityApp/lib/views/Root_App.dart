@@ -270,7 +270,7 @@ class RootApp extends StatelessWidget {
 
   Widget getbody(BuildContext context, AppTab activateTab) {
     if (activateTab == AppTab.home) {
-      return HomePage()..loadPage(context);
+      return HomePage();
     } else if (activateTab == AppTab.calendar)
       return CalendarPage();
     // else if (activateTab == AppTab.addpost)

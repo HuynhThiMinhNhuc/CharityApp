@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:charityapp/domain/entities/base_post.dart';
+import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/entities/post.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:equatable/equatable.dart';
@@ -16,40 +17,62 @@ class LoadEventPosts extends PostEvent {
   final String eventId;
   final int number;
   final int startIndex;
-  const LoadEventPosts(
-      {required this.eventId, required this.startIndex, required this.number});
+  final List<Post> posts;
+  const LoadEventPosts({
+    required this.posts,
+    required this.eventId,
+    required this.startIndex,
+    required this.number,
+  });
 
   @override
-  List<Object> get props => [startIndex, number, eventId];
+  List<Object> get props => [posts, startIndex, number, eventId];
 }
 
 class LoadRandomPosts extends PostEvent {
   final int number;
   final int startIndex;
-  const LoadRandomPosts({required this.startIndex, required this.number});
+  final List<Post> posts;
+  const LoadRandomPosts({
+    required this.posts,
+    required this.startIndex,
+    required this.number,
+  });
 
   @override
-  List<Object> get props => [startIndex, number];
+  List<Object> get props => [posts, startIndex, number];
 }
 
 class LoadOverViewEventsPaticipant extends PostEvent {
   final String creatorId;
   final int number;
   final int startIndex;
-  const LoadOverViewEventsPaticipant({required this.creatorId, required this.startIndex, required this.number});
+  final List<EventOverviewPaticipants> events;
+  const LoadOverViewEventsPaticipant({
+    required this.events,
+    required this.creatorId,
+    required this.startIndex,
+    required this.number,
+  });
 
   @override
-  List<Object> get props => [creatorId, startIndex, number];
+  List<Object> get props => [events, creatorId, startIndex, number];
 }
 
 class LoadProfilePosts extends PostEvent {
   final UserOverview creator;
   final int startIndex;
   final int number;
-  const LoadProfilePosts({required this.creator, required this.startIndex, required this.number});
+  final List<Post> posts;
+  const LoadProfilePosts({
+    required this.posts,
+    required this.creator,
+    required this.startIndex,
+    required this.number,
+  });
 
-    @override
-  List<Object> get props => [creator, startIndex, number];
+  @override
+  List<Object> get props => [posts, creator, startIndex, number];
 }
 
 class DeletePost extends PostEvent {

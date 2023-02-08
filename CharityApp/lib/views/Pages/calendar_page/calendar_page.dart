@@ -25,7 +25,7 @@ class _CalendarPageState extends State<CalendarPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -87,7 +87,7 @@ class _CalendarPageState extends State<CalendarPage>
               tabs: [
                 Tab(text: "Tham gia"),
                 Tab(text: "Tổ chức"),
-                Tab(text: "Đang chờ"),
+                // Tab(text: "Đang chờ"),
               ],
               onTap: tabChanged),
         ),

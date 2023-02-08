@@ -3,6 +3,7 @@ import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class EventCardView extends StatelessWidget {
   final EventOverviewPaticipants eventOverviewPaticipants;
@@ -57,20 +58,10 @@ class EventCardView extends StatelessWidget {
                     RichText(
                         text: TextSpan(children: <TextSpan>[
                       TextSpan(
-                          text: eventOverviewPaticipants.timeStart!.hour
-                                  .toString() +
-                              ":" +
-                              eventOverviewPaticipants.timeStart!.minute
-                                  .toString(),
+                          text: DateFormat('HH:mm').format(eventOverviewPaticipants.timeStart!),
                           style: kText13RegularRed),
                       TextSpan(
-                        text: ", " +
-                            eventOverviewPaticipants.timeStart!.day.toString() +
-                            "/" +
-                            eventOverviewPaticipants.timeStart!.month
-                                .toString() +
-                            "/" +
-                            eventOverviewPaticipants.timeStart!.year.toString(),
+                        text: DateFormat(', dd/MM/yyyy').format(eventOverviewPaticipants.timeStart!),
                         style: kText13RegularGreyText,
                       )
                     ]))

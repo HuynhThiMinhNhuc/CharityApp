@@ -296,10 +296,10 @@ class _EditProfileState extends State<EditProfile> {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(
-                                        DateTime.now().year - 1,
+                                        DateTime.now().year - 100,
                                         DateTime.now().month,
                                         DateTime.now().day),
-                                    lastDate: DateTime(DateTime.now().year + 2),
+                                    lastDate: DateTime(DateTime.now().year + 1),
                                   ).then((value) {
                                     if (value != null) {
                                       widget.currentUser.birthDayString =
@@ -313,6 +313,8 @@ class _EditProfileState extends State<EditProfile> {
                                           print(
                                               "Date selected: $widget.currentUser.birthDayString");
                                         });
+                                    } else {
+                                      
                                     }
                                   });
                                 },
@@ -323,76 +325,76 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 110.w,
-                      child: Text(
-                        "Giới tính",
-                        style: kText15BoldBlack,
-                      ),
-                    ),
-                    Flexible(
-                      child: DropdownButton(
-                        value: dropvalue,
-                        icon: Icon(Icons.arrow_drop_down_outlined),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropvalue = newValue!;
-                            widget.currentUser.gender = newValue == 'Nữ'
-                                ? Genders.Female
-                                : newValue == "Nam"
-                                    ? Genders.Male
-                                    : Genders.Undefined;
-                          });
-                        },
-                        underline: Container(
-                          height: 1,
-                          color: Colors.black,
-                        ),
-                        items: <String>['Nam', 'Nữ', 'Khác']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 110,
-                      child: Text(
-                        "Mô tả",
-                        style: kText15BoldBlack,
-                      ),
-                    ),
-                    Container(
-                        width: MediaQuery.of(context).size.width - 140,
-                        child: Flexible(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: maincolor, width: 2.0),
-                              ),
-                            ),
-                            initialValue: widget.currentUser.description,
-                            onChanged: (value) =>
-                                {widget.currentUser.description = value},
-                          ),
-                        )),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         width: 110.w,
+              //         child: Text(
+              //           "Giới tính",
+              //           style: kText15BoldBlack,
+              //         ),
+              //       ),
+                    // Flexible(
+                    //   child: DropdownButton(
+                    //     value: dropvalue,
+                    //     icon: Icon(Icons.arrow_drop_down_outlined),
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         dropvalue = newValue!;
+                    //         widget.currentUser.gender = newValue == 'Nữ'
+                    //             ? Genders.Female
+                    //             : newValue == "Nam"
+                    //                 ? Genders.Male
+                    //                 : Genders.Undefined;
+                    //       });
+                    //     },
+                    //     underline: Container(
+                    //       height: 1,
+                    //       color: Colors.black,
+                    //     ),
+                    //     items: <String>['Nam', 'Nữ', 'Khác']
+                    //         .map<DropdownMenuItem<String>>((String value) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: value,
+                    //         child: Text(value),
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
+                //   ],
+                // ),
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         width: 110,
+              //         child: Text(
+              //           "Mô tả",
+              //           style: kText15BoldBlack,
+              //         ),
+              //       ),
+              //       Container(
+              //           width: MediaQuery.of(context).size.width - 140,
+              //           child: Flexible(
+              //             child: TextFormField(
+              //               decoration: InputDecoration(
+              //                 focusedBorder: UnderlineInputBorder(
+              //                   borderSide: const BorderSide(
+              //                       color: maincolor, width: 2.0),
+              //                 ),
+              //               ),
+              //               initialValue: widget.currentUser.description,
+              //               onChanged: (value) =>
+              //                   {widget.currentUser.description = value},
+              //             ),
+              //           )),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.fromLTRB(10.w, 20.h, 0, 15.h),
                 child: Container(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:charityapp/Config/fontconfig.dart';
 import 'package:charityapp/core/model/routes.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
@@ -212,7 +214,8 @@ class RouteGenerator {
                           arguments: state.post.eventId,
                         ),
                       ));
-            } else if (state is PostLoadFailure) {
+            } else if (state.error != null) {
+              log(state.error!);
               showDialog(
                 context: context,
                 builder: (context) => MyAlertDialog2(

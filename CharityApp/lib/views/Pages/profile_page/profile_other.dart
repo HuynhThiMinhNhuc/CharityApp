@@ -32,8 +32,8 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
     postBloc = BlocProvider.of<PostBloc>(context);
     overViewUserBloc = BlocProvider.of<OverViewUserBloc>(context);
     overViewUserBloc.add(LoadOverViewUserEvent(widget.creator.id));
-    BlocProvider.of<PostBloc>(context).add(
-        LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
+    BlocProvider.of<PostBloc>(context).add(LoadProfilePosts(
+        posts: [], creator: widget.creator, startIndex: 0, number: 10));
   }
 
   @override
@@ -68,10 +68,8 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
                   } else if (state is UnfollowOverViewUserState) {
                     return ProfileOverView(state.userProfile as UserProfile,
                         state.isfriend, overViewUserBloc);
-                  } else if (state is PostLoadInProgress)
-                    return SketonProfile();
-                  else
-                    return SketonProfile();
+                  }
+                  return SketonProfile();
                 },
               )),
           Divider(thickness: 1.0),
@@ -80,15 +78,9 @@ class _ProfileOtherPageState extends State<ProfileOtherPage> {
             //      listenWhen: (context, state){
             //        return state is ClickPostEvent;
             // },
-            listener: (context, state) {
-              if (state is PostLoadInProgress) {
-                //push DetailPost with post ID
-              }
-            },
+            listener: (context, state) {},
             buildWhen: (context, state) {
-              return state is PostLoadInProgress ||
-                  state is PostsLoadSuccess ||
-                  state is PostLoadFailure;
+              return state is PostsLoadSuccess;
             },
             builder: (context, state) {
               if (state is PostsLoadSuccess) {

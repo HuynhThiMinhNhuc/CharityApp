@@ -123,19 +123,19 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: EdgeInsets.all(10.w),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextButton.icon(
-                          onPressed: () => {},
-                          icon: Icon(
-                            Icons.check_circle,
-                            color: maincolor,
-                            size: 20.h,
-                          ),
-                          label: Text(
-                            'Nhớ tài khoản',
-                            style: TextStyle(color: icon),
-                          )),
+                      // TextButton.icon(
+                      //     onPressed: () => {},
+                      //     icon: Icon(
+                      //       Icons.check_circle,
+                      //       color: maincolor,
+                      //       size: 20.h,
+                      //     ),
+                      //     label: Text(
+                      //       'Nhớ tài khoản',
+                      //       style: TextStyle(color: icon),
+                      //     )),
                       TextButton(
                         onPressed: () {
                           Navigator.push(

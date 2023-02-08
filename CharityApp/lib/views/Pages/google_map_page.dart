@@ -9,7 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 
 class GoogleMapPage extends StatefulWidget {
-  final googlePlace = GooglePlace("AIzaSyB7ovsLc6Bkw_tM52v50w6m7UbbAqkCYgU");
+  final googlePlace = GooglePlace("AIzaSyDiYe59uu2huTpTqe1UNovmCjD3q0ri7Nk");
 
   final LatLng initLatlng;
   GoogleMapPage(

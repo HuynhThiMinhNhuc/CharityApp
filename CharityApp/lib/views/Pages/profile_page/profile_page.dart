@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
     overViewUserBloc.add(LoadOverViewUserEvent(
         GetIt.instance.get<Authenticator>().userProfile.id));
     BlocProvider.of<PostBloc>(context).add(
-        LoadProfilePosts(creator: widget.creator, startIndex: 0, number: 10));
+        LoadProfilePosts(posts: [], creator: widget.creator, startIndex: 0, number: 10));
   }
 
   @override
@@ -57,9 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     //return SketonProfile();
                     return ProfileOverView(state.userProfile as UserProfile,
                         mode.My, overViewUserBloc);
-                  } else if (state is PostLoadInProgress)
-                    return SketonProfile();
-                  else
+                  }
                     return SketonProfile();
                 },
               )),

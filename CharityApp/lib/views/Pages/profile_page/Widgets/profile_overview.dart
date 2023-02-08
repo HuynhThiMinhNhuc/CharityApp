@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:charityapp/domain/entities/user_profile.dart';
 import 'package:charityapp/global_variable/color.dart';
 import 'package:charityapp/views/Pages/profile_page/edit_profile.dart';
@@ -272,4 +273,19 @@ class _ProfileOverViewState extends State<ProfileOverView> {
         fontFamily: 'Roboto_Regular',
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal);
   }
+}
+
+Widget GetDefaultImage(bool check, Widget baseImage(ImageProvider<Object> image), ImageProvider<Object> success, ImageProvider<Object> fail) {
+  return check ? baseImage(success) : baseImage(fail);
+}
+
+Widget NetworkImageWrapper(String networkUrl,
+    Widget funcImage(ImageProvider<Object> image), String assetImage) {
+  return CachedNetworkImage(
+    imageUrl: networkUrl,
+    progressIndicatorBuilder: (context, url, downloadProgress) =>
+        CircularProgressIndicator(value: downloadProgress.progress),
+    errorWidget: (context, url, error) => funcImage(AssetImage(assetImage)),
+    imageBuilder: (context, networkImage) => funcImage(networkImage),
+  );
 }

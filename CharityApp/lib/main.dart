@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:charityapp/views/Pages/home_page/home_page.dart';
 import 'package:charityapp/views/Pages/route_generator.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart';
@@ -47,7 +48,7 @@ class MeerApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(360, 780),
       minTextAdapt: true,
-      builder: () => MaterialApp(
+      builder: (context, child) => MaterialApp(
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.green,

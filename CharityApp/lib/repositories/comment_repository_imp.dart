@@ -18,7 +18,7 @@ class CommentRepositoryImp extends ICommentRepository {
   }
 
   @override
-  Stream<QuerySnapshot<Map<String,dynamic>>> getComments(String postId) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getComments(String postId) {
     return postCollection
         .doc(postId)
         .collection('comments')
@@ -33,12 +33,13 @@ class CommentRepositoryImp extends ICommentRepository {
         .get()
         .then((doc) {
       return UserComment(
-          id: doc.id,
-          name: doc['name'],
-          avatarUri: doc['avatarUri'],
-          content: json['content'],
-          timeComment: (json['timeComment'] as Timestamp).toDate(),
-          nlp: json['nlp']);
+        id: doc.id,
+        name: doc['name'],
+        avatarUri: doc['avatarUri'],
+        content: json['content'],
+        timeComment: (json['timeComment'] as Timestamp).toDate(),
+        // nlp: json['nlp']
+      );
     });
   }
 }

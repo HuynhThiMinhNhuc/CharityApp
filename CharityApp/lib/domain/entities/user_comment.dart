@@ -13,14 +13,14 @@ class UserComment extends BaseObject{
   final String? avatarUri;
   final String content;
   final DateTime timeComment;
-  final double nlp;
+  // final double nlp;
 
   UserComment({
     required this.name,
     required this.avatarUri,
     required this.content,
     required this.timeComment,
-    this.nlp = 0,
+    // this.nlp = 0,
     String? id,
   }) : super(id: id);
 
@@ -32,7 +32,7 @@ class UserComment extends BaseObject{
         avatarUri: json['avatarUri']?.toString(),
         content: json['content'] as String,
         timeComment: (json['timeComment'] as Timestamp).toDate(),
-        nlp: double.parse(json['nlp'] as String)
+        // nlp: double.parse(json['nlp'] as String)
       );
   Map<String, dynamic> toJson() => <String, dynamic>{
         'creatorId': this.id,
