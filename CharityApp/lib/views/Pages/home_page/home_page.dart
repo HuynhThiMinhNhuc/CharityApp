@@ -46,7 +46,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        return LoadSuccessHomeView(context, state as PostsLoadSuccess);
+        if (state is PostsLoadSuccess) {
+          return LoadSuccessHomeView(context, state);
+        }
+        // widget.loadPage(context);
+        return LoadSuccessHomeView(context, PostsLoadSuccess(posts: [], isLoading: false));
       },
     );
   }

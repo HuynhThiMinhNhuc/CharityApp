@@ -207,11 +207,15 @@ class RouteGenerator {
                         content: 'Quay về màn hình chính',
                         title: 'Thêm bài viết thành công',
                         pathImage: "asset/imageInpage/success.png",
-                        onTabYes: () => Navigator.of(context)
-                            .popUntil(ModalRoute.withName(AppRoutes.home)),
-                        onTabNo: () => Navigator.of(context).pushNamed(
+                        onTabYes: () {
+                          BlocProvider.of<PostBloc>(context).add(
+                              LoadRandomPosts(
+                                  posts: [], startIndex: 0, number: 5));
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName(AppRoutes.home));
+                        },
+                        onTabNo: () => Navigator.of(context).pop(
                           AppRoutes.eventPage,
-                          arguments: state.post.eventId,
                         ),
                       ));
             } else if (state.error != null) {

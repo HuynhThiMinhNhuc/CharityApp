@@ -14,7 +14,9 @@ class ChossesEventView extends StatelessWidget {
         appBar: getAppBar(),
         body: BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
-            state as PostsLoadOverviewSuccess;
+            if (!(state is PostsLoadOverviewSuccess)) {
+              return SketonChosseEvent();
+            }
             final events = state.eventsOverview;
             return Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),

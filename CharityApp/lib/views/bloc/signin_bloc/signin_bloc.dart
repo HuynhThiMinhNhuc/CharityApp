@@ -34,9 +34,10 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       emit(SigninInitState());
     } else try {
         emit(SignInLoadInProccess());
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: event.email, password: event.password);
-
+        // await FirebaseAuth.instance.signInWithEmailAndPassword(
+        //     email: event.email, password: event.password);
+        // await FirebaseAuth.instance.signInWithEmailAndPassword(
+        //     email: 'huynhthiminhnhuc@gmail.com', password: '111111');
         await GetIt.instance.get<Authenticator>().login(event.email);
         _activeUserRepositoryImp
             .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id!);

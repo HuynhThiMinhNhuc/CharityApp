@@ -34,7 +34,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   void initState() {
     super.initState();
     locationTextController = TextEditingController();
-    initialCameraPosition = CameraPosition(target: widget.initLatlng, zoom: 10);
+    initialCameraPosition = CameraPosition(target: widget.initLatlng, zoom: 15);
   }
 
   @override
@@ -89,7 +89,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     // print(googlePlace);
     namePlace = formatName();
 
-    CameraPosition camera = CameraPosition(target: LatLng(lat, lng), zoom: 12);
+    CameraPosition camera = CameraPosition(target: LatLng(lat, lng), zoom: 15);
     googleMapController.animateCamera(CameraUpdate.newCameraPosition(camera));
 
     locationMarker = Marker(

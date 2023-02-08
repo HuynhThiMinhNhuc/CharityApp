@@ -57,7 +57,6 @@ class RootApp extends StatelessWidget {
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: !keyboardIsOpen
               ? FloatingActionButton(
-                  heroTag: 'addObjectButton',
                   child: SpeedDial(
                     backgroundColor: Colors.black,
                     animatedIcon: AnimatedIcons.add_event,
@@ -242,7 +241,6 @@ class RootApp extends StatelessWidget {
                   //   await GoogleSignIn().disconnect();
                   // }
                   await FirebaseAuth.instance.signOut();
-
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
