@@ -1,4 +1,3 @@
-# **Video demo:** [here](https://www.youtube.com/watch?v=FJTcYQJp0Mw)
 # CharityApp
 This is extension of CharityApp
 
@@ -9,6 +8,6 @@ The project have 2 member:
 - [Vũ Ngọc Thạch](https://github.com/vungocthach) - MSSV: 19520266
 - [Huỳnh Thị Minh Nhực](https://github.com/HuynhThiMinhNhuc) - MSSV: 19521973
 
-__Time start:__ 01/09/2021 
+__Time start:__ 10/10/2022
 
-__Time predict end:__ 5/12/2021
+__Time end:__ 11/02/2023

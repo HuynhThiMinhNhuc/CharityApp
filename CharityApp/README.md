@@ -1,2 +1,2 @@
 # charityapp
- Đồ án 1 - Charity app
+ Đồ án môn Mobile
