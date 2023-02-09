@@ -1,6 +1,4 @@
-import 'package:charityapp/core/model/event_page_state.dart';
 import 'package:charityapp/domain/entities/base_event.dart';
-import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';

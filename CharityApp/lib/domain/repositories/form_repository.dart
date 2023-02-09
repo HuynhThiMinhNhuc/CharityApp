@@ -1,5 +1,3 @@
-import 'package:charityapp/domain/entities/event_overview.dart';
-import 'package:charityapp/domain/entities/event_overview_paticipant.dart';
 import 'package:charityapp/domain/entities/form_register.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 
@@ -13,5 +11,4 @@ abstract class IFormRepository {
   Future<List<UserOverview>> loadPaticipantsOf(String eventId);
   Future<List<UserOverview>> loadRegisterOf(String eventId);
   Future<int> getNumberForm(String eventId);
-
 }

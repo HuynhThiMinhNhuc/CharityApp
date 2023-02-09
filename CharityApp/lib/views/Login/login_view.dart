@@ -53,6 +53,7 @@ class _LoginState extends State<Login> {
         backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +73,7 @@ class _LoginState extends State<Login> {
                   height: 50.h,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
                   child: TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -203,8 +204,7 @@ class _LoginState extends State<Login> {
                             context: context,
                             builder: (BuildContext context) =>
                                 DialogWithCircleAbove(
-                              content:
-                                  'Lỗi không xác định',
+                              content: 'Lỗi không xác định',
                               mode: ModeDialog.anounce,
                               title: 'Lỗi server',
                             ),

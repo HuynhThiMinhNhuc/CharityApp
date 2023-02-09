@@ -1,6 +1,5 @@
 import 'package:charityapp/core/interface/creatable_object.dart';
 import 'package:charityapp/domain/entities/base_object.dart';
-import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/user_overview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -32,8 +31,8 @@ class BasePost extends BaseObject implements CreatableObject<UserOverview> {
         title: json['title'] as String,
         eventId: json['eventId'] as String?,
         timeCreate: json['timeCreate'] == null
-          ? null
-          : (json['timeCreate'] as Timestamp).toDate(),
+            ? null
+            : (json['timeCreate'] as Timestamp).toDate(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -42,5 +41,4 @@ class BasePost extends BaseObject implements CreatableObject<UserOverview> {
         'eventId': this.eventId,
         // 'timeCreate': this.timeCreate?.toIso8601String(),
       };
-
 }

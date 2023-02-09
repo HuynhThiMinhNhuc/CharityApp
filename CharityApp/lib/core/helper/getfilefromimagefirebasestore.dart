@@ -11,7 +11,7 @@ Future<void> downloadFileExample() async {
     await FirebaseStorage.instance
         .ref('uploads/logo.png')
         .writeToFile(downloadToFile);
-  } on FirebaseException catch (e) {
+  } on FirebaseException {
     // e.g, e.code == 'canceled'
   }
 }

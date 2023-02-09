@@ -20,7 +20,7 @@ var kText24RegularBlack = kTextConfig.copyWith(
   fontSize: ScreenUtil().setSp(24.sp),
 );
 var kText18RegularGreyNoteText = kTextConfig.copyWith(
-  fontSize: ScreenUtil().setSp(18.sp),
+  fontSize: ScreenUtil().setSp(16.sp),
   color: cwColorGreyNoteText,
 );
 var kText14BoldMainColor = kTextConfig.copyWith(

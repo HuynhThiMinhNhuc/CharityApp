@@ -18,7 +18,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage>
     with TickerProviderStateMixin {
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
   DateTime? _focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   late TabController _tabController;

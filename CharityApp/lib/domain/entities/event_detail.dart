@@ -1,4 +1,3 @@
-import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/base_object.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/tag_event.dart';
@@ -55,6 +54,6 @@ class EventDetail extends BaseObject {
         'description': this.description,
         'timeStart':
             this.timeStart == null ? null : Timestamp.fromDate(this.timeStart!),
-            'location': this.location,
+        'location': this.location,
       };
 }

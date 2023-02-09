@@ -1,5 +1,4 @@
 import 'package:charityapp/core/model/event_page_state.dart';
-import 'package:charityapp/domain/entities/base_event.dart';
 import 'package:charityapp/domain/entities/base_user.dart';
 import 'package:charityapp/domain/entities/event_detail.dart';
 import 'package:charityapp/domain/entities/event_overview.dart';
@@ -10,10 +9,8 @@ import 'package:charityapp/domain/repositories/event_repository.dart';
 import 'package:charityapp/repositories/post_repository_imp.dart';
 import 'package:charityapp/repositories/tag_event_repository_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
-import 'package:charityapp/singleton/Authenticator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tiengviet/tiengviet.dart';
 
 class EventRepositoryImp implements IEventRepository {

@@ -1,5 +1,4 @@
 import 'package:animations/animations.dart';
-import 'package:charityapp/views/Pages/home_page/home_page.dart';
 import 'package:charityapp/views/Pages/route_generator.dart';
 import 'package:charityapp/views/bloc/event_bloc/event.dart';
 import 'package:charityapp/views/bloc/form_bloc/form.dart';
@@ -73,7 +72,7 @@ class MeerApp extends StatelessWidget {
           Locale('en', ''), // English, no country code
           Locale('vi', ''), // VietNam, no country code
         ],
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRoutes.generateRoute,
       ),
     );

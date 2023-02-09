@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage> {
           return LoadSuccessHomeView(context, state);
         }
         // widget.loadPage(context);
-        return LoadSuccessHomeView(context, PostsLoadSuccess(posts: [], isLoading: false));
+        return LoadSuccessHomeView(
+            context, PostsLoadSuccess(posts: [], isLoading: false));
       },
     );
   }
