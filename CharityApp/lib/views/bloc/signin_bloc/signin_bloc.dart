@@ -6,8 +6,10 @@ import 'package:charityapp/repositories/active_user_repository_imp.dart';
 import 'package:charityapp/repositories/email_reposity_imp.dart';
 import 'package:charityapp/repositories/user_repository_imp.dart';
 import 'package:charityapp/singleton/Authenticator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -32,12 +34,11 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         .hasMatch(event.email)) {
       emit(SigninfailEmailState());
       emit(SigninInitState());
-    } else try {
+    } else
+      try {
         emit(SignInLoadInProccess());
-        // await FirebaseAuth.instance.signInWithEmailAndPassword(
-        //     email: event.email, password: event.password);
-        // await FirebaseAuth.instance.signInWithEmailAndPassword(
-        //     email: 'huynhthiminhnhuc@gmail.com', password: '111111');
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: event.email, password: event.password);
         await GetIt.instance.get<Authenticator>().login(event.email);
         _activeUserRepositoryImp
             .addActiveUser(GetIt.instance.get<Authenticator>().userProfile.id!);
@@ -53,7 +54,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
           emit(SigninfailPassState());
           emit(SigninInitState());
         } else {
-          print('Too many request');
+          print(e.toString());
           emit(SigninManyRequestPassState());
           emit(SigninInitState());
         }

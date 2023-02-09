@@ -198,6 +198,17 @@ class _LoginState extends State<Login> {
                               title: 'Email đã đăng kí tài khoản',
                             ),
                           );
+                        } else {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                DialogWithCircleAbove(
+                              content:
+                                  'Lỗi không xác định',
+                              mode: ModeDialog.anounce,
+                              title: 'Lỗi server',
+                            ),
+                          );
                         }
                       }
                     },

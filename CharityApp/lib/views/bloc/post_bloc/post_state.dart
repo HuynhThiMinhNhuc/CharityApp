@@ -8,7 +8,7 @@ abstract class PostState extends Equatable {
   const PostState({required this.isLoading, this.error = null});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [this.isLoading, this.error ?? ""];
 }
 
 class PostsLoadSuccess extends PostState {

@@ -40,7 +40,7 @@ class LoadRandomPosts extends PostEvent {
   });
 
   @override
-  List<Object> get props => [posts, startIndex, number];
+  List<Object> get props => [startIndex, number];
 }
 
 class LoadOverViewEventsPaticipant extends PostEvent {
@@ -56,7 +56,7 @@ class LoadOverViewEventsPaticipant extends PostEvent {
   });
 
   @override
-  List<Object> get props => [events, creatorId, startIndex, number];
+  List<Object> get props => [creatorId, startIndex, number];
 }
 
 class LoadProfilePosts extends PostEvent {
@@ -72,7 +72,7 @@ class LoadProfilePosts extends PostEvent {
   });
 
   @override
-  List<Object> get props => [posts, creator, startIndex, number];
+  List<Object> get props => [creator, startIndex, number];
 }
 
 class DeletePost extends PostEvent {

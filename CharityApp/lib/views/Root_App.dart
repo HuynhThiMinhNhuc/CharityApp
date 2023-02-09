@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:get_it/get_it.dart'; 
+import 'package:get_it/get_it.dart';
 
 import 'Pages/calendar_page/calendar_page.dart';
 import 'Pages/home_page/home_page.dart';
@@ -222,32 +222,23 @@ class RootApp extends StatelessWidget {
             PopupMenuItem(
               child: InkWell(
                 onTap: () async {
-                  String id = "";
-                  await FirebaseFirestore.instance
+                  var snaps = await FirebaseFirestore.instance
                       .collection("activeusers")
                       .where("id",
                           isEqualTo: (GetIt.instance
                               .get<Authenticator>()
                               .userProfile
                               .id))
-                      .get()
-                      .then((value) => id = value.docs[0].id);
-                  await FirebaseFirestore.instance
-                      .collection("activeusers")
-                      .doc(id)
-                      .delete();
-                  // final ggUser = await GoogleSignIn().signIn();
-                  // if (ggUser != null) {
-                  //   await GoogleSignIn().disconnect();
-                  // }
-                  await FirebaseAuth.instance.signOut();
+                      .get();
+                  for (var doc in snaps.docs) {
+                    doc.reference.delete();
+                  }
+
+                  FirebaseAuth.instance.signOut();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BlocProvider(
-                          create: (_) => SigninBloc(),
-                          child: Login(),
-                        ),
+                        builder: (_) => Login(),
                       ),
                       (route) => false);
                 },
